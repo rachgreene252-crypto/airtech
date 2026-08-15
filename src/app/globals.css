@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/*
+  Airtech design tokens.
+
+  Palette is deliberately not the 2025 brochure's bright blue/orange/yellow —
+  it is a deepened, desaturated "engineering drawing" system: blueprint navy,
+  drafting-paper off-white, structural steel gray, and a single burnt-copper
+  signal reserved for calls to action and proof points.
+
+  Type system: Big Shoulders Display (condensed, structural — used sparingly
+  for headlines and figures) + IBM Plex Sans (body/UI) + IBM Plex Mono
+  (technical labels, specs, drawing-sheet references).
+*/
+
+:root {
+  --color-ink: #0d1524;
+  --color-ink-soft: #29344a;
+  --color-paper: #f5f4f0;
+  --color-paper-raised: #ffffff;
+  --color-steel: #5b6672;
+  --color-steel-soft: #8992a0;
+  --color-line: #d8dcd8;
+  --color-line-strong: #b7bcb6;
+  --color-blueprint: #1b3a6b;
+  --color-blueprint-soft: #2c4f87;
+  --color-signal: #b9531e;
+  --color-signal-soft: #d3703a;
+  --color-signal-tint: #f5e6da;
+
+  --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --container-max: 1440px;
+  --container-pad: 1.25rem;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-paper-raised: var(--color-paper-raised);
+  --color-steel: var(--color-steel);
+  --color-steel-soft: var(--color-steel-soft);
+  --color-line: var(--color-line);
+  --color-line-strong: var(--color-line-strong);
+  --color-blueprint: var(--color-blueprint);
+  --color-blueprint-soft: var(--color-blueprint-soft);
+  --color-signal: var(--color-signal);
+  --color-signal-soft: var(--color-signal-soft);
+  --color-signal-tint: var(--color-signal-tint);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+
+  --breakpoint-xs: 360px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-blueprint);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+/* Signature device: drawing-sheet crop marks. Used on hero imagery, project
+   cards and gallery frames to evoke MEP coordination-drawing conventions. */
+.crop-frame {
+  position: relative;
+}
+
+.crop-frame::before,
+.crop-frame::after,
+.crop-frame > .crop-tick-tl,
+.crop-frame > .crop-tick-br {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.crop-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+}
+
+.crop-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+/* Technical hairline rule, used instead of shadows/cards to separate sections */
+.hairline {
+  border-color: var(--color-line);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
