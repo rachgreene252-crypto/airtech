@@ -1,5 +1,9 @@
 # Open Decisions
 
+> **Superseded 2026-08-16 — see `AIRTECH_OPEN_DECISIONS.md`.** That document carries every item
+> below forward plus what the `AIPL PROFILE - 2026.pptx` ingestion and brochure re-verification
+> surfaced (reference-letter publication, turnover-chart publication, etc.). Kept here for history.
+
 Business/content decisions that cannot be invented and require Airtech management input. Everything not blocked by one of these continues in parallel. This list is maintained as implementation proceeds — update status rather than duplicating entries.
 
 ---
