@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { projects } from "@/content/projects";
 import { industries } from "@/content/industries";
@@ -27,6 +28,8 @@ export default function ProjectsPage() {
           <ProjectsExplorer projects={projects} industries={industries} services={services} />
         </Suspense>
       </Section>
+      <div className="lg:hidden h-[68px]" aria-hidden="true" />
+      <StickyEnquiryBar />
     </>
   );
 }

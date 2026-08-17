@@ -3,6 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
+import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 
 export const metadata: Metadata = {
   title: "Service & Support",
@@ -54,6 +55,8 @@ export default function ServiceSupportPage() {
           </ButtonLink>
         </div>
       </Section>
+      <div className="lg:hidden h-[68px]" aria-hidden="true" />
+      <StickyEnquiryBar />
     </>
   );
 }

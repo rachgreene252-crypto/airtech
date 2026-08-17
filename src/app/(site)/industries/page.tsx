@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { industries } from "@/content/industries";
 
 export const metadata: Metadata = {
@@ -40,6 +41,8 @@ export default function IndustriesPage() {
           ))}
         </div>
       </Section>
+      <div className="lg:hidden h-[68px]" aria-hidden="true" />
+      <StickyEnquiryBar />
     </>
   );
 }
