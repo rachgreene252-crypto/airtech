@@ -30,7 +30,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
 
   return (
     <>
-      <div ref={navRef} className="hidden lg:flex items-center gap-1">
+      <div ref={navRef} className="hidden xl:flex items-center gap-1">
         {items.map((item) => (
           <div key={item.label} className="relative">
             {item.children ? (
@@ -77,7 +77,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
         aria-expanded={mobileOpen}
         aria-label="Open menu"
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden flex flex-col gap-1.5 p-2 -mr-2"
+        className="xl:hidden flex flex-col gap-1.5 p-2 -mr-2"
       >
         <span className="block h-[1.5px] w-6 bg-(--color-ink)" />
         <span className="block h-[1.5px] w-6 bg-(--color-ink)" />
@@ -104,7 +104,7 @@ function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 bg-(--color-paper) lg:hidden overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-(--color-paper) xl:hidden overflow-y-auto">
       <div className="flex items-center justify-between px-5 py-4 border-b border-(--color-line)">
         <span className="font-display text-xl font-bold">Menu</span>
         <button

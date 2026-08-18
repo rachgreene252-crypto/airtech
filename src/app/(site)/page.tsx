@@ -1,23 +1,30 @@
-import { Hero } from "@/components/home/Hero";
+import { Opening } from "@/components/home/Opening";
+import { SystemsReveal } from "@/components/home/SystemsReveal";
+import { SystemShowcase } from "@/components/home/SystemShowcase";
+import { HVACSpotlight } from "@/components/home/HVACSpotlight";
+import { DataMoments } from "@/components/home/DataMoments";
 import { TrustBar } from "@/components/home/TrustBar";
-import { Capabilities } from "@/components/home/Capabilities";
-import { EngineeringSystemsExplorer } from "@/components/home/EngineeringSystemsExplorer";
 import { IndustriesShowcase } from "@/components/home/IndustriesShowcase";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { DeliveryApproach } from "@/components/home/DeliveryApproach";
 import { PartnersStrip } from "@/components/home/PartnersStrip";
 import { FinalCTA } from "@/components/home/FinalCTA";
 
-// Section order per AIRTECH_FINAL_EXPERIENCE_SPEC.md §2: capability -> relevance -> proof.
-// Industries now precedes Featured Projects (proof only lands once the visitor knows Airtech
-// understands their sector), and the Engineering Systems Explorer is new.
+// Phase 1 of the visual redesign (docs/superpowers/specs — homepage cinematic
+// sequence): Opening -> SystemsReveal -> SystemShowcase -> HVACSpotlight ->
+// DataMoments replace the old hero/capabilities-grid/systems-accordion stack.
+// Sections below DataMoments are unchanged in structure for this phase but
+// inherit the new architectural-white/cobalt/amber token system automatically
+// (see src/app/globals.css) so the page reads as one design system already.
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <Opening />
+      <SystemsReveal />
+      <SystemShowcase />
+      <HVACSpotlight />
+      <DataMoments />
       <TrustBar />
-      <Capabilities />
-      <EngineeringSystemsExplorer />
       <IndustriesShowcase />
       <FeaturedProjects />
       <DeliveryApproach />

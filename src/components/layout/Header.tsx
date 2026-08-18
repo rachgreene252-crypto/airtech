@@ -20,7 +20,7 @@ export function Header() {
 
         <HeaderNav items={primaryNav} />
 
-        <div className="hidden lg:block shrink-0">
+        <div className="hidden xl:block shrink-0">
           <ButtonLink href="/contact" size="md">
             Discuss Your Project
           </ButtonLink>

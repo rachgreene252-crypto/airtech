@@ -1,12 +1,17 @@
 @import "tailwindcss";
 
 /*
-  Airtech design tokens.
+  Airtech design tokens — "architectural white" system.
 
-  Palette is deliberately not the 2025 brochure's bright blue/orange/yellow —
-  it is a deepened, desaturated "engineering drawing" system: blueprint navy,
-  drafting-paper off-white, structural steel gray, and a single burnt-copper
-  signal reserved for calls to action and proof points.
+  Primary canvas is a warm architectural white, not brochure white or a dark
+  SaaS surface. Hierarchy is built with luminance, scale and whitespace first;
+  colour is reserved for two disciplined signals — electric cobalt (active /
+  technical / primary action) and precision amber (measurement / highlight /
+  important moment) — never flooded across the page. `--color-blueprint` is
+  the structural secondary blue (dark sections, non-interactive emphasis);
+  `--color-signal` carries the cobalt role wherever the codebase already
+  treats it as the primary interactive colour (CTAs, links, focus rings),
+  so existing components inherit the new system without a rename pass.
 
   Type system: Big Shoulders Display (condensed, structural — used sparingly
   for headlines and figures) + IBM Plex Sans (body/UI) + IBM Plex Mono
@@ -14,19 +19,22 @@
 */
 
 :root {
-  --color-ink: #0d1524;
-  --color-ink-soft: #29344a;
-  --color-paper: #f5f4f0;
+  --color-ink: #17191c;
+  --color-ink-soft: #3d4147;
+  --color-paper: #f7f8f6;
   --color-paper-raised: #ffffff;
-  --color-steel: #5b6672;
-  --color-steel-soft: #8992a0;
-  --color-line: #d8dcd8;
-  --color-line-strong: #b7bcb6;
-  --color-blueprint: #1b3a6b;
-  --color-blueprint-soft: #2c4f87;
-  --color-signal: #b9531e;
-  --color-signal-soft: #d3703a;
-  --color-signal-tint: #f5e6da;
+  --color-steel: #5c636b;
+  --color-steel-soft: #8b9098;
+  --color-line: #dee1dd;
+  --color-line-strong: #b9bfba;
+  --color-blueprint: #063b73;
+  --color-blueprint-soft: #0b4f94;
+  --color-signal: #1557ff;
+  --color-signal-soft: #3d6eff;
+  --color-signal-tint: #eaf2fa;
+  --color-amber: #f2a900;
+  --color-amber-soft: #ffc94d;
+  --color-amber-tint: #fcefd1;
 
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
@@ -50,6 +58,9 @@
   --color-signal: var(--color-signal);
   --color-signal-soft: var(--color-signal-soft);
   --color-signal-tint: var(--color-signal-tint);
+  --color-amber: var(--color-amber);
+  --color-amber-soft: var(--color-amber-soft);
+  --color-amber-tint: var(--color-amber-tint);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
@@ -133,4 +144,64 @@ body {
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* SystemShowcase motifs — one distinct loop per engineering discipline.
+   Plain CSS @keyframes so the prefers-reduced-motion rule above (which zeroes
+   all animation-duration) disables every one of these automatically. */
+@keyframes airflow-drift {
+  0% { transform: translateX(0); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateX(160%); opacity: 0; }
+}
+.animate-airflow {
+  animation-name: airflow-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes energy-pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.animate-energy-pulse {
+  animation: energy-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes flow-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(420%); opacity: 0; }
+}
+.animate-flow-drop {
+  animation-name: flow-drop;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+@keyframes detect-ping {
+  0%, 70%, 100% { opacity: 0.35; transform: scale(1); }
+  35% { opacity: 1; transform: scale(1.8); }
+}
+.animate-detect-ping {
+  animation: detect-ping 3.2s ease-in-out infinite;
+}
+
+@keyframes signal-travel {
+  0%, 100% { cx: 70%; cy: 30%; }
+  33% { cx: 40%; cy: 60%; }
+  66% { cx: 60%; cy: 80%; }
+}
+.animate-signal-travel {
+  animation: signal-travel 3.6s ease-in-out infinite;
+}
+
+@keyframes converge-pulse {
+  0%, 100% { opacity: 0.7; r: 6; }
+  50% { opacity: 1; r: 9; }
+}
+.animate-converge-pulse {
+  animation: converge-pulse 2.6s ease-in-out infinite;
 }

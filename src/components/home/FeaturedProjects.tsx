@@ -39,7 +39,7 @@ export function FeaturedProjects() {
                   <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-(--color-signal)">
                     {industry?.name ?? project.projectType}
                   </p>
-                  <h3 className="mt-1.5 font-display text-2xl font-semibold leading-tight group-hover:text-(--color-blueprint) transition-colors">
+                  <h3 className="mt-1.5 font-display text-2xl font-semibold leading-tight group-hover:text-(--color-signal) transition-colors">
                     {project.name}
                   </h3>
                   <p className="mt-2 text-sm text-(--color-steel)">
