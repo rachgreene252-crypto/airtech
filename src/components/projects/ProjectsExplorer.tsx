@@ -2,11 +2,21 @@
 
 import { useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectFeatureRow } from "./ProjectFeatureRow";
+import { ProjectListRow } from "./ProjectListRow";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { cn } from "@/lib/cn";
 import type { Project, Industry, Service } from "@/content/types";
 
+/**
+ * An editorial portfolio index, not a uniform card grid (brief §12): projects
+ * with real, sourced photography get a large alternating image band; the
+ * rest render as a compact typographic list rather than a placeholder-filled
+ * card. Location is deliberately not offered as a filter — most location
+ * strings are free-text ("Gairidhara, Kathmandu", "Parasi, Nepal") rather
+ * than clean city tags, and normalizing them would mean inventing
+ * categorization the source data doesn't actually support.
+ */
 export function ProjectsExplorer({
   projects,
   industries,
@@ -31,12 +41,19 @@ export function ProjectsExplorer({
     });
   }, [projects, industryFilter, serviceFilter]);
 
+  const featured = filtered.filter((p) => p.heroImage?.src);
+  const listed = filtered.filter((p) => !p.heroImage?.src);
+
   function setFilter(key: "industry" | "service", value: string) {
     const params = new URLSearchParams(searchParams.toString());
     if (value) params.set(key, value);
     else params.delete(key);
     const qs = params.toString();
     router.push((qs ? `${pathname}?${qs}` : pathname) as never, { scroll: false });
+  }
+
+  function industryName(project: Project) {
+    return industries.find((i) => i.slug === project.industrySlug)?.name;
   }
 
   return (
@@ -69,19 +86,36 @@ export function ProjectsExplorer({
         {filtered.length} {filtered.length === 1 ? "project" : "projects"}
       </p>
 
-      {filtered.length > 0 ? (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {filtered.map((project) => (
-            <ProjectCard
+      {filtered.length === 0 && (
+        <div className="mt-10">
+          <EmptyState title="No projects match these filters" description="Try clearing a filter or browse the full portfolio." />
+        </div>
+      )}
+
+      {featured.length > 0 && (
+        <div className="mt-10 border-t border-(--color-line)">
+          {featured.map((project, i) => (
+            <ProjectFeatureRow
               key={project.slug}
               project={project}
-              industryName={industries.find((i) => i.slug === project.industrySlug)?.name}
+              industryName={industryName(project)}
+              index={i + 1}
+              reversed={i % 2 === 1}
             />
           ))}
         </div>
-      ) : (
-        <div className="mt-10">
-          <EmptyState title="No projects match these filters" description="Try clearing a filter or browse the full portfolio." />
+      )}
+
+      {listed.length > 0 && (
+        <div className={cn(featured.length > 0 && "mt-16")}>
+          <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
+            Also in the portfolio
+          </p>
+          <div className="mt-2">
+            {listed.map((project) => (
+              <ProjectListRow key={project.slug} project={project} industryName={industryName(project)} />
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -133,7 +167,7 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "px-3 py-1.5 text-xs border transition-colors",
+        "min-h-11 px-3 py-1.5 text-xs border transition-colors",
         active
           ? "border-(--color-ink) bg-(--color-ink) text-(--color-paper)"
           : "border-(--color-line-strong) text-(--color-steel) hover:border-(--color-ink) hover:text-(--color-ink)"

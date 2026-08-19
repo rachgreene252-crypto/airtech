@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { Fragment } from "react";
+import { cn } from "@/lib/cn";
 
 export interface Crumb {
   label: string;
@@ -9,7 +10,7 @@ export interface Crumb {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.airtech.com.np";
 
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
+export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: string }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -22,7 +23,10 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   };
 
   return (
-    <nav aria-label="Breadcrumb" className="font-mono text-xs tracking-[0.05em] uppercase text-(--color-steel)">
+    <nav
+      aria-label="Breadcrumb"
+      className={cn("font-mono text-xs tracking-[0.05em] uppercase text-(--color-steel)", className)}
+    >
       <script
         type="application/ld+json"
          

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -8,7 +9,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
-import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectListRow } from "@/components/projects/ProjectListRow";
 import {
   projects,
   getProjectBySlug,
@@ -53,23 +54,52 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
 
   return (
     <>
-      <section className="border-b border-(--color-line)">
-        <Container className="pt-8 pb-10">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Projects", href: "/projects" },
-              { label: project.name },
-            ]}
+      {project.heroImage?.src ? (
+        <section className="relative h-[62vh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)">
+          <Image
+            src={project.heroImage.src}
+            alt={project.heroImage.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
-        </Container>
-        <Container className="pb-14">
-          <TechnicalFrame image={project.heroImage} label={project.name} aspect="aspect-[16/9]" priority />
-          <h1 className="mt-8 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.98] max-w-4xl text-balance">
-            {project.name}
-          </h1>
-        </Container>
-      </section>
+          <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
+          <Container className="relative z-10 pt-8">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Projects", href: "/projects" },
+                { label: project.name },
+              ]}
+              className="text-(--color-paper)/70 [&_a]:text-(--color-paper)/70 [&_a:hover]:text-(--color-paper)"
+            />
+          </Container>
+          <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.98] max-w-4xl text-balance text-(--color-paper)">
+              {project.name}
+            </h1>
+          </Container>
+        </section>
+      ) : (
+        <section className="border-b border-(--color-line)">
+          <Container className="pt-8 pb-10">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Projects", href: "/projects" },
+                { label: project.name },
+              ]}
+            />
+          </Container>
+          <Container className="pb-14">
+            <TechnicalFrame image={project.heroImage} label={project.name} aspect="aspect-[16/9]" priority />
+            <h1 className="mt-8 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.98] max-w-4xl text-balance">
+              {project.name}
+            </h1>
+          </Container>
+        </section>
+      )}
 
       <Section border={false} className="pt-0 pb-14 sm:pb-16">
         <MetadataGrid
@@ -141,9 +171,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {relatedProjects.length > 0 && (
         <Section>
           <SectionHeader eyebrow="More work" heading="Related projects." />
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="mt-10 border-t border-(--color-line)">
             {relatedProjects.map((p) => (
-              <ProjectCard key={p.slug} project={p} industryName={getIndustryBySlug(p.industrySlug)?.name} />
+              <ProjectListRow key={p.slug} project={p} industryName={getIndustryBySlug(p.industrySlug)?.name} />
             ))}
           </div>
         </Section>

@@ -1,0 +1,30 @@
+import Link from "next/link";
+import type { Project } from "@/content/types";
+
+/**
+ * A compact, typography-led row for a project without real photography — the
+ * "small project" unit in the index's sequence, and the shared unit for the
+ * related-projects widget on the detail template. Deliberately no image
+ * placeholder: an honest text row reads as intentional editorial index
+ * design, where a "photography pending" pattern-fill would read as broken.
+ */
+export function ProjectListRow({ project, industryName }: { project: Project; industryName?: string }) {
+  return (
+    <Link
+      href={`/projects/${project.slug}`}
+      className="group flex flex-col gap-1.5 border-t border-(--color-line) py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-2"
+    >
+      <div>
+        <p className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-signal)">
+          {industryName ?? project.projectType}
+        </p>
+        <h3 className="mt-1 font-display text-xl sm:text-2xl font-semibold leading-tight group-hover:text-(--color-blueprint) transition-colors">
+          {project.name}
+        </h3>
+      </div>
+      <p className="text-sm text-(--color-steel) shrink-0">
+        {[project.location, project.airtechRole].filter(Boolean).join(" · ")}
+      </p>
+    </Link>
+  );
+}

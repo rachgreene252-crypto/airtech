@@ -77,7 +77,7 @@ export function SystemsReveal() {
                 type="button"
                 onClick={() => setStep(0)}
                 aria-current={step === 0}
-                className={`px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
                   step === 0
                     ? "border-(--color-signal) text-(--color-paper)"
                     : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
@@ -92,7 +92,7 @@ export function SystemsReveal() {
                   type="button"
                   onClick={() => setStep(i + 1)}
                   aria-current={step === i + 1}
-                  className={`px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                  className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
                     step >= i + 1
                       ? "border-(--color-signal) text-(--color-paper)"
                       : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"

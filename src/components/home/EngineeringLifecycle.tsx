@@ -70,7 +70,7 @@ export function EngineeringLifecycle() {
                   type="button"
                   onClick={() => setStage(i)}
                   aria-current={stage === i}
-                  className={`px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                  className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
                     stage === i
                       ? "border-(--color-signal-soft) text-(--color-paper)"
                       : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"

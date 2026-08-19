@@ -41,6 +41,17 @@ export function ProjectShowcase() {
               <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/50 to-(--color-ink)/10" />
             </div>
 
+            {i === 0 && (
+              <div className="absolute inset-x-0 top-0 z-10 px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
+                <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
+                  Projects — 04
+                </p>
+                <h2 className="mt-4 font-display text-3xl sm:text-4xl font-semibold leading-[0.98] text-(--color-paper) max-w-xl text-balance">
+                  Selected work.
+                </h2>
+              </div>
+            )}
+
             <div className="relative z-10 w-full px-5 pb-14 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
               <Reveal>
                 <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
