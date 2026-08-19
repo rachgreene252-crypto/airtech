@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
-import { Section } from "@/components/ui/Section";
+import { Reveal } from "@/components/ui/Reveal";
 import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { industries } from "@/content/industries";
 
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "Sectors Airtech engineers for: healthcare, hospitality, pharmaceuticals, industrial, corporate, telecom/data centres, banking, auditoriums, embassies/INGOs and education.",
 };
 
+// A sector atlas, not a grid of boxes: large typographic rows, each carrying
+// the industry's real operational-challenge line as its own specification
+// text — same editorial index pattern as /expertise and /projects.
 export default function IndustriesPage() {
   return (
     <>
@@ -20,27 +23,36 @@ export default function IndustriesPage() {
         heading="Designed around what each sector actually needs."
         description="Healthcare, pharmaceuticals, hospitality, industrial and telecom environments each carry distinct operational demands. Airtech designs to the requirement, not a generic template."
       />
-      <Section>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-(--color-line)">
-          {industries.map((industry) => (
+      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
+        {industries.map((industry, i) => (
+          <Reveal key={industry.slug} delay={i * 0.03}>
             <Link
-              key={industry.slug}
               href={`/industries/${industry.slug}`}
-              className="group flex flex-col justify-between bg-(--color-paper) p-7 hover:bg-(--color-paper-raised) transition-colors"
+              className="group grid gap-3 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8 sm:py-12"
             >
               <div>
-                <h2 className="font-display text-2xl font-semibold leading-tight">{industry.name}</h2>
-                <p className="mt-3 text-sm text-(--color-steel) leading-relaxed line-clamp-4">
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-blueprint) transition-colors text-balance">
+                  {industry.name}
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">
                   {industry.overview}
                 </p>
+                {industry.operationalChallenges.length > 0 && (
+                  <p className="mt-4 font-mono text-[11px] tracking-[0.06em] uppercase text-(--color-steel-soft)">
+                    {industry.operationalChallenges[0]}
+                  </p>
+                )}
               </div>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-blueprint) group-hover:gap-2.5 transition-all">
-                View sector <span aria-hidden="true">→</span>
+              <span
+                aria-hidden="true"
+                className="hidden shrink-0 self-center text-2xl text-(--color-signal) transition-transform group-hover:translate-x-1.5 sm:block"
+              >
+                →
               </span>
             </Link>
-          ))}
-        </div>
-      </Section>
+          </Reveal>
+        ))}
+      </div>
       <div className="lg:hidden h-[68px]" aria-hidden="true" />
       <StickyEnquiryBar />
     </>

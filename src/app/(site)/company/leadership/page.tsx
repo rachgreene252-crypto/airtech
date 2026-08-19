@@ -18,14 +18,14 @@ export default function LeadershipPage() {
         heading="The people behind Airtech's engineering delivery."
       />
       <Section>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div>
           {team.map((person) => (
-            <div key={person.id} className="crop-frame border border-(--color-line) p-6">
-              <h2 className="font-display text-xl font-semibold">{person.name}</h2>
-              <p className="mt-1 font-mono text-xs tracking-[0.06em] uppercase text-(--color-signal)">
+            <div key={person.id} className="border-t border-(--color-line) py-8 first:border-t-0">
+              <h2 className="font-display text-3xl sm:text-4xl font-semibold">{person.name}</h2>
+              <p className="mt-2 font-mono text-xs tracking-[0.1em] uppercase text-(--color-signal)">
                 {person.role}
               </p>
-              {person.bio && <p className="mt-4 text-sm text-(--color-steel) leading-relaxed">{person.bio}</p>}
+              {person.bio && <p className="mt-4 max-w-2xl text-sm text-(--color-steel) leading-relaxed">{person.bio}</p>}
             </div>
           ))}
         </div>

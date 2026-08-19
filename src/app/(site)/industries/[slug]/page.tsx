@@ -6,7 +6,8 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
+import { ProjectFeatureRow } from "@/components/projects/ProjectFeatureRow";
+import { ProjectListRow } from "@/components/projects/ProjectListRow";
 import { industries, getIndustryBySlug } from "@/content/industries";
 import { getServiceBySlug } from "@/content/services";
 import { getProjectsByIndustry } from "@/content/projects";
@@ -96,17 +97,34 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
         <SectionHeader eyebrow="Projects" heading="Work in this sector." />
         <div className="mt-10">
           {relatedProjects.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {relatedProjects.slice(0, 6).map((project) => (
-                <Link key={project.slug} href={`/projects/${project.slug}`} className="group block">
-                  <TechnicalFrame image={project.heroImage} label={project.name} showCaption={false} />
-                  <h3 className="mt-4 font-display text-xl font-semibold group-hover:text-(--color-blueprint) transition-colors">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-(--color-steel)">{project.location}</p>
-                </Link>
-              ))}
-            </div>
+            <>
+              {relatedProjects.filter((p) => p.heroImage?.src).length > 0 && (
+                <div className="border-t border-(--color-line)">
+                  {relatedProjects
+                    .filter((p) => p.heroImage?.src)
+                    .slice(0, 3)
+                    .map((project, i) => (
+                      <ProjectFeatureRow key={project.slug} project={project} index={i + 1} reversed={i % 2 === 1} />
+                    ))}
+                </div>
+              )}
+              {relatedProjects.filter((p) => !p.heroImage?.src).length > 0 && (
+                <div
+                  className={
+                    relatedProjects.filter((p) => p.heroImage?.src).length > 0
+                      ? "mt-10"
+                      : "border-t border-(--color-line)"
+                  }
+                >
+                  {relatedProjects
+                    .filter((p) => !p.heroImage?.src)
+                    .slice(0, 6)
+                    .map((project) => (
+                      <ProjectListRow key={project.slug} project={project} />
+                    ))}
+                </div>
+              )}
+            </>
           ) : (
             <EmptyState title="Case studies in progress" description="Project documentation for this sector is being confirmed for publication." />
           )}
