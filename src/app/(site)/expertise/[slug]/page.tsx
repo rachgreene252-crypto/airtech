@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PageHero } from "@/components/ui/PageHero";
+import { Container } from "@/components/ui/Container";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Reveal } from "@/components/ui/Reveal";
+import { SystemMotif, SERVICE_MOTIFS } from "@/components/ui/SystemMotif";
+import { ProjectFeatureRow } from "@/components/projects/ProjectFeatureRow";
+import { ProjectListRow } from "@/components/projects/ProjectListRow";
 import { services, getServiceBySlug } from "@/content/services";
 import { getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService } from "@/content/projects";
-import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -33,19 +37,37 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
     .map((s) => getIndustryBySlug(s))
     .filter((i): i is NonNullable<typeof i> => Boolean(i));
   const relatedProjects = getProjectsByService(service.slug);
+  const featuredProjects = relatedProjects.filter((p) => p.heroImage?.src).slice(0, 2);
+  const listedProjects = relatedProjects.filter((p) => !p.heroImage?.src).slice(0, 4);
+  const motif = SERVICE_MOTIFS[service.slug] ?? "signal";
 
   return (
     <>
-      <PageHero
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Expertise", href: "/expertise" },
-          { label: service.name },
-        ]}
-        eyebrow={`Discipline ${service.disciplineCode}`}
-        heading={service.name}
-        description={service.detailedDescription}
-      />
+      {/* Each discipline gets its own visual world via SystemMotif, rather
+          than an identical hero template repeated seven times (brief §10). */}
+      <section className="relative overflow-hidden bg-(--color-ink) pt-8 pb-14 sm:pb-16">
+        <SystemMotif motif={motif} />
+        <div className="absolute inset-0 bg-gradient-to-b from-(--color-ink)/40 via-transparent to-(--color-ink)" />
+        <Container className="relative z-10">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Expertise", href: "/expertise" },
+              { label: service.name },
+            ]}
+            className="text-(--color-paper)/60 [&_a]:text-(--color-paper)/60 [&_a:hover]:text-(--color-paper)"
+          />
+          <p className="mt-8 font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
+            Discipline {service.disciplineCode}
+          </p>
+          <h1 className="mt-4 max-w-4xl font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.96] text-balance text-(--color-paper)">
+            {service.name}
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-(--color-paper)/75 leading-relaxed">
+            {service.detailedDescription}
+          </p>
+        </Container>
+      </section>
 
       <Section>
         <SectionHeader eyebrow="Capabilities" heading="What Airtech delivers." />
@@ -78,16 +100,18 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {relatedIndustries.length > 0 && (
         <Section>
           <SectionHeader eyebrow="Applications" heading="Where this discipline is applied." />
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-(--color-line)">
-            {relatedIndustries.map((industry) => (
-              <Link
-                key={industry.slug}
-                href={`/industries/${industry.slug}`}
-                className="bg-(--color-paper) p-6 hover:bg-(--color-paper-raised) transition-colors"
-              >
-                <h3 className="font-display text-xl font-semibold">{industry.name}</h3>
-                <span className="mt-3 inline-block text-sm text-(--color-blueprint)">View sector →</span>
-              </Link>
+          <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
+            {relatedIndustries.map((industry, i) => (
+              <Reveal key={industry.slug} delay={i * 0.05}>
+                <Link href={`/industries/${industry.slug}`} className="group block">
+                  <h3 className="font-display text-xl font-semibold group-hover:text-(--color-blueprint) transition-colors">
+                    {industry.name}
+                  </h3>
+                  <span className="mt-1 inline-block text-sm text-(--color-signal) opacity-0 group-hover:opacity-100 transition-opacity">
+                    View sector →
+                  </span>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </Section>
@@ -97,17 +121,32 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         <SectionHeader eyebrow="Related projects" heading="Where this discipline has been delivered." />
         <div className="mt-10">
           {relatedProjects.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {relatedProjects.slice(0, 3).map((project) => (
-                <Link key={project.slug} href={`/projects/${project.slug}`} className="group block">
-                  <TechnicalFrame image={project.heroImage} label={project.name} showCaption={false} />
-                  <h3 className="mt-4 font-display text-xl font-semibold group-hover:text-(--color-blueprint) transition-colors">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-(--color-steel)">{project.location}</p>
-                </Link>
-              ))}
-            </div>
+            <>
+              {featuredProjects.length > 0 && (
+                <div className="border-t border-(--color-line)">
+                  {featuredProjects.map((project, i) => (
+                    <ProjectFeatureRow
+                      key={project.slug}
+                      project={project}
+                      industryName={getIndustryBySlug(project.industrySlug)?.name}
+                      index={i + 1}
+                      reversed={i % 2 === 1}
+                    />
+                  ))}
+                </div>
+              )}
+              {listedProjects.length > 0 && (
+                <div className={featuredProjects.length > 0 ? "mt-10" : "border-t border-(--color-line)"}>
+                  {listedProjects.map((project) => (
+                    <ProjectListRow
+                      key={project.slug}
+                      project={project}
+                      industryName={getIndustryBySlug(project.industrySlug)?.name}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           ) : (
             <EmptyState title="Case studies in progress" description="Project documentation for this discipline is being confirmed for publication." />
           )}

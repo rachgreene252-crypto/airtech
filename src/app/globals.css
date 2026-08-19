@@ -226,3 +226,13 @@ body {
 .animate-converge-pulse {
   animation: converge-pulse 2.6s ease-in-out infinite;
 }
+
+@keyframes advisory-scan {
+  0% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(100%); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.4; }
+}
+.animate-advisory-scan {
+  animation: advisory-scan 4s ease-in-out infinite;
+  transform-box: fill-box;
+}
