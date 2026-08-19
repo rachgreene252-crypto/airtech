@@ -18,7 +18,7 @@ export function DataMoments() {
   return (
     <section className="relative overflow-hidden border-t border-(--color-line) bg-(--color-paper) py-24 sm:py-32">
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-5 sm:px-8 lg:px-12">
-        {/* The through-line: continuity from 2000 to today, amber marking each moment. */}
+        {/* The through-line: continuity from 2000 to today, burgundy marking each moment. */}
         <div
           aria-hidden="true"
           className="absolute left-5 top-6 bottom-6 w-px bg-(--color-line-strong) sm:left-8 lg:left-12"
@@ -31,7 +31,7 @@ export function DataMoments() {
             >
               <span
                 aria-hidden="true"
-                className="absolute left-5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-(--color-amber) sm:left-8 lg:left-12"
+                className="absolute left-5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-(--color-heritage) sm:left-8 lg:left-12"
               />
               <h3 className="font-display text-[16vw] sm:text-8xl lg:text-9xl font-bold leading-none tracking-tight text-(--color-ink)">
                 {m.mark}

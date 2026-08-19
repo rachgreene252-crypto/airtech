@@ -26,6 +26,9 @@ export const projects: Project[] = [
     airtechRole: "HVAC and MEP works for the new corporate office.",
     servicesDelivered: ["HVAC", "MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health"],
+    // Reconciled with "Ncell Iconic Building, Kathmandu" (AIPL PROFILE - 2026.pptx, slide 8)
+    // per docs/AIRTECH_CONTENT_AUDIT.md §2d — same client, treated as the same entry.
+    heroImage: { src: "/images/projects/ncell-iconic-building.jpg", alt: "Ncell Iconic Building, Kathmandu" },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health"],
     relatedProjectSlugs: ["sipradi-trading"],
@@ -113,6 +116,7 @@ export const projects: Project[] = [
     airtechRole: "HVAC/MEP engineering and execution.",
     servicesDelivered: ["HVAC", "MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    heroImage: { src: "/images/projects/nepal-mediciti-hospital.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
     relatedProjectSlugs: ["nobel-college-health-education"],
@@ -259,7 +263,7 @@ export const projects: Project[] = [
   },
   {
     slug: "caan-civil-aviation-authority",
-    name: "Civil Aviation Authority of Nepal (CAAN)",
+    name: "CAAN Office Building",
     client: "Civil Aviation Authority of Nepal",
     clientDisplayApproved: true,
     location: "Kathmandu",
@@ -269,10 +273,12 @@ export const projects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
+    // AIPL PROFILE - 2026.pptx, slide 8 — "CAAN Office Building, Kathmandu".
+    heroImage: { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["new-airport-commercial-office-parking"],
-    featured: false,
+    featured: true,
     seo: {
       title: "Civil Aviation Authority of Nepal (CAAN)",
       description: "Civil Aviation Authority of Nepal (CAAN), Kathmandu — featured in Airtech's project portfolio.",
@@ -281,7 +287,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laxmi-motor-corporation",
-    name: "Laxmi Motor Corporation",
+    name: "Laxmi Motors KD Plant",
     client: "Laxmi Motor Corporation",
     clientDisplayApproved: true,
     location: "Parasi, Nepal",
@@ -291,10 +297,13 @@ export const projects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
+    // AIPL PROFILE - 2026.pptx, slide 8 — "Laxmi Motors KD Plant, Parasi"; reconciled with the
+    // existing "Laxmi Motor Corporation" client record per docs/AIRTECH_CONTENT_AUDIT.md §2d.
+    heroImage: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
-    featured: false,
+    featured: true,
     seo: {
       title: "Laxmi Motor Corporation",
       description: "Laxmi Motor Corporation, Parasi — featured in Airtech's project portfolio.",

@@ -1,40 +1,60 @@
 @import "tailwindcss";
 
 /*
-  Airtech design tokens — "architectural white" system.
+  Airtech design tokens — "warm heritage" system (supersedes the
+  architectural-white/cobalt/amber system from the previous pass).
 
-  Primary canvas is a warm architectural white, not brochure white or a dark
-  SaaS surface. Hierarchy is built with luminance, scale and whitespace first;
-  colour is reserved for two disciplined signals — electric cobalt (active /
-  technical / primary action) and precision amber (measurement / highlight /
-  important moment) — never flooded across the page. `--color-blueprint` is
-  the structural secondary blue (dark sections, non-interactive emphasis);
-  `--color-signal` carries the cobalt role wherever the codebase already
-  treats it as the primary interactive colour (CTAs, links, focus rings),
-  so existing components inherit the new system without a rename pass.
+  Primary canvas is Warm Ivory, not brochure white or a dark SaaS surface.
+  Hierarchy is built with luminance, scale and whitespace first; colour is
+  reserved for disciplined signals — never flooded across the page.
 
-  Type system: Big Shoulders Display (condensed, structural — used sparingly
-  for headlines and figures) + IBM Plex Sans (body/UI) + IBM Plex Mono
-  (technical labels, specs, drawing-sheet references).
+  `--color-signal` (#8a6428, a darkened bronze-gold) carries the primary
+  interactive role — CTAs, links, focus rings, form states — wherever the
+  codebase already treats it that way. It is deliberately NOT the brief's
+  literal Champagne Gold (#c6a15b): that value only reaches ~2.2:1 contrast
+  against Warm Ivory, well under WCAG AA's 4.5:1 for text. `--color-signal`
+  is darkened to ~4.8:1 so every existing link/eyebrow/focus-ring usage
+  stays accessible without a rename pass.
+
+  `--color-signal-soft` holds the literal Champagne Gold (#c6a15b) — used
+  specifically where the previous pass already reaches for a dark-background
+  or photo-overlay accent (SystemsReveal's building diagram, SystemShowcase's
+  motifs): gold at ~6.2:1 against the dark ink tone, correct there because
+  the background is dark rather than light.
+
+  `--color-amber` is kept as its own token (same value as signal-soft) for
+  the existing SVG/dark-accent code paths that already reference it.
+
+  `--color-heritage` (Muted Burgundy, #6e3036) is new — reserved for
+  light-background "heritage / human character" moments only (e.g. the
+  2000/2013/Today history markers), matching the brief's own semantic split
+  of gold = precision, burgundy = heritage/authority. It is not a 1:1 amber
+  replacement: burgundy fails contrast on the dark sections where amber is
+  actually used, so it is applied only where it was chosen deliberately.
+
+  Type system unchanged: Big Shoulders Display (condensed, structural — used
+  sparingly for headlines and figures) + IBM Plex Sans (body/UI) + IBM Plex
+  Mono (technical labels, specs, drawing-sheet references).
 */
 
 :root {
-  --color-ink: #17191c;
-  --color-ink-soft: #3d4147;
-  --color-paper: #f7f8f6;
-  --color-paper-raised: #ffffff;
-  --color-steel: #5c636b;
-  --color-steel-soft: #8b9098;
-  --color-line: #dee1dd;
-  --color-line-strong: #b9bfba;
-  --color-blueprint: #063b73;
-  --color-blueprint-soft: #0b4f94;
-  --color-signal: #1557ff;
-  --color-signal-soft: #3d6eff;
-  --color-signal-tint: #eaf2fa;
-  --color-amber: #f2a900;
-  --color-amber-soft: #ffc94d;
-  --color-amber-tint: #fcefd1;
+  --color-ink: #252629;
+  --color-ink-soft: #4a4c4e;
+  --color-paper: #f6f3ec;
+  --color-paper-raised: #fcfbf8;
+  --color-steel: #66645a;
+  --color-steel-soft: #9b9a8f;
+  --color-line: #e4dfd1;
+  --color-line-strong: #cbc2ac;
+  --color-blueprint: #496b82;
+  --color-blueprint-soft: #8fafc4;
+  --color-signal: #8a6428;
+  --color-signal-soft: #c6a15b;
+  --color-signal-tint: #dce8ef;
+  --color-amber: #c6a15b;
+  --color-amber-soft: #d8bd84;
+  --color-amber-tint: #f4ebd8;
+  --color-heritage: #6e3036;
 
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
@@ -61,6 +81,7 @@
   --color-amber: var(--color-amber);
   --color-amber-soft: var(--color-amber-soft);
   --color-amber-tint: var(--color-amber-tint);
+  --color-heritage: var(--color-heritage);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
