@@ -158,7 +158,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
           Planning a project that needs {service.name.toLowerCase()}?
         </h2>
         <div className="mt-8">
-          <ButtonLink href="/contact" size="lg">
+          <ButtonLink href="/contact/project-enquiry" size="lg">
             Discuss Your Project
           </ButtonLink>
         </div>

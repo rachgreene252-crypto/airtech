@@ -74,7 +74,7 @@ export function Opening() {
           transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="mt-9"
         >
-          <ButtonLink href="/contact" size="lg">
+          <ButtonLink href="/contact/project-enquiry" size="lg">
             Discuss Your Project
           </ButtonLink>
         </motion.div>

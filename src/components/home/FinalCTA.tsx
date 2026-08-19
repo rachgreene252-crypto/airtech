@@ -14,7 +14,7 @@ export function FinalCTA() {
         Tell us what you&apos;re building and we&apos;ll respond within one business day.
       </p>
       <div className="mt-9">
-        <ButtonLink href="/contact" size="lg">
+        <ButtonLink href="/contact/project-enquiry" size="lg">
           Discuss Your Project
         </ButtonLink>
       </div>

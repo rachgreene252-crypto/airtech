@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import type { Industry } from "@/content/types";
 
-const STEPS = ["Intent", "Your details", "Project details", "Notes", "Done"] as const;
+// Matches the client's 5-step spec exactly: what do you need -> contact ->
+// project -> documents -> submit.
+const STEPS = ["What you need", "Contact", "Project", "Documents", "Done"] as const;
+
+const MAX_TOTAL_BYTES = 12 * 1024 * 1024;
 
 const emptyForm: EnquiryInput = {
   intent: "",
@@ -20,16 +24,20 @@ const emptyForm: EnquiryInput = {
   location: "",
   industry: "",
   projectStage: "",
+  budget: "",
   message: "",
 };
 
 export function EnquiryForm({ industries }: { industries: Industry[] }) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<EnquiryInput>(emptyForm);
+  const [files, setFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const formTopRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function update<K extends keyof EnquiryInput>(key: K, value: EnquiryInput[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -58,6 +66,24 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
     goToStep(step + 1);
   }
 
+  function addFiles(list: FileList | null) {
+    if (!list || list.length === 0) return;
+    const incoming = Array.from(list);
+    const combined = [...files, ...incoming];
+    const totalBytes = combined.reduce((sum, f) => sum + f.size, 0);
+    if (totalBytes > MAX_TOTAL_BYTES) {
+      setFileError("Total attachments must stay under 12MB. Remove a file or email larger drawings directly.");
+      return;
+    }
+    setFileError(null);
+    setFiles(combined);
+  }
+
+  function removeFile(index: number) {
+    setFiles((f) => f.filter((_, i) => i !== index));
+    setFileError(null);
+  }
+
   function handleSubmit() {
     const parsed = enquirySchema.safeParse(form);
     if (!parsed.success) {
@@ -66,7 +92,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
     }
     setSubmitError(null);
     startTransition(async () => {
-      const result = await submitEnquiry(parsed.data);
+      const result = await submitEnquiry(parsed.data, files);
       if (result.ok) {
         goToStep(4);
       } else {
@@ -105,16 +131,14 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
       {step === 0 && (
         <fieldset>
-          <legend className="font-display text-2xl font-semibold mb-6">What are you working on?</legend>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <legend className="font-display text-2xl font-semibold mb-6">What do you need?</legend>
+          <div role="radiogroup" aria-label="What do you need">
             {intentOptions.map((opt) => (
               <label
                 key={opt.value}
                 className={cn(
-                  "cursor-pointer border p-4 text-sm transition-colors",
-                  form.intent === opt.value
-                    ? "border-(--color-ink) bg-(--color-paper-raised)"
-                    : "border-(--color-line-strong) hover:border-(--color-ink)"
+                  "flex min-h-14 cursor-pointer items-center gap-4 border-t border-(--color-line) py-4 pl-4 text-base transition-colors first:border-t-0 hover:bg-(--color-paper-raised)",
+                  form.intent === opt.value && "border-l-2 border-l-(--color-signal) bg-(--color-paper-raised)"
                 )}
               >
                 <input
@@ -124,6 +148,13 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                   checked={form.intent === opt.value}
                   onChange={() => update("intent", opt.value)}
                   className="sr-only"
+                />
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "h-2.5 w-2.5 shrink-0 rounded-full border",
+                    form.intent === opt.value ? "border-(--color-signal) bg-(--color-signal)" : "border-(--color-line-strong)"
+                  )}
                 />
                 {opt.label}
               </label>
@@ -235,6 +266,26 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                 ))}
               </select>
             </Field>
+            <Field label="Budget" optional>
+              <input
+                type="text"
+                value={form.budget}
+                onChange={(e) => update("budget", e.target.value)}
+                placeholder="Approximate range, if known"
+                className={inputClass}
+              />
+            </Field>
+          </div>
+          <div className="mt-5">
+            <Field label="Requirements" optional>
+              <textarea
+                rows={4}
+                value={form.message}
+                onChange={(e) => update("message", e.target.value)}
+                placeholder="Scope, timeline, or any specific technical constraints."
+                className={inputClass}
+              />
+            </Field>
           </div>
           <StepNav onBack={() => goToStep(1)} onNext={() => goToStep(3)} />
         </fieldset>
@@ -242,19 +293,56 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
       {step === 3 && (
         <fieldset>
-          <legend className="font-display text-2xl font-semibold mb-6">Anything else?</legend>
-          <Field label="Message" optional>
-            <textarea
-              rows={5}
-              value={form.message}
-              onChange={(e) => update("message", e.target.value)}
-              placeholder="Tell us more about the requirement — scope, timeline, or any specific technical constraints."
-              className={inputClass}
-            />
-          </Field>
-          <p className="mt-3 text-sm text-(--color-steel)">
-            Have drawings or documents to share? Reply with them once we&apos;re in touch by email.
+          <legend className="font-display text-2xl font-semibold mb-6">Documents</legend>
+          <p className="text-sm text-(--color-steel)">
+            Drawings, specifications or any reference documents — optional, up to 12MB total.
           </p>
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="mt-5 flex min-h-14 w-full items-center justify-center border border-dashed border-(--color-line-strong) py-8 text-sm text-(--color-steel) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
+          >
+            Click to attach files
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={(e) => {
+              addFiles(e.target.files);
+              e.target.value = "";
+            }}
+            className="sr-only"
+          />
+
+          {fileError && (
+            <p className="mt-3 text-sm text-(--color-signal)" role="alert">
+              {fileError}
+            </p>
+          )}
+
+          {files.length > 0 && (
+            <ul className="mt-5">
+              {files.map((file, i) => (
+                <li
+                  key={`${file.name}-${i}`}
+                  className="flex items-center justify-between gap-4 border-t border-(--color-line) py-3 text-sm first:border-t-0"
+                >
+                  <span className="truncate text-(--color-ink)">{file.name}</span>
+                  <span className="shrink-0 text-(--color-steel-soft)">{formatBytes(file.size)}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(i)}
+                    className="shrink-0 font-mono text-xs uppercase text-(--color-signal) hover:underline"
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {submitError && (
             <p className="mt-4 text-sm text-(--color-signal)" role="alert">
               {submitError}
@@ -272,7 +360,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
       )}
 
       {step === 4 && (
-        <div className="crop-frame border border-(--color-line) p-10 text-center">
+        <div className="border-t border-(--color-line) pt-10 text-center">
           <p className="font-mono text-xs tracking-[0.14em] uppercase text-(--color-signal)">Enquiry received</p>
           <h2 className="mt-4 font-display text-3xl font-semibold">
             Thanks, {form.name.split(" ")[0] || "there"}.
@@ -284,6 +372,12 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
       )}
     </div>
   );
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 const inputClass =

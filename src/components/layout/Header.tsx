@@ -21,7 +21,7 @@ export function Header() {
         <HeaderNav items={primaryNav} />
 
         <div className="hidden xl:block shrink-0">
-          <ButtonLink href="/contact" size="md">
+          <ButtonLink href="/contact/project-enquiry" size="md">
             Discuss Your Project
           </ButtonLink>
         </div>

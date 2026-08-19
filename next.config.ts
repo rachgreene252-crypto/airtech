@@ -4,6 +4,13 @@ import { sanity } from "next-sanity/live/cache-life";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   cacheLife: { default: sanity },
+  experimental: {
+    // Default 1MB is too small for the project-enquiry form's document
+    // upload (drawings/PDFs). See src/app/(site)/contact/actions.ts.
+    serverActions: {
+      bodySizeLimit: "15mb",
+    },
+  },
   images: {
     remotePatterns: [
       {

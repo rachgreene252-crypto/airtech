@@ -27,6 +27,7 @@ export const enquirySchema = z.object({
   location: z.string().optional(),
   industry: z.string().optional(),
   projectStage: z.string().optional(),
+  budget: z.string().optional(),
   message: z.string().optional(),
 });
 

@@ -50,7 +50,7 @@ export default function ServiceSupportPage() {
           Request an AMC or raise a service call.
         </h2>
         <div className="mt-8">
-          <ButtonLink href="/contact" size="lg">
+          <ButtonLink href="/contact/project-enquiry" size="lg">
             Request Service
           </ButtonLink>
         </div>

@@ -67,7 +67,8 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
   {
     title: "Get in touch",
     links: [
-      { label: "Discuss your project", href: "/contact" },
+      { label: "Contact", href: "/contact" },
+      { label: "Discuss your project", href: "/contact/project-enquiry" },
       { label: "Service & AMC", href: "/service-support" },
       { label: "Projects", href: "/projects" },
     ],
