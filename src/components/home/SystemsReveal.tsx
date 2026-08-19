@@ -165,20 +165,44 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
       role="img"
       aria-label={`Building cross-section, showing ${step} of ${ZONES.length} coordinated engineering systems`}
     >
-      {/* Ground */}
+      <defs>
+        <linearGradient id="building-glass" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="var(--color-signal-tint)" stopOpacity={0.35} />
+          <stop offset="100%" stopColor="var(--color-signal-tint)" stopOpacity={0.05} />
+        </linearGradient>
+        <radialGradient id="building-shadow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.35} />
+          <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
+        </radialGradient>
+      </defs>
+
+      {/* Ground shadow — grounds the building as a physical object, not a
+          floating diagram. */}
+      <ellipse cx={320} cy={BUILDING_BOTTOM + 4} rx={210} ry={14} fill="url(#building-shadow)" />
       <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel)" strokeWidth={1.5} />
-      {/* Building outline */}
+
+      {/* Building outline — a pale glass fill instead of flat none, so the
+          diagram reads as a material object rather than a wireframe. */}
       <rect
         x={BUILDING_LEFT}
         y={BUILDING_TOP}
         width={BUILDING_RIGHT - BUILDING_LEFT}
         height={BUILDING_BOTTOM - BUILDING_TOP}
-        fill="none"
+        fill="url(#building-glass)"
         stroke="var(--color-steel-soft)"
         strokeWidth={1.25}
       />
+      {/* Roofline parapet detail */}
+      <line
+        x1={BUILDING_LEFT - 6}
+        y1={BUILDING_TOP}
+        x2={BUILDING_RIGHT + 6}
+        y2={BUILDING_TOP}
+        stroke="var(--color-steel-soft)"
+        strokeWidth={2.5}
+      />
       {FLOOR_YS.map((y) => (
-        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-ink-soft)" strokeWidth={1} />
+        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-ink-soft)" strokeWidth={1} opacity={0.7} />
       ))}
 
       {services

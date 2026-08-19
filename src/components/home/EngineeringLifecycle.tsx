@@ -63,24 +63,50 @@ export function EngineeringLifecycle() {
 
       <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
         <div>
-          <ol className="flex flex-wrap gap-2" role="list">
-            {STAGES.map((s, i) => (
-              <li key={s.key}>
-                <button
-                  type="button"
-                  onClick={() => setStage(i)}
-                  aria-current={stage === i}
-                  className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
-                    stage === i
-                      ? "border-(--color-signal-soft) text-(--color-paper)"
-                      : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
-                  }`}
-                >
-                  {String(i + 1).padStart(2, "0")} {s.label}
-                </button>
-              </li>
-            ))}
-          </ol>
+          {/* A persistent connecting line across all six stages, so the flow
+              reads at a glance rather than only after interacting — each
+              button's actual touch target stays 44px even though the visual
+              dot is smaller, matching the line's stroke weight. */}
+          <div className="relative">
+            <div aria-hidden="true" className="absolute inset-x-[22px] top-[22px] h-px bg-(--color-ink-soft)" />
+            <motion.div
+              aria-hidden="true"
+              className="absolute left-[22px] top-[22px] h-px bg-(--color-signal-soft)"
+              initial={false}
+              animate={{ width: `calc((100% - 44px) * ${stage / (STAGES.length - 1)})` }}
+              transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+            />
+            <ol className="relative flex justify-between" role="list">
+              {STAGES.map((s, i) => (
+                <li key={s.key} className="flex flex-col items-center">
+                  <button
+                    type="button"
+                    onClick={() => setStage(i)}
+                    aria-current={stage === i}
+                    aria-label={`${s.label} (step ${i + 1} of ${STAGES.length})`}
+                    className="flex h-11 w-11 items-center justify-center"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`h-2.5 w-2.5 shrink-0 rounded-full border transition-colors ${
+                        stage >= i
+                          ? "border-(--color-signal-soft) bg-(--color-signal-soft)"
+                          : "border-(--color-ink-soft) bg-(--color-ink)"
+                      }`}
+                    />
+                  </button>
+                  <span
+                    aria-hidden="true"
+                    className={`-mt-1 font-mono text-[9px] tracking-[0.06em] uppercase ${
+                      stage === i ? "text-(--color-paper)" : "text-(--color-steel-soft)"
+                    }`}
+                  >
+                    {s.label}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
