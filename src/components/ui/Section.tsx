@@ -14,13 +14,14 @@ export function Section({
   className?: string;
   containerClassName?: string;
   id?: string;
-  tone?: "paper" | "ink" | "raised";
+  tone?: "paper" | "ink" | "raised" | "tint";
   border?: boolean;
 }) {
   const toneClasses = {
     paper: "bg-(--color-paper) text-(--color-ink)",
     ink: "bg-(--color-ink) text-(--color-paper)",
     raised: "bg-(--color-paper-raised) text-(--color-ink)",
+    tint: "bg-(--color-blueprint-soft) text-(--color-ink)",
   }[tone];
 
   return (
