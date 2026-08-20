@@ -9,7 +9,12 @@ const base =
   "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-signal) disabled:opacity-50 disabled:pointer-events-none rounded-[3px]";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-(--color-signal) text-(--color-paper) hover:bg-(--color-signal-soft)",
+  // hover:brightness-90 darkens rather than lightens — --color-signal is
+  // already the WCAG-AA-safe darkened bronze (see globals.css); swapping to
+  // --color-signal-soft (the brighter literal Champagne Gold) on hover was
+  // dropping text contrast to ~2.2:1 against the light paper-colored text,
+  // failing AA even though the resting state passes.
+  primary: "bg-(--color-signal) text-(--color-paper) hover:brightness-90",
   secondary:
     "border border-(--color-ink) text-(--color-ink) hover:bg-(--color-ink) hover:text-(--color-paper)",
   ghost: "text-(--color-signal) hover:text-(--color-ink) underline underline-offset-4",

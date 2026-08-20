@@ -32,9 +32,10 @@
   replacement: burgundy fails contrast on the dark sections where amber is
   actually used, so it is applied only where it was chosen deliberately.
 
-  Type system unchanged: Big Shoulders Display (condensed, structural — used
-  sparingly for headlines and figures) + IBM Plex Sans (body/UI) + IBM Plex
-  Mono (technical labels, specs, drawing-sheet references).
+  Type system unchanged: Oswald (condensed, structural — used sparingly for
+  headlines and figures; see src/app/layout.tsx for why Oswald over Big
+  Shoulders Display) + IBM Plex Sans (body/UI) + IBM Plex Mono (technical
+  labels, specs, drawing-sheet references).
 */
 
 :root {
