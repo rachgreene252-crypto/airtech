@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+
+const companyPages = [
+  { label: "History", href: "/company/history", description: "How Airtech grew from an HVAC specialist into an integrated MEP contractor." },
+  { label: "Leadership", href: "/company/leadership", description: "The people behind Airtech's engineering delivery." },
+  { label: "Quality & Certifications", href: "/company/quality-certifications", description: "Management system certification and equipment partners." },
+  { label: "Careers", href: "/company/careers", description: "Engineers who want to work on projects that matter." },
+] as const;
 
 export const metadata: Metadata = {
   title: "About",
@@ -58,6 +66,24 @@ export default function CompanyPage() {
               <h3 className="font-display text-xl font-semibold">{d.title}</h3>
               <p className="mt-2 text-sm text-(--color-steel) leading-relaxed">{d.body}</p>
             </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section>
+        <SectionHeader eyebrow="More about Airtech" heading="History, people and credentials." />
+        <div className="mt-10 border-t border-(--color-line)">
+          {companyPages.map((p) => (
+            <Link
+              key={p.href}
+              href={p.href}
+              className="group flex flex-col gap-1.5 border-b border-(--color-line) py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+            >
+              <h3 className="font-display text-2xl font-semibold leading-tight group-hover:text-(--color-blueprint) transition-colors">
+                {p.label}
+              </h3>
+              <p className="text-sm text-(--color-steel) sm:max-w-md sm:text-right">{p.description}</p>
+            </Link>
           ))}
         </div>
       </Section>
