@@ -91,9 +91,10 @@ export function SystemShowcase() {
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className={cn("object-cover", panel.motif === "detect" && "grayscale-[0.3]")}
               />
-              <div className="absolute inset-0 bg-(--color-ink)/45" />
-              <div className="absolute inset-0 bg-(--color-blueprint) mix-blend-color opacity-30" />
-              <SystemMotif motif={panel.motif} />
+              <div className="absolute inset-0 bg-(--color-ink)/12" />
+              <div className="absolute inset-0 drop-shadow-[0_0_2.5px_var(--color-ink)]">
+                <SystemMotif motif={panel.motif} />
+              </div>
             </div>
 
             <div className={cn("flex items-center px-6 py-16 sm:px-10 lg:px-16", reversed && "lg:order-1")}>

@@ -38,7 +38,7 @@ export function ProjectShowcase() {
                 sizes="100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/50 to-(--color-ink)/10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink)/90 from-0% via-(--color-ink)/70 via-56% to-transparent to-78%" />
             </div>
 
             {i === 0 && (
