@@ -7,12 +7,14 @@ import type { Project } from "@/content/types";
  * related-projects widget on the detail template. Deliberately no image
  * placeholder: an honest text row reads as intentional editorial index
  * design, where a "photography pending" pattern-fill would read as broken.
+ * No border rule — separation comes from vertical whitespace, not a
+ * repeated horizontal line down the page.
  */
 export function ProjectListRow({ project, industryName }: { project: Project; industryName?: string }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group flex flex-col gap-1.5 border-t border-(--color-line) py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-2"
+      className="group flex flex-col gap-1.5 py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-2 sm:py-8"
     >
       <div>
         <p className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-signal)">

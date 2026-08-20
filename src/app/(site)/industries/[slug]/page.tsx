@@ -99,23 +99,22 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
           {relatedProjects.length > 0 ? (
             <>
               {relatedProjects.filter((p) => p.heroImage?.src).length > 0 && (
-                <div className="border-t border-(--color-line)">
+                <div>
                   {relatedProjects
                     .filter((p) => p.heroImage?.src)
                     .slice(0, 3)
                     .map((project, i) => (
-                      <ProjectFeatureRow key={project.slug} project={project} index={i + 1} reversed={i % 2 === 1} />
+                      <ProjectFeatureRow
+                        key={project.slug}
+                        project={project}
+                        index={i + 1}
+                        variant={i % 2 === 0 ? "side" : "side-reversed"}
+                      />
                     ))}
                 </div>
               )}
               {relatedProjects.filter((p) => !p.heroImage?.src).length > 0 && (
-                <div
-                  className={
-                    relatedProjects.filter((p) => p.heroImage?.src).length > 0
-                      ? "mt-10"
-                      : "border-t border-(--color-line)"
-                  }
-                >
+                <div className={relatedProjects.filter((p) => p.heroImage?.src).length > 0 ? "mt-10" : undefined}>
                   {relatedProjects
                     .filter((p) => !p.heroImage?.src)
                     .slice(0, 6)

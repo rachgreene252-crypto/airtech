@@ -123,20 +123,20 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
           {relatedProjects.length > 0 ? (
             <>
               {featuredProjects.length > 0 && (
-                <div className="border-t border-(--color-line)">
+                <div>
                   {featuredProjects.map((project, i) => (
                     <ProjectFeatureRow
                       key={project.slug}
                       project={project}
                       industryName={getIndustryBySlug(project.industrySlug)?.name}
                       index={i + 1}
-                      reversed={i % 2 === 1}
+                      variant={i % 2 === 0 ? "side" : "side-reversed"}
                     />
                   ))}
                 </div>
               )}
               {listedProjects.length > 0 && (
-                <div className={featuredProjects.length > 0 ? "mt-10" : "border-t border-(--color-line)"}>
+                <div className={featuredProjects.length > 0 ? "mt-10" : undefined}>
                   {listedProjects.map((project) => (
                     <ProjectListRow
                       key={project.slug}

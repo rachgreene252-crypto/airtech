@@ -2,20 +2,21 @@
 
 import { useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { ProjectFeatureRow } from "./ProjectFeatureRow";
+import { ProjectFeatureRow, type FeatureVariant } from "./ProjectFeatureRow";
 import { ProjectListRow } from "./ProjectListRow";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { cn } from "@/lib/cn";
 import type { Project, Industry, Service } from "@/content/types";
 
+const VARIANT_CYCLE: FeatureVariant[] = ["side", "overlay", "side-reversed", "typographic"];
+
 /**
- * An editorial portfolio index, not a uniform card grid (brief §12): projects
- * with real, sourced photography get a large alternating image band; the
- * rest render as a compact typographic list rather than a placeholder-filled
- * card. Location is deliberately not offered as a filter — most location
- * strings are free-text ("Gairidhara, Kathmandu", "Parasi, Nepal") rather
- * than clean city tags, and normalizing them would mean inventing
- * categorization the source data doesn't actually support.
+ * An editorial portfolio, not a filterable grid — no bordered filter-chip
+ * row, no "N projects" counter, no card wall. Filters are plain typography;
+ * featured projects cycle through four distinct compositions rather than
+ * repeating image-left/text-right for every entry (brief's explicit
+ * acceptance test: first impression should read "premium engineering
+ * portfolio," not "filterable grid").
  */
 export function ProjectsExplorer({
   projects,
@@ -58,56 +59,43 @@ export function ProjectsExplorer({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-6 border-b border-(--color-line) pb-8">
-        <FilterGroup
+      <div className="flex flex-col gap-4">
+        <FilterRow
           label="Industry"
           value={industryFilter}
           onChange={(v) => setFilter("industry", v)}
           options={industries.map((i) => ({ value: i.slug, label: i.name }))}
         />
-        <FilterGroup
+        <FilterRow
           label="Service"
           value={serviceFilter}
           onChange={(v) => setFilter("service", v)}
           options={services.map((s) => ({ value: s.slug, label: s.name }))}
         />
-        {(industryFilter || serviceFilter) && (
-          <button
-            type="button"
-            onClick={() => router.push(pathname as never, { scroll: false })}
-            className="self-end mb-0.5 font-mono text-xs uppercase tracking-[0.06em] text-(--color-signal) hover:underline"
-          >
-            Clear filters
-          </button>
-        )}
       </div>
 
-      <p className="mt-6 font-mono text-xs tracking-[0.06em] uppercase text-(--color-steel)">
-        {filtered.length} {filtered.length === 1 ? "project" : "projects"}
-      </p>
-
       {filtered.length === 0 && (
-        <div className="mt-10">
+        <div className="mt-16">
           <EmptyState title="No projects match these filters" description="Try clearing a filter or browse the full portfolio." />
         </div>
       )}
 
       {featured.length > 0 && (
-        <div className="mt-10 border-t border-(--color-line)">
+        <div className="mt-4">
           {featured.map((project, i) => (
             <ProjectFeatureRow
               key={project.slug}
               project={project}
               industryName={industryName(project)}
               index={i + 1}
-              reversed={i % 2 === 1}
+              variant={VARIANT_CYCLE[i % VARIANT_CYCLE.length]}
             />
           ))}
         </div>
       )}
 
       {listed.length > 0 && (
-        <div className={cn(featured.length > 0 && "mt-16")}>
+        <div className={cn(featured.length > 0 && "mt-16 border-t border-(--color-line) pt-4")}>
           <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
             Also in the portfolio
           </p>
@@ -122,7 +110,13 @@ export function ProjectsExplorer({
   );
 }
 
-function FilterGroup({
+/**
+ * Filters as inline typography, not bordered pill buttons — a plain
+ * label + comma-separated links, the active one distinguished by color and
+ * weight rather than a filled box. Disappears into the reading experience
+ * rather than reading as an admin control panel.
+ */
+function FilterRow({
   label,
   value,
   onChange,
@@ -134,25 +128,21 @@ function FilterGroup({
   options: { value: string; label: string }[];
 }) {
   return (
-    <div>
-      <label className="block font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel) mb-2">
-        {label}
-      </label>
-      <div className="flex flex-wrap gap-2">
-        <FilterChip active={value === ""} onClick={() => onChange("")}>
-          All
-        </FilterChip>
-        {options.map((o) => (
-          <FilterChip key={o.value} active={value === o.value} onClick={() => onChange(o.value)}>
-            {o.label}
-          </FilterChip>
-        ))}
-      </div>
+    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
+      <span className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel-soft)">{label}</span>
+      <FilterLink active={value === ""} onClick={() => onChange("")}>
+        All
+      </FilterLink>
+      {options.map((o) => (
+        <FilterLink key={o.value} active={value === o.value} onClick={() => onChange(o.value)}>
+          {o.label}
+        </FilterLink>
+      ))}
     </div>
   );
 }
 
-function FilterChip({
+function FilterLink({
   active,
   onClick,
   children,
@@ -167,10 +157,8 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "min-h-11 px-3 py-1.5 text-xs border transition-colors",
-        active
-          ? "border-(--color-ink) bg-(--color-ink) text-(--color-paper)"
-          : "border-(--color-line-strong) text-(--color-steel) hover:border-(--color-ink) hover:text-(--color-ink)"
+        "text-sm transition-colors",
+        active ? "font-semibold text-(--color-ink) underline underline-offset-4" : "text-(--color-steel) hover:text-(--color-ink)"
       )}
     >
       {children}
