@@ -38,7 +38,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
                 type="button"
                 aria-expanded={openGroup === item.label}
                 onClick={() => setOpenGroup((cur) => (cur === item.label ? null : item.label))}
-                className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-(--color-ink) hover:text-(--color-blueprint) transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-(--color-ink) hover:text-(--color-signal) transition-colors"
               >
                 {item.label}
                 <span aria-hidden="true" className={cn("text-[10px] transition-transform", openGroup === item.label && "rotate-180")}>
@@ -48,7 +48,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
             ) : (
               <Link
                 href={item.href as Route}
-                className="block px-3.5 py-2 text-sm font-medium text-(--color-ink) hover:text-(--color-blueprint) transition-colors"
+                className="block px-3.5 py-2 text-sm font-medium text-(--color-ink) hover:text-(--color-signal) transition-colors"
               >
                 {item.label}
               </Link>
@@ -61,7 +61,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
                     key={child.href}
                     href={child.href as Route}
                     onClick={() => setOpenGroup(null)}
-                    className="block px-4 py-2.5 text-sm text-(--color-ink) hover:bg-(--color-paper) hover:text-(--color-blueprint) transition-colors"
+                    className="block px-4 py-2.5 text-sm text-(--color-ink) hover:bg-(--color-paper) hover:text-(--color-signal) transition-colors"
                   >
                     {child.label}
                   </Link>

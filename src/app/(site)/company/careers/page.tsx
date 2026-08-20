@@ -22,7 +22,7 @@ export default function CareersPage() {
         <p className="max-w-xl text-(--color-steel) leading-relaxed">
           Current openings are not listed here yet. If you&apos;re an engineer or technician interested in
           Airtech&apos;s work, send your CV and area of interest to{" "}
-          <a href={`mailto:${siteSettings.primaryEmail}`} className="text-(--color-blueprint) hover:underline">
+          <a href={`mailto:${siteSettings.primaryEmail}`} className="text-(--color-signal) hover:underline">
             {siteSettings.primaryEmail}
           </a>
           .

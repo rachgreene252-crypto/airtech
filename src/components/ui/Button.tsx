@@ -12,7 +12,7 @@ const variants: Record<Variant, string> = {
   primary: "bg-(--color-signal) text-(--color-paper) hover:bg-(--color-signal-soft)",
   secondary:
     "border border-(--color-ink) text-(--color-ink) hover:bg-(--color-ink) hover:text-(--color-paper)",
-  ghost: "text-(--color-blueprint) hover:text-(--color-ink) underline underline-offset-4",
+  ghost: "text-(--color-signal) hover:text-(--color-ink) underline underline-offset-4",
 };
 
 const sizes: Record<Size, string> = {

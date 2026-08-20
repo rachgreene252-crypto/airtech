@@ -79,7 +79,7 @@ export default function CompanyPage() {
               href={p.href}
               className="group flex flex-col gap-1.5 border-b border-(--color-line) py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
             >
-              <h3 className="font-display text-2xl font-semibold leading-tight group-hover:text-(--color-blueprint) transition-colors">
+              <h3 className="font-display text-2xl font-semibold leading-tight group-hover:text-(--color-signal) transition-colors">
                 {p.label}
               </h3>
               <p className="text-sm text-(--color-steel) sm:max-w-md sm:text-right">{p.description}</p>

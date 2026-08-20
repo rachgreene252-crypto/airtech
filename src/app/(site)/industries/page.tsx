@@ -31,7 +31,7 @@ export default function IndustriesPage() {
               className="group grid gap-3 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8 sm:py-12"
             >
               <div>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-blueprint) transition-colors text-balance">
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-signal) transition-colors text-balance">
                   {industry.name}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">

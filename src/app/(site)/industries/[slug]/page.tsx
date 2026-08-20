@@ -84,7 +84,7 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
               <Link
                 key={s.slug}
                 href={`/expertise/${s.slug}`}
-                className="border border-(--color-line-strong) px-4 py-2 text-sm text-(--color-ink-soft) hover:border-(--color-blueprint) hover:text-(--color-blueprint) transition-colors"
+                className="border border-(--color-line-strong) px-4 py-2 text-sm text-(--color-ink-soft) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
               >
                 {s.name}
               </Link>

@@ -18,7 +18,7 @@ export function ProjectListRow({ project, industryName }: { project: Project; in
         <p className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-signal)">
           {industryName ?? project.projectType}
         </p>
-        <h3 className="mt-1 font-display text-xl sm:text-2xl font-semibold leading-tight group-hover:text-(--color-blueprint) transition-colors">
+        <h3 className="mt-1 font-display text-xl sm:text-2xl font-semibold leading-tight group-hover:text-(--color-signal) transition-colors">
           {project.name}
         </h3>
       </div>

@@ -10,11 +10,12 @@ export function PartnersStrip() {
       <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-(--color-steel)">
         Equipment partners
       </p>
-      <div className="mt-6 flex flex-wrap items-center gap-x-12 gap-y-4">
+      <div className="mt-8 flex flex-wrap gap-x-16 gap-y-8">
         {partners.map((partner) => (
-          <span key={partner.id} className="font-display text-2xl font-semibold text-(--color-ink-soft)">
-            {partner.name}
-          </span>
+          <div key={partner.id}>
+            <p className="font-display text-2xl font-semibold text-(--color-ink)">{partner.name}</p>
+            <p className="mt-1 text-sm text-(--color-steel)">{partner.relationshipNote}</p>
+          </div>
         ))}
       </div>
     </Section>

@@ -104,7 +104,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
             {relatedIndustries.map((industry, i) => (
               <Reveal key={industry.slug} delay={i * 0.05}>
                 <Link href={`/industries/${industry.slug}`} className="group block">
-                  <h3 className="font-display text-xl font-semibold group-hover:text-(--color-blueprint) transition-colors">
+                  <h3 className="font-display text-xl font-semibold group-hover:text-(--color-signal) transition-colors">
                     {industry.name}
                   </h3>
                   <span className="mt-1 inline-block text-sm text-(--color-signal) opacity-0 group-hover:opacity-100 transition-opacity">

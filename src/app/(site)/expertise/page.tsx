@@ -31,7 +31,7 @@ export default function ExpertisePage() {
             >
               <span className="font-mono text-sm text-(--color-signal) shrink-0">{service.disciplineCode}</span>
               <div>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-blueprint) transition-colors text-balance">
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-signal) transition-colors text-balance">
                   {service.name}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">
