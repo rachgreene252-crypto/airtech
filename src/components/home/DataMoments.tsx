@@ -17,7 +17,7 @@ const MOMENTS = [
 export function DataMoments() {
   return (
     <section className="relative overflow-hidden border-t border-(--color-line) bg-(--color-paper) py-24 sm:py-32">
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-5 sm:px-8 lg:px-12">
+      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col px-5 sm:px-8 lg:px-12">
         {/* The through-line: continuity from 2000 to today, burgundy marking each moment. */}
         <div
           aria-hidden="true"
