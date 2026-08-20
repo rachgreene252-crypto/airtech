@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Oswald, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -64,6 +64,13 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
   },
+};
+
+// Tints the mobile browser chrome (Safari/Chrome address bar, iOS status
+// bar) to match the site's canvas instead of the browser default — no
+// theme-color existed before this.
+export const viewport: Viewport = {
+  themeColor: "#f6f3ec",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
