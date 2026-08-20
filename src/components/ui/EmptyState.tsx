@@ -1,3 +1,9 @@
+/**
+ * An intentional empty state, not a placeholder box — a dashed-border
+ * rectangle reads as "something's missing"; this reads as a considered
+ * status note, in the same drawing-sheet-annotation vocabulary used
+ * throughout the site (a marked point + label, not a container).
+ */
 export function EmptyState({
   title,
   description,
@@ -6,9 +12,11 @@ export function EmptyState({
   description?: string;
 }) {
   return (
-    <div className="crop-frame border border-dashed border-(--color-line-strong) px-6 py-16 text-center text-(--color-steel)">
-      <p className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft)">{title}</p>
-      {description && <p className="mt-2 text-sm max-w-md mx-auto">{description}</p>}
+    <div className="border-l-2 border-(--color-line-strong) py-10 pl-6 sm:py-14 sm:pl-8">
+      <p className="font-mono text-xs tracking-[0.14em] uppercase text-(--color-signal)">{title}</p>
+      {description && (
+        <p className="mt-3 max-w-md text-sm text-(--color-steel) leading-relaxed">{description}</p>
+      )}
     </div>
   );
 }
