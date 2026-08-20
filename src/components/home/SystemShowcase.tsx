@@ -45,8 +45,12 @@ const PANELS = [
   {
     slug: "elv-security",
     index: "05",
-    image: "/images/projects/nepal-mediciti-hospital.jpg",
-    imageAlt: "Nepal Mediciti hospital, Lalitpur — entrance detail",
+    // Nepal Mediciti deliberately not reused here — it's already the
+    // Opening hero and the HVACSpotlight image; repeating it a third time
+    // within a six-panel sequence read as "we only have one photo." Laxmi
+    // Motors is a real, if less thematically obvious, pairing.
+    image: "/images/projects/laxmi-motors-kd-plant.jpg",
+    imageAlt: "Laxmi Motors KD Plant, Parasi — facility detail",
     motif: "signal" as const,
   },
   {
