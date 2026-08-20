@@ -39,16 +39,31 @@ const plexMono = IBM_Plex_Mono({
   display: "optional",
 });
 
+const siteTitle = "Airtech Industries | Engineering & Integrated MEP Partner, Nepal";
+const siteDescription =
+  "Airtech Industries is Nepal's engineering and integrated MEP partner — HVAC, electrical, plumbing, fire protection and building systems, from design through commissioning and lifecycle support.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.airtech.com.np"
   ),
   title: {
-    default: "Airtech Industries | Engineering & Integrated MEP Partner, Nepal",
+    default: siteTitle,
     template: "%s | Airtech Industries",
   },
-  description:
-    "Airtech Industries is Nepal's engineering and integrated MEP partner — HVAC, electrical, plumbing, fire protection and building systems, from design through commissioning and lifecycle support.",
+  description: siteDescription,
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    siteName: "Airtech Industries",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
