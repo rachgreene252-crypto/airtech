@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/company/careers",
     "/resources",
     "/contact",
+    "/contact/project-enquiry",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: new Date(),
