@@ -60,9 +60,9 @@ export default function ServiceSupportPage() {
 
       <Section>
         <SectionHeader eyebrow="Coverage" heading="What's supported." />
-        <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4">
+        <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
           {coverage.map((item) => (
-            <li key={item} className="flex gap-3 border-b border-(--color-line) pb-4 text-(--color-ink)">
+            <li key={item} className="flex gap-3 text-(--color-ink)">
               <span aria-hidden="true" className="text-(--color-signal) font-mono">—</span>
               {item}
             </li>

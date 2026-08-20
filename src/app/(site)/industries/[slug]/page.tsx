@@ -51,9 +51,9 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
       {industry.operationalChallenges.length > 0 && (
         <Section>
           <SectionHeader eyebrow="The challenge" heading="What makes this sector different." />
-          <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4">
+          <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
             {industry.operationalChallenges.map((c) => (
-              <li key={c} className="flex gap-3 border-b border-(--color-line) pb-4 text-(--color-ink)">
+              <li key={c} className="flex gap-3 text-(--color-ink)">
                 <span aria-hidden="true" className="text-(--color-signal) font-mono">—</span>
                 {c}
               </li>
@@ -65,9 +65,9 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
       {industry.technicalRequirements.length > 0 && (
         <Section tone="raised">
           <SectionHeader eyebrow="Technical requirements" heading="What the system has to do." />
-          <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4">
+          <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
             {industry.technicalRequirements.map((r) => (
-              <li key={r} className="flex gap-3 border-b border-(--color-line) pb-4 text-(--color-ink)">
+              <li key={r} className="flex gap-3 text-(--color-ink)">
                 <span aria-hidden="true" className="text-(--color-blueprint) font-mono">—</span>
                 {r}
               </li>
