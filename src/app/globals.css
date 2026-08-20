@@ -1,36 +1,35 @@
 @import "tailwindcss";
 
 /*
-  Airtech design tokens — "warm heritage" system (supersedes the
-  architectural-white/cobalt/amber system from the previous pass).
+  Airtech design tokens — light/cool/graphite system.
 
-  Primary canvas is Warm Ivory, not brochure white or a dark SaaS surface.
-  Hierarchy is built with luminance, scale and whitespace first; colour is
-  reserved for disciplined signals — never flooded across the page.
+  Primary canvas is pure white paper with light graphite accents. The system
+  uses cool slate-blue tones for secondary elements and signals. Hierarchy is
+  built with luminance, scale, and whitespace first; color is reserved for
+  disciplined signals — never flooded across the page.
 
-  `--color-signal` (#8a6428, a darkened bronze-gold) carries the primary
-  interactive role — CTAs, links, focus rings, form states — wherever the
-  codebase already treats it that way. It is deliberately NOT the brief's
-  literal Champagne Gold (#c6a15b): that value only reaches ~2.2:1 contrast
-  against Warm Ivory, well under WCAG AA's 4.5:1 for text. `--color-signal`
-  is darkened to ~4.8:1 so every existing link/eyebrow/focus-ring usage
-  stays accessible without a rename pass.
+  `--color-ink` (#263642) and `--color-ink-soft` (#4E6270) form the main text
+  hierarchy on the white canvas, providing warm-dark graphite tones with cool
+  undertones. `--color-steel` (#4F6875) and `--color-steel-soft` (#7C93A0)
+  handle secondary text and UI elements, offering measured contrast without
+  visual aggression.
 
-  `--color-signal-soft` holds the literal Champagne Gold (#c6a15b) — used
-  specifically where the previous pass already reaches for a dark-background
-  or photo-overlay accent (SystemsReveal's building diagram, SystemShowcase's
-  motifs): gold at ~6.2:1 against the dark ink tone, correct there because
-  the background is dark rather than light.
+  `--color-signal` (#263642, matching ink) carries the primary interactive
+  role — CTAs, links, focus rings, form states. `--color-signal-soft`
+  (#5C7686) provides a softer alternative for secondary interactions and
+  hover states.
 
-  `--color-amber` is kept as its own token (same value as signal-soft) for
-  the existing SVG/dark-accent code paths that already reference it.
+  `--color-blueprint` and `--color-blueprint-soft` introduce cool blue accents
+  for highlights, selections, and tertiary signals, grounding the palette in
+  a professional, technology-forward aesthetic.
 
-  `--color-heritage` (Muted Burgundy, #6e3036) is new — reserved for
-  light-background "heritage / human character" moments only (e.g. the
-  2000/2013/Today history markers), matching the brief's own semantic split
-  of gold = precision, burgundy = heritage/authority. It is not a 1:1 amber
-  replacement: burgundy fails contrast on the dark sections where amber is
-  actually used, so it is applied only where it was chosen deliberately.
+  `--color-amber` (#B88A3B) and `--color-amber-soft` (#C7A45D) provide warm
+  accent tones for special moments, heritage markers, and deliberate emphasis
+  — used sparingly to avoid visual noise.
+
+  `--color-heritage` (#6B3038, muted burgundy) is reserved for heritage/
+  human-character moments (e.g. history markers, testimonials), matching the
+  semantic split of amber = precision, burgundy = heritage/authority.
 
   Type system unchanged: Oswald (condensed, structural — used sparingly for
   headlines and figures; see src/app/layout.tsx for why Oswald over Big
@@ -39,29 +38,29 @@
 */
 
 :root {
-  --color-ink: #252629;
-  --color-ink-soft: #4a4c4e;
-  --color-paper: #f6f3ec;
-  --color-paper-raised: #fcfbf8;
-  --color-steel: #66645a;
-  --color-steel-soft: #9b9a8f;
-  --color-line: #e4dfd1;
-  --color-line-strong: #cbc2ac;
-  --color-blueprint: #496b82;
-  --color-blueprint-soft: #8fafc4;
-  --color-signal: #8a6428;
-  --color-signal-soft: #c6a15b;
-  --color-signal-tint: #dce8ef;
-  --color-amber: #c6a15b;
-  --color-amber-soft: #d8bd84;
-  --color-amber-tint: #f4ebd8;
-  --color-heritage: #6e3036;
+  --color-ink: #263642;
+  --color-ink-soft: #4E6270;
+  --color-paper: #FFFFFF;
+  --color-paper-raised: #F7FAFC;
+  --color-steel: #4F6875;
+  --color-steel-soft: #7C93A0;
+  --color-line: #E4EEF3;
+  --color-line-strong: #C9DCE8;
+  --color-blueprint: #8FB8CE;
+  --color-blueprint-soft: #EAF3F8;
+  --color-signal: #263642;
+  --color-signal-soft: #5C7686;
+  --color-signal-tint: #EAF3F8;
+  --color-amber: #B88A3B;
+  --color-amber-soft: #C7A45D;
+  --color-amber-tint: #F5EBD9;
+  --color-heritage: #6B3038;
 
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --container-max: 1440px;
+  --container-max: 1280px;
   --container-pad: 1.25rem;
 }
 
