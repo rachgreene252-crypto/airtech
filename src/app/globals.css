@@ -31,10 +31,8 @@
   human-character moments (e.g. history markers, testimonials), matching the
   semantic split of amber = precision, burgundy = heritage/authority.
 
-  Type system unchanged: Oswald (condensed, structural — used sparingly for
-  headlines and figures; see src/app/layout.tsx for why Oswald over Big
-  Shoulders Display) + IBM Plex Sans (body/UI) + IBM Plex Mono (technical
-  labels, specs, drawing-sheet references).
+  Type system: Manrope (display face for headlines and figures) + Geist Sans
+  (body/UI) + Geist Mono (technical labels, specs, drawing-sheet references).
 */
 
 :root {
@@ -57,8 +55,8 @@
   --color-heritage: #6B3038;
 
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
-  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --container-max: 1280px;
   --container-pad: 1.25rem;

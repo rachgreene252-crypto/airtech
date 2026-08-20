@@ -1,42 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Oswald, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Geist, Manrope, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Condensed, bold, industrial — originally a signage/wayfinding face, which
-// suits an engineering-drawing register. Chosen over Big Shoulders because
-// this Next.js version has no fallback-metric data for that family.
-//
-// display: "optional" rather than "swap" — Oswald is dramatically narrower
-// than any fallback sans-serif, so headlines re-wrap onto a different number
-// of lines on swap regardless of metric-matched fallback (size-adjust
-// matches average glyph size, not condensed-vs-normal width ratio). That
-// reflow was pushing everything below the hero down, measured as CLS 0.7 on
-// the homepage. "optional" uses the fallback for the entire page load if the
-// font isn't already cached, trading "always show the exact display face"
-// for "never reflow the page after first paint" — the right trade for a
-// branding/headline font that isn't load-bearing content.
-const displayFont = Oswald({
+// Manrope: display face for headlines and figures. Wide open proportions and
+// metric-matched fallback enable "swap" without visible reflow.
+const displayFont = Manrope({
   variable: "--font-display-face",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "optional",
+  weight: ["700", "800"],
+  display: "swap",
 });
 
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  // "optional": body text on every page uses this font, so a swap-driven
-  // reflow here (not just the display face) is what was actually behind the
-  // measured CLS — see note above.
-  display: "optional",
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
-  display: "optional",
+  display: "swap",
 });
 
 const siteTitle = "Airtech Industries | Engineering & Integrated MEP Partner, Nepal";
@@ -70,14 +56,14 @@ export const metadata: Metadata = {
 // bar) to match the site's canvas instead of the browser default — no
 // theme-color existed before this.
 export const viewport: Viewport = {
-  themeColor: "#f6f3ec",
+  themeColor: "#F7FAFC",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${displayFont.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
