@@ -50,7 +50,7 @@ export function EngineeringLifecycle() {
 
   return (
     <Section tone="ink" border={false}>
-      <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
+      <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-blueprint)">
         Delivery — 06
       </p>
       <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-paper) text-balance max-w-2xl">
@@ -71,7 +71,7 @@ export function EngineeringLifecycle() {
             <div aria-hidden="true" className="absolute inset-x-[22px] top-[22px] h-px bg-(--color-ink-soft)" />
             <motion.div
               aria-hidden="true"
-              className="absolute left-[22px] top-[22px] h-px bg-(--color-signal-soft)"
+              className="absolute left-[22px] top-[22px] h-px bg-(--color-blueprint)"
               initial={false}
               animate={{ width: `calc((100% - 44px) * ${stage / (STAGES.length - 1)})` }}
               transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -90,7 +90,7 @@ export function EngineeringLifecycle() {
                       aria-hidden="true"
                       className={`h-2.5 w-2.5 shrink-0 rounded-full border transition-colors ${
                         stage >= i
-                          ? "border-(--color-signal-soft) bg-(--color-signal-soft)"
+                          ? "border-(--color-amber) bg-(--color-amber)"
                           : "border-(--color-ink-soft) bg-(--color-ink)"
                       }`}
                     />
@@ -183,9 +183,9 @@ function LifecycleDrawing({ stage, reduceMotion }: { stage: number; reduceMotion
         <rect x={310} y={150} width={60} height={24} />
       </motion.g>
 
-      {/* Install — cobalt/gold system lines trace through the frame */}
+      {/* Install — blueprint system lines trace through the frame */}
       <motion.g
-        stroke="var(--color-signal-soft)"
+        stroke="var(--color-blueprint)"
         strokeWidth={2}
         fill="none"
         initial={false}
@@ -239,7 +239,7 @@ function LifecycleDrawing({ stage, reduceMotion }: { stage: number; reduceMotion
         x={120}
         y={395}
         height={2}
-        fill="var(--color-signal-soft)"
+        fill="var(--color-blueprint)"
         initial={false}
         animate={{ width: 400 * progress }}
         transition={transition}
