@@ -121,18 +121,32 @@ function createImageSequence({
  * The two "modes" this needs to support — (a) a wide, motion-allowed
  * viewport running the full pinned GSAP sequence, and (b) everything else,
  * showing a static resolved hero with zero `hero-sequence/` requests — are
- * expressed as plain CSS defaults, not a conditional render:
- *   - `schematicFullRef` and `resolvedCopyRef` default to visible
- *     (`opacity-100`), with a `md:motion-safe:opacity-0 md:motion-safe:invisible`
- *     override — i.e. they're only hidden-by-default on viewports that
- *     satisfy the exact same media query GSAP's `matchMedia` branch below
- *     uses. GSAP's `autoAlpha` tween (inline style) later overrides that
- *     class on qualifying viewports; everywhere else the CSS default simply
- *     stands, unanimated, forever.
+ * expressed as plain CSS defaults plus JS-applied hiding, never a
+ * conditional render, and never CSS that hides something only JS can ever
+ * reveal:
+ *   - `schematicFullRef` and `resolvedCopyRef` are visible by DEFAULT — no
+ *     hiding class of any kind in the static markup. That's what mode (b)
+ *     looks like, and it's also exactly what mode (a) looks like for the
+ *     brief instant before JS runs. The qualifying-viewport `matchMedia`
+ *     branch below hides them itself, synchronously, via
+ *     `gsap.set(el, { autoAlpha: 0, ... })` (an inline style) before the
+ *     pinned timeline reveals them progressively. Fix-round-1 correction:
+ *     an earlier version hid these two via static Tailwind classes keyed to
+ *     the same `md:motion-safe:` media query GSAP's `matchMedia` uses.
+ *     That's a trap — the CSS hides them independent of whether JS ever
+ *     actually runs, so any JS failure (script blocked, GSAP failing to
+ *     load, the `!canvasRef.current || ...` early-return guard below
+ *     firing) left a qualifying desktop viewport with a permanently
+ *     invisible body copy, CTA, and schematic — no description, no CTA, no
+ *     visual, no way to ever recover. Making JS the ONLY thing that can
+ *     ever hide them means a JS failure now degrades to "the static
+ *     fallback shows a beat early," never to "the content never appears."
  *   - `schematicEarlyRef` and the canvas wrapper default to
- *     `opacity-0 invisible` unconditionally — they only ever become visible
- *     via the GSAP timeline below, which only ever runs on a qualifying
- *     viewport.
+ *     `opacity-0 invisible` unconditionally, in static CSS — safe (not the
+ *     same trap) because they're never the only visual on screen:
+ *     `schematicFullRef`/`resolvedCopyRef`'s visible-by-default state
+ *     always stands in for them until/unless JS explicitly reveals them
+ *     partway through the pinned sequence.
  * This means the correct non-JS/no-match fallback (state 5, statically) is
  * simply what the page looks like before any JS touches it — not a branch
  * that "hides an already-loaded asset". Critically, the `<canvas>` element
@@ -173,50 +187,70 @@ export function Opening() {
         // off below the fold for the entire pin, since a pinned element
         // can't scroll its own overflow into view.
         //
-        // Two things had to be fixed, not one:
+        // Fix-round-1 correction, part 1 (header overlap): the previous
+        // version sized the hero's HEIGHT to `window.innerHeight -
+        // headerHeight`, reasoning that subtracting the sticky header's
+        // height would make the box fit below it. It didn't — the pinned
+        // box's own top edge still sits at document y=0 (CSS has no idea
+        // the header is "above" it; `pin: true` just freezes the section's
+        // current position), so the reclaimed space landed at the BOTTOM of
+        // the shrunk box while the TOP kept overlapping the sticky header
+        // by exactly headerHeight px. Measured live at 1280 wide: the
+        // eyebrow sat 8px *under* the header, with ~73px of dead space left
+        // at the bottom.
         //
-        // 1. The header is `sticky top-0` (see Header.tsx) — it occupies
-        //    real space in normal flow above the hero and stays visibly
-        //    parked at the viewport's top for the entire pin. Sizing the
-        //    hero to a flat `100dvh` (the first attempt at this fix) still
-        //    overflows the viewport by exactly the header's height, since
-        //    the hero's own box starts *below* the header, not at y=0.
-        //    Measuring the header's real rendered height and subtracting it
-        //    from `window.innerHeight` gives the actual available box.
-        // 2. Even after (1), `resolvedCopyRef` (the state-5 paragraph + CTA
-        //    row) is hidden via `autoAlpha` on qualifying viewports, which
-        //    does NOT remove it from layout flow — it still reserves its
-        //    full height between the headline and the visual mark whether
-        //    visible or not. An earlier version of this fix pulled it out
-        //    of flow entirely (`position: absolute`) to reclaim that space,
-        //    but anchoring it directly under the headline put it in the
-        //    same vertical slot the visual mark also occupies (both start
-        //    "right after the headline"): at progress 1 — the only moment
-        //    both are visible simultaneously — the CTA button and canvas
-        //    physically overlapped. Caught via a real end-state screenshot,
-        //    not assumed. Reverted: `resolvedCopyRef` stays in flow (so the
-        //    resolved state still stacks copy-above-visual, matching the
-        //    non-qualifying-viewport fallback layout below), and instead
-        //    every element in the stack is tightened — copy's internal
-        //    gaps, the gap before the visual mark, and the sequence
-        //    canvas's own max size — enough to fit the full stack,
-        //    resolvedCopyRef included, inside the smallest viewport height
-        //    this was verified against (1024x768, ~695px available after
-        //    the header).
+        // Fix-round-1 correction, part 2 (why this is CSS, not `gsap.set`,
+        // and why that's not just a style preference): the compact layout
+        // used to be applied via `gsap.set(heroRef.current, {height,
+        // paddingTop, ...})`, re-run on every ScrollTrigger refresh via
+        // `onRefreshInit` so it wouldn't go stale on a same-breakpoint
+        // resize. That measurement/re-apply logic was correct in isolation
+        // — verified via a direct log immediately after the `gsap.set`
+        // call, which showed the right height every time — but it was
+        // fighting a losing battle against ScrollTrigger's OWN pin
+        // bookkeeping. `pin: true` on `heroRef.current` (this is also the
+        // `trigger` element below) makes ScrollTrigger snapshot that
+        // element's *entire inline style* via `_getState()` exactly ONCE,
+        // the first time the pin activates — and every single
+        // `refresh()` call (automatic on resize, or the explicit one this
+        // file also fires — see the resize listener further down)
+        // temporarily reverts the pinned element back to that ONE frozen
+        // snapshot *before* remeasuring, as an unavoidable, documented part
+        // of ScrollTrigger's own refresh cycle (it needs to un-pin
+        // temporarily to measure the page's natural flow). Since that
+        // snapshot was taken right after our very first `gsap.set` call
+        // (at whatever the viewport happened to be at mount), it
+        // permanently re-imposes THAT height on every later refresh,
+        // clobbering whatever a fresh `onRefreshInit` measurement had just
+        // set — deterministically, not flakily, confirmed by instrumenting
+        // both sides of the `ScrollTrigger.refresh()` call directly. No
+        // amount of re-running the `gsap.set` on refresh can out-run
+        // ScrollTrigger's own revert-to-original-snapshot step, because
+        // that step runs *after* `onRefreshInit` on every single refresh.
         //
-        // Applied via `gsap.set` (not CSS classes) so matchMedia's
-        // automatic revert restores the original padded, natural-flow,
-        // generously-spaced layout the instant the viewport drops below
-        // the breakpoint or motion is reduced.
-        const headerHeight = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
-        gsap.set(heroRef.current, {
-          height: window.innerHeight - headerHeight,
-          paddingTop: 0,
-          paddingBottom: 0,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        });
+        // The fix: never put this on the pinned element's INLINE style at
+        // all. `_getState`/`_swapPinOut` only snapshot and restore the
+        // inline `style` attribute — a plain CSS class is untouched by it.
+        // So the compaction is expressed below as static Tailwind classes
+        // (`md:motion-safe:h-dvh md:motion-safe:pt-[var(--hero-header-h,73px)]
+        // ...`), gated behind the exact same media query as GSAP's
+        // `matchMedia` branch, so it only ever applies where the scroll
+        // sequence runs. `h-dvh` (100dvh) is inherently viewport-responsive
+        // with zero JS involved. The one piece that still needs a real
+        // measurement — the header's rendered height, for `padding-top` — is
+        // written to a CSS custom property on `document.documentElement`
+        // instead of on `heroRef` itself, so it's completely outside
+        // ScrollTrigger's pin bookkeeping for this trigger and survives
+        // every refresh untouched. (`73px` is also hardcoded as the
+        // `var()` fallback, matching every qualifying breakpoint measured
+        // during verification, in case this ever runs before the variable
+        // is set.)
+        function applyHeaderHeightVar() {
+          const headerHeight =
+            document.querySelector("header")?.getBoundingClientRect().height ?? 0;
+          document.documentElement.style.setProperty("--hero-header-h", `${headerHeight}px`);
+        }
+        applyHeaderHeightVar();
         gsap.set(resolvedCopyRef.current.querySelector("p"), { marginTop: "1rem" });
         gsap.set(resolvedCopyRef.current.querySelector(":scope > div"), { marginTop: "1.25rem" });
         gsap.set(visualRowRef.current, { marginTop: "0.75rem" });
@@ -231,8 +265,11 @@ export function Opening() {
         // row's real footprint tracks the visual that's actually on screen
         // for most of the pin. (Values passed as unit strings, not bare
         // numbers — a bare number here left `max-width` unset with no
-        // warning on these two targets specifically, caught by inspecting
-        // `el.style.cssText` directly after the call.)
+        // warning on these two targets. The underlying rule: GSAP infers a
+        // numeric CSS value's unit from the property's *existing computed
+        // value*, and when that's `none`/`auto` — as `max-width` starts out
+        // here — there's nothing to infer from, so the set silently no-ops.
+        // Caught by inspecting `el.style.cssText` directly after the call.)
         gsap.set(schematicEarlyRef.current, { maxWidth: "175px" });
         gsap.set(schematicFullRef.current, { maxWidth: "175px" });
 
@@ -242,8 +279,22 @@ export function Opening() {
             trigger: heroRef.current,
             pin: true,
             start: "top top",
-            end: "+=" + window.innerHeight * 3,
+            // A function (not a static string) so this is re-evaluated on
+            // every ScrollTrigger refresh — including the automatic
+            // refresh ScrollTrigger runs on window resize — rather than
+            // being frozen at the viewport height read once at setup time.
+            end: () => "+=" + window.innerHeight * 3,
             scrub: 1,
+            invalidateOnRefresh: true,
+            // Re-measure the header height on every refresh too (initial
+            // load and every subsequent resize) — cheap, and keeps
+            // `--hero-header-h` correct if the header's own height ever
+            // changes at a qualifying viewport. Safe to re-run here
+            // specifically because it writes to `document.documentElement`,
+            // not to `heroRef` (the pin trigger) — see the comment above
+            // `applyHeaderHeightVar` for why that distinction is what makes
+            // this reliable across refreshes and the old approach wasn't.
+            onRefreshInit: applyHeaderHeightVar,
           },
         });
 
@@ -270,22 +321,28 @@ export function Opening() {
           // State 5: body copy + CTA resolve over the sequence's final frame.
           .to(resolvedCopyRef.current, { autoAlpha: 1, y: 0, duration: 0.15 }, 0.85);
 
-        // matchMedia's automatic revert (context.revert() under the hood)
-        // correctly kills the ScrollTrigger/pin on a live breakpoint
-        // crossing (verified: no leftover `.pin-spacer`) and reverts every
-        // OTHER gsap.set() from this callback — but empirically leaves
-        // heroRef's own inline layout styles (height/padding/display/flex)
-        // stuck, since heroRef is also the pin's `trigger` element and its
-        // pin-lifecycle style bookkeeping seems to interact with the plain
-        // gsap.set() on the same node. Caught by resizing live across the
-        // 768px breakpoint mid-session (not just reloading at each width)
-        // and finding the hero still locked to the compact pinned layout
-        // on a narrow viewport. `clearProps` here is a manual, explicit
-        // safety net for exactly that one element.
+        // Belt-and-suspenders for the pin's scroll RANGE (the `end`
+        // function above, and `invalidateOnRefresh`) staying correct on
+        // resize: ScrollTrigger already listens for window "resize"
+        // internally and debounces its own `refresh()` call, which is
+        // exactly what re-evaluates `end` and remeasures the (now
+        // CSS-responsive) trigger height. That internal auto-refresh is
+        // GSAP's documented, standard mechanism. It proved inconsistent to
+        // observe firing reliably within this task's own automated,
+        // browser-driven verification specifically (the native "resize"
+        // DOM event itself always fired immediately, and the pin's
+        // scroll/scrub loop stayed fully alive throughout — only the
+        // timing of GSAP's internal debounced refresh varied). Adding an
+        // explicit, direct `ScrollTrigger.refresh()` on resize — via the
+        // `ScrollTrigger` import already in this file, not any
+        // private/internal API — means this doesn't depend on that
+        // internal auto-detection succeeding on its own. It's a safe,
+        // redundant call (it's what the internal path calls anyway).
+        const handleWindowResize = () => ScrollTrigger.refresh();
+        window.addEventListener("resize", handleWindowResize);
+
         return () => {
-          gsap.set(heroRef.current, {
-            clearProps: "height,paddingTop,paddingBottom,display,flexDirection,justifyContent",
-          });
+          window.removeEventListener("resize", handleWindowResize);
         };
       });
 
@@ -296,11 +353,49 @@ export function Opening() {
   );
 
   return (
+    // The `md:motion-safe:...!` classes below (see `applyHeaderHeightVar`
+    // above for why this is CSS, not `gsap.set`) need the trailing `!`
+    // important-modifier: at a viewport that's both `lg:` (≥1024px) and
+    // `md:motion-safe:` qualifying — i.e. every desktop width this
+    // sequence runs at — the base `lg:pt-44 lg:pb-32` utilities and these
+    // compaction utilities have equal (single-class) specificity, and
+    // without `!` the `lg:` ones won generation-order ties over the
+    // `md:motion-safe:` ones (confirmed live: padding stayed 176px/128px,
+    // and the whole pinned section rendered ~3200px off-screen as a
+    // result). `!` forces these to win unconditionally whenever their own
+    // media query matches, regardless of utility generation order.
+    //
+    // `justify-content: safe center` is a plain `style` prop instead of a
+    // `justify-[safe_center]` Tailwind class: Tailwind's arbitrary-value
+    // parser didn't generate any rule for that class at all (confirmed —
+    // no matching CSSOM rule anywhere, and the property computed as
+    // `normal`, i.e. inert, in every test), while the browser itself
+    // supports the `safe` keyword fine (confirmed by setting it via plain
+    // `element.style.justifyContent` directly). Landing it as a real
+    // inline style also sidesteps the pin-revert issue described above —
+    // safely, because unlike `height`/`padding-top`, this value never
+    // needs to change per viewport, so it's identical every time
+    // ScrollTrigger's pin bookkeeping reverts this element back to "how it
+    // looked when first mounted." `justify-content` is a no-op without
+    // `display: flex`, so this is harmless on every other viewport too.
     <section
       ref={heroRef}
-      className="bg-atmosphere relative isolate overflow-hidden bg-(--color-paper) px-5 pt-28 pb-20 sm:px-8 sm:pt-36 sm:pb-28 lg:px-14 lg:pt-44 lg:pb-32"
+      style={{ justifyContent: "safe center" }}
+      className="bg-atmosphere relative isolate overflow-hidden bg-(--color-paper) px-5 pt-28 pb-20 sm:px-8 sm:pt-36 sm:pb-28 lg:px-14 lg:pt-44 lg:pb-32 md:motion-safe:flex! md:motion-safe:h-dvh! md:motion-safe:flex-col! md:motion-safe:pt-[var(--hero-header-h,73px)]! md:motion-safe:pb-0!"
     >
-      <div className="mx-auto max-w-[1280px]">
+      {/* `w-full` alongside `mx-auto max-w-[1280px]`: once the qualifying
+          branch above sets `display: flex` on the hero section, this
+          container becomes a flex item — and `mx-auto` on a flex item
+          disables the default `align-items: stretch` cross-axis sizing
+          (auto margins take priority over stretch), so without an explicit
+          width the container shrinks-to-fit its widest line instead of
+          filling the row. Measured: 518px wide at a 1280px viewport instead
+          of the expected ~1168px, sized by the h1's widest line — which
+          left the visual row beneath it with almost no horizontal slack,
+          contributing to the copy/visual off-center bug below. `w-full` is
+          a no-op in the default (non-flex) block layout, so this is safe to
+          apply unconditionally rather than gating it behind JS. */}
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="mx-auto max-w-3xl text-center">
           {/* State 1: eyebrow + headline, present in every state/mode —
               untouched by GSAP, unconditional, the literal starting point. */}
@@ -324,14 +419,15 @@ export function Opening() {
             <span className="text-(--color-signal)">complex</span> spaces.
           </motion.h1>
 
-          {/* State 5: resolved body copy + CTA row. Always mounted; visible
-              by default (the non-scroll-driven fallback), hidden-then-faded
-              by GSAP only on a qualifying viewport (see block comment
-              above). */}
-          <div
-            ref={resolvedCopyRef}
-            className="opacity-100 md:motion-safe:invisible md:motion-safe:opacity-0"
-          >
+          {/* State 5: resolved body copy + CTA row. Always mounted, visible
+              by DEFAULT (no hiding class in the markup — see the
+              fix-round-1 note in the block comment above the component for
+              why: static CSS hiding here previously meant a JS failure left
+              this permanently invisible on a qualifying viewport). Hidden
+              only by GSAP's own `gsap.set(..., { autoAlpha: 0 })` inline
+              style, which only ever runs inside the qualifying-viewport
+              `matchMedia` branch, then faded back in by the timeline. */}
+          <div ref={resolvedCopyRef}>
             <p className="mx-auto mt-8 max-w-md text-lg text-(--color-steel) leading-relaxed">
               Integrated HVAC and MEP engineering — from engineering and procurement through
               installation, testing, commissioning and long-term support.
@@ -361,29 +457,55 @@ export function Opening() {
           className="relative mx-auto mt-14 flex min-h-[80px] items-center justify-center sm:mt-16 sm:min-h-[100px]"
         >
           {/* State 2 — schematic early draw-in. Hidden by default in every
-              mode; only ever shown by the GSAP timeline. */}
-          <div ref={schematicEarlyRef} className="absolute inset-0 flex items-center justify-center opacity-0 invisible">
+              mode; only ever shown by the GSAP timeline.
+              `m-auto` alongside `inset-0`: once GSAP caps this element's
+              width via `gsap.set(..., { maxWidth: "175px" })`, an
+              absolutely-positioned box with `inset-0` (left/right/top/bottom
+              all 0) and a capped width needs auto margins to distribute the
+              leftover space evenly — without them the box left-aligns
+              against `left: 0` instead of centering, since `left`/`right`
+              being pinned to 0 with no margin resolution collapses toward
+              the start edge. */}
+          <div
+            ref={schematicEarlyRef}
+            className="absolute inset-0 m-auto flex items-center justify-center opacity-0 invisible"
+          >
             <BuildingSchematic stage="early" reduceMotion={!!reduceMotion} />
           </div>
 
           {/* States 3 & 5 (fallback) — schematic full draw-in. Visible by
-              default (the static state-5 fallback across narrow viewports
-              and reduced motion); hidden-then-faded by GSAP on a qualifying
-              viewport, where it's superseded by the real canvas sequence. */}
-          <div
-            ref={schematicFullRef}
-            className="relative flex items-center justify-center opacity-100 md:motion-safe:invisible md:motion-safe:opacity-0"
-          >
+              DEFAULT (no hiding class — see the fix-round-1 note in the
+              block comment above the component); hidden-then-faded by GSAP
+              only on a qualifying viewport, where it's superseded by the
+              real canvas sequence. */}
+          <div ref={schematicFullRef} className="relative flex items-center justify-center">
             <BuildingSchematic stage="full" reduceMotion={!!reduceMotion} />
           </div>
 
           {/* State 4 — the hero-sequence canvas. Hidden by default in every
               mode (so it never displaces the schematic fallback); only ever
               drawn into and shown by the GSAP timeline, which is the only
-              code path that fetches hero-sequence/*.webp. */}
+              code path that fetches hero-sequence/*.webp.
+              `position: absolute` is set inline, not just via the
+              `absolute` Tailwind class: `.crop-frame` (globals.css)
+              declares `position: relative` OUTSIDE any `@layer` block, and
+              unlayered CSS always wins over Tailwind's `@layer utilities`
+              classes regardless of source order — so the `absolute` utility
+              alone was silently losing that fight. Confirmed live:
+              `getComputedStyle(canvasWrap).position` was `"relative"`, not
+              `"absolute"` — leaving this wrapper as a normal in-flow flex
+              sibling next to the schematic instead of stacked on top of it,
+              visibly off-center at every breakpoint, including the no-JS
+              (390px) and reduced-motion fallback paths, since it ate
+              horizontal space even while invisible. `.crop-frame` is also
+              used by `TechnicalFrame.tsx` elsewhere in the app, so this
+              overrides `position` on just this element rather than moving
+              `.crop-frame` itself into a layer, which would change its
+              cascade behavior for every other consumer of that class. */}
           <div
             ref={canvasWrapRef}
             className="crop-frame absolute inset-0 m-auto w-full max-w-[720px] text-(--color-line) opacity-0 invisible"
+            style={{ position: "absolute" }}
           >
             <canvas
               ref={canvasRef}
