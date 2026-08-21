@@ -18,7 +18,7 @@ export async function Footer() {
       <Container className="py-16 lg:py-20">
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-x-6 gap-y-12">
           <div className="col-span-2 lg:col-span-2 pr-6">
-            <span className="font-display text-3xl font-bold">{siteSettings.brandName}</span>
+            <span className="font-display text-3xl font-normal italic">{siteSettings.brandName}</span>
             <p className="mt-3 font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
               {siteSettings.tagline}
             </p>

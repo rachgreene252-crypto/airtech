@@ -106,7 +106,7 @@ function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void
   return (
     <div className="fixed inset-0 z-50 bg-(--color-paper) xl:hidden overflow-y-auto">
       <div className="flex items-center justify-between px-5 py-4 border-b border-(--color-line)">
-        <span className="font-display text-xl font-bold">Menu</span>
+        <span className="font-display text-xl font-normal">Menu</span>
         <button
           type="button"
           aria-label="Close menu"
