@@ -44,115 +44,115 @@ export function SystemsReveal() {
     step === 0 ? "One building." : step === total ? "One engineering partner." : "Many systems.";
 
   return (
-    <Section tone="ink" border={false} className="overflow-hidden">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
-        <div>
-          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
-            Systems — 02
-          </p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-paper) text-balance">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={headline}
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="block"
-              >
-                {headline}
-              </motion.span>
-            </AnimatePresence>
-          </h2>
-          <p className="mt-5 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel-soft)">
-            These aren&apos;t six contractors&apos; scopes stitched together after the fact.
-            Airtech engineers and executes every system as one coordinated delivery, sharing
-            the same risers and plant rooms.
-          </p>
-
-          {/* Stepper — the accessible, non-animated fallback and the primary control. */}
-          <ol className="mt-10 flex flex-wrap gap-2" role="list">
-            <li>
-              <button
-                type="button"
-                onClick={() => setStep(0)}
-                aria-current={step === 0}
-                className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
-                  step === 0
-                    ? "border-(--color-signal) text-(--color-paper)"
-                    : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
-                }`}
-              >
-                Building
-              </button>
-            </li>
-            {ZONES.map((zone, i) => (
-              <li key={zone.slug}>
-                <button
-                  type="button"
-                  onClick={() => setStep(i + 1)}
-                  aria-current={step === i + 1}
-                  className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
-                    step >= i + 1
-                      ? "border-(--color-signal) text-(--color-paper)"
-                      : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
-                  }`}
-                >
-                  {zone.disciplineCode}
-                </button>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-6 flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setStep((s) => Math.max(0, s - 1))}
-              disabled={step === 0}
-              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
-            >
-              ← Prev
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep((s) => Math.min(total, s + 1))}
-              disabled={step === total}
-              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
-            >
-              Next →
-            </button>
-          </div>
-
+    <Section tone="paper" border={false} className="overflow-hidden">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
+          Systems — 02
+        </p>
+        <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
           <AnimatePresence mode="wait">
-            {activeZone && (
-              <motion.div
-                key={activeZone.slug}
-                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-8 border-t border-(--color-ink-soft) pt-6"
-              >
-                <h3 className="font-display text-xl font-semibold text-(--color-paper)">{activeZone.name}</h3>
-                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-(--color-paper)/75">
-                  {activeZone.systems.map((s) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/expertise/${activeZone.slug}`}
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-signal-soft) hover:text-(--color-signal) transition-colors"
-                >
-                  Explore {activeZone.name}
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </motion.div>
-            )}
+            <motion.span
+              key={headline}
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="block"
+            >
+              {headline}
+            </motion.span>
           </AnimatePresence>
-        </div>
+        </h2>
+        <p className="mx-auto mt-5 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel)">
+          These aren&apos;t six contractors&apos; scopes stitched together after the fact.
+          Airtech engineers and executes every system as one coordinated delivery, sharing
+          the same risers and plant rooms.
+        </p>
+      </div>
 
+      {/* Stepper — the accessible, non-animated fallback and the primary control. */}
+      <ol className="mt-10 flex flex-wrap justify-center gap-2" role="list">
+        <li>
+          <button
+            type="button"
+            onClick={() => setStep(0)}
+            aria-current={step === 0}
+            className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+              step === 0
+                ? "border-(--color-signal) text-(--color-ink)"
+                : "border-(--color-line-strong) text-(--color-steel-soft) hover:border-(--color-signal-soft)"
+            }`}
+          >
+            Building
+          </button>
+        </li>
+        {ZONES.map((zone, i) => (
+          <li key={zone.slug}>
+            <button
+              type="button"
+              onClick={() => setStep(i + 1)}
+              aria-current={step === i + 1}
+              className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                step >= i + 1
+                  ? "border-(--color-signal) text-(--color-ink)"
+                  : "border-(--color-line-strong) text-(--color-steel-soft) hover:border-(--color-signal-soft)"
+              }`}
+            >
+              {zone.disciplineCode}
+            </button>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-6 flex items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={() => setStep((s) => Math.max(0, s - 1))}
+          disabled={step === 0}
+          className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-ink) disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        >
+          ← Prev
+        </button>
+        <button
+          type="button"
+          onClick={() => setStep((s) => Math.min(total, s + 1))}
+          disabled={step === total}
+          className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-ink) disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        >
+          Next →
+        </button>
+      </div>
+
+      <div className="mx-auto mt-12 max-w-[720px]">
         <BuildingDiagram step={step} reduceMotion={!!reduceMotion} />
       </div>
+
+      <AnimatePresence mode="wait">
+        {activeZone && (
+          <motion.div
+            key={activeZone.slug}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mx-auto mt-8 max-w-md border-t border-(--color-line) pt-6 text-center"
+          >
+            <h3 className="font-display text-xl font-semibold text-(--color-ink)">{activeZone.name}</h3>
+            <ul className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm text-(--color-ink)/75">
+              {activeZone.systems.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+            <Link
+              href={`/expertise/${activeZone.slug}`}
+              className="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-medium text-(--color-signal-soft) hover:text-(--color-signal) transition-colors"
+            >
+              Explore {activeZone.name}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   );
 }
@@ -189,7 +189,7 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
         width={BUILDING_RIGHT - BUILDING_LEFT}
         height={BUILDING_BOTTOM - BUILDING_TOP}
         fill="url(#building-glass)"
-        stroke="var(--color-steel-soft)"
+        stroke="var(--color-blueprint)"
         strokeWidth={1.25}
       />
       {/* Roofline parapet detail */}
@@ -198,11 +198,11 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
         y1={BUILDING_TOP}
         x2={BUILDING_RIGHT + 6}
         y2={BUILDING_TOP}
-        stroke="var(--color-steel-soft)"
+        stroke="var(--color-blueprint)"
         strokeWidth={2.5}
       />
       {FLOOR_YS.map((y) => (
-        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-ink-soft)" strokeWidth={1} opacity={0.7} />
+        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-blueprint)" strokeWidth={1} opacity={0.7} />
       ))}
 
       {services
