@@ -33,7 +33,7 @@ export function HVACSpotlight() {
           <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
             System Spotlight — 04
           </p>
-          <h2 className="mt-4 font-display text-5xl sm:text-6xl font-semibold leading-[0.95] text-balance">
+          <h2 className="mt-4 font-display text-5xl sm:text-6xl font-normal leading-[0.95] text-balance">
             HVAC.
           </h2>
           <p className="mt-3 font-display text-xl text-(--color-blueprint)">Engineered for scale.</p>

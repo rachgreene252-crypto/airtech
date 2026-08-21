@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Manrope, Geist_Mono } from "next/font/google";
+import { Geist, Instrument_Serif, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Manrope: display face for headlines and figures. Wide open proportions and
-// metric-matched fallback enable "swap" without visible reflow.
-const displayFont = Manrope({
+// Instrument Serif: display face for headlines and figures. Single-weight
+// (400) serif with normal + italic styles.
+const displayFont = Instrument_Serif({
   variable: "--font-display-face",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 

@@ -13,7 +13,7 @@ export function PartnersStrip() {
       <div className="mt-8 flex flex-wrap gap-x-16 gap-y-8">
         {partners.map((partner) => (
           <div key={partner.id}>
-            <p className="font-display text-2xl font-semibold text-(--color-ink)">{partner.name}</p>
+            <p className="font-display text-2xl font-normal text-(--color-ink)">{partner.name}</p>
             <p className="mt-1 text-sm text-(--color-steel)">{partner.relationshipNote}</p>
           </div>
         ))}

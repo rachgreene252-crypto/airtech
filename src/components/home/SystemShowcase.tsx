@@ -102,7 +102,7 @@ export function SystemShowcase() {
                 <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-blueprint)">
                   {panel.index} — {service.disciplineCode}
                 </p>
-                <h3 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-balance">
+                <h3 className="mt-4 font-display text-4xl sm:text-5xl font-normal leading-[0.98] text-balance">
                   {service.name}
                 </h3>
                 <p className="mt-6 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel)">

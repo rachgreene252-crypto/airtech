@@ -36,7 +36,7 @@ export function IndustryJourney() {
       <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
         Industries — 05
       </p>
-      <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-ink) text-balance max-w-2xl">
+      <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-normal leading-[0.98] text-(--color-ink) text-balance max-w-2xl">
         Built around what each sector actually needs.
       </h2>
 
@@ -79,7 +79,7 @@ export function IndustryJourney() {
             exit={reduceMotion ? undefined : { opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-(--color-ink) text-balance">
+            <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-normal text-(--color-ink) text-balance">
               {industry.name}
             </h3>
             <p className="mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-(--color-ink-soft)">

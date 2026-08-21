@@ -33,7 +33,7 @@ export function DataMoments() {
                 aria-hidden="true"
                 className="absolute left-5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-(--color-heritage) sm:left-8 lg:left-12"
               />
-              <h3 className="font-display text-[16vw] sm:text-8xl lg:text-9xl font-bold leading-none tracking-tight text-(--color-ink)">
+              <h3 className="font-display text-[16vw] sm:text-8xl lg:text-9xl font-normal leading-none tracking-tight text-(--color-ink)">
                 {m.mark}
               </h3>
               <p className="font-mono text-sm sm:text-base tracking-[0.08em] uppercase text-(--color-blueprint)">

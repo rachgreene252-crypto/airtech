@@ -53,7 +53,7 @@ export function EngineeringLifecycle() {
       <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-blueprint)">
         Delivery — 06
       </p>
-      <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-paper) text-balance max-w-2xl">
+      <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-normal leading-[0.98] text-(--color-paper) text-balance max-w-2xl">
         One team, start to finish.
       </h2>
       <p className="mt-5 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel-soft)">
@@ -117,7 +117,7 @@ export function EngineeringLifecycle() {
               transition={{ duration: 0.3 }}
               className="mt-8 border-t border-(--color-ink-soft) pt-6"
             >
-              <h3 className="font-display text-2xl font-semibold text-(--color-paper)">
+              <h3 className="font-display text-2xl font-normal text-(--color-paper)">
                 {STAGES[stage].label}
               </h3>
               <p className="mt-2 max-w-sm text-sm text-(--color-paper)/75 leading-relaxed">

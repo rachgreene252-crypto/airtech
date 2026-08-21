@@ -10,7 +10,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-(--color-line) bg-(--color-paper)/95 backdrop-blur supports-backdrop-blur:bg-(--color-paper)/80">
       <Container className="flex h-18 items-center justify-between gap-6 py-3">
         <Link href="/" className="flex items-baseline gap-2 shrink-0">
-          <span className="font-display text-2xl font-bold tracking-tight leading-none">
+          <span className="font-display text-2xl font-normal italic tracking-tight leading-none">
             {siteSettings.brandName}
           </span>
           <span className="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-(--color-steel)">

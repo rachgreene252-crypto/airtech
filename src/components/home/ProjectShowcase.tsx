@@ -46,7 +46,7 @@ export function ProjectShowcase() {
                 <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
                   Projects — 04
                 </p>
-                <h2 className="mt-4 font-display text-3xl sm:text-4xl font-semibold leading-[0.98] text-(--color-paper) max-w-xl text-balance">
+                <h2 className="mt-4 font-display text-3xl sm:text-4xl font-normal leading-[0.98] text-(--color-paper) max-w-xl text-balance">
                   Selected work.
                 </h2>
               </div>
@@ -57,7 +57,7 @@ export function ProjectShowcase() {
                 <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
                   {String(i + 1).padStart(2, "0")} — {industry?.name ?? project.projectType}
                 </p>
-                <h3 className="mt-4 max-w-3xl font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] text-(--color-paper) text-balance">
+                <h3 className="mt-4 max-w-3xl font-display text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.95] text-(--color-paper) text-balance">
                   {project.name}
                 </h3>
 

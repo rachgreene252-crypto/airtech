@@ -49,7 +49,7 @@ export function SystemsReveal() {
         <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
           Systems — 02
         </p>
-        <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
+        <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-normal leading-[0.98] text-(--color-ink) text-balance">
           <AnimatePresence mode="wait">
             <motion.span
               key={headline}
@@ -137,7 +137,7 @@ export function SystemsReveal() {
             transition={{ duration: 0.3 }}
             className="mx-auto mt-8 max-w-md border-t border-(--color-line) pt-6 text-center"
           >
-            <h3 className="font-display text-xl font-semibold text-(--color-ink)">{activeZone.name}</h3>
+            <h3 className="font-display text-xl font-normal text-(--color-ink)">{activeZone.name}</h3>
             <ul className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm text-(--color-ink)/75">
               {activeZone.systems.map((s) => (
                 <li key={s}>{s}</li>

@@ -9,7 +9,7 @@ export function FinalCTA() {
         <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
           Have a project in planning?
         </p>
-        <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold max-w-3xl mx-auto text-balance">
+        <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-normal max-w-3xl mx-auto text-balance">
           Bring the engineering scope to us before the RFP does.
         </h2>
         <p className="mt-6 text-lg text-(--color-steel) max-w-xl mx-auto">
