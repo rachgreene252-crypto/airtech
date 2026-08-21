@@ -17,8 +17,8 @@ export function Opening() {
 
   return (
     <section className="relative overflow-hidden bg-(--color-paper) px-5 pt-28 pb-20 sm:px-8 sm:pt-36 sm:pb-28 lg:px-14 lg:pt-44 lg:pb-32">
-      <div className="mx-auto grid max-w-[1440px] gap-16 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-        <div>
+      <div className="mx-auto max-w-[1280px]">
+        <div className="mx-auto max-w-3xl text-center">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -32,7 +32,7 @@ export function Opening() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 max-w-2xl font-display text-6xl sm:text-7xl lg:text-8xl font-bold leading-[0.92] text-(--color-ink) text-balance"
+            className="mx-auto mt-6 max-w-2xl font-display text-6xl sm:text-7xl lg:text-8xl font-bold leading-[0.92] text-(--color-ink) text-balance"
           >
             Engineering
             <br />
@@ -43,7 +43,7 @@ export function Opening() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 max-w-md text-lg text-(--color-steel) leading-relaxed"
+            className="mx-auto mt-8 max-w-md text-lg text-(--color-steel) leading-relaxed"
           >
             Integrated HVAC and MEP engineering — from engineering and procurement through
             installation, testing, commissioning and long-term support.
@@ -53,7 +53,7 @@ export function Opening() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap items-center gap-6"
+            className="mt-10 flex flex-wrap items-center justify-center gap-6"
           >
             <ButtonLink href="/contact/project-enquiry" size="lg">
               Discuss Your Project
@@ -88,7 +88,7 @@ function BuildingSchematic({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <motion.svg
       viewBox="0 0 420 460"
-      className="mx-auto w-full max-w-[320px] lg:max-w-none"
+      className="mx-auto mt-14 w-full max-w-[200px] sm:mt-16 sm:max-w-[240px]"
       role="img"
       aria-label="Line drawing of a building elevation with engineering system markers"
       initial={{ opacity: 0 }}
