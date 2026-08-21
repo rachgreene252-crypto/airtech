@@ -16,7 +16,7 @@ export function Opening() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-(--color-paper) px-5 pt-28 pb-20 sm:px-8 sm:pt-36 sm:pb-28 lg:px-14 lg:pt-44 lg:pb-32">
+    <section className="bg-atmosphere relative isolate overflow-hidden bg-(--color-paper) px-5 pt-28 pb-20 sm:px-8 sm:pt-36 sm:pb-28 lg:px-14 lg:pt-44 lg:pb-32">
       <div className="mx-auto max-w-[1280px]">
         <div className="mx-auto max-w-3xl text-center">
           <motion.p

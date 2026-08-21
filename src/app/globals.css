@@ -161,6 +161,28 @@ body {
   border-color: var(--color-line);
 }
 
+/* Hero background-atmosphere: a single soft, large-radius radial tint that
+   keeps the hero from reading as flat white, without becoming a visible
+   "glow." Reuses --color-blueprint-soft (the same cool accent already used
+   for highlights/tints elsewhere) at low opacity via color-mix — no new
+   colors. Lives on a ::before pseudo-element, absolutely positioned and
+   pushed to the back of the hero's own isolated stacking context (paired
+   with the `isolate` utility on the section) so it never competes with
+   content and stays furthest back for any canvas layer added in a later
+   task. Adds no layout size and is inert to pointer events. */
+.bg-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    ellipse 65% 48% at 50% -20%,
+    color-mix(in srgb, var(--color-blueprint-soft) 22%, transparent),
+    transparent 70%
+  );
+}
+
 .text-balance {
   text-wrap: balance;
 }
