@@ -1,0 +1,275 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
+
+/**
+ * Section 02 — Hero. Replaces the short looping hero video with a GSAP
+ * ScrollTrigger canvas frame-sequence built from the supplied
+ * ASSETS/hero-frames set (240 frames, pre-optimized to WebP at build time
+ * into public/images/hero/frames-desktop and a decimated 80-frame
+ * public/images/hero/frames-mobile for small screens — see the sibling
+ * conversion notes in memory; frames are never loaded as raw 2MB+ PNGs at
+ * runtime).
+ *
+ * The supplied frames are a near-static architectural line-art backdrop
+ * that, from roughly frame 35 onward, has a generic "MEP" roundel baked
+ * into the pixels — not Airtech's actual mark. Per the brief's explicit
+ * "use the actual Airtech logo asset, do not generate/redraw a replacement"
+ * rule, that baked-in badge is never allowed to reach the screen: the real
+ * wordmark (public/images/brand/airtech-logo.png) is drawn on the canvas
+ * every frame, centered in the same screen region, at zero opacity until
+ * the badge would start appearing and full opacity from there on — so the
+ * real logo always occludes the placeholder one, and the reveal beat still
+ * lands where the source sequence intends it.
+ *
+ * Loading strategy: frame Images are created upfront but their `src` is
+ * only assigned progressively (frame 0 first for instant paint, the rest
+ * with limited concurrency) — canvas draws always clamp to the highest
+ * contiguously-loaded frame, so scrubbing ahead of the network never shows
+ * a blank frame, it just holds the last available one.
+ */
+const DESKTOP_FRAME_COUNT = 240;
+const MOBILE_FRAME_NUMBERS = Array.from({ length: 80 }, (_, i) => 1 + i * 3);
+const MOBILE_BREAKPOINT = 768;
+const LOGO_FADE_START = 0.28;
+const LOGO_FADE_END = 0.52;
+
+function pad3(n: number) {
+  return String(n).padStart(3, "0");
+}
+
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
+
+export function CinematicHero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    if (!section || !canvas) return;
+
+    const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
+    const total = isMobile ? MOBILE_FRAME_NUMBERS.length : DESKTOP_FRAME_COUNT;
+    const frameSrc = (i: number) =>
+      isMobile
+        ? `/images/hero/frames-mobile/frame_${pad3(MOBILE_FRAME_NUMBERS[i])}.webp`
+        : `/images/hero/frames-desktop/frame_${pad3(i + 1)}.webp`;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const images: HTMLImageElement[] = new Array(total);
+    const loaded: boolean[] = new Array(total).fill(false);
+    const loadedUpToRef = { current: 0 };
+    let cancelled = false;
+
+    function markLoaded(i: number) {
+      loaded[i] = true;
+      let p = loadedUpToRef.current;
+      while (p < total && loaded[p]) p++;
+      loadedUpToRef.current = p;
+      if (i === 0) draw();
+    }
+
+    function loadFrame(i: number) {
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => !cancelled && markLoaded(i);
+      img.onerror = () => !cancelled && markLoaded(i);
+      img.src = frameSrc(i);
+      images[i] = img;
+    }
+
+    // Frame 0 first for instant paint, then the rest with modest concurrency
+    // so the network doesn't starve whichever frame the visitor scrubs to.
+    loadFrame(0);
+    let next = 1;
+    const CONCURRENCY = 6;
+    function pump() {
+      if (cancelled) return;
+      while (next < total && next < loadedUpToRef.current + CONCURRENCY + 1) {
+        loadFrame(next);
+        next++;
+      }
+      if (next < total) requestAnimationFrame(pump);
+    }
+    pump();
+
+    const logo = new Image();
+    logo.src = "/images/brand/airtech-logo.png";
+    let logoReady = false;
+    logo.onload = () => {
+      logoReady = true;
+    };
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let cssW = 0;
+    let cssH = 0;
+
+    function resize() {
+      if (!section || !canvas) return;
+      cssW = section.clientWidth;
+      cssH = section.clientHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = cssW * dpr;
+      canvas.height = cssH * dpr;
+      canvas.style.width = `${cssW}px`;
+      canvas.style.height = `${cssH}px`;
+      draw();
+    }
+
+    let currentIndex = 0;
+    let currentProgress = 0;
+
+    function draw() {
+      if (!ctx || cssW === 0 || cssH === 0) return;
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, cssW, cssH);
+
+      const drawIndex = Math.min(currentIndex, Math.max(0, loadedUpToRef.current - 1));
+      const img = images[drawIndex];
+      if (img && img.complete && img.naturalWidth > 0) {
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        const canvasRatio = cssW / cssH;
+        let drawW: number, drawH: number, offsetX: number, offsetY: number;
+        if (imgRatio > canvasRatio) {
+          drawH = cssH;
+          drawW = drawH * imgRatio;
+          offsetX = (cssW - drawW) / 2;
+          offsetY = 0;
+        } else {
+          drawW = cssW;
+          drawH = drawW / imgRatio;
+          offsetX = 0;
+          offsetY = (cssH - drawH) / 2;
+        }
+        ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+      } else {
+        ctx.fillStyle = "#eef2f6";
+        ctx.fillRect(0, 0, cssW, cssH);
+      }
+
+      const logoAlpha = smoothstep(LOGO_FADE_START, LOGO_FADE_END, currentProgress);
+      if (logoReady && logoAlpha > 0.01) {
+        const targetW = Math.min(420, cssW * 0.4);
+        const targetH = targetW * (logo.naturalHeight / logo.naturalWidth);
+        const scale = 0.94 + 0.06 * logoAlpha;
+        const w = targetW * scale;
+        const h = targetH * scale;
+        const x = (cssW - w) / 2;
+        const y = (cssH - h) / 2;
+        ctx.globalAlpha = logoAlpha;
+        ctx.drawImage(logo, x, y, w, h);
+        ctx.globalAlpha = logoAlpha * 0.6;
+        ctx.fillStyle = "#00729b";
+        ctx.fillRect(x, y + h + 18, w, 1);
+        ctx.globalAlpha = 1;
+      }
+
+      ctx.restore();
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    let scrollTriggerInstance: { kill: () => void } | undefined;
+    let ctxGsap: { revert: () => void } | undefined;
+
+    (async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
+
+      ctxGsap = gsap.context(() => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: `+=${pinDistance}`,
+          pin: true,
+          scrub: 0.35,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            currentProgress = self.progress;
+            currentIndex = Math.min(total - 1, Math.round(self.progress * (total - 1)));
+            if (indicatorRef.current) {
+              indicatorRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 6));
+            }
+            draw();
+          },
+        });
+        scrollTriggerInstance = st;
+      }, section);
+    })();
+
+    const drawLoop = window.setInterval(draw, 400);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("resize", resize);
+      window.clearInterval(drawLoop);
+      scrollTriggerInstance?.kill();
+      ctxGsap?.revert();
+    };
+  }, [reduceMotion]);
+
+  if (reduceMotion) {
+    return (
+      <section className="relative h-[86vh] min-h-[600px] w-full overflow-hidden bg-(--color-white)">
+        {/* eslint-disable-next-line @next/next/no-img-element -- static reduced-motion fallback, not part of next/image's responsive pipeline */}
+        <img
+          src="/images/backgrounds/architectural-light.webp"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/brand/airtech-logo.png"
+            alt="Airtech Industries"
+            className="w-[min(420px,40vw)]"
+          />
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-white)"
+      style={{
+        backgroundImage: "url(/images/backgrounds/architectural-light.webp)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      aria-label="Airtech Industries — engineering the systems behind extraordinary spaces"
+    >
+      <canvas ref={canvasRef} className="absolute inset-0 block" />
+
+      <span
+        ref={indicatorRef}
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity"
+      >
+        <span className="flex h-9 w-5 items-start justify-center rounded-full border border-(--color-ink)/35 pt-1.5">
+          <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-(--color-ink)/55" />
+        </span>
+      </span>
+    </section>
+  );
+}

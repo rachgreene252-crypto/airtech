@@ -10,7 +10,10 @@ import { Container } from "@/components/ui/Container";
  * the hero visual. Typography does the work — no supporting imagery, no
  * card, no panel. A refined stagger (ENGINEERING / THE SYSTEMS / BEHIND
  * EXTRAORDINARY SPACES, each line its own reveal) rather than the whole
- * headline fading in as one block.
+ * headline fading in as one block. Center-aligned per the brief's
+ * standalone-textual-section rule — this is the page's most standalone
+ * text moment (no image split), so it gets the strongest editorial
+ * centering treatment.
  */
 const HEADLINE_LINES = ["Engineering", "the systems", "behind extraordinary spaces."] as const;
 
@@ -25,8 +28,8 @@ export function EngineeringStatement() {
 
   return (
     <section className="bg-(--color-paper) pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32">
-      <Container className="max-w-4xl">
-        <span aria-hidden="true" className="mb-6 block h-px w-14 bg-(--color-signal-soft)" />
+      <Container className="max-w-4xl text-center">
+        <span aria-hidden="true" className="mx-auto mb-6 block h-px w-14 bg-(--color-signal-soft)" />
 
         <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[0.96] tracking-tight text-(--color-ink) text-balance">
           {HEADLINE_LINES.map((line, i) => (
@@ -51,7 +54,7 @@ export function EngineeringStatement() {
 
         <motion.p
           {...rise(0.55)}
-          className="mt-8 max-w-2xl text-lg sm:text-xl leading-relaxed text-(--color-steel)"
+          className="mx-auto mt-8 max-w-2xl text-lg sm:text-xl leading-relaxed text-(--color-steel)"
         >
           Integrated MEP and HVAC engineering for complex buildings, specialised environments
           and projects where reliability matters.
@@ -59,14 +62,14 @@ export function EngineeringStatement() {
 
         <motion.p
           {...rise(0.68)}
-          className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-(--color-ink-soft)"
+          className="mx-auto mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-(--color-ink-soft)"
         >
           Airtech brings engineering, procurement, execution, commissioning and long-term
           technical support together — giving clients a single engineering partner for the
           systems that make buildings perform.
         </motion.p>
 
-        <motion.div {...rise(0.8)} className="mt-10 flex flex-wrap items-center gap-7">
+        <motion.div {...rise(0.8)} className="mt-10 flex flex-wrap items-center justify-center gap-7">
           <ButtonLink href="/contact/project-enquiry" size="lg">
             Discuss Your Project
           </ButtonLink>

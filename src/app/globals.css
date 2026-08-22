@@ -71,6 +71,14 @@
   --color-brand-blue-soft: #0099da;
   --color-brand-blue-tint: #e6f4fa;
 
+  /* Pure white — used deliberately (not --color-paper) wherever the
+     2026-08-22 cinematic-reconception brief requires a section to read as
+     unambiguously bright rather than warm-ivory: the Trusted-By band and the
+     hero/nav scrim. --color-paper remains the general canvas tone elsewhere
+     ("very light warm white" in the brief's own palette language). */
+  --color-white: #ffffff;
+  --color-pale-blue: #eef5fb;
+
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -100,6 +108,8 @@
   --color-brand-blue: var(--color-brand-blue);
   --color-brand-blue-soft: var(--color-brand-blue-soft);
   --color-brand-blue-tint: var(--color-brand-blue-tint);
+  --color-white: var(--color-white);
+  --color-pale-blue: var(--color-pale-blue);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);

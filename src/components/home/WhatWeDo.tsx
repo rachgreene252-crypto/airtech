@@ -26,7 +26,7 @@ export function WhatWeDo() {
   return (
     <section className="bg-(--color-paper) py-20 sm:py-24 lg:py-28">
       <Container className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16">
-        <div>
+        <div className="text-center lg:text-center">
           <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
             What we do
           </p>
@@ -35,18 +35,18 @@ export function WhatWeDo() {
             <br />
             that make buildings work.
           </h2>
-          <p className="mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-steel)">
+          <p className="mx-auto mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-steel)">
             From climate control and electrical infrastructure to water, fire protection and
             intelligent building systems, Airtech brings multiple disciplines together under
             one coordinated engineering approach.
           </p>
-          <p className="mt-5 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-ink-soft) font-medium">
+          <p className="mx-auto mt-5 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-ink-soft) font-medium">
             The result is not simply a collection of installed systems. It is one coordinated
             building environment, engineered to perform.
           </p>
           <Link
             href="/expertise"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:gap-2.5 transition-all"
+            className="mt-8 inline-flex items-center justify-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:gap-2.5 transition-all"
           >
             Explore Our Expertise
             <span aria-hidden="true">→</span>

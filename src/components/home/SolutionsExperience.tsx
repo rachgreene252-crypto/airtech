@@ -7,33 +7,27 @@ import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 
 /**
- * Section 07 — Our Solutions. The homepage's visual centerpiece: one
- * building, five system layers converging into one integrated solution.
- * Rebuilt per the 2026-08-22 visual-correction brief as a light, large,
- * dominant card rather than a dark full-bleed panel — the supplied BG
- * atmosphere asset washes in behind the card at low opacity (the brief's
- * "use the supplied BG asset" instruction; it's an abstract still, not a
- * literal building render, so it grounds rather than replaces the diagram).
- * Airtech blue is now the primary trace color; gold is reserved for the
- * final-convergence accent only. Click/tap-driven (not scroll-jacked) so
- * the visitor controls pace and it degrades cleanly with keyboard-only
- * input or reduced motion.
+ * Section 07 — Our Solutions. The homepage's visual centerpiece: one real
+ * Airtech-scale building, five system layers converging into one
+ * integrated solution. Per the premium-reconception brief's explicit "use
+ * the actual supplied architectural building visual, make it large, no
+ * fake wireframe" correction, this is a real building photograph (not an
+ * abstract SVG cross-section) with system markers appearing within/around
+ * it — "visible building + invisible systems = engineered environment."
+ * The supplied ASSETS/BG atmosphere asset washes in behind the photo at low
+ * opacity for continuity with the hero, which uses the same asset. Airtech
+ * blue is the primary marker colour; gold is reserved for the final
+ * convergence accent only. Click/tap-driven (not scroll-jacked) so the
+ * visitor controls pace and it degrades cleanly with keyboard-only input
+ * or reduced motion.
  */
 const LAYERS = [
-  { key: "climate", label: "Climate", detail: "HVAC / Chillers / VRF / Ventilation", slug: "hvac" },
-  { key: "power", label: "Power", detail: "Electrical / Distribution / Lighting", slug: "electrical" },
-  { key: "water", label: "Water", detail: "Plumbing / STP / WTP / Hot Water", slug: "plumbing-public-health" },
-  { key: "safety", label: "Safety", detail: "Fire Protection / Fire Alarm", slug: "fire-protection" },
-  { key: "intelligence", label: "Intelligence", detail: "ELV / CCTV / Access Control / Networking", slug: "elv-security" },
+  { key: "climate", label: "Climate", detail: "HVAC / Chillers / VRF / Ventilation", slug: "hvac", top: "10%", side: "left" },
+  { key: "power", label: "Power", detail: "Electrical / Distribution / Lighting", slug: "electrical", top: "30%", side: "right" },
+  { key: "water", label: "Water", detail: "Plumbing / STP / WTP / Hot Water", slug: "plumbing-public-health", top: "50%", side: "left" },
+  { key: "safety", label: "Safety", detail: "Fire Protection / Fire Alarm", slug: "fire-protection", top: "68%", side: "right" },
+  { key: "intelligence", label: "Intelligence", detail: "ELV / CCTV / Access Control / Networking", slug: "elv-security", top: "86%", side: "left" },
 ] as const;
-
-const BUILDING_TOP = 44;
-const BUILDING_BOTTOM = 440;
-const BUILDING_LEFT = 150;
-const BUILDING_RIGHT = 490;
-const FLOORS = 6;
-const FLOOR_YS = Array.from({ length: FLOORS - 1 }, (_, i) => BUILDING_TOP + ((i + 1) * (BUILDING_BOTTOM - BUILDING_TOP)) / FLOORS);
-const FLOOR_MIDS = Array.from({ length: FLOORS }, (_, i) => BUILDING_TOP + (i + 0.5) * ((BUILDING_BOTTOM - BUILDING_TOP) / FLOORS));
 
 export function SolutionsExperience() {
   const [step, setStep] = useState(0);
@@ -44,17 +38,9 @@ export function SolutionsExperience() {
 
   return (
     <section className="relative bg-(--color-paper) py-20 sm:py-28 lg:py-32 overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.16]">
-        <Image src="/images/hero/atmosphere.png" alt="" fill className="object-cover" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.35]">
+        <Image src="/images/backgrounds/architectural-light.webp" alt="" fill className="object-cover" />
       </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--color-brand-blue) 9%, transparent), transparent)",
-        }}
-      />
 
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
@@ -71,59 +57,62 @@ export function SolutionsExperience() {
             together to create environments that are comfortable, connected, protected and
             operational.
           </p>
+          <p className="mt-5 font-mono text-[11px] tracking-[0.14em] uppercase text-(--color-brand-blue)/80">
+            Visible building + invisible systems = engineered environment
+          </p>
         </div>
 
-        <div className="relative mx-auto mt-16">
-          <svg
-            viewBox="0 0 640 480"
-            className="relative mx-auto w-full max-w-4xl h-auto"
-            role="img"
-            aria-label={`Building cross-section showing ${step} of ${total} coordinated engineering systems`}
-          >
-            <defs>
-              <linearGradient id="solutions-glass" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="var(--color-brand-blue-tint)" stopOpacity={0.85} />
-                <stop offset="100%" stopColor="var(--color-brand-blue-tint)" stopOpacity={0.3} />
-              </linearGradient>
-              <radialGradient id="solutions-shadow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.18} />
-                <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
-              </radialGradient>
-            </defs>
-
-            <ellipse cx={320} cy={BUILDING_BOTTOM + 4} rx={210} ry={14} fill="url(#solutions-shadow)" />
-            <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel-soft)" strokeWidth={1.5} />
-
-            <rect
-              x={BUILDING_LEFT}
-              y={BUILDING_TOP}
-              width={BUILDING_RIGHT - BUILDING_LEFT}
-              height={BUILDING_BOTTOM - BUILDING_TOP}
-              fill="url(#solutions-glass)"
-              stroke="var(--color-brand-blue)"
-              strokeWidth={1.5}
+        <div className="relative mx-auto mt-16 max-w-3xl">
+          <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-[28px] sm:aspect-[4/5]">
+            <Image
+              src="/images/landmarks/ncell-iconic-building.jpg"
+              alt="Ncell Iconic Building — an Airtech-engineered building"
+              fill
+              sizes="(min-width: 640px) 420px, 90vw"
+              className="object-cover"
+              priority={false}
             />
-            <line x1={BUILDING_LEFT - 6} y1={BUILDING_TOP} x2={BUILDING_RIGHT + 6} y2={BUILDING_TOP} stroke="var(--color-brand-blue)" strokeWidth={2.5} />
-            {FLOOR_YS.map((y) => (
-              <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-steel-soft)" strokeWidth={1} opacity={0.35} />
-            ))}
+            <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink)/25 via-transparent to-transparent" />
 
-            {LAYERS.map((layer, i) => (
-              <LayerTrace key={layer.key} layerKey={layer.key} active={step > i} reduceMotion={!!reduceMotion} />
-            ))}
+            {LAYERS.map((layer, i) => {
+              const isActive = step > i;
+              return (
+                <motion.div
+                  key={layer.key}
+                  aria-hidden="true"
+                  initial={false}
+                  animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.7 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute flex items-center gap-2"
+                  style={{
+                    top: layer.top,
+                    [layer.side]: "6%",
+                    flexDirection: layer.side === "right" ? "row-reverse" : "row",
+                  }}
+                >
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-(--color-brand-blue-soft) animate-energy-pulse" />
+                  <span
+                    className={`h-px shrink-0 bg-(--color-brand-blue-soft) ${layer.side === "right" ? "w-8" : "w-8"}`}
+                  />
+                  <span className="rounded-full bg-white/90 px-2.5 py-1 font-mono text-[10px] tracking-[0.1em] uppercase text-(--color-ink) shadow-sm backdrop-blur-sm">
+                    {layer.label}
+                  </span>
+                </motion.div>
+              );
+            })}
 
             {converged && (
-              <motion.circle
-                cx={320}
-                cy={242}
-                r={8}
-                fill="var(--color-amber)"
-                initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              />
+              <motion.div
+                aria-hidden="true"
+                initial={reduceMotion ? false : { opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <span className="h-4 w-4 rounded-full bg-(--color-amber) shadow-[0_0_0_10px_color-mix(in_srgb,var(--color-amber)_20%,transparent)]" />
+              </motion.div>
             )}
-          </svg>
+          </div>
 
           <ol className="relative mt-10 flex flex-wrap justify-center gap-2" role="list">
             <li>
@@ -214,93 +203,5 @@ export function SolutionsExperience() {
         </div>
       </Container>
     </section>
-  );
-}
-
-function LayerTrace({
-  layerKey,
-  active,
-  reduceMotion,
-}: {
-  layerKey: (typeof LAYERS)[number]["key"];
-  active: boolean;
-  reduceMotion: boolean;
-}) {
-  const pathAnim = reduceMotion
-    ? { pathLength: active ? 1 : 0 }
-    : { pathLength: active ? 1 : 0, opacity: active ? 1 : 0 };
-  const transition = { duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] as const };
-  const stroke = "var(--color-brand-blue)";
-
-  if (layerKey === "climate") {
-    const x1 = 230;
-    const x2 = 410;
-    return (
-      <g stroke={stroke} strokeWidth={2} fill="none">
-        <motion.path d={`M ${x1} 30 H ${x2} M ${x1} 30 V ${FLOOR_YS[2]} M ${x2} 30 V ${FLOOR_YS[2]}`} initial={false} animate={pathAnim} transition={transition} />
-        {active &&
-          FLOOR_MIDS.slice(0, 3).map((y) => (
-            <g key={y}>
-              <line x1={x1 - 12} y1={y} x2={x1 + 12} y2={y} strokeWidth={1.5} />
-              <line x1={x2 - 12} y1={y} x2={x2 + 12} y2={y} strokeWidth={1.5} />
-            </g>
-          ))}
-      </g>
-    );
-  }
-
-  if (layerKey === "power") {
-    const x = 180;
-    const path = `M ${x} ${BUILDING_BOTTOM} V ${FLOOR_YS[4]} L ${x + 20} ${FLOOR_YS[4]} L ${x + 20} ${FLOOR_YS[3]} L ${x} ${FLOOR_YS[3]} V ${BUILDING_TOP}`;
-    return (
-      <g stroke={stroke} strokeWidth={2} fill="none">
-        <motion.path d={path} initial={false} animate={pathAnim} transition={transition} />
-        {active &&
-          FLOOR_MIDS.map((y) => <rect key={y} x={x - 5} y={y - 5} width={10} height={10} fill={stroke} opacity={0.85} />)}
-      </g>
-    );
-  }
-
-  if (layerKey === "water") {
-    const x = 470;
-    return (
-      <g stroke={stroke} strokeWidth={2} fill="none">
-        <motion.path d={`M ${x} ${BUILDING_TOP} V ${BUILDING_BOTTOM + 14}`} initial={false} animate={pathAnim} transition={transition} />
-        {active && <circle cx={x} cy={BUILDING_BOTTOM + 14} r={5} fill={stroke} />}
-        {active &&
-          FLOOR_MIDS.map((y) => <line key={y} x1={x} y1={y} x2={x - 24} y2={y} strokeWidth={1.25} opacity={0.8} />)}
-      </g>
-    );
-  }
-
-  if (layerKey === "safety") {
-    const x = 290;
-    return (
-      <g stroke={stroke} strokeWidth={2} fill="none">
-        <motion.path d={`M ${x} ${BUILDING_TOP} V ${BUILDING_BOTTOM}`} initial={false} animate={pathAnim} transition={transition} />
-        {active &&
-          FLOOR_MIDS.map((y, i) => (
-            <g key={y}>
-              <line x1={x} y1={y} x2={x + 16} y2={y - 10} strokeWidth={1.25} opacity={0.8} />
-              {i === 2 && <circle cx={x} cy={y} r={4.5} fill="var(--color-amber)" />}
-            </g>
-          ))}
-      </g>
-    );
-  }
-
-  // intelligence — ELV/CCTV/access/network, dashed distributed nodes
-  const xs = [240, 340];
-  return (
-    <g stroke={stroke} strokeWidth={1.5} fill="none" strokeDasharray="3 4">
-      <motion.path
-        d={FLOOR_MIDS.map((y, i) => `${i === 0 ? "M" : "L"} ${xs[i % 2]} ${y}`).join(" ")}
-        initial={false}
-        animate={pathAnim}
-        transition={transition}
-      />
-      {active &&
-        FLOOR_MIDS.map((y, i) => <circle key={y} cx={xs[i % 2]} cy={y} r={4} fill={stroke} strokeDasharray="0" />)}
-    </g>
   );
 }

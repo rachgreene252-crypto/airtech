@@ -10,10 +10,11 @@ import { Reveal } from "@/components/ui/Reveal";
  * (site-settings.ts / docs/AIRTECH_OPEN_DECISIONS.md B3): 25+ years,
  * established 2000, MEP operations commenced 2013. Team/headcount figures
  * ("300+") remain `needs_verification`, so the fourth slot is a qualitative
- * proof point rather than an invented number. Per the 2026-08-22
- * visual-correction brief this sits directly on the page's plain paper
- * canvas (no separate panel/border) so it doesn't read as a disconnected
- * dashboard, and numeric stats count up once when scrolled into view.
+ * proof point rather than an invented number. Sits directly on the page's
+ * plain canvas (no separate panel/border) so it doesn't read as a
+ * disconnected dashboard; numeric stats count up once when scrolled into
+ * view. Per the premium-reconception brief, each metric is center-aligned
+ * in an evenly spaced centered row rather than left-aligned/wrapped.
  */
 const STATS = [
   { value: "25+", label: "Years of engineering experience" },
@@ -26,13 +27,13 @@ export function ProofBar() {
   return (
     <section className="bg-(--color-paper) py-20 sm:py-24">
       <Container>
-        <div className="flex flex-wrap gap-x-16 gap-y-12 sm:gap-x-20">
+        <div className="flex flex-wrap justify-center gap-x-16 gap-y-12 text-center sm:gap-x-20">
           {STATS.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.06} className="min-w-[9rem]">
+            <Reveal key={stat.label} delay={i * 0.06} className="w-40">
               <p className="font-display text-5xl sm:text-6xl font-semibold leading-none text-(--color-ink)">
                 <AnimatedStat value={stat.value} />
               </p>
-              <p className="mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-brand-blue)">
+              <p className="mx-auto mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-brand-blue)">
                 {stat.label}
               </p>
             </Reveal>

@@ -91,41 +91,39 @@ export function FeaturedProjects() {
   return (
     <section className="bg-(--color-paper) py-20 sm:py-24 lg:py-28">
       <Container>
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
-              Featured Projects
-            </p>
-            <h2 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
-              See our expertise
-            </h2>
-          </div>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
+            Featured Projects
+          </p>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
+            See our expertise
+          </h2>
+        </div>
 
-          <div className="flex items-center gap-5">
-            <Link
-              href="/projects"
-              className="rounded-full border border-(--color-brand-blue) px-5 py-2 text-sm font-medium text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
+        <div className="mt-8 flex items-center justify-center gap-5">
+          <Link
+            href="/projects"
+            className="rounded-full border border-(--color-brand-blue) px-5 py-2 text-sm font-medium text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
+          >
+            View All Projects →
+          </Link>
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Previous project"
+              onClick={() => scrollByCard(-1)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
             >
-              View All Projects →
-            </Link>
-            <div className="hidden sm:flex items-center gap-2">
-              <button
-                type="button"
-                aria-label="Previous project"
-                onClick={() => scrollByCard(-1)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                aria-label="Next project"
-                onClick={() => scrollByCard(1)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
-              >
-                →
-              </button>
-            </div>
+              ←
+            </button>
+            <button
+              type="button"
+              aria-label="Next project"
+              onClick={() => scrollByCard(1)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
+            >
+              →
+            </button>
           </div>
         </div>
 
