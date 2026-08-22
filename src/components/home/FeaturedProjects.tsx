@@ -89,7 +89,7 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section className="border-t border-(--color-line) bg-(--color-paper) py-20 sm:py-24 lg:py-28">
+    <section className="bg-(--color-paper) py-20 sm:py-24 lg:py-28">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

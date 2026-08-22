@@ -24,19 +24,15 @@ const STATS = [
 
 export function ProofBar() {
   return (
-    <section className="bg-(--color-paper) pt-4 pb-16 sm:pt-6 sm:pb-20">
+    <section className="bg-(--color-paper) py-20 sm:py-24">
       <Container>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8">
+        <div className="flex flex-wrap gap-x-16 gap-y-12 sm:gap-x-20">
           {STATS.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.06} className="relative border-t border-(--color-line-strong) pt-4">
-              <span
-                aria-hidden="true"
-                className="absolute -top-px left-0 h-px w-8 bg-(--color-signal-soft)"
-              />
-              <p className="font-display text-4xl sm:text-5xl font-bold leading-none text-(--color-ink)">
+            <Reveal key={stat.label} delay={i * 0.06} className="min-w-[9rem]">
+              <p className="font-display text-5xl sm:text-6xl font-semibold leading-none text-(--color-ink)">
                 <AnimatedStat value={stat.value} />
               </p>
-              <p className="mt-3 font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-(--color-brand-blue)">
+              <p className="mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-brand-blue)">
                 {stat.label}
               </p>
             </Reveal>

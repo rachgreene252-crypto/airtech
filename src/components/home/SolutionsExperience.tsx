@@ -43,8 +43,20 @@ export function SolutionsExperience() {
   const converged = step === total;
 
   return (
-    <section className="border-t border-(--color-line) bg-(--color-paper) py-20 sm:py-28 lg:py-32 overflow-hidden">
-      <Container>
+    <section className="relative bg-(--color-paper) py-20 sm:py-28 lg:py-32 overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.16]">
+        <Image src="/images/hero/atmosphere.png" alt="" fill className="object-cover" />
+      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--color-brand-blue) 9%, transparent), transparent)",
+        }}
+      />
+
+      <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
             Our Solutions
@@ -61,22 +73,10 @@ export function SolutionsExperience() {
           </p>
         </div>
 
-        <div className="relative mx-auto mt-14 max-w-4xl overflow-hidden rounded-[2rem] border border-(--color-line-strong) bg-(--color-paper-raised) px-4 py-12 shadow-[0_1px_2px_rgba(37,38,41,0.04)] sm:px-10">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.14]">
-            <Image src="/images/hero/atmosphere.png" alt="" fill className="object-cover" />
-          </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(65% 55% at 50% 38%, color-mix(in srgb, var(--color-brand-blue) 8%, transparent), transparent)",
-            }}
-          />
-
+        <div className="relative mx-auto mt-16">
           <svg
             viewBox="0 0 640 480"
-            className="relative mx-auto w-full max-w-2xl h-auto"
+            className="relative mx-auto w-full max-w-4xl h-auto"
             role="img"
             aria-label={`Building cross-section showing ${step} of ${total} coordinated engineering systems`}
           >

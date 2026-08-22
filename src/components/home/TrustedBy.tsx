@@ -75,19 +75,20 @@ export function TrustedBy() {
   const track = [...trustedLogos, ...trustedLogos];
 
   return (
-    <section className="border-t border-(--color-line) bg-(--color-paper-raised) py-20 sm:py-24">
+    <section className="border-t border-(--color-line) bg-(--color-paper-raised) py-24 sm:py-32">
       <Container>
-        <div className="flex items-center justify-center gap-4">
-          <span aria-hidden="true" className="hidden h-px w-16 bg-(--color-line-strong) sm:block" />
-          <p className="text-center font-mono text-sm sm:text-base tracking-[0.18em] uppercase text-(--color-ink)">
-            Trusted by organisations across Nepal
+        <div className="max-w-xl">
+          <p className="font-mono text-xs tracking-[0.2em] uppercase text-(--color-brand-blue)">
+            Trusted by
           </p>
-          <span aria-hidden="true" className="hidden h-px w-16 bg-(--color-line-strong) sm:block" />
+          <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05] text-(--color-ink) text-balance">
+            Organisations that trust our engineering, across Nepal.
+          </h2>
         </div>
       </Container>
 
-      <div className="relative mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-        <div className="flex w-max animate-marquee items-center gap-16 sm:gap-24">
+      <div className="relative mt-16 overflow-hidden sm:mt-20 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+        <div className="flex w-max animate-marquee items-center gap-20 sm:gap-32">
           {track.map((logo, i) => (
             // Normalized-height, natural-aspect-ratio logo marks — see file header for
             // why next/image's fixed width+height box isn't used here.
@@ -97,7 +98,7 @@ export function TrustedBy() {
               src={`/images/clients/${logo.file}`}
               alt={logo.name}
               decoding="async"
-              className="h-12 w-auto shrink-0 sm:h-16 grayscale opacity-75 transition-opacity hover:opacity-100 hover:grayscale-0"
+              className="h-16 w-auto shrink-0 sm:h-24 grayscale opacity-75 transition-opacity hover:opacity-100 hover:grayscale-0"
             />
           ))}
         </div>

@@ -7,9 +7,13 @@ import { Container } from "@/components/ui/Container";
 
 /**
  * Section 03 — Engineering headline. The main statement, immediately after
- * the hero visual. Typography does the work — no supporting imagery here,
- * per the brief's "text should not be text-heavy" instruction.
+ * the hero visual. Typography does the work — no supporting imagery, no
+ * card, no panel. A refined stagger (ENGINEERING / THE SYSTEMS / BEHIND
+ * EXTRAORDINARY SPACES, each line its own reveal) rather than the whole
+ * headline fading in as one block.
  */
+const HEADLINE_LINES = ["Engineering", "the systems", "behind extraordinary spaces."] as const;
+
 export function EngineeringStatement() {
   const reduceMotion = useReducedMotion();
   const rise = (delay: number) => ({
@@ -22,17 +26,31 @@ export function EngineeringStatement() {
   return (
     <section className="bg-(--color-paper) pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32">
       <Container className="max-w-4xl">
-        <motion.h1
-          {...rise(0)}
-          className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[0.96] tracking-tight text-(--color-ink) text-balance"
-        >
-          Engineering the systems
-          <br />
-          behind <span className="text-(--color-signal)">extraordinary</span> spaces.
-        </motion.h1>
+        <span aria-hidden="true" className="mb-6 block h-px w-14 bg-(--color-signal-soft)" />
+
+        <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[0.96] tracking-tight text-(--color-ink) text-balance">
+          {HEADLINE_LINES.map((line, i) => (
+            <motion.span
+              key={line}
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.16, ease: [0.22, 1, 0.36, 1] }}
+              className="block overflow-hidden"
+            >
+              {i === 2 ? (
+                <>
+                  behind <span className="text-(--color-brand-blue)">extraordinary</span> spaces.
+                </>
+              ) : (
+                line
+              )}
+            </motion.span>
+          ))}
+        </h1>
 
         <motion.p
-          {...rise(0.12)}
+          {...rise(0.55)}
           className="mt-8 max-w-2xl text-lg sm:text-xl leading-relaxed text-(--color-steel)"
         >
           Integrated MEP and HVAC engineering for complex buildings, specialised environments
@@ -40,7 +58,7 @@ export function EngineeringStatement() {
         </motion.p>
 
         <motion.p
-          {...rise(0.2)}
+          {...rise(0.68)}
           className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-(--color-ink-soft)"
         >
           Airtech brings engineering, procurement, execution, commissioning and long-term
@@ -48,7 +66,7 @@ export function EngineeringStatement() {
           systems that make buildings perform.
         </motion.p>
 
-        <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap items-center gap-7">
+        <motion.div {...rise(0.8)} className="mt-10 flex flex-wrap items-center gap-7">
           <ButtonLink href="/contact/project-enquiry" size="lg">
             Discuss Your Project
           </ButtonLink>
