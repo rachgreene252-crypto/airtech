@@ -24,7 +24,7 @@ export function EngineeringStatement() {
       <Container className="max-w-4xl">
         <motion.h1
           {...rise(0)}
-          className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.96] tracking-tight text-(--color-ink) text-balance"
+          className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[0.96] tracking-tight text-(--color-ink) text-balance"
         >
           Engineering the systems
           <br />

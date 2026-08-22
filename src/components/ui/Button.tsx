@@ -6,18 +6,17 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-signal) disabled:opacity-50 disabled:pointer-events-none rounded-[3px]";
+  "inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-blue) disabled:opacity-50 disabled:pointer-events-none rounded-full hover:-translate-y-px active:translate-y-0";
 
 const variants: Record<Variant, string> = {
-  // hover:brightness-90 darkens rather than lightens — --color-signal is
-  // already the WCAG-AA-safe darkened bronze (see globals.css); swapping to
-  // --color-signal-soft (the brighter literal Champagne Gold) on hover was
-  // dropping text contrast to ~2.2:1 against the light paper-colored text,
-  // failing AA even though the resting state passes.
-  primary: "bg-(--color-signal) text-(--color-paper) hover:brightness-90",
+  // --color-brand-blue is the accessible (~5.3:1) darkened pairing of the
+  // literal logo blue --color-brand-blue-soft (see globals.css) — safe for
+  // white button-label text. Hovering toward the brighter literal brand
+  // blue reads as a "lift" without needing a shadow/animation trick.
+  primary: "bg-(--color-brand-blue) text-white hover:bg-(--color-brand-blue-soft)",
   secondary:
-    "border border-(--color-ink) text-(--color-ink) hover:bg-(--color-ink) hover:text-(--color-paper)",
-  ghost: "text-(--color-signal) hover:text-(--color-ink) underline underline-offset-4",
+    "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white",
+  ghost: "text-(--color-brand-blue) hover:text-(--color-ink) underline underline-offset-4",
 };
 
 const sizes: Record<Size, string> = {

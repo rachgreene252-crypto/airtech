@@ -13,7 +13,10 @@ import { Container } from "@/components/ui/Container";
  * client questionnaire already establish — no scope or capacity invented.
  * Cards without an existing case-study route (docs/AIRTECH_OPEN_DECISIONS.md
  * #14 — extended landmark list not yet added to the project database) link
- * to the projects index rather than a fabricated slug.
+ * to the projects index rather than a fabricated slug. Per the 2026-08-22
+ * visual-correction brief: rounded architectural cards, a gentler 4:3 crop
+ * (the original portrait 4:5 cut too much off wide building photography),
+ * and circular/pill controls instead of square buttons.
  */
 const PROJECTS = [
   {
@@ -81,7 +84,7 @@ export function FeaturedProjects() {
     const track = trackRef.current;
     if (!track) return;
     const card = track.querySelector<HTMLElement>("[data-card]");
-    const amount = (card?.offsetWidth ?? 360) + 20;
+    const amount = (card?.offsetWidth ?? 380) + 24;
     track.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
@@ -90,7 +93,7 @@ export function FeaturedProjects() {
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
+            <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
               Featured Projects
             </p>
             <h2 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
@@ -101,7 +104,7 @@ export function FeaturedProjects() {
           <div className="flex items-center gap-5">
             <Link
               href="/projects"
-              className="text-sm font-medium text-(--color-ink) hover:text-(--color-signal) transition-colors"
+              className="rounded-full border border-(--color-brand-blue) px-5 py-2 text-sm font-medium text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
             >
               View All Projects →
             </Link>
@@ -110,7 +113,7 @@ export function FeaturedProjects() {
                 type="button"
                 aria-label="Previous project"
                 onClick={() => scrollByCard(-1)}
-                className="flex h-10 w-10 items-center justify-center border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
               >
                 ←
               </button>
@@ -118,7 +121,7 @@ export function FeaturedProjects() {
                 type="button"
                 aria-label="Next project"
                 onClick={() => scrollByCard(1)}
-                className="flex h-10 w-10 items-center justify-center border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
               >
                 →
               </button>
@@ -128,25 +131,25 @@ export function FeaturedProjects() {
 
         <div
           ref={trackRef}
-          className="mt-12 flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="mt-12 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {PROJECTS.map((project) => (
             <Link
               key={project.name}
               data-card
               href={project.href as Route}
-              className="group relative shrink-0 snap-start overflow-hidden rounded-[3px] w-[78vw] sm:w-[380px] lg:w-[400px] aspect-[4/5]"
+              className="group relative shrink-0 snap-start overflow-hidden rounded-3xl w-[80vw] sm:w-[400px] lg:w-[430px] aspect-[4/3]"
             >
               <Image
                 src={project.image}
                 alt={`${project.name}, ${project.location}`}
                 fill
-                sizes="(min-width: 1024px) 400px, (min-width: 640px) 380px, 78vw"
+                sizes="(min-width: 1024px) 430px, (min-width: 640px) 400px, 80vw"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90" />
 
-              <div className="absolute inset-x-0 bottom-0 p-6">
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
                 <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-(--color-signal-soft)">
                   {project.sector}
                 </p>
@@ -154,7 +157,7 @@ export function FeaturedProjects() {
                   {project.name}
                 </h3>
                 <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>
-                <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 text-sm font-medium text-(--color-paper) opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                   View Project
                   <span aria-hidden="true">→</span>
                 </span>

@@ -57,6 +57,20 @@
   --color-amber-tint: #f4ebd8;
   --color-heritage: #6e3036;
 
+  /* Brand blue, sampled directly from the actual logo mark
+     (public/images/brand/airtech-logo.png ≈ #0099DA) per the 2026-08-22
+     homepage visual-correction brief's explicit instruction not to invent a
+     blue. #0099DA only reaches ~3.2:1 contrast on white/paper — enough for
+     large-scale/decorative use (icons, borders, big numerals) but not body
+     text or button labels. `--color-brand-blue` is the same darkening
+     treatment already used for --color-signal: ~5.3:1, safe for text, links
+     and CTA fills. `--color-brand-blue-soft` keeps the literal logo blue for
+     large/non-text accents. Additive tokens — the existing --color-blueprint
+     pairing used elsewhere in the site is untouched. */
+  --color-brand-blue: #00729b;
+  --color-brand-blue-soft: #0099da;
+  --color-brand-blue-tint: #e6f4fa;
+
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -83,6 +97,9 @@
   --color-amber-soft: var(--color-amber-soft);
   --color-amber-tint: var(--color-amber-tint);
   --color-heritage: var(--color-heritage);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-soft: var(--color-brand-blue-soft);
+  --color-brand-blue-tint: var(--color-brand-blue-tint);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);

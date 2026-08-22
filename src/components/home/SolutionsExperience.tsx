@@ -2,17 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 
 /**
  * Section 07 — Our Solutions. The homepage's visual centerpiece: one
  * building, five system layers converging into one integrated solution.
- * Click/tap-driven (not scroll-jacked) so the visitor controls pace and it
- * degrades cleanly with keyboard-only input or reduced motion — the same
- * proven interaction model as the systems-reveal diagram elsewhere in the
- * codebase, rebuilt here at centerpiece scale with the brief's exact
- * CLIMATE / POWER / WATER / SAFETY / INTELLIGENCE layer vocabulary.
+ * Rebuilt per the 2026-08-22 visual-correction brief as a light, large,
+ * dominant card rather than a dark full-bleed panel — the supplied BG
+ * atmosphere asset washes in behind the card at low opacity (the brief's
+ * "use the supplied BG asset" instruction; it's an abstract still, not a
+ * literal building render, so it grounds rather than replaces the diagram).
+ * Airtech blue is now the primary trace color; gold is reserved for the
+ * final-convergence accent only. Click/tap-driven (not scroll-jacked) so
+ * the visitor controls pace and it degrades cleanly with keyboard-only
+ * input or reduced motion.
  */
 const LAYERS = [
   { key: "climate", label: "Climate", detail: "HVAC / Chillers / VRF / Ventilation", slug: "hvac" },
@@ -38,44 +43,56 @@ export function SolutionsExperience() {
   const converged = step === total;
 
   return (
-    <section className="border-t border-(--color-ink-soft) bg-(--color-ink) py-20 sm:py-28 lg:py-32 overflow-hidden">
+    <section className="border-t border-(--color-line) bg-(--color-paper) py-20 sm:py-28 lg:py-32 overflow-hidden">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
+          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
             Our Solutions
           </p>
-          <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-paper) text-balance">
+          <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
             One building. Many systems.
             <br />
             One engineering partner.
           </h2>
-          <p className="mt-6 text-base sm:text-lg leading-relaxed text-(--color-steel-soft)">
+          <p className="mt-6 text-base sm:text-lg leading-relaxed text-(--color-steel)">
             Every building has a different set of demands. Airtech brings the disciplines
             together to create environments that are comfortable, connected, protected and
             operational.
           </p>
         </div>
 
-        <div className="mx-auto mt-14 max-w-3xl">
+        <div className="relative mx-auto mt-14 max-w-4xl overflow-hidden rounded-[2rem] border border-(--color-line-strong) bg-(--color-paper-raised) px-4 py-12 shadow-[0_1px_2px_rgba(37,38,41,0.04)] sm:px-10">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.14]">
+            <Image src="/images/hero/atmosphere.png" alt="" fill className="object-cover" />
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(65% 55% at 50% 38%, color-mix(in srgb, var(--color-brand-blue) 8%, transparent), transparent)",
+            }}
+          />
+
           <svg
             viewBox="0 0 640 480"
-            className="w-full h-auto"
+            className="relative mx-auto w-full max-w-2xl h-auto"
             role="img"
             aria-label={`Building cross-section showing ${step} of ${total} coordinated engineering systems`}
           >
             <defs>
               <linearGradient id="solutions-glass" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="var(--color-signal-tint)" stopOpacity={0.18} />
-                <stop offset="100%" stopColor="var(--color-signal-tint)" stopOpacity={0.03} />
+                <stop offset="0%" stopColor="var(--color-brand-blue-tint)" stopOpacity={0.85} />
+                <stop offset="100%" stopColor="var(--color-brand-blue-tint)" stopOpacity={0.3} />
               </linearGradient>
               <radialGradient id="solutions-shadow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="black" stopOpacity={0.45} />
-                <stop offset="100%" stopColor="black" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.18} />
+                <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
               </radialGradient>
             </defs>
 
             <ellipse cx={320} cy={BUILDING_BOTTOM + 4} rx={210} ry={14} fill="url(#solutions-shadow)" />
-            <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel)" strokeWidth={1.5} />
+            <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel-soft)" strokeWidth={1.5} />
 
             <rect
               x={BUILDING_LEFT}
@@ -83,12 +100,12 @@ export function SolutionsExperience() {
               width={BUILDING_RIGHT - BUILDING_LEFT}
               height={BUILDING_BOTTOM - BUILDING_TOP}
               fill="url(#solutions-glass)"
-              stroke="var(--color-steel-soft)"
-              strokeWidth={1.25}
+              stroke="var(--color-brand-blue)"
+              strokeWidth={1.5}
             />
-            <line x1={BUILDING_LEFT - 6} y1={BUILDING_TOP} x2={BUILDING_RIGHT + 6} y2={BUILDING_TOP} stroke="var(--color-steel-soft)" strokeWidth={2.5} />
+            <line x1={BUILDING_LEFT - 6} y1={BUILDING_TOP} x2={BUILDING_RIGHT + 6} y2={BUILDING_TOP} stroke="var(--color-brand-blue)" strokeWidth={2.5} />
             {FLOOR_YS.map((y) => (
-              <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-paper)" strokeWidth={1} opacity={0.12} />
+              <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-steel-soft)" strokeWidth={1} opacity={0.35} />
             ))}
 
             {LAYERS.map((layer, i) => (
@@ -99,7 +116,7 @@ export function SolutionsExperience() {
               <motion.circle
                 cx={320}
                 cy={242}
-                r={7}
+                r={8}
                 fill="var(--color-amber)"
                 initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -108,16 +125,16 @@ export function SolutionsExperience() {
             )}
           </svg>
 
-          <ol className="mt-10 flex flex-wrap justify-center gap-2" role="list">
+          <ol className="relative mt-10 flex flex-wrap justify-center gap-2" role="list">
             <li>
               <button
                 type="button"
                 onClick={() => setStep(0)}
                 aria-current={step === 0}
-                className={`min-h-11 px-4 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                className={`min-h-11 px-4 py-2 font-mono text-[11px] tracking-[0.1em] uppercase rounded-full border transition-colors ${
                   step === 0
-                    ? "border-(--color-signal-soft) text-(--color-paper)"
-                    : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
+                    ? "border-(--color-brand-blue) text-(--color-brand-blue) bg-(--color-brand-blue-tint)"
+                    : "border-(--color-line-strong) text-(--color-steel) hover:border-(--color-brand-blue)"
                 }`}
               >
                 Building
@@ -129,10 +146,10 @@ export function SolutionsExperience() {
                   type="button"
                   onClick={() => setStep(i + 1)}
                   aria-current={step === i + 1}
-                  className={`min-h-11 px-4 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                  className={`min-h-11 px-4 py-2 font-mono text-[11px] tracking-[0.1em] uppercase rounded-full border transition-colors ${
                     step >= i + 1
-                      ? "border-(--color-signal-soft) text-(--color-paper)"
-                      : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
+                      ? "border-(--color-brand-blue) text-(--color-brand-blue) bg-(--color-brand-blue-tint)"
+                      : "border-(--color-line-strong) text-(--color-steel) hover:border-(--color-brand-blue)"
                   }`}
                 >
                   {layer.label}
@@ -141,12 +158,12 @@ export function SolutionsExperience() {
             ))}
           </ol>
 
-          <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="relative mt-6 flex items-center justify-center gap-3">
             <button
               type="button"
               onClick={() => setStep((s) => Math.max(0, s - 1))}
               disabled={step === 0}
-              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel) hover:text-(--color-brand-blue) disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
               ← Prev
             </button>
@@ -154,13 +171,13 @@ export function SolutionsExperience() {
               type="button"
               onClick={() => setStep((s) => Math.min(total, s + 1))}
               disabled={step === total}
-              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel) hover:text-(--color-brand-blue) disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
               Next →
             </button>
           </div>
 
-          <div className="mx-auto mt-8 max-w-lg text-center">
+          <div className="relative mx-auto mt-8 max-w-lg text-center">
             <AnimatePresence mode="wait">
               {active && !converged && (
                 <motion.div
@@ -170,11 +187,11 @@ export function SolutionsExperience() {
                   exit={reduceMotion ? undefined : { opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="font-display text-xl font-semibold text-(--color-paper)">{active.label}</h3>
-                  <p className="mt-1.5 text-sm text-(--color-steel-soft)">{active.detail}</p>
+                  <h3 className="font-display text-xl font-semibold text-(--color-ink)">{active.label}</h3>
+                  <p className="mt-1.5 text-sm text-(--color-steel)">{active.detail}</p>
                   <Link
                     href={`/expertise/${active.slug}`}
-                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-signal-soft) hover:text-(--color-paper) transition-colors"
+                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:text-(--color-ink) transition-colors"
                   >
                     Explore {active.label}
                     <span aria-hidden="true">→</span>
@@ -187,7 +204,7 @@ export function SolutionsExperience() {
                   initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="font-mono text-sm sm:text-base tracking-[0.1em] uppercase text-(--color-signal-soft)"
+                  className="font-mono text-sm sm:text-base tracking-[0.1em] uppercase text-(--color-ink)"
                 >
                   One integrated engineering solution
                 </motion.p>
@@ -213,7 +230,7 @@ function LayerTrace({
     ? { pathLength: active ? 1 : 0 }
     : { pathLength: active ? 1 : 0, opacity: active ? 1 : 0 };
   const transition = { duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] as const };
-  const stroke = "var(--color-signal-soft)";
+  const stroke = "var(--color-brand-blue)";
 
   if (layerKey === "climate") {
     const x1 = 230;
