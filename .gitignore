@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local skills reference clone (not project content)
+/taste/
+
+# Word lock files
+~$*.docx
