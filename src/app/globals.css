@@ -228,6 +228,20 @@ body {
   animation: converge-pulse 2.6s ease-in-out infinite;
 }
 
+/* TrustedBy marquee — seamless loop via a doubled track translated by
+   exactly -50%. Paused on hover so a visitor can read a logo; disabled
+   entirely by the prefers-reduced-motion rule above. */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-scroll 36s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes advisory-scan {
   0% { transform: translateY(0); opacity: 0.4; }
   50% { transform: translateY(100%); opacity: 1; }

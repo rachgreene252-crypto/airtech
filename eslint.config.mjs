@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored reference material, not app source.
+    "taste/**",
+    ".claude/**",
   ]),
 ]);
 
