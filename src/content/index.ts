@@ -7,3 +7,4 @@ export * from "./testimonials";
 export * from "./certifications";
 export * from "./team";
 export * from "./resources";
+export * from "./stats";

@@ -412,11 +412,11 @@ export function Opening() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-6 max-w-2xl font-display text-6xl sm:text-7xl lg:text-8xl font-normal leading-[0.92] text-(--color-ink) text-balance"
+            className="mx-auto mt-6 max-w-3xl font-display text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.96] text-(--color-ink) text-balance"
           >
-            Engineering
+            Engineering the systems
             <br />
-            <span className="text-(--color-signal)">complex</span> spaces.
+            <span className="text-(--color-signal)">behind extraordinary</span> spaces.
           </motion.h1>
 
           {/* State 5: resolved body copy + CTA row. Always mounted, visible
@@ -428,9 +428,10 @@ export function Opening() {
               style, which only ever runs inside the qualifying-viewport
               `matchMedia` branch, then faded back in by the timeline. */}
           <div ref={resolvedCopyRef}>
-            <p className="mx-auto mt-8 max-w-md text-lg text-(--color-steel) leading-relaxed">
-              Integrated HVAC and MEP engineering — from engineering and procurement through
-              installation, testing, commissioning and long-term support.
+            <p className="mx-auto mt-8 max-w-lg text-lg text-(--color-steel) leading-relaxed">
+              Integrated MEP and HVAC engineering for complex buildings and specialised
+              environments — engineering, procurement, installation, testing, commissioning and
+              long-term support, from a single technical partner.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
@@ -441,7 +442,7 @@ export function Opening() {
                 href="/projects"
                 className="text-sm font-medium text-(--color-ink)/75 hover:text-(--color-ink) transition-colors"
               >
-                Explore our work →
+                Explore Our Work →
               </Link>
             </div>
           </div>

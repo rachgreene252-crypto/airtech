@@ -256,3 +256,16 @@ body {
   animation: advisory-scan 4s ease-in-out infinite;
   transform-box: fill-box;
 }
+
+/* TrustedBy logo marquee — one duplicated track scrolled -50% so the loop
+   restart is invisible (the second copy is already in the exact position
+   the first started in). prefers-reduced-motion (top of this file) zeroes
+   animation-duration globally, which freezes this mid-scroll rather than
+   hiding anything — both logo copies stay fully visible either way. */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-scroll 44s linear infinite;
+}

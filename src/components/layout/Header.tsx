@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { primaryNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
@@ -9,13 +10,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-(--color-line) bg-(--color-paper)/95 backdrop-blur supports-backdrop-blur:bg-(--color-paper)/80">
       <Container className="flex h-18 items-center justify-between gap-6 py-3">
-        <Link href="/" className="flex items-baseline gap-2 shrink-0">
-          <span className="font-display text-2xl font-normal italic tracking-tight leading-none">
-            {siteSettings.brandName}
-          </span>
-          <span className="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-(--color-steel)">
-            {siteSettings.tagline}
-          </span>
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Image
+            src="/assets/logo.png"
+            alt={`${siteSettings.brandName} — ${siteSettings.tagline}`}
+            width={600}
+            height={180}
+            priority
+            className="h-9 sm:h-10 w-auto"
+          />
         </Link>
 
         <HeaderNav items={primaryNav} />

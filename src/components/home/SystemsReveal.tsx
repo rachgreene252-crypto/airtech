@@ -47,7 +47,7 @@ export function SystemsReveal() {
     <Section tone="paper" border={false} className="overflow-hidden">
       <div className="mx-auto max-w-2xl text-center">
         <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
-          Systems — 02
+          Our Solutions — 07
         </p>
         <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-normal leading-[0.98] text-(--color-ink) text-balance">
           <AnimatePresence mode="wait">
@@ -64,9 +64,10 @@ export function SystemsReveal() {
           </AnimatePresence>
         </h2>
         <p className="mx-auto mt-5 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel)">
-          These aren&apos;t six contractors&apos; scopes stitched together after the fact.
-          Airtech engineers and executes every system as one coordinated delivery, sharing
-          the same risers and plant rooms.
+          Every building has a different set of demands. Airtech brings the disciplines together
+          to create environments that are comfortable, connected, protected and operational —
+          engineered and executed as one coordinated delivery, not six contractors&apos; scopes
+          stitched together after the fact.
         </p>
       </div>
 
@@ -123,7 +124,7 @@ export function SystemsReveal() {
         </button>
       </div>
 
-      <div className="mx-auto mt-12 max-w-[720px]">
+      <div className="mx-auto mt-14 max-w-[920px]">
         <BuildingDiagram step={step} reduceMotion={!!reduceMotion} />
       </div>
 
