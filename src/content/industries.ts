@@ -37,7 +37,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Healthcare & Hospital HVAC / MEP",
       description:
-        "HVAC and MEP engineering for hospitals and healthcare facilities — operation theatres, ICUs, diagnostic areas and 24×7 clinical environments.",
+        "HVAC and MEP engineering for hospitals and healthcare facilities: operation theatres, ICUs, diagnostic areas and 24×7 clinical environments.",
     },
     status: "client_confirmed",
   },
@@ -45,7 +45,7 @@ export const industries: Industry[] = [
     slug: "hospitality",
     name: "Hospitality",
     overview:
-      "Airtech designs zone-specific HVAC for hotels and resorts — guest rooms, restaurants, lobbies, health clubs and banquet halls each carry distinct load and comfort requirements, and the system is designed around the precise needs of each area.",
+      "Airtech designs zone-specific HVAC for hotels and resorts: guest rooms, restaurants, lobbies, health clubs and banquet halls each carry distinct load and comfort requirements, and the system is designed around the precise needs of each area.",
     operationalChallenges: [
       "Partial load due to varying occupancy rates",
       "Higher load at more heavily occupied zones such as banquet halls and restaurants",
@@ -64,7 +64,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Hospitality HVAC & MEP Engineering",
       description:
-        "Zone-specific HVAC, electrical, plumbing and fire-protection engineering for hotels and resorts — from guest rooms to banquet halls.",
+        "Zone-specific HVAC, electrical, plumbing and fire-protection engineering for hotels and resorts: from guest rooms to banquet halls.",
     },
     status: "client_confirmed",
   },
@@ -92,7 +92,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Pharmaceutical & Laboratory HVAC Engineering",
       description:
-        "Precision HVAC for pharmaceutical manufacturing and laboratories — temperature, humidity, pressure gradients, air changes and HEPA filtration to WHO GMP context.",
+        "Precision HVAC for pharmaceutical manufacturing and laboratories: temperature, humidity, pressure gradients, air changes and HEPA filtration to WHO GMP context.",
     },
     status: "client_confirmed",
   },
@@ -121,7 +121,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Industrial & Manufacturing HVAC / MEP",
       description:
-        "Process-informed HVAC and MEP engineering for manufacturing facilities — panel cooling, warehouse ventilation and production-specific design.",
+        "Process-informed HVAC and MEP engineering for manufacturing facilities: panel cooling, warehouse ventilation and production-specific design.",
     },
     status: "client_confirmed",
   },
@@ -153,7 +153,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Corporate & Commercial HVAC / MEP",
       description:
-        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices — DG-compatible systems, VRF/VRV design and server-room cooling.",
+        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, VRF/VRV design and server-room cooling.",
     },
     status: "client_confirmed",
   },
@@ -183,7 +183,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Telecom & Data Centre Cooling",
       description:
-        "Precision cooling for telecom BTS sites, server rooms and data centres — designed for 24×7 operation, high sensible loads and zero-failure reliability.",
+        "Precision cooling for telecom BTS sites, server rooms and data centres: designed for 24×7 operation, high sensible loads and zero-failure reliability.",
     },
     status: "client_confirmed",
   },

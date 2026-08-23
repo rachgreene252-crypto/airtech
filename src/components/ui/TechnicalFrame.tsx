@@ -63,7 +63,7 @@ function TechnicalPlaceholder({ label }: { label?: string }) {
       }}
     >
       <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-(--color-paper)/70">
-        Photography pending{label ? ` — ${label}` : ""}
+        Photography pending{label ? `: ${label}` : ""}
       </p>
     </div>
   );

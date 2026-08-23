@@ -30,7 +30,7 @@ export function ProjectFeatureRow({
   const meta = (
     <>
       <p className={cn("font-mono text-xs tracking-[0.14em] uppercase", dark ? "text-(--color-signal-soft)" : "text-(--color-signal)")}>
-        {String(index).padStart(2, "0")} — {industryName ?? project.projectType}
+        {String(index).padStart(2, "0")} · {industryName ?? project.projectType}
       </p>
       <h3 className={cn("mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-balance", dark && "text-(--color-paper)")}>
         {project.name}

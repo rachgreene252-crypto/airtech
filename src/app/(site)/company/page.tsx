@@ -33,7 +33,7 @@ export default function CompanyPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Company" }]}
         eyebrow="About Airtech"
         heading="An engineering company built around one idea: reliability matters."
-        description="Airtech is a Nepal-based engineering and MEP company specialising in HVAC, mechanical, electrical, plumbing and fire-protection solutions. Established in 2000, the company has grown from an HVAC specialist into a comprehensive MEP solutions provider serving commercial, industrial, healthcare, hospitality, pharmaceutical and institutional sectors — combining engineering, procurement, installation, testing, commissioning and after-sales support under one umbrella."
+        description="Airtech is a Nepal-based engineering and MEP company specialising in HVAC, mechanical, electrical, plumbing and fire-protection solutions. Established in 2000, the company has grown from an HVAC specialist into a comprehensive MEP solutions provider serving commercial, industrial, healthcare, hospitality, pharmaceutical and institutional sectors, combining engineering, procurement, installation, testing, commissioning and after-sales support under one umbrella."
       />
 
       <Section>
@@ -51,7 +51,7 @@ export default function CompanyPage() {
             <SectionHeader eyebrow="Vision" heading="Built on customer focus." />
             <p className="mt-6 text-(--color-steel) leading-relaxed">
               Airtech&apos;s corporate vision is &ldquo;Customer for Life.&rdquo; Customer loyalty is
-              earned by listening, anticipating requirements and working to create value — with growth,
+              earned by listening, anticipating requirements and working to create value, with growth,
               longevity and financial success following naturally from that focus.
             </p>
           </div>

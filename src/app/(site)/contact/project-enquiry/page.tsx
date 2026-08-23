@@ -7,7 +7,7 @@ import { industries } from "@/content/industries";
 export const metadata: Metadata = {
   title: "Discuss Your Project",
   description:
-    "Tell Airtech about your HVAC, electrical, plumbing, fire-protection or integrated MEP project — our engineering team responds within one business day.",
+    "Tell Airtech about your HVAC, electrical, plumbing, fire-protection or integrated MEP project. Our engineering team responds within one business day.",
 };
 
 export default function ProjectEnquiryPage() {

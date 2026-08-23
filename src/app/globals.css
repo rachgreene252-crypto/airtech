@@ -43,7 +43,15 @@
   --color-ink-soft: #4a4c4e;
   --color-paper: #f6f3ec;
   --color-paper-raised: #fcfbf8;
-  --color-steel: #66645a;
+  /* Darkened from #66645a (5.4:1 on paper — technically AA-legal but reads
+     as washed-out at the 13–16px sizes this token is used for everywhere:
+     body copy, card descriptions, PageHero descriptions). #48453b holds the
+     same warm-taupe hue and clears 8.6:1, closer to AAA, without crowding
+     --color-ink's own 13.6:1 — legibility fix, not a palette change. */
+  --color-steel: #48453b;
+  /* Reads well (≥5:1) on dark/ink backgrounds only — never use for text on
+     --color-paper or --color-paper-raised (≈2.6:1, fails AA). Decorative/
+     large-scale use on light backgrounds is fine. */
   --color-steel-soft: #9b9a8f;
   --color-line: #e4dfd1;
   --color-line-strong: #cbc2ac;
@@ -146,10 +154,29 @@ body {
 }
 
 /* Sitewide canvas texture — the same architectural line-art wash used in
-   the hero, applied with a fixed viewport-relative position so every
-   section that uses it (Section.tsx "paper" tone, PageHero, and the
-   homepage sections) lines up into a single continuous backdrop instead of
-   each section reading as its own flat white block. */
+   the hero. This is the site's true default backdrop (not just an opt-in
+   per-section class) so every page reads as one continuous system instead
+   of a patchwork of pages that remembered to opt in and ones that didn't.
+   Implemented as a `position: fixed` pseudo-layer behind everything, NOT
+   as `background-attachment: fixed` on <body> itself — the latter forces
+   Chromium to recompute compositing for that background on every scroll
+   frame across the *entire* (very tall, GSAP-pinned) document, which was
+   measured hanging page-screenshot/paint in practice. A fixed, viewport-
+   sized pseudo-element composites once and stays static — the same visual
+   result, none of the cost. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-paper);
+  background-image: url(/images/backgrounds/architectural-light.webp);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
 .bg-site-texture {
   background-color: var(--color-paper);
   background-image: url(/images/backgrounds/architectural-light.webp);

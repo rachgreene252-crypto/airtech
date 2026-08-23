@@ -41,7 +41,7 @@ const plexMono = IBM_Plex_Mono({
 
 const siteTitle = "Airtech Industries | Engineering & Integrated MEP Partner, Nepal";
 const siteDescription =
-  "Airtech Industries is Nepal's engineering and integrated MEP partner — HVAC, electrical, plumbing, fire protection and building systems, from design through commissioning and lifecycle support.";
+  "Airtech Industries is Nepal's engineering and integrated MEP partner: HVAC, electrical, plumbing, fire protection and building systems, from design through commissioning and lifecycle support.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(

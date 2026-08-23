@@ -29,7 +29,7 @@ export default function LeadershipPage() {
             </div>
           ))}
         </div>
-        <p className="mt-10 text-sm text-(--color-steel-soft)">
+        <p className="mt-10 text-sm text-(--color-steel)">
           Extended leadership biographies and photography are being finalised for publication.
         </p>
       </Section>

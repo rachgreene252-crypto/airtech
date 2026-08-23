@@ -42,14 +42,14 @@ export default function ServiceSupportPage() {
           </h1>
           <p className="mt-6 max-w-lg text-lg text-(--color-steel) leading-relaxed">
             A trained technical team supports installed systems through Annual Maintenance Contracts,
-            scheduled service and rapid response — engineers trained at manufacturer training centres
+            scheduled service and rapid response. Engineers trained at manufacturer training centres
             support the designs, selection and installation needs of major customer applications.
           </p>
         </div>
         <div className="relative min-h-[42vh] lg:order-1 lg:min-h-[70vh]">
           <Image
             src="/images/projects/laxmi-motors-kd-plant.jpg"
-            alt="Laxmi Motors KD Plant, Parasi — a system Airtech continues to support after handover"
+            alt="Laxmi Motors KD Plant, Parasi: a system Airtech continues to support after handover"
             fill
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
@@ -69,7 +69,7 @@ export default function ServiceSupportPage() {
           ))}
         </ul>
         <p className="mt-10 font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
-          Engineers trained at manufacturer centres — {trainingLocations.join(" · ")}
+          Engineers trained at manufacturer centres: {trainingLocations.join(" · ")}
         </p>
       </Section>
 

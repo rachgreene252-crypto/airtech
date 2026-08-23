@@ -87,7 +87,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
   function handleSubmit() {
     const parsed = enquirySchema.safeParse(form);
     if (!parsed.success) {
-      setSubmitError("Please check the earlier steps — some required details are missing.");
+      setSubmitError("Please check the earlier steps: some required details are missing.");
       return;
     }
     setSubmitError(null);
@@ -109,7 +109,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
             key={label}
             className={cn(
               "flex items-center gap-2",
-              i === step ? "text-(--color-ink)" : "text-(--color-steel-soft)"
+              i === step ? "text-(--color-ink)" : "text-(--color-steel)"
             )}
           >
             <span
@@ -295,7 +295,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
         <fieldset>
           <legend className="font-display text-2xl font-semibold mb-6">Documents</legend>
           <p className="text-sm text-(--color-steel)">
-            Drawings, specifications or any reference documents — optional, up to 12MB total.
+            Drawings, specifications or any reference documents (optional, up to 12MB total).
           </p>
 
           <button
@@ -330,7 +330,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                   className="flex items-center justify-between gap-4 border-t border-(--color-line) py-3 text-sm first:border-t-0"
                 >
                   <span className="truncate text-(--color-ink)">{file.name}</span>
-                  <span className="shrink-0 text-(--color-steel-soft)">{formatBytes(file.size)}</span>
+                  <span className="shrink-0 text-(--color-steel)">{formatBytes(file.size)}</span>
                   <button
                     type="button"
                     onClick={() => removeFile(i)}
@@ -397,7 +397,7 @@ function Field({
   return (
     <label className="block">
       <span className="block font-mono text-[11px] tracking-[0.08em] uppercase text-(--color-steel) mb-1.5">
-        {label} {optional && <span className="normal-case text-(--color-steel-soft)">(optional)</span>}
+        {label} {optional && <span className="normal-case text-(--color-steel)">(optional)</span>}
       </span>
       {children}
       {error && (

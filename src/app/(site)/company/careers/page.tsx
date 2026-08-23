@@ -16,7 +16,7 @@ export default function CareersPage() {
         ]}
         eyebrow="Careers"
         heading="Engineers who want to work on projects that matter."
-        description="Airtech's work spans hospitals, pharmaceutical facilities, hotels, telecom infrastructure and industrial sites — technically demanding environments where engineering quality is directly visible in the result."
+        description="Airtech's work spans hospitals, pharmaceutical facilities, hotels, telecom infrastructure and industrial sites: technically demanding environments where engineering quality is directly visible in the result."
       />
       <Section>
         <p className="max-w-xl text-(--color-steel) leading-relaxed">

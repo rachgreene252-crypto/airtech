@@ -145,7 +145,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               &ldquo;{testimonial.quote}&rdquo;
             </p>
             <footer className="mt-6 font-mono text-xs tracking-[0.06em] uppercase text-(--color-steel)">
-              {testimonial.personName}, {testimonial.personTitle} — {testimonial.organisation}
+              {testimonial.personName}, {testimonial.personTitle} · {testimonial.organisation}
             </footer>
           </blockquote>
         </Section>

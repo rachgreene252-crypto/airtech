@@ -47,7 +47,7 @@ export default function QualityCertificationsPage() {
       <Section tone="raised">
         <SectionHeader eyebrow="Equipment partners" heading="Manufacturer relationships." />
         <p className="mt-6 max-w-2xl text-(--color-steel)">
-          Airtech works with established equipment manufacturers — these relationships support Airtech&apos;s
+          Airtech works with established equipment manufacturers. These relationships support Airtech&apos;s
           engineering, not the other way around.
         </p>
         <div className="mt-8 flex flex-wrap gap-x-12 gap-y-4">

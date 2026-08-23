@@ -38,7 +38,7 @@ export default function IndustriesPage() {
                   {industry.overview}
                 </p>
                 {industry.operationalChallenges.length > 0 && (
-                  <p className="mt-4 font-mono text-[11px] tracking-[0.06em] uppercase text-(--color-steel-soft)">
+                  <p className="mt-4 font-mono text-[11px] tracking-[0.06em] uppercase text-(--color-steel)">
                     {industry.operationalChallenges[0]}
                   </p>
                 )}

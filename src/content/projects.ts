@@ -34,7 +34,7 @@ export const projects: Project[] = [
     relatedProjectSlugs: ["sipradi-trading"],
     featured: true,
     seo: {
-      title: "Ncell Corporate Office — HVAC & MEP",
+      title: "Ncell Corporate Office: HVAC & MEP",
       description: "HVAC and MEP works delivered for the Ncell corporate office in Lainchaur, Kathmandu.",
     },
     status: "source_only",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
     relatedProjectSlugs: ["ncell-corporate-office"],
     featured: true,
     seo: {
-      title: "Sipradi Trading Corporate Office — Complete MEP",
+      title: "Sipradi Trading Corporate Office: Complete MEP",
       description: "Complete MEP and HVAC works delivered for the Sipradi Trading office building in Gairidhara, Kathmandu.",
     },
     status: "source_only",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     relatedProjectSlugs: [],
     featured: false,
     seo: {
-      title: "New Airport Commercial Office & Parking — MEP",
+      title: "New Airport Commercial Office & Parking: MEP",
       description: "MEP works for the new airport commercial office and parking lot facility in Kathmandu.",
     },
     status: "needs_verification",
@@ -99,7 +99,7 @@ export const projects: Project[] = [
     relatedProjectSlugs: ["nepal-mediciti"],
     featured: true,
     seo: {
-      title: "Nobel College of Health and Education Foundation — MEP",
+      title: "Nobel College of Health and Education Foundation: MEP",
       description: "MEP works including supply, delivery, installation, testing and commissioning at Nobel College, Baneshwor, Kathmandu.",
     },
     status: "source_only",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     relatedProjectSlugs: ["nobel-college-health-education"],
     featured: true,
     seo: {
-      title: "Nepal Mediciti Hospital — HVAC & MEP",
+      title: "Nepal Mediciti Hospital: HVAC & MEP",
       description: "HVAC/MEP engineering and execution at Nepal Mediciti / Ashwin's Medical College & Hospital.",
     },
     status: "needs_verification",
@@ -147,7 +147,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "Norvic International Hospital",
-      description: "Norvic International Hospital, Kathmandu — featured in Airtech's project portfolio.",
+      description: "Norvic International Hospital, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -169,7 +169,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "Grande International Hospital",
-      description: "Grande International Hospital, Kathmandu — featured in Airtech's project portfolio.",
+      description: "Grande International Hospital, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -191,7 +191,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "The Soaltee, Kathmandu",
-      description: "The Soaltee, Kathmandu — featured in Airtech's project portfolio.",
+      description: "The Soaltee, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -213,7 +213,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "Radisson Hotel Kathmandu",
-      description: "Radisson Hotel, Kathmandu — featured in Airtech's project portfolio.",
+      description: "Radisson Hotel, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -235,7 +235,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "Universal College of Medical Sciences",
-      description: "Universal College of Medical Sciences, Bhairahawa — featured in Airtech's project portfolio.",
+      description: "Universal College of Medical Sciences, Bhairahawa. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -257,7 +257,7 @@ export const projects: Project[] = [
     featured: false,
     seo: {
       title: "Shanker Group Corporate Office",
-      description: "Shanker Group Corporate Office, Kathmandu — featured in Airtech's project portfolio.",
+      description: "Shanker Group Corporate Office, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -281,7 +281,7 @@ export const projects: Project[] = [
     featured: true,
     seo: {
       title: "Civil Aviation Authority of Nepal (CAAN)",
-      description: "Civil Aviation Authority of Nepal (CAAN), Kathmandu — featured in Airtech's project portfolio.",
+      description: "Civil Aviation Authority of Nepal (CAAN), Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -306,7 +306,7 @@ export const projects: Project[] = [
     featured: true,
     seo: {
       title: "Laxmi Motor Corporation",
-      description: "Laxmi Motor Corporation, Parasi — featured in Airtech's project portfolio.",
+      description: "Laxmi Motor Corporation, Parasi. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },

@@ -51,7 +51,7 @@ export default function ContactPage() {
           <div className="border-t border-(--color-line) pt-10 lg:border-t-0 lg:border-l lg:pl-16 lg:pt-0">
             <h2 className="font-display text-2xl font-semibold">Have a project in mind?</h2>
             <p className="mt-3 max-w-sm text-(--color-steel) leading-relaxed">
-              Tell us what you&apos;re building — discipline, project stage, location — and we&apos;ll come
+              Tell us what you&apos;re building (discipline, project stage, location) and we&apos;ll come
               back with the right engineering contact.
             </p>
             <div className="mt-6">

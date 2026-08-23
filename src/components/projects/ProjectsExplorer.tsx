@@ -129,7 +129,7 @@ function FilterRow({
 }) {
   return (
     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-      <span className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel-soft)">{label}</span>
+      <span className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">{label}</span>
       <FilterLink active={value === ""} onClick={() => onChange("")}>
         All
       </FilterLink>

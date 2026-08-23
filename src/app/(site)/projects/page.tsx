@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <div className="bg-(--color-paper) pt-8 pb-16 sm:pb-20 lg:pb-24">
+      <div className="bg-site-texture pt-8 pb-16 sm:pb-20 lg:pb-24">
         <Container>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
           <p className="mt-10 font-mono text-xs tracking-[0.2em] uppercase text-(--color-signal)">

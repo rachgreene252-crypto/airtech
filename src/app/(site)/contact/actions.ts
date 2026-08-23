@@ -35,7 +35,7 @@ export async function submitEnquiry(input: EnquiryInput, files: File[]): Promise
 
   const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
   if (totalBytes > MAX_ATTACHMENT_BYTES) {
-    return { ok: false, error: "Attachments are too large — please keep the total under 12MB, or email larger files directly." };
+    return { ok: false, error: "Attachments are too large. Please keep the total under 12MB, or email larger files directly." };
   }
 
   const webhookUrl = process.env.LEAD_WEBHOOK_URL;
