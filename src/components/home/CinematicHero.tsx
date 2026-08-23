@@ -4,19 +4,13 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 /**
- * Section 02 — Hero. GSAP ScrollTrigger canvas frame-sequence built from
- * the supplied ASSETS/hero-frames set, pre-optimized to WebP at build time
- * into public/images/hero/frames-desktop and a decimated
- * public/images/hero/frames-mobile for small screens (frames are never
- * loaded as raw 2MB+ PNGs at runtime).
- *
- * Only frames 1–CLEAN_FRAME_COUNT are used. From frame ~35 onward the
- * supplied sequence has a generic AI-generated "MEP" roundel baked directly
- * into the pixels (not Airtech's mark, and visibly malformed/misspelled
- * mid-sequence) — there is no way to occlude or crop that out of a baked
- * raster frame, so those frames are excluded from playback entirely rather
- * than papered over. The result is the clean architectural line-art portion
- * of the sequence only, played straight through with nothing drawn on top.
+ * Section 02 — Hero. GSAP ScrollTrigger canvas frame-sequence: the full,
+ * unmodified 240-frame set from ASSETS/hero-frames, pre-optimized to WebP
+ * at build time into public/images/hero/frames-desktop (and a decimated
+ * public/images/hero/frames-mobile for small screens — same source frames,
+ * every 3rd one, purely a bandwidth optimization, not a content change).
+ * Every frame plays exactly as supplied, in order, with nothing drawn on
+ * top of the canvas.
  *
  * Loading strategy: frame Images are created upfront but their `src` is
  * only assigned progressively (frame 0 first for instant paint, the rest
@@ -24,8 +18,8 @@ import { useReducedMotion } from "framer-motion";
  * contiguously-loaded frame, so scrubbing ahead of the network never shows
  * a blank frame, it just holds the last available one.
  */
-const CLEAN_FRAME_COUNT = 33;
-const MOBILE_FRAME_NUMBERS = Array.from({ length: 11 }, (_, i) => 1 + i * 3);
+const DESKTOP_FRAME_COUNT = 240;
+const MOBILE_FRAME_NUMBERS = Array.from({ length: 80 }, (_, i) => 1 + i * 3);
 const MOBILE_BREAKPOINT = 768;
 
 function pad3(n: number) {
@@ -46,7 +40,7 @@ export function CinematicHero() {
     if (!section || !canvas) return;
 
     const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
-    const total = isMobile ? MOBILE_FRAME_NUMBERS.length : CLEAN_FRAME_COUNT;
+    const total = isMobile ? MOBILE_FRAME_NUMBERS.length : DESKTOP_FRAME_COUNT;
     const frameSrc = (i: number) =>
       isMobile
         ? `/images/hero/frames-mobile/frame_${pad3(MOBILE_FRAME_NUMBERS[i])}.webp`
@@ -156,11 +150,7 @@ export function CinematicHero() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Shorter than a full-length pin: with only the clean (badge-free)
-      // portion of the sequence in play, the visible motion is a subtle
-      // architectural-line shimmer rather than a long cinematic reveal, so
-      // the pinned scroll distance is scaled down to match.
-      const pinDistance = window.innerHeight * (isMobile ? 0.55 : 0.85);
+      const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
 
       ctxGsap = gsap.context(() => {
         const st = ScrollTrigger.create({
