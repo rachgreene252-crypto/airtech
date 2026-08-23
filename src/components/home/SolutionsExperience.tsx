@@ -2,24 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 
 /**
- * Section 07 — Our Solutions. The homepage's visual centerpiece: one real
- * Airtech-scale building, five system layers converging into one
- * integrated solution. Per the premium-reconception brief's explicit "use
- * the actual supplied architectural building visual, make it large, no
- * fake wireframe" correction, this is a real building photograph (not an
- * abstract SVG cross-section) with system markers appearing within/around
- * it — "visible building + invisible systems = engineered environment."
- * The supplied ASSETS/BG atmosphere asset washes in behind the photo at low
- * opacity for continuity with the hero, which uses the same asset. Airtech
- * blue is the primary marker colour; gold is reserved for the final
- * convergence accent only. Click/tap-driven (not scroll-jacked) so the
- * visitor controls pace and it degrades cleanly with keyboard-only input
- * or reduced motion.
+ * Section 07 — Our Solutions. The homepage's visual centerpiece: an
+ * animated blueprint-line building, five system layers converging into one
+ * integrated solution — "visible building + invisible systems = engineered
+ * environment." The building is an original line-drawing illustration
+ * (stepped/tiered massing nodding to Kathmandu Valley roof silhouettes,
+ * a Himalayan skyline behind it) rather than a stock or client project
+ * photograph, drawn in on scroll with the site's existing blueprint stroke
+ * language — deliberately not a literal pagoda/temple cliché. Airtech blue
+ * is the primary marker colour; gold is reserved for the final convergence
+ * accent only. Click/tap-driven (not scroll-jacked) so the visitor controls
+ * pace and it degrades cleanly with keyboard-only input or reduced motion.
  */
 const LAYERS = [
   { key: "climate", label: "Climate", detail: "HVAC / Chillers / VRF / Ventilation", slug: "hvac", top: "10%", side: "left" },
@@ -29,6 +26,121 @@ const LAYERS = [
   { key: "intelligence", label: "Intelligence", detail: "ELV / CCTV / Access Control / Networking", slug: "elv-security", top: "86%", side: "left" },
 ] as const;
 
+/**
+ * Original blueprint-line illustration: a stepped/terraced tower against a
+ * Himalayan skyline, low-rise streetscape at its base. The terraced massing
+ * is a deliberate, abstracted nod to Kathmandu Valley roof silhouettes
+ * without drawing a literal pagoda/temple — "Nepalese engineering identity
+ * without clichés" per the site's creative brief. Strokes draw themselves
+ * in on scroll (SVG pathLength 0 → 1); everything renders instantly under
+ * prefers-reduced-motion.
+ */
+function BuildingIllustration({ reduceMotion }: { reduceMotion: boolean | null }) {
+  const draw = (delay: number) => ({
+    initial: reduceMotion ? false : { pathLength: 0, opacity: 0 },
+    whileInView: { pathLength: 1, opacity: 1 },
+    viewport: { once: true, margin: "-60px" },
+    transition: { pathLength: { duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] as const }, opacity: { duration: 0.3, delay } },
+  });
+
+  return (
+    <svg
+      viewBox="0 0 300 400"
+      className="h-full w-full"
+      role="img"
+      aria-label="Illustrated section of a building integrating climate, power, water, safety and intelligence systems, with the Kathmandu Valley skyline behind it"
+    >
+      {/* Himalayan skyline */}
+      <motion.path
+        {...draw(0)}
+        d="M0 138 L28 110 L52 132 L78 84 L104 128 L134 96 L162 132 L190 100 L220 136 L246 112 L272 134 L300 118"
+        fill="none"
+        stroke="var(--color-blueprint-soft)"
+        strokeWidth={1.25}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Low-rise streetscape flanking the tower */}
+      <motion.path
+        {...draw(0.15)}
+        d="M18 380 V320 H54 V380 M18 340 H54 M18 358 H54"
+        fill="none"
+        stroke="var(--color-line-strong)"
+        strokeWidth={1}
+      />
+      <motion.path
+        {...draw(0.2)}
+        d="M246 380 V300 H282 V380 M246 324 H282 M246 348 H282 M246 300 H282"
+        fill="none"
+        stroke="var(--color-line-strong)"
+        strokeWidth={1}
+      />
+
+      {/* Ground line */}
+      <motion.path {...draw(0.05)} d="M0 380 H300" fill="none" stroke="var(--color-line-strong)" strokeWidth={1.25} />
+
+      {/* Tower body, terraced top (three set-backs) */}
+      <motion.path
+        {...draw(0.3)}
+        d="M96 380 V168 H132 V132 H168 V96 H204 V380 Z"
+        fill="none"
+        stroke="var(--color-brand-blue)"
+        strokeWidth={1.75}
+        strokeLinejoin="round"
+      />
+
+      {/* Terrace roof-edge accents (gold = precision, per palette) */}
+      <motion.path {...draw(0.55)} d="M96 168 H132" stroke="var(--color-signal-soft)" strokeWidth={2.5} />
+      <motion.path {...draw(0.62)} d="M132 132 H168" stroke="var(--color-signal-soft)" strokeWidth={2.5} />
+      <motion.path {...draw(0.69)} d="M168 96 H204" stroke="var(--color-signal-soft)" strokeWidth={2.5} />
+
+      {/* Window / floor strips — kept inset within each tier's own walls */}
+      {[350, 322, 294, 266, 238, 210, 182].map((y, i) => (
+        <motion.path
+          key={`base-${y}`}
+          {...draw(0.35 + i * 0.03)}
+          d={`M104 ${y} H196`}
+          stroke="var(--color-line-strong)"
+          strokeWidth={0.75}
+        />
+      ))}
+      {[150].map((y, i) => (
+        <motion.path
+          key={`mid-${y}`}
+          {...draw(0.6 + i * 0.03)}
+          d={`M140 ${y} H196`}
+          stroke="var(--color-line-strong)"
+          strokeWidth={0.75}
+        />
+      ))}
+      {[114].map((y, i) => (
+        <motion.path
+          key={`top-${y}`}
+          {...draw(0.7 + i * 0.03)}
+          d={`M176 ${y} H196`}
+          stroke="var(--color-line-strong)"
+          strokeWidth={0.75}
+        />
+      ))}
+
+      {/* Spire + a pulsing light, the one non-technical "alive" flourish */}
+      <motion.path {...draw(0.8)} d="M186 96 V72" stroke="var(--color-brand-blue)" strokeWidth={1.5} />
+      <motion.circle
+        cx={186}
+        cy={68}
+        r={3}
+        fill="var(--color-signal-soft)"
+        initial={reduceMotion ? false : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.95, duration: 0.3 }}
+        className={reduceMotion ? undefined : "animate-energy-pulse"}
+      />
+    </svg>
+  );
+}
+
 export function SolutionsExperience() {
   const [step, setStep] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -37,11 +149,7 @@ export function SolutionsExperience() {
   const converged = step === total;
 
   return (
-    <section className="relative bg-(--color-paper) py-20 sm:py-28 lg:py-32 overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.35]">
-        <Image src="/images/backgrounds/architectural-light.webp" alt="" fill className="object-cover" />
-      </div>
-
+    <section className="relative bg-site-texture py-20 sm:py-28 lg:py-32 overflow-hidden">
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
@@ -63,16 +171,12 @@ export function SolutionsExperience() {
         </div>
 
         <div className="relative mx-auto mt-16 max-w-3xl">
-          <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-[28px] sm:aspect-[4/5]">
-            <Image
-              src="/images/landmarks/ncell-iconic-building.jpg"
-              alt="Ncell Iconic Building — an Airtech-engineered building"
-              fill
-              sizes="(min-width: 640px) 420px, 90vw"
-              className="object-cover"
-              priority={false}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink)/25 via-transparent to-transparent" />
+          <div className="crop-frame relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-[28px] border border-(--color-line-strong) bg-(--color-paper-raised) text-(--color-signal) sm:aspect-[4/5]">
+            <span className="crop-tick-tl" />
+            <span className="crop-tick-br" />
+            <div className="absolute inset-0 p-8">
+              <BuildingIllustration reduceMotion={reduceMotion} />
+            </div>
 
             {LAYERS.map((layer, i) => {
               const isActive = step > i;
@@ -94,7 +198,7 @@ export function SolutionsExperience() {
                   <span
                     className={`h-px shrink-0 bg-(--color-brand-blue-soft) ${layer.side === "right" ? "w-8" : "w-8"}`}
                   />
-                  <span className="rounded-full bg-white/90 px-2.5 py-1 font-mono text-[10px] tracking-[0.1em] uppercase text-(--color-ink) shadow-sm backdrop-blur-sm">
+                  <span className="rounded-full border border-(--color-line-strong) bg-(--color-paper) px-2.5 py-1 font-mono text-[10px] tracking-[0.1em] uppercase text-(--color-ink)">
                     {layer.label}
                   </span>
                 </motion.div>

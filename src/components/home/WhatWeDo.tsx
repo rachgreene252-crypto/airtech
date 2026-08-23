@@ -1,32 +1,35 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { services } from "@/content/services";
 
 /**
- * Section 06 — What We Do. Editorial statement + a real Airtech project
- * photograph, deliberately not a HVAC/Electrical/Plumbing/... service list
- * (the brief explicitly rules that out). Per the "no dark rectangles / no
- * generic UI diagrams" correction, this replaced an SVG diagram in a
- * bordered card with the real image itself as the hero, carrying only a
- * restrained blue/gold line overlay — the image remains dominant, the
- * technical marks are secondary.
+ * Section 06 — What We Do. Editorial statement, followed by the seven
+ * client-confirmed disciplines from src/content/services.ts (Master Source
+ * of Truth §5 / brochure service pages — see that file's header comment).
+ * Replaces the earlier single project-photograph treatment: a stock-feeling
+ * aerial resort shot was carrying no information about what Airtech
+ * actually does, and this is a "serious engineering company" site, not a
+ * photo-led hospitality brochure. A drafting-sheet grid of the real
+ * discipline taxonomy (code, name, capability summary) makes the breadth of
+ * the practice legible in one scroll instead of one anecdotal image.
  */
-const MARKS = [
-  { label: "Climate", top: "18%" },
-  { label: "Power", top: "42%" },
-  { label: "Safety", top: "68%" },
+const ACCENTS = [
+  "var(--color-brand-blue)",
+  "var(--color-signal)",
+  "var(--color-heritage)",
+  "var(--color-blueprint)",
 ] as const;
 
 export function WhatWeDo() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-(--color-paper) py-20 sm:py-24 lg:py-28">
-      <Container className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16">
-        <div className="text-center lg:text-center">
+    <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
             What we do
           </p>
@@ -44,39 +47,59 @@ export function WhatWeDo() {
             The result is not simply a collection of installed systems. It is one coordinated
             building environment, engineered to perform.
           </p>
+        </div>
+
+        <div className="crop-frame relative mt-16 border border-(--color-line-strong) text-(--color-signal)">
+          <span className="crop-tick-tl" />
+          <span className="crop-tick-br" />
+          <div className="grid grid-cols-1 divide-y divide-(--color-line) sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
+            {services.map((service, i) => {
+              const accent = ACCENTS[i % ACCENTS.length];
+              return (
+                <motion.div
+                  key={service.slug}
+                  initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: (i % 4) * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative flex flex-col p-6 sm:p-7"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className="font-mono text-[11px] font-semibold tracking-[0.08em]"
+                      style={{ color: accent }}
+                    >
+                      {service.disciplineCode}
+                    </span>
+                    <span className="h-px flex-1 bg-(--color-line)" />
+                  </div>
+                  <h3 className="mt-3 font-display text-lg font-semibold leading-tight text-(--color-ink)">
+                    {service.name}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-(--color-steel)">
+                    {service.shortDescription}
+                  </p>
+                  <Link
+                    href={`/expertise/${service.slug}`}
+                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.08em] text-(--color-brand-blue) opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:mt-auto sm:pt-4"
+                  >
+                    Learn more
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-10 text-center">
           <Link
             href="/expertise"
-            className="mt-8 inline-flex items-center justify-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:gap-2.5 transition-all"
+            className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:gap-2.5 transition-all"
           >
             Explore Our Expertise
             <span aria-hidden="true">→</span>
           </Link>
-        </div>
-
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl sm:aspect-[5/6]">
-          <Image
-            src="/images/landmarks/chandragiri-hills-resort.jpg"
-            alt="Chandragiri Hills Resort — an Airtech engineered building"
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
-          />
-          {MARKS.map((mark, i) => (
-            <motion.div
-              key={mark.label}
-              initial={reduceMotion ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.3 + i * 0.15 }}
-              className="absolute left-6 flex items-center gap-2.5 sm:left-8"
-              style={{ top: mark.top }}
-            >
-              <span className="h-px w-6 bg-(--color-signal-soft)" />
-              <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">
-                {mark.label}
-              </span>
-            </motion.div>
-          ))}
         </div>
       </Container>
     </section>

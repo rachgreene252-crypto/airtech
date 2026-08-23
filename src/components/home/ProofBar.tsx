@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate, useReducedMotion } from "framer-motion";
+import { animate, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,34 +10,79 @@ import { Reveal } from "@/components/ui/Reveal";
  * (site-settings.ts / docs/AIRTECH_OPEN_DECISIONS.md B3): 25+ years,
  * established 2000, MEP operations commenced 2013. Team/headcount figures
  * ("300+") remain `needs_verification`, so the fourth slot is a qualitative
- * proof point rather than an invented number. Sits directly on the page's
- * plain canvas (no separate panel/border) so it doesn't read as a
- * disconnected dashboard; numeric stats count up once when scrolled into
- * view. Per the premium-reconception brief, each metric is center-aligned
- * in an evenly spaced centered row rather than left-aligned/wrapped.
+ * proof point rather than an invented number. Presented as a bordered
+ * "specification sheet" strip (hairline divider rules + crop-frame corner
+ * ticks, the site's existing drawing-sheet motif) rather than numbers
+ * floating loose on the canvas — each column carries a rotating accent
+ * colour and a small discipline motif borrowed from MEPSequence/
+ * SystemShowcase's keyframes, and the accent rule under each figure draws
+ * in on scroll so the row reads as alive rather than static type. Numeric
+ * stats count up once when scrolled into view.
  */
 const STATS = [
-  { value: "25+", label: "Years of engineering experience" },
-  { value: "2000", label: "Established in Nepal" },
-  { value: "2013", label: "MEP operations commenced" },
-  { value: "In-house", label: "Multidisciplinary engineering & technical team" },
+  { value: "25+", label: "Years of engineering experience", accent: "var(--color-brand-blue)", motif: "pulse" },
+  { value: "2000", label: "Established in Nepal", accent: "var(--color-signal)", motif: "ping" },
+  { value: "2013", label: "MEP operations commenced", accent: "var(--color-heritage)", motif: "signal" },
+  {
+    value: "In-house",
+    label: "Multidisciplinary engineering and technical team",
+    accent: "var(--color-blueprint)",
+    motif: "airflow",
+  },
 ] as const;
+
+function StatMotif({ motif, accent }: { motif: (typeof STATS)[number]["motif"]; accent: string }) {
+  if (motif === "pulse") {
+    return <span className="h-2 w-2 rounded-full animate-energy-pulse" style={{ backgroundColor: accent }} />;
+  }
+  if (motif === "ping") {
+    return <span className="h-2 w-2 rounded-full animate-detect-ping" style={{ backgroundColor: accent }} />;
+  }
+  if (motif === "signal") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+        <circle r={3} fill={accent} className="animate-signal-travel" />
+      </svg>
+    );
+  }
+  return (
+    <span className="relative inline-block h-2 w-5 overflow-hidden">
+      <span className="absolute left-0 top-0 h-[1.5px] w-3 animate-airflow" style={{ backgroundColor: accent }} />
+    </span>
+  );
+}
 
 export function ProofBar() {
   return (
-    <section className="bg-(--color-paper) py-20 sm:py-24">
+    <section className="bg-site-texture py-20 sm:py-24">
       <Container>
-        <div className="flex flex-wrap justify-center gap-x-16 gap-y-12 text-center sm:gap-x-20">
-          {STATS.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.06} className="w-40">
-              <p className="font-display text-5xl sm:text-6xl font-semibold leading-none text-(--color-ink)">
-                <AnimatedStat value={stat.value} />
-              </p>
-              <p className="mx-auto mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-brand-blue)">
-                {stat.label}
-              </p>
-            </Reveal>
-          ))}
+        <div className="crop-frame relative border border-(--color-line-strong) text-(--color-signal)">
+          <span className="crop-tick-tl" />
+          <span className="crop-tick-br" />
+          <div className="grid grid-cols-2 divide-x divide-y divide-(--color-line) sm:grid-cols-4 sm:divide-y-0">
+            {STATS.map((stat, i) => (
+              <Reveal key={stat.label} delay={i * 0.08} className="px-6 py-10 text-center sm:px-8">
+                <div className="flex items-center justify-center gap-2.5">
+                  <StatMotif motif={stat.motif} accent={stat.accent} />
+                  <p className="font-display text-4xl sm:text-5xl font-semibold leading-none text-(--color-ink)">
+                    <AnimatedStat value={stat.value} />
+                  </p>
+                </div>
+                <motion.span
+                  aria-hidden="true"
+                  className="mx-auto mt-5 block h-[2px] w-10 origin-center"
+                  style={{ backgroundColor: stat.accent }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.08 + 0.25, ease: [0.22, 1, 0.36, 1] }}
+                />
+                <p className="mx-auto mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-steel)">
+                  {stat.label}
+                </p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

@@ -34,7 +34,7 @@ const RECOGNITIONS = [
 
 export function ClientRecognition() {
   return (
-    <section className="border-t border-(--color-line) bg-(--color-paper) py-14 sm:py-16">
+    <section className="border-t border-(--color-line) bg-site-texture py-14 sm:py-16">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="font-mono text-xs tracking-[0.16em] uppercase text-(--color-brand-blue)">
@@ -55,7 +55,7 @@ export function ClientRecognition() {
                 <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-(--color-line-strong) bg-white shadow-[0_1px_2px_rgba(37,38,41,0.06)]">
                   <Image
                     src={`/images/recognition/${item.file}`}
-                    alt={`Signed reference letter — ${item.client}`}
+                    alt={`Signed reference letter, ${item.client}`}
                     fill
                     sizes="104px"
                     className="object-cover object-top"

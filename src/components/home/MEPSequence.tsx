@@ -82,7 +82,7 @@ export function MEPSequence() {
   const displayActive = reduceMotion ? SYSTEMS.length : active;
 
   return (
-    <section ref={sectionRef} className="bg-(--color-paper) py-24 sm:py-32 lg:py-40">
+    <section ref={sectionRef} className="bg-site-texture py-24 sm:py-32 lg:py-40">
       <Container className="max-w-3xl text-center">
         <p className="font-mono text-xs tracking-[0.2em] uppercase text-(--color-brand-blue)">
           Five disciplines. One delivery.

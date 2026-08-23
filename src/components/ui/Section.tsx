@@ -18,7 +18,7 @@ export function Section({
   border?: boolean;
 }) {
   const toneClasses = {
-    paper: "bg-(--color-paper) text-(--color-ink)",
+    paper: "bg-site-texture text-(--color-ink)",
     ink: "bg-(--color-ink) text-(--color-paper)",
     raised: "bg-(--color-paper-raised) text-(--color-ink)",
   }[tone];

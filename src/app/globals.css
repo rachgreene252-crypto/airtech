@@ -145,6 +145,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Sitewide canvas texture — the same architectural line-art wash used in
+   the hero, applied with a fixed viewport-relative position so every
+   section that uses it (Section.tsx "paper" tone, PageHero, and the
+   homepage sections) lines up into a single continuous backdrop instead of
+   each section reading as its own flat white block. */
+.bg-site-texture {
+  background-color: var(--color-paper);
+  background-image: url(/images/backgrounds/architectural-light.webp);
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
 ::selection {
   background: var(--color-blueprint);
   color: var(--color-paper);

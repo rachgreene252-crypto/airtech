@@ -4,24 +4,19 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 /**
- * Section 02 — Hero. Replaces the short looping hero video with a GSAP
- * ScrollTrigger canvas frame-sequence built from the supplied
- * ASSETS/hero-frames set (240 frames, pre-optimized to WebP at build time
- * into public/images/hero/frames-desktop and a decimated 80-frame
- * public/images/hero/frames-mobile for small screens — see the sibling
- * conversion notes in memory; frames are never loaded as raw 2MB+ PNGs at
- * runtime).
+ * Section 02 — Hero. GSAP ScrollTrigger canvas frame-sequence built from
+ * the supplied ASSETS/hero-frames set, pre-optimized to WebP at build time
+ * into public/images/hero/frames-desktop and a decimated
+ * public/images/hero/frames-mobile for small screens (frames are never
+ * loaded as raw 2MB+ PNGs at runtime).
  *
- * The supplied frames are a near-static architectural line-art backdrop
- * that, from roughly frame 35 onward, has a generic "MEP" roundel baked
- * into the pixels — not Airtech's actual mark. Per the brief's explicit
- * "use the actual Airtech logo asset, do not generate/redraw a replacement"
- * rule, that baked-in badge is never allowed to reach the screen: the real
- * wordmark (public/images/brand/airtech-logo.png) is drawn on the canvas
- * every frame, centered in the same screen region, at zero opacity until
- * the badge would start appearing and full opacity from there on — so the
- * real logo always occludes the placeholder one, and the reveal beat still
- * lands where the source sequence intends it.
+ * Only frames 1–CLEAN_FRAME_COUNT are used. From frame ~35 onward the
+ * supplied sequence has a generic AI-generated "MEP" roundel baked directly
+ * into the pixels (not Airtech's mark, and visibly malformed/misspelled
+ * mid-sequence) — there is no way to occlude or crop that out of a baked
+ * raster frame, so those frames are excluded from playback entirely rather
+ * than papered over. The result is the clean architectural line-art portion
+ * of the sequence only, played straight through with nothing drawn on top.
  *
  * Loading strategy: frame Images are created upfront but their `src` is
  * only assigned progressively (frame 0 first for instant paint, the rest
@@ -29,19 +24,12 @@ import { useReducedMotion } from "framer-motion";
  * contiguously-loaded frame, so scrubbing ahead of the network never shows
  * a blank frame, it just holds the last available one.
  */
-const DESKTOP_FRAME_COUNT = 240;
-const MOBILE_FRAME_NUMBERS = Array.from({ length: 80 }, (_, i) => 1 + i * 3);
+const CLEAN_FRAME_COUNT = 33;
+const MOBILE_FRAME_NUMBERS = Array.from({ length: 11 }, (_, i) => 1 + i * 3);
 const MOBILE_BREAKPOINT = 768;
-const LOGO_FADE_START = 0.28;
-const LOGO_FADE_END = 0.52;
 
 function pad3(n: number) {
   return String(n).padStart(3, "0");
-}
-
-function smoothstep(edge0: number, edge1: number, x: number) {
-  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
 }
 
 export function CinematicHero() {
@@ -58,7 +46,7 @@ export function CinematicHero() {
     if (!section || !canvas) return;
 
     const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
-    const total = isMobile ? MOBILE_FRAME_NUMBERS.length : DESKTOP_FRAME_COUNT;
+    const total = isMobile ? MOBILE_FRAME_NUMBERS.length : CLEAN_FRAME_COUNT;
     const frameSrc = (i: number) =>
       isMobile
         ? `/images/hero/frames-mobile/frame_${pad3(MOBILE_FRAME_NUMBERS[i])}.webp`
@@ -104,13 +92,6 @@ export function CinematicHero() {
     }
     pump();
 
-    const logo = new Image();
-    logo.src = "/images/brand/airtech-logo.png";
-    let logoReady = false;
-    logo.onload = () => {
-      logoReady = true;
-    };
-
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let cssW = 0;
     let cssH = 0;
@@ -128,7 +109,6 @@ export function CinematicHero() {
     }
 
     let currentIndex = 0;
-    let currentProgress = 0;
 
     function draw() {
       if (!ctx || cssW === 0 || cssH === 0) return;
@@ -159,23 +139,6 @@ export function CinematicHero() {
         ctx.fillRect(0, 0, cssW, cssH);
       }
 
-      const logoAlpha = smoothstep(LOGO_FADE_START, LOGO_FADE_END, currentProgress);
-      if (logoReady && logoAlpha > 0.01) {
-        const targetW = Math.min(420, cssW * 0.4);
-        const targetH = targetW * (logo.naturalHeight / logo.naturalWidth);
-        const scale = 0.94 + 0.06 * logoAlpha;
-        const w = targetW * scale;
-        const h = targetH * scale;
-        const x = (cssW - w) / 2;
-        const y = (cssH - h) / 2;
-        ctx.globalAlpha = logoAlpha;
-        ctx.drawImage(logo, x, y, w, h);
-        ctx.globalAlpha = logoAlpha * 0.6;
-        ctx.fillStyle = "#00729b";
-        ctx.fillRect(x, y + h + 18, w, 1);
-        ctx.globalAlpha = 1;
-      }
-
       ctx.restore();
     }
 
@@ -193,7 +156,11 @@ export function CinematicHero() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
+      // Shorter than a full-length pin: with only the clean (badge-free)
+      // portion of the sequence in play, the visible motion is a subtle
+      // architectural-line shimmer rather than a long cinematic reveal, so
+      // the pinned scroll distance is scaled down to match.
+      const pinDistance = window.innerHeight * (isMobile ? 0.55 : 0.85);
 
       ctxGsap = gsap.context(() => {
         const st = ScrollTrigger.create({
@@ -204,7 +171,6 @@ export function CinematicHero() {
           scrub: 0.35,
           anticipatePin: 1,
           onUpdate: (self) => {
-            currentProgress = self.progress;
             currentIndex = Math.min(total - 1, Math.round(self.progress * (total - 1)));
             if (indicatorRef.current) {
               indicatorRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 6));
@@ -257,7 +223,7 @@ export function CinematicHero() {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      aria-label="Airtech Industries — engineering the systems behind extraordinary spaces"
+      aria-label="Airtech Industries: engineering the systems behind extraordinary spaces"
     >
       <canvas ref={canvasRef} className="absolute inset-0 block" />
 

@@ -13,7 +13,7 @@ export const services: Service[] = [
     category: "hvac",
     disciplineCode: "M",
     shortDescription:
-      "Design, equipment selection, procurement, installation, testing and commissioning of air-conditioning and ventilation systems — from single-room comfort cooling to large commercial chiller plant and specialised process cooling.",
+      "Design, equipment selection, procurement, installation, testing and commissioning of air-conditioning and ventilation systems, from single-room comfort cooling to large commercial chiller plant and specialised process cooling.",
     detailedDescription:
       "Airtech's HVAC capability spans the full delivery chain: system design and equipment selection, supply and procurement, installation, and testing and commissioning. The practice covers chillers, VRF/VRV systems, commercial air-conditioning, industrial and process cooling, ventilation, precision air-conditioning for telecom and data-centre environments, and energy-efficient HVAC solutions, extending from small-capacity room air-conditioning to large commercial chiller plant and specialised applications such as pharmaceutical and healthcare environments.",
     capabilities: [
@@ -64,7 +64,7 @@ export const services: Service[] = [
     category: "electrical",
     disciplineCode: "E",
     shortDescription:
-      "Internal and external electrification — HT/LT feeders and panels, distribution boards, schematics, transformers, lightning protection and earthing.",
+      "Internal and external electrification: HT/LT feeders and panels, distribution boards, schematics, transformers, lightning protection and earthing.",
     detailedDescription:
       "Airtech's electrical team executes both internal and external electrification works, covering the schematic and working-drawing preparation through to complete installation of panels, transformers, distribution boards and protective systems for hotels, resorts, hospitals, malls, industries and other institutional clients.",
     capabilities: [

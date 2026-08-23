@@ -16,7 +16,7 @@ export function PageHero({
   meta?: ReactNode;
 }) {
   return (
-    <section className="border-b border-(--color-line) bg-(--color-paper) pt-8 pb-14 sm:pt-10 sm:pb-16">
+    <section className="border-b border-(--color-line) bg-site-texture pt-8 pb-14 sm:pt-10 sm:pb-16">
       <Container>
         <Breadcrumbs items={breadcrumbs} />
         {eyebrow && (

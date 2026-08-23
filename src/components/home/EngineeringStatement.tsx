@@ -27,7 +27,7 @@ export function EngineeringStatement() {
   });
 
   return (
-    <section className="bg-(--color-paper) pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32">
+    <section className="bg-site-texture pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32">
       <Container className="max-w-4xl text-center">
         <span aria-hidden="true" className="mx-auto mb-6 block h-px w-14 bg-(--color-signal-soft)" />
 
@@ -65,7 +65,7 @@ export function EngineeringStatement() {
           className="mx-auto mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-(--color-ink-soft)"
         >
           Airtech brings engineering, procurement, execution, commissioning and long-term
-          technical support together — giving clients a single engineering partner for the
+          technical support together, giving clients a single engineering partner for the
           systems that make buildings perform.
         </motion.p>
 
