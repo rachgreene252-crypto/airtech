@@ -1,95 +1,82 @@
 @import "tailwindcss";
 
 /*
-  Airtech design tokens — "warm heritage" system (supersedes the
-  architectural-white/cobalt/amber system from the previous pass).
+  Airtech design tokens — blue-primary reset (2026-08-28).
 
-  Primary canvas is Warm Ivory, not brochure white or a dark SaaS surface.
-  Hierarchy is built with luminance, scale and whitespace first; colour is
-  reserved for disciplined signals — never flooded across the page.
+  --color-brand-blue is the single primary accent: CTAs, links, focus
+  rings, active states, eyebrow accents. It is a deliberate, contrast-tuned
+  UI blue, not a literal sample of the logo mark — see the --color-brand-blue
+  comment below for the accessibility rationale. --color-brand-blue-soft
+  keeps the literal logo blue (#0099DA) for large/decorative/on-dark use
+  only, where its lower contrast is acceptable.
 
-  `--color-signal` (#8a6428, a darkened bronze-gold) carries the primary
-  interactive role — CTAs, links, focus rings, form states — wherever the
-  codebase already treats it that way. It is deliberately NOT the brief's
-  literal Champagne Gold (#c6a15b): that value only reaches ~2.2:1 contrast
-  against Warm Ivory, well under WCAG AA's 4.5:1 for text. `--color-signal`
-  is darkened to ~4.8:1 so every existing link/eyebrow/focus-ring usage
-  stays accessible without a rename pass.
+  --color-signal, --color-amber and --color-heritage are repointed (not
+  removed) so every existing call site across the codebase recolors to blue
+  automatically — see the repoint comment in :root below.
 
-  `--color-signal-soft` holds the literal Champagne Gold (#c6a15b) — used
-  specifically where the previous pass already reaches for a dark-background
-  or photo-overlay accent (SystemsReveal's building diagram, SystemShowcase's
-  motifs): gold at ~6.2:1 against the dark ink tone, correct there because
-  the background is dark rather than light.
-
-  `--color-amber` is kept as its own token (same value as signal-soft) for
-  the existing SVG/dark-accent code paths that already reference it.
-
-  `--color-heritage` (Muted Burgundy, #6e3036) is new — reserved for
-  light-background "heritage / human character" moments only (e.g. the
-  2000/2013/Today history markers), matching the brief's own semantic split
-  of gold = precision, burgundy = heritage/authority. It is not a 1:1 amber
-  replacement: burgundy fails contrast on the dark sections where amber is
-  actually used, so it is applied only where it was chosen deliberately.
-
-  Type system unchanged: Oswald (condensed, structural — used sparingly for
-  headlines and figures; see src/app/layout.tsx for why Oswald over Big
-  Shoulders Display) + IBM Plex Sans (body/UI) + IBM Plex Mono (technical
-  labels, specs, drawing-sheet references).
+  Canvas is a cool architectural off-white (--color-paper), ink is a deep
+  cool near-black. Type system unchanged: Oswald (display) + IBM Plex Sans
+  (body/UI) + IBM Plex Mono (technical labels — discipline codes, drawing
+  references, spec values only; prose eyebrows use --font-sans now, see the
+  micro-label reset in the components that consume --text-label).
 */
 
 :root {
-  --color-ink: #252629;
-  --color-ink-soft: #4a4c4e;
-  --color-paper: #f6f3ec;
-  --color-paper-raised: #fcfbf8;
-  /* Darkened from #66645a (5.4:1 on paper — technically AA-legal but reads
-     as washed-out at the 13–16px sizes this token is used for everywhere:
-     body copy, card descriptions, PageHero descriptions). #48453b holds the
-     same warm-taupe hue and clears 8.6:1, closer to AAA, without crowding
-     --color-ink's own 13.6:1 — legibility fix, not a palette change. */
-  --color-steel: #48453b;
-  /* Reads well (≥5:1) on dark/ink backgrounds only — never use for text on
-     --color-paper or --color-paper-raised (≈2.6:1, fails AA). Decorative/
-     large-scale use on light backgrounds is fine. */
-  --color-steel-soft: #9b9a8f;
-  --color-line: #e4dfd1;
-  --color-line-strong: #cbc2ac;
+  --color-ink: #161a1f;
+  --color-ink-soft: #3a4048;
+  --color-paper: #f3f5f7;
+  --color-paper-raised: #ffffff;
+  --color-steel: #454c55;
+  --color-steel-soft: #8b929b;
+  --color-line: #e2e6ea;
+  --color-line-strong: #c3cbd3;
   --color-blueprint: #496b82;
   --color-blueprint-soft: #8fafc4;
-  --color-signal: #8a6428;
-  --color-signal-soft: #c6a15b;
-  --color-signal-tint: #dce8ef;
-  --color-amber: #c6a15b;
-  --color-amber-soft: #d8bd84;
-  --color-amber-tint: #f4ebd8;
-  --color-heritage: #6e3036;
 
-  /* Brand blue, sampled directly from the actual logo mark
-     (public/images/brand/airtech-logo.png ≈ #0099DA) per the 2026-08-22
-     homepage visual-correction brief's explicit instruction not to invent a
-     blue. #0099DA only reaches ~3.2:1 contrast on white/paper — enough for
-     large-scale/decorative use (icons, borders, big numerals) but not body
-     text or button labels. `--color-brand-blue` is the same darkening
-     treatment already used for --color-signal: ~5.3:1, safe for text, links
-     and CTA fills. `--color-brand-blue-soft` keeps the literal logo blue for
-     large/non-text accents. Additive tokens — the existing --color-blueprint
-     pairing used elsewhere in the site is untouched. */
-  --color-brand-blue: #00729b;
+  /* Airtech blue — the single primary accent. --color-brand-blue is a
+     deliberate, contrast-tuned UI blue (NOT a sample of the logo mark):
+     white text on it and it on --color-paper both clear ~6:1. Logo fidelity
+     lives only in --color-brand-blue-soft (the literal #0099DA), used for
+     large/decorative/on-dark accents where its ~3:1 is acceptable. A press
+     darkens toward --color-brand-blue-hover rather than brightening toward
+     the soft/logo blue — see Button.tsx. */
+  --color-brand-blue: #045c80;
+  --color-brand-blue-hover: #0a4a67;
   --color-brand-blue-soft: #0099da;
-  --color-brand-blue-tint: #e6f4fa;
+  --color-brand-blue-tint: #e8f1f6;
+  --color-blue-deep: #0d2b3e;
 
-  /* Pure white — used deliberately (not --color-paper) wherever the
-     2026-08-22 cinematic-reconception brief requires a section to read as
-     unambiguously bright rather than warm-ivory: the Trusted-By band and the
-     hero/nav scrim. --color-paper remains the general canvas tone elsewhere
-     ("very light warm white" in the brief's own palette language). */
+  /* Repointed, not renamed: every existing --color-signal, --color-amber
+     and --color-heritage usage across the codebase becomes Airtech blue
+     with zero component edits. A later cleanup commit (out of scope for
+     this plan) can rename these call sites to --color-blue directly. */
+  --color-signal: var(--color-brand-blue);
+  --color-signal-soft: var(--color-brand-blue-soft);
+  --color-signal-tint: var(--color-brand-blue-tint);
+  --color-amber: var(--color-brand-blue-soft);
+  --color-amber-soft: var(--color-brand-blue-soft);
+  --color-amber-tint: var(--color-brand-blue-tint);
+  --color-heritage: var(--color-brand-blue);
+
   --color-white: #ffffff;
-  --color-pale-blue: #eef5fb;
+  --color-pale-blue: #eef4f9;
 
   --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* Type scale — see the design spec §3.3. display-xl is reserved for the
+     hero H1 only; display-l for section H2s; display-m for sub-section/step
+     headings. label is the new micro-label size (replaces the old
+     font-mono text-xs uppercase tracked pattern). */
+  --text-display-xl: clamp(2.75rem, 6vw, 4.5rem);
+  --text-display-l: clamp(2.25rem, 4.5vw, 3.5rem);
+  --text-display-m: clamp(1.6rem, 3vw, 2.25rem);
+  --text-title: 1.25rem;
+  --text-body-l: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-label: 0.8125rem;
 
   --container-max: 1440px;
   --container-pad: 1.25rem;
@@ -114,14 +101,25 @@
   --color-amber-tint: var(--color-amber-tint);
   --color-heritage: var(--color-heritage);
   --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-hover: var(--color-brand-blue-hover);
   --color-brand-blue-soft: var(--color-brand-blue-soft);
   --color-brand-blue-tint: var(--color-brand-blue-tint);
+  --color-blue-deep: var(--color-blue-deep);
   --color-white: var(--color-white);
   --color-pale-blue: var(--color-pale-blue);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+
+  --text-display-xl: var(--text-display-xl);
+  --text-display-l: var(--text-display-l);
+  --text-display-m: var(--text-display-m);
+  --text-title: var(--text-title);
+  --text-body-l: var(--text-body-l);
+  --text-body: var(--text-body);
+  --text-small: var(--text-small);
+  --text-label: var(--text-label);
 
   --radius-none: 0px;
   --radius-xs: 2px;
@@ -170,10 +168,13 @@ body::before {
   inset: 0;
   z-index: -1;
   background-color: var(--color-paper);
-  background-image: url(/images/backgrounds/architectural-light.webp);
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(rgba(243, 245, 247, 0.65) 0 0),
+    url(/images/backgrounds/architectural-light.webp);
+  background-blend-mode: normal, normal;
+  background-size: cover, cover;
+  background-position: center top, center top;
+  background-repeat: no-repeat, no-repeat;
   pointer-events: none;
 }
 
