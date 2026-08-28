@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 import type { SanityImageRef } from "@/content/types";
+import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
 
 /**
  * Signature imagery device: drawing-sheet crop marks around every photograph,
@@ -40,7 +41,7 @@ export function TechnicalFrame({
             className="object-cover"
           />
         ) : (
-          <TechnicalPlaceholder label={label} />
+          <BluePlaceholder label={label ? `${label} — photography to follow` : undefined} />
         )}
       </div>
       {showCaption && (image?.caption || (label && image?.src)) && (
@@ -49,22 +50,5 @@ export function TechnicalFrame({
         </figcaption>
       )}
     </figure>
-  );
-}
-
-function TechnicalPlaceholder({ label }: { label?: string }) {
-  return (
-    <div
-      className="absolute inset-0 flex items-end p-5"
-      style={{
-        backgroundColor: "var(--color-ink)",
-        backgroundImage:
-          "repeating-linear-gradient(135deg, rgba(245,244,240,0.06) 0px, rgba(245,244,240,0.06) 1px, transparent 1px, transparent 14px)",
-      }}
-    >
-      <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-(--color-paper)/70">
-        Photography pending{label ? `: ${label}` : ""}
-      </p>
-    </div>
   );
 }

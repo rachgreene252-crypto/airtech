@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/types";
+import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
 
 /**
  * The single card unit for the Projects grid — same rounded, image-led,
@@ -27,18 +28,11 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/15 to-transparent opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
         </>
       ) : (
-        // Same drafting-sheet placeholder language as TechnicalFrame's
-        // (docs/IMPLEMENTATION_AUDIT.md §8) — inlined rather than reused
-        // because its own "Photography pending" caption would collide with
-        // this card's bottom-aligned name/location block below.
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: "var(--color-ink)",
-            backgroundImage:
-              "repeating-linear-gradient(135deg, rgba(245,244,240,0.06) 0px, rgba(245,244,240,0.06) 1px, transparent 1px, transparent 14px)",
-          }}
-        />
+        // Shared BluePlaceholder fallback — same treatment as TechnicalFrame
+        // now that both use the blue placeholder system (spec §3.5). No
+        // label here: the card's own bottom text block already names the
+        // project.
+        <BluePlaceholder />
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center p-6 text-center">
