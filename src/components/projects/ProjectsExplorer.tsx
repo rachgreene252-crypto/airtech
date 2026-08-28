@@ -2,166 +2,73 @@
 
 import { useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { ProjectFeatureRow, type FeatureVariant } from "./ProjectFeatureRow";
-import { ProjectListRow } from "./ProjectListRow";
+import { ProjectCard } from "./ProjectCard";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { cn } from "@/lib/cn";
-import type { Project, Industry, Service } from "@/content/types";
-
-const VARIANT_CYCLE: FeatureVariant[] = ["side", "overlay", "side-reversed", "typographic"];
+import type { Project, Industry } from "@/content/types";
 
 /**
- * An editorial portfolio, not a filterable grid — no bordered filter-chip
- * row, no "N projects" counter, no card wall. Filters are plain typography;
- * featured projects cycle through four distinct compositions rather than
- * repeating image-left/text-right for every entry (brief's explicit
- * acceptance test: first impression should read "premium engineering
- * portfolio," not "filterable grid").
+ * Featured projects only, front and center — not the full 25-project
+ * catalog. One dropdown (industry) narrows within that featured set. Card
+ * text is centered rather than left-aligned, matching the centered filter
+ * above it.
  */
-export function ProjectsExplorer({
-  projects,
-  industries,
-  services,
-}: {
-  projects: Project[];
-  industries: Industry[];
-  services: Service[];
-}) {
+export function ProjectsExplorer({ projects, industries }: { projects: Project[]; industries: Industry[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const industryFilter = searchParams.get("industry") ?? "";
-  const serviceFilter = searchParams.get("service") ?? "";
+
+  const featuredProjects = useMemo(() => projects.filter((p) => p.featured), [projects]);
 
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      if (industryFilter && p.industrySlug !== industryFilter) return false;
-      if (serviceFilter && !p.serviceSlugsDelivered.includes(serviceFilter)) return false;
-      return true;
-    });
-  }, [projects, industryFilter, serviceFilter]);
+    if (!industryFilter) return featuredProjects;
+    return featuredProjects.filter((p) => p.industrySlug === industryFilter);
+  }, [featuredProjects, industryFilter]);
 
-  const featured = filtered.filter((p) => p.heroImage?.src);
-  const listed = filtered.filter((p) => !p.heroImage?.src);
-
-  function setFilter(key: "industry" | "service", value: string) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value) params.set(key, value);
-    else params.delete(key);
-    const qs = params.toString();
-    router.push((qs ? `${pathname}?${qs}` : pathname) as never, { scroll: false });
+  function industryNameFor(project: Project) {
+    return industries.find((i) => i.slug === project.industrySlug)?.name;
   }
 
-  function industryName(project: Project) {
-    return industries.find((i) => i.slug === project.industrySlug)?.name;
+  // replace (not push): filter changes shouldn't each add a browser-history
+  // entry — the back button should return to wherever the visitor came from.
+  function setIndustry(value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) params.set("industry", value);
+    else params.delete("industry");
+    const qs = params.toString();
+    router.replace((qs ? `${pathname}?${qs}` : pathname) as never, { scroll: false });
   }
 
   return (
     <div>
-      <div className="flex flex-col gap-4">
-        <FilterRow
-          label="Industry"
+      <div className="flex justify-center">
+        <select
           value={industryFilter}
-          onChange={(v) => setFilter("industry", v)}
-          options={industries.map((i) => ({ value: i.slug, label: i.name }))}
-        />
-        <FilterRow
-          label="Service"
-          value={serviceFilter}
-          onChange={(v) => setFilter("service", v)}
-          options={services.map((s) => ({ value: s.slug, label: s.name }))}
-        />
+          onChange={(e) => setIndustry(e.target.value)}
+          aria-label="Filter projects by industry"
+          className="border border-(--color-line-strong) bg-(--color-paper-raised) px-5 py-2.5 text-sm font-medium text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--color-signal)"
+        >
+          <option value="">All industries</option>
+          {industries.map((i) => (
+            <option key={i.slug} value={i.slug}>
+              {i.name}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {filtered.length === 0 && (
-        <div className="mt-16">
-          <EmptyState title="No projects match these filters" description="Try clearing a filter or browse the full portfolio." />
+      {filtered.length === 0 ? (
+        <div className="mt-16 text-center">
+          <EmptyState title="No featured projects in this industry yet" description="Try another industry or clear the filter." />
         </div>
-      )}
-
-      {featured.length > 0 && (
-        <div className="mt-4">
-          {featured.map((project, i) => (
-            <ProjectFeatureRow
-              key={project.slug}
-              project={project}
-              industryName={industryName(project)}
-              index={i + 1}
-              variant={VARIANT_CYCLE[i % VARIANT_CYCLE.length]}
-            />
+      ) : (
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3 lg:gap-8">
+          {filtered.map((project) => (
+            <ProjectCard key={project.slug} project={project} industryName={industryNameFor(project)} />
           ))}
         </div>
       )}
-
-      {listed.length > 0 && (
-        <div className={cn(featured.length > 0 && "mt-16 border-t border-(--color-line) pt-4")}>
-          <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
-            Also in the portfolio
-          </p>
-          <div className="mt-2">
-            {listed.map((project) => (
-              <ProjectListRow key={project.slug} project={project} industryName={industryName(project)} />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
-  );
-}
-
-/**
- * Filters as inline typography, not bordered pill buttons — a plain
- * label + comma-separated links, the active one distinguished by color and
- * weight rather than a filled box. Disappears into the reading experience
- * rather than reading as an admin control panel.
- */
-function FilterRow({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-      <span className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">{label}</span>
-      <FilterLink active={value === ""} onClick={() => onChange("")}>
-        All
-      </FilterLink>
-      {options.map((o) => (
-        <FilterLink key={o.value} active={value === o.value} onClick={() => onChange(o.value)}>
-          {o.label}
-        </FilterLink>
-      ))}
-    </div>
-  );
-}
-
-function FilterLink({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        "text-sm transition-colors",
-        active ? "font-semibold text-(--color-ink) underline underline-offset-4" : "text-(--color-steel) hover:text-(--color-ink)"
-      )}
-    >
-      {children}
-    </button>
   );
 }

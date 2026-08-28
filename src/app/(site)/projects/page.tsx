@@ -6,7 +6,6 @@ import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { projects } from "@/content/projects";
 import { industries } from "@/content/industries";
-import { services } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -38,7 +37,7 @@ export default function ProjectsPage() {
       </div>
       <Container>
         <Suspense fallback={null}>
-          <ProjectsExplorer projects={projects} industries={industries} services={services} />
+          <ProjectsExplorer projects={projects} industries={industries} />
         </Suspense>
       </Container>
       <div className="lg:hidden h-[68px]" aria-hidden="true" />

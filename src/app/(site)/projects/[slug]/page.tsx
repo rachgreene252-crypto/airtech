@@ -10,6 +10,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
 import { ProjectListRow } from "@/components/projects/ProjectListRow";
+import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import {
   projects,
   getProjectBySlug,
@@ -29,7 +30,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
-  return { title: project.seo.title, description: project.seo.description };
+  const images = project.heroImage?.src ? [{ url: project.heroImage.src }] : undefined;
+  return {
+    title: project.seo.title,
+    description: project.seo.description,
+    openGraph: { title: project.seo.title, description: project.seo.description, images, type: "article" },
+    twitter: { card: "summary_large_image", title: project.seo.title, description: project.seo.description, images },
+  };
 }
 
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
@@ -54,6 +61,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
 
   return (
     <>
+      <ProjectJsonLd project={project} industryName={industry?.name} />
       {project.heroImage?.src ? (
         <section className="relative h-[62vh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)">
           <Image
@@ -111,7 +119,15 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             { label: "Project type", value: project.projectType },
             { label: "Completion", value: project.completionYear ?? "" },
             { label: "Installed capacity", value: project.installedCapacity ?? "" },
-            { label: "Status", value: project.projectStatus === "provisional" ? "Case study in progress" : project.projectStatus },
+            {
+              label: "Status",
+              value:
+                project.projectStatus === "provisional"
+                  ? "Case study in progress"
+                  : project.projectStatus === "ongoing"
+                    ? "Ongoing"
+                    : "Completed",
+            },
           ]}
         />
       </Section>

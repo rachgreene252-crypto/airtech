@@ -1,6 +1,12 @@
 import { services } from "@/content/services";
 import { industries } from "@/content/industries";
 
+// Industries is deliberately not a top-level primaryNav entry: Projects owns
+// industry classification (browse via /projects?industry=<slug>) so a visitor
+// sees actual built work, not a second directory competing with Projects.
+// The dedicated /industries/[slug] pages still exist (technical
+// requirements/challenges per sector, not just a project list) and stay
+// reachable from footerNav.
 export interface NavLink {
   label: string;
   href: string;
@@ -22,11 +28,6 @@ export const primaryNav: NavGroup[] = [
       href: `/expertise/${s.slug}`,
       description: s.shortDescription,
     })),
-  },
-  {
-    label: "Industries",
-    href: "/industries",
-    children: industries.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
   },
   { label: "Projects", href: "/projects" },
   { label: "Service & Support", href: "/service-support" },

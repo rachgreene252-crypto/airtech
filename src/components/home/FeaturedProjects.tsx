@@ -12,12 +12,12 @@ import { Container } from "@/components/ui/Container";
  * /public/images/landmarks (sourced from the supplied ASSETS/project hero
  * folder). Names/locations/sectors are limited to what the brochure and
  * client questionnaire already establish — no scope or capacity invented.
- * Cards without an existing case-study route (docs/AIRTECH_OPEN_DECISIONS.md
- * #14 — extended landmark list not yet added to the project database) link
- * to the projects index rather than a fabricated slug. Per the 2026-08-22
- * visual-correction brief: rounded architectural cards, a gentler 4:3 crop
- * (the original portrait 4:5 cut too much off wide building photography),
- * and circular/pill controls instead of square buttons.
+ * Each card links to its own case-study route in src/content/projects.ts
+ * (the extended landmark list from docs/AIRTECH_CONTENT_AUDIT.md §2d).
+ * Per the 2026-08-22 visual-correction brief: rounded architectural cards,
+ * a gentler 4:3 crop (the original portrait 4:5 cut too much off wide
+ * building photography), and circular/pill controls instead of square
+ * buttons.
  */
 const PROJECTS = [
   {
@@ -39,7 +39,7 @@ const PROJECTS = [
     location: "Bhairahawa",
     sector: "Hospitality",
     image: "/images/landmarks/tiger-palace-resort.jpg",
-    href: "/projects",
+    href: "/projects/tiger-palace-resort",
   },
   {
     name: "Laxmi Motors KD Plant",
@@ -60,21 +60,21 @@ const PROJECTS = [
     location: "Kathmandu",
     sector: "Hospitality",
     image: "/images/landmarks/hyatt-centric.jpg",
-    href: "/projects",
+    href: "/projects/hyatt-centric",
   },
   {
     name: "Dusit Princess",
     location: "Kathmandu",
     sector: "Hospitality",
     image: "/images/landmarks/dusit-princess.jpg",
-    href: "/projects",
+    href: "/projects/dusit-princess",
   },
   {
     name: "Skyline Mall",
     location: "Birgunj",
     sector: "Retail",
     image: "/images/landmarks/skyline-mall-birgunj.jpg",
-    href: "/projects",
+    href: "/projects/skyline-mall-birgunj",
   },
 ] as const;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 /**
@@ -27,17 +27,19 @@ function pad3(n: number) {
 }
 
 export function CinematicHero() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (reduceMotion) return;
 
+    const wrapper = wrapperRef.current;
     const section = sectionRef.current;
     const canvas = canvasRef.current;
-    if (!section || !canvas) return;
+    if (!wrapper || !section || !canvas) return;
 
     const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
     const total = isMobile ? MOBILE_FRAME_NUMBERS.length : DESKTOP_FRAME_COUNT;
@@ -142,6 +144,18 @@ export function CinematicHero() {
     let scrollTriggerInstance: { kill: () => void } | undefined;
     let ctxGsap: { revert: () => void } | undefined;
 
+    const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
+    // CSS `sticky` does the pinning, not GSAP: ScrollTrigger's own `pin: true`
+    // inserts a pin-spacer wrapper div via raw DOM APIs, which Next's Cache
+    // Components (React Activity keeps hidden routes' DOM alive instead of
+    // unmounting it) can't reconcile against — React expects `section` to
+    // stay a direct child of its original parent, and the untracked wrapper
+    // causes an `insertBefore` crash the next time React touches that
+    // subtree. `wrapper` reserves the scroll distance in JSX-owned DOM and
+    // `section` is `sticky top-0` inside it (see the returned JSX below), so
+    // ScrollTrigger only reads scroll progress here — it never mutates the DOM.
+    wrapper.style.height = `${window.innerHeight + pinDistance}px`;
+
     (async () => {
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
@@ -150,14 +164,12 @@ export function CinematicHero() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
-
       ctxGsap = gsap.context(() => {
         const st = ScrollTrigger.create({
-          trigger: section,
+          trigger: wrapper,
           start: "top top",
           end: `+=${pinDistance}`,
-          pin: true,
+          pin: false,
           scrub: 0.35,
           anticipatePin: 1,
           onUpdate: (self) => {
@@ -169,7 +181,7 @@ export function CinematicHero() {
           },
         });
         scrollTriggerInstance = st;
-      }, section);
+      }, wrapper);
     })();
 
     const drawLoop = window.setInterval(draw, 400);
@@ -205,27 +217,29 @@ export function CinematicHero() {
   }
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-white)"
-      style={{
-        backgroundImage: "url(/images/backgrounds/architectural-light.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-      aria-label="Airtech Industries: engineering the systems behind extraordinary spaces"
-    >
-      <canvas ref={canvasRef} className="absolute inset-0 block" />
-
-      <span
-        ref={indicatorRef}
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity"
+    <div ref={wrapperRef} className="relative w-full min-h-[100dvh]">
+      <section
+        ref={sectionRef}
+        className="sticky top-0 h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-white)"
+        style={{
+          backgroundImage: "url(/images/backgrounds/architectural-light.webp)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        aria-label="Airtech Industries: engineering the systems behind extraordinary spaces"
       >
-        <span className="flex h-9 w-5 items-start justify-center rounded-full border border-(--color-ink)/35 pt-1.5">
-          <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-(--color-ink)/55" />
+        <canvas ref={canvasRef} className="absolute inset-0 block" />
+
+        <span
+          ref={indicatorRef}
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity"
+        >
+          <span className="flex h-9 w-5 items-start justify-center rounded-full border border-(--color-ink)/35 pt-1.5">
+            <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-(--color-ink)/55" />
+          </span>
         </span>
-      </span>
-    </section>
+      </section>
+    </div>
   );
 }
