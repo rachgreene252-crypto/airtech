@@ -59,9 +59,9 @@ export function ProofBar() {
         <div className="crop-frame relative border border-(--color-line-strong) text-(--color-signal)">
           <span className="crop-tick-tl" />
           <span className="crop-tick-br" />
-          <div className="grid grid-cols-2 divide-x divide-y divide-(--color-line) sm:grid-cols-4 sm:divide-y-0">
-            {STATS.map((stat, i) => (
-              <Reveal key={stat.label} delay={i * 0.08} className="px-6 py-10 text-center sm:px-8">
+          <Reveal className="grid grid-cols-2 divide-x divide-y divide-(--color-line) sm:grid-cols-4 sm:divide-y-0">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="px-6 py-10 text-center sm:px-8">
                 <div className="flex items-center justify-center gap-2.5">
                   <StatMotif motif={stat.motif} accent={stat.accent} />
                   <p className="font-display text-4xl sm:text-5xl font-semibold leading-none text-(--color-ink)">
@@ -75,14 +75,14 @@ export function ProofBar() {
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, delay: i * 0.08 + 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 />
-                <p className="mx-auto mt-4 max-w-[11rem] font-mono text-[11px] sm:text-xs leading-relaxed tracking-[0.06em] uppercase text-(--color-steel)">
+                <p className="mx-auto mt-4 max-w-[11rem] font-sans text-(--text-label) leading-relaxed text-(--color-steel)">
                   {stat.label}
                 </p>
-              </Reveal>
+              </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 import { services } from "@/content/services";
 
 /**
@@ -24,8 +22,6 @@ const ACCENTS = [
 ] as const;
 
 export function WhatWeDo() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
       <Container>
@@ -52,18 +48,11 @@ export function WhatWeDo() {
         <div className="crop-frame relative mt-16 border border-(--color-line-strong) text-(--color-signal)">
           <span className="crop-tick-tl" />
           <span className="crop-tick-br" />
-          <div className="grid grid-cols-1 divide-y divide-(--color-line) sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
+          <Reveal className="grid grid-cols-1 divide-y divide-(--color-line) sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
             {services.map((service, i) => {
               const accent = ACCENTS[i % ACCENTS.length];
               return (
-                <motion.div
-                  key={service.slug}
-                  initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: (i % 4) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative flex flex-col p-6 sm:p-7"
-                >
+                <div key={service.slug} className="group relative flex flex-col p-6 sm:p-7">
                   <div className="flex items-center gap-2.5">
                     <span
                       className="font-mono text-[11px] font-semibold tracking-[0.08em]"
@@ -86,10 +75,10 @@ export function WhatWeDo() {
                     Learn more
                     <span aria-hidden="true">→</span>
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
-          </div>
+          </Reveal>
         </div>
 
         <div className="mt-10 text-center">
