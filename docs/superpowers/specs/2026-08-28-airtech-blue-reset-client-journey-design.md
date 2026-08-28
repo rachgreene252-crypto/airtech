@@ -1,7 +1,10 @@
 # Airtech — Blue primary reset, Client Journey, IA & content pass
 
 Date: 2026-08-28
-Status: design approved in chat, pending spec review
+Status: design approved in chat; spec reviewed once by client, review feedback folded in
+(§2 no-new-claims guardrail, §3.1 semantic-role table + `--color-brand-blue-hover`, §3.3 global
+letter-spacing sweep, §7 canonical-lifecycle mapping, §8.1 taxonomy 1:1 with `services.ts`, §9
+"technical credibility not blog", §10 Careers, §12 acceptance #7). Next step: `writing-plans`.
 Supersedes on conflict: nothing — extends the `airtech-digital-experience` skill and the
 client resolutions recorded in this session (cold storage, sector requirements, `/how-we-work`).
 
@@ -25,8 +28,13 @@ set of precise content edits.
     building-services framing only). The "What the system has to do" section already renders
     conditionally on a non-empty array; leave those arrays empty.
 - **Gated content stays gated** — turnover chart, reference letters, per-logo permission, team
-  headcount, phone number, ISO certificates. This pass builds/── restyles shells; it does not
+  headcount, phone number, ISO certificates. This pass builds and restyles shells; it does not
   publish gated data.
+- **No new claims of any kind.** No Airtech capability, project scope, statistic, certification,
+  partnership/manufacturer authorisation, technical/energy-performance claim, or sector-specific
+  requirement may be introduced during implementation that is not already traceable to a file in
+  `source-material/`. Rewording sourced content is allowed; inventing content to fill a layout is
+  not. When a section would look thin without an unsourced addition, leave it thin.
 - **Motion respects `prefers-reduced-motion`** everywhere (global CSS reset already in place +
   `useReducedMotion()` in components).
 - **`AGENTS.md`**: read the relevant guide in `node_modules/next/dist/docs/` before writing
@@ -73,9 +81,31 @@ Mirror every change in the `@theme inline` block. Then in a **cleanup commit**: 
 `--color-heritage` / `--color-signal*` aliases once no references remain. Cleanup is optional for
 launch but the repoint is not.
 
-Acceptance: run the `audit` skill's contrast checks (or an axe pass) on `/`, `/expertise/hvac`,
-`/industries/healthcare`, `/projects`, `/contact/project-enquiry` — **zero AA text-contrast
-failures**.
+**Semantic roles** — the primary is a deliberate, contrast-tuned **UI blue**, not a sampled
+approximation of the logo. Logo fidelity lives only in `--color-brand-blue-soft` (the literal
+`#0099da`), used at large sizes / on dark grounds where its ~3:1 is acceptable.
+
+| Role | Token | Value |
+|---|---|---|
+| Primary action / link / focus ring / active state / eyebrow accent | `--color-brand-blue` | `#045c80` |
+| Primary hover / pressed | `--color-brand-blue-hover` (NEW) | `#0a4a67` (darker, not the brighter logo blue — a press should deepen) |
+| Large decorative / on-dark accent / numerals / motif strokes | `--color-brand-blue-soft` | `#0099da` |
+| Section-tint background | `--color-brand-blue-tint` | `#e8f1f6` |
+| Dark surface / hero grade / journey rail | `--color-blue-deep` | `#0d2b3e` |
+| Body text | `--color-ink` | `#161a1f` |
+| Secondary / muted text (on paper) | `--color-steel` | `#454c55` (≥ 7:1 on `--color-paper`) |
+| Hairline / border | `--color-line` / `--color-line-strong` | `#e2e6ea` / `#c3cbd3` |
+| Page canvas / raised surface | `--color-paper` / `--color-paper-raised` | `#f3f5f7` / `#ffffff` |
+
+`Button.tsx` currently hovers `primary` toward the *brighter* `--color-brand-blue-soft` — change
+that to `--color-brand-blue-hover` so the button darkens on hover. Update the three variants and
+the focus-outline colour token references accordingly.
+
+Acceptance: run the `audit` skill's contrast checks (or an axe pass) on `/`, `/how-we-work`,
+`/expertise/hvac`, `/industries/healthcare`, `/projects`, `/contact/project-enquiry`,
+`/engineering-library`, `/company/careers` — **zero AA text-contrast failures**. Every hex above
+is a target; the implementer verifies the actual ratios and nudges values (staying in-hue) if any
+pairing misses.
 
 ### 3.2 `body::before` background wash
 
@@ -105,9 +135,19 @@ Fonts unchanged (Oswald / IBM Plex Sans / IBM Plex Mono).
 Heading blocks standardise to `max-w-3xl`; body copy to `max-w-2xl`; both centre or left per
 existing section intent. `text-wrap: balance` on headings (already have `.text-balance`).
 
-**Micro-label reset (the "years of experience" ask).** Remove `uppercase` **and**
-`tracking-[0.0-0.2em]` from every eyebrow / stat-label / meta-label / step-label / breadcrumb /
-footer-heading. New pattern:
+**Micro-label reset (the "years of experience" ask).** This is a **global** rule, not a
+per-component judgement call:
+
+1. Remove `text-transform: uppercase` / the `uppercase` class from every label, eyebrow,
+   stat-caption, step-label, breadcrumb, footer heading, button, tab, and tag.
+2. **Separately** audit and remove wide letter-spacing — grep the whole of `src/` for
+   `tracking-[`, `tracking-wide`, `tracking-wider`, `tracking-widest`, and `letter-spacing`;
+   remove or reduce each to near-zero unless it's on a discipline code / drawing reference.
+   (Removing `uppercase` alone is not sufficient — the tracked look must go too.)
+3. Buttons (`Button.tsx`) currently render label text in normal case already, but confirm no
+   `uppercase`/`tracking` sneaks in via `size`/variant classes.
+
+New pattern:
 
 - Eyebrows / section kickers: `font-sans text-[--text-label] font-medium text-(--color-brand-blue)`, sentence case.
 - Meta labels (stat captions, MetadataGrid keys, Field labels, breadcrumbs): same size, `font-medium`, `text-(--color-steel)`, sentence case.
@@ -116,11 +156,12 @@ footer-heading. New pattern:
 
 Files to sweep (all currently use `font-mono … uppercase tracking-[…]` for labels):
 `SectionHeader`, `PageHero`, `Breadcrumbs`, `Footer`, `EnquiryForm` (step list + `Field`),
-`MetadataGrid`, `TechnicalFrame` (caption + placeholder), `Tag`, `EmptyState`,
+`MetadataGrid`, `TechnicalFrame` (caption + placeholder), `Tag`, `EmptyState`, `Button` (verify),
 `components/home/*` in use (`ProofBar`, `WhatWeDo`, `MEPSequence`, `FeaturedProjects`,
 `TrustedBy`, `EngineeringStatement`), `expertise/[slug]`, `expertise/page`, `industries/[slug]`,
 `industries/page`, `projects/[slug]`, `projects/page`, `service-support/page`, `company/*`,
-`contact/page`.
+`contact/page`, `contact/project-enquiry/page`. (The grep in step 2 is the backstop for anything
+this list misses.)
 
 The hard requirement is the **class-level sweep** of the files listed above — every label/eyebrow
 loses `uppercase` + `tracking-[…]` and adopts the new pattern. Additionally add
@@ -306,6 +347,19 @@ Master Source of Truth. **Do not** add bullets to `embassies-ingos` or `educatio
 
 ## 7. ClientJourney component + `/how-we-work`
 
+This is the **canonical Airtech project lifecycle**, not a new marketing abstraction. It must
+stay consistent with the sourced lifecycle (Master Source of Truth / `FINAL_IMPLEMENTATION_REPORT`
+§2, the discovery questionnaire's request to explain "how Airtech operates"):
+
+> Engineering → Procurement → Installation → Testing → Commissioning → Long-term support
+
+Mapping: step 1 *Understand* is the discovery front-end of that same lifecycle (pre-engineering);
+steps 2–6 map 1:1 — *Engineer* = Engineering/design, *Procure* = Procurement, *Execute* =
+Installation, *Test & Commission* = Testing + Commissioning, *Support* = Long-term support.
+**One component, one data file, one set of steps** — `/how-we-work` and the homepage render the
+same `ClientJourney` from the same `journey.ts`; no second lifecycle definition anywhere (the
+existing `EngineeringLifecycle` / `IndustryJourney` dead components are not revived).
+
 ### 7.1 Data — `src/content/journey.ts`
 
 ```ts
@@ -385,17 +439,22 @@ lifecycle.", the intro paragraph) → `<ClientJourney variant="full" />` → clo
 
 ### 8.1 `src/lib/enquiry.ts`
 
-- `intentOptions` → the individual disciplines + service paths:
+- `intentOptions` maps **1:1 to Airtech's actual service taxonomy** (`src/content/services.ts`,
+  from Master Source of Truth §5) plus two cross-cutting paths — deliberately not more granular
+  (e.g. "water treatment" is *not* a separate option; it lives inside Plumbing & Public Health):
   ```
-  hvac        "HVAC"
-  electrical  "Electrical"
-  plumbing    "Plumbing & Public Health"
-  fire        "Fire Protection"
-  elv         "ELV / Security / IT"
-  full-mep    "Full MEP / integrated delivery"
-  amc-service "AMC / Service & Support"
-  advisory    "Engineering / Advisory"
+  hvac         "HVAC"
+  electrical   "Electrical"
+  plumbing     "Plumbing & Public Health"
+  fire         "Fire Protection & Fire Alarm"
+  elv          "ELV / Security / IT"
+  bms          "BMS / Systems Integration"
+  advisory     "Engineering / Advisory"
+  full-mep     "Full MEP / integrated delivery"
+  amc-service  "AMC / Service & Support"
   ```
+  (Slugs align with `services.ts` where one exists, so downstream routing/analytics can join on
+  them.)
 - Schema: `intent: z.array(z.enum([...])).min(1, "Choose at least one option.")`.
 
 ### 8.2 `EnquiryForm.tsx`
@@ -416,7 +475,14 @@ the intent step; and the enquiry `metadata`/copy that says "5-step".
 
 ## 9. Engineering Library (`/engineering-library`)
 
-- Route renamed from `/resources` (§4.2).
+Positioned as **technical credibility for consultants, architects and specifiers** — technical
+documentation, product/discipline information, company documents and certifications (the asset
+types the discovery material calls out as useful). It is **not** a blog / insights feed; any
+`insight` articles are secondary and only appear once real ones exist.
+
+- Route renamed from `/resources` (§4.2). `/resources` and `/resources/:slug*` get a **permanent
+  redirect** in `next.config.ts` — no duplicate route, no orphaned `resources/` directory left
+  behind.
 - `src/content/resources.ts` (currently empty array) → seed with **placeholder entries**, all
   `status: "source_only"` and `fileUrl` undefined, so nothing is downloadable yet:
   - Discipline capability decks: **Mechanical / HVAC**, **Electrical**, **Plumbing & Public
@@ -434,8 +500,13 @@ the intent step; and the enquiry `metadata`/copy that says "5-step".
 
 ## 10. Careers (`src/app/(site)/company/careers/page.tsx`)
 
-Stays under `/company/careers`, linked from the Company dropdown. Redesign to the new system:
-blue `PageHero`, a short "Why Airtech" block (only `client_confirmed` positioning), a
+Stays under `/company/careers`, linked from the Company dropdown. **Architecturally separate from
+the engineering story** (it is not part of the lifecycle / expertise / projects narrative) but
+**visually inside the same design system** — same tokens, type scale, label style, `PageHero`,
+`BluePlaceholder`. No generic recruitment-template layout (no stock "join our team" hero photo,
+no perks-grid, no fake culture copy).
+
+Content: blue `PageHero`, a short "Why Airtech" block (only `client_confirmed` positioning), a
 "How to apply" block (email path — no phone, per Open Decisions #1), and an **honest empty
 openings state** (`BluePlaceholder` + "No open positions listed right now — send us your CV").
 No fabricated listings.
@@ -499,8 +570,12 @@ Acceptance criteria:
    reachable, fully legible and static under `prefers-reduced-motion`.
 6. Enquiry step 1 accepts multiple selections; submitting with none shows the validation message;
    webhook payload carries `intent` as an array.
-7. No page contains cold-storage / refrigeration copy; Embassies & Education industry pages show
-   no invented technical bullets.
+7. **No unsupported Airtech capability, project scope, statistic, certification, partnership /
+   manufacturer authorisation, technical or energy-performance claim, or sector-specific
+   requirement was introduced anywhere in the implementation.** Specifically: no page contains
+   cold-storage / refrigeration copy; Embassies & Education industry pages show no invented
+   technical bullets; every reworded sector line still traces to the brochure / Master Source of
+   Truth. Reviewer diffs `src/content/*.ts` line-by-line against source before merge.
 8. `/resources` redirects to `/engineering-library`; every library item is a non-downloadable
    "coming soon" row.
 9. Homepage: no two full-height hero-scale headings back to back; `FeaturedProjects` card text is
