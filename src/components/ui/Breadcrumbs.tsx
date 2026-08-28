@@ -25,7 +25,7 @@ export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: 
   return (
     <nav
       aria-label="Breadcrumb"
-      className={cn("font-mono text-xs tracking-[0.05em] uppercase text-(--color-steel)", className)}
+      className={cn("font-sans text-(--text-label) text-(--color-steel)", className)}
     >
       <script
         type="application/ld+json"

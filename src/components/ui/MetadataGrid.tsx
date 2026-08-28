@@ -15,7 +15,7 @@ export function MetadataGrid({ items }: { items: MetadataItem[] }) {
     <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 border-t border-(--color-line) pt-6">
       {visible.map((item) => (
         <div key={item.label} className="border-b border-(--color-line) pb-4">
-          <dt className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">
+          <dt className="font-sans text-(--text-label) font-medium text-(--color-steel)">
             {item.label}
           </dt>
           <dd className="mt-1.5 text-lg text-(--color-ink)">{item.value}</dd>

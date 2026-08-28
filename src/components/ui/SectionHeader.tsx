@@ -31,8 +31,8 @@ export function SectionHeader({
       {eyebrow && (
         <p
           className={cn(
-            "mb-4 font-mono text-xs tracking-[0.18em] uppercase",
-            tone === "ink" ? "text-(--color-signal)" : "text-(--color-signal-soft)"
+            "mb-4 font-sans text-(--text-label) font-medium",
+            tone === "ink" ? "text-(--color-brand-blue)" : "text-(--color-brand-blue-soft)"
           )}
         >
           {eyebrow}

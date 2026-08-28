@@ -13,7 +13,7 @@ export function EmptyState({
 }) {
   return (
     <div className="border-l-2 border-(--color-line-strong) py-10 pl-6 sm:py-14 sm:pl-8">
-      <p className="font-mono text-xs tracking-[0.14em] uppercase text-(--color-signal)">{title}</p>
+      <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">{title}</p>
       {description && (
         <p className="mt-3 max-w-md text-sm text-(--color-steel) leading-relaxed">{description}</p>
       )}
