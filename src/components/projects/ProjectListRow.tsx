@@ -17,7 +17,7 @@ export function ProjectListRow({ project, industryName }: { project: Project; in
       className="group flex flex-col gap-1.5 py-6 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-2 sm:py-8"
     >
       <div>
-        <p className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-signal)">
+        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
           {industryName ?? project.projectType}
         </p>
         <h3 className="mt-1 font-display text-xl sm:text-2xl font-semibold leading-tight group-hover:text-(--color-signal) transition-colors">
