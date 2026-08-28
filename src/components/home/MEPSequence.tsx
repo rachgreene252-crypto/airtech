@@ -84,7 +84,7 @@ export function MEPSequence() {
   return (
     <section ref={sectionRef} className="bg-site-texture py-24 sm:py-32 lg:py-40">
       <Container className="max-w-3xl text-center">
-        <p className="font-mono text-xs tracking-[0.2em] uppercase text-(--color-brand-blue)">
+        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
           Five disciplines. One delivery.
         </p>
         <p className="mx-auto mt-4 max-w-md text-base text-(--color-steel)">
@@ -117,7 +117,7 @@ export function MEPSequence() {
                   </span>
                   <span
                     className={`font-display text-4xl sm:text-5xl font-semibold tracking-tight transition-colors duration-300 ${
-                      isActive ? "text-(--color-brand-blue)" : "text-(--color-ink)/25"
+                      isActive ? "text-(--color-brand-blue)" : "text-(--color-steel)"
                     }`}
                   >
                     {system.label}

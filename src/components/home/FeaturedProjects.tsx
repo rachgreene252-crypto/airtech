@@ -103,8 +103,8 @@ export function FeaturedProjects() {
     <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
-            Featured Projects
+          <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
+            Featured projects
           </p>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
             See our expertise
