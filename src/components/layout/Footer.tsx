@@ -19,7 +19,7 @@ export async function Footer() {
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-x-6 gap-y-12">
           <div className="col-span-2 lg:col-span-2 pr-6">
             <span className="font-display text-3xl font-bold">{siteSettings.brandName}</span>
-            <p className="mt-3 font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+            <p className="mt-3 font-sans text-(--text-label) font-medium text-(--color-steel-soft)">
               {siteSettings.tagline}
             </p>
             <p className="mt-6 text-sm text-(--color-steel-soft) leading-relaxed max-w-xs">
@@ -35,7 +35,7 @@ export async function Footer() {
 
           {footerNav.map((group) => (
             <div key={group.title}>
-              <h3 className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+              <h3 className="font-sans text-(--text-label) font-medium text-(--color-steel-soft)">
                 {group.title}
               </h3>
               <ul className="mt-4 flex flex-col gap-2.5">
@@ -58,7 +58,7 @@ export async function Footer() {
           <p>
             © {year} {siteSettings.companyName}. Established {siteSettings.establishedYear}.
           </p>
-          <p className="font-mono uppercase tracking-[0.08em]">Kathmandu, Nepal</p>
+          <p className="font-sans text-(--text-label)">Kathmandu, Nepal</p>
         </div>
       </Container>
     </footer>
