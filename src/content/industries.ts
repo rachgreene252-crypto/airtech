@@ -20,7 +20,7 @@ export const industries: Industry[] = [
       "Patient rooms, consulting rooms and OPDs require reliable general comfort air-conditioning",
       "ICU, operation theatres and post-operative recovery rooms carry stringent demands on airflow pattern, cross-contamination control and a germ-free environment",
       "Diagnostic equipment areas (MRI, CATH-LAB, CT) need air-conditioning that ensures smooth, hassle-free operation of high-end, life-saving equipment",
-      "Air-conditioning in a hospital runs on a 24×7 basis, so reliability is non-negotiable",
+      "Hospital air-conditioning operates 24/7, making reliability non-negotiable.",
     ],
     technicalRequirements: [
       "Laminar airflow operation-theatre air-conditioning",
@@ -31,7 +31,7 @@ export const industries: Industry[] = [
       "HVAC design, supply, installation, testing and commissioning for hospital environments",
       "Operation-theatre air-conditioning with laminar airflow pattern",
     ],
-    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "elv-security"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -58,7 +58,7 @@ export const industries: Industry[] = [
       "Zone-specific HVAC design across guest rooms, restaurants, lobbies, health clubs and banquet halls",
       "Integrated electrical, plumbing and fire-protection delivery for hotel and resort projects",
     ],
-    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -86,7 +86,7 @@ export const industries: Industry[] = [
       "HVAC systems designed to fulfil precise air-conditioning requirements for different classes of pharmaceutical cleanliness",
       "Awareness of validation parameters to support client conformance with WHO GMP standards",
     ],
-    relatedServiceSlugs: ["hvac", "engineering-advisory"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -115,7 +115,7 @@ export const industries: Industry[] = [
       "Process-informed HVAC design incorporating production-manager feedback",
       "Panel and warehouse cooling for manufacturing environments",
     ],
-    relatedServiceSlugs: ["hvac", "electrical", "bms-systems-integration"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -131,7 +131,7 @@ export const industries: Industry[] = [
     overview:
       "Airtech is associated with Nepal's leading commercial banks, financial institutions and corporate offices, designing for optimum performance, energy efficiency and the aesthetic expectations of architects and interior designers.",
     operationalChallenges: [
-      "Air-conditioning systems typically run every working day, so energy efficiency matters",
+      "Air-conditioning systems typically run every working day, so energy efficiency is essential.",
       "Some offices need partial air-conditioning during extended working hours and holidays",
       "Many AC units run on generator (DG) power during outages and must be selected to operate correctly on DG supply",
       "Faster air circulation and temperature control needed in customer-facing service areas",
@@ -139,15 +139,16 @@ export const industries: Industry[] = [
     ],
     technicalRequirements: [
       "Equipment compatible with generator (DG) power and local voltage conditions",
-      "VRF/VRV systems for high-end corporate buildings, offering long piping runs, multiple indoor units per outdoor unit and low sound pressure",
+      "VRF systems for high-end corporate buildings — long piping runs, multiple indoor units per outdoor unit and low sound pressure.",
       "Standby cooling capacity for server rooms",
+      "Chiller plant for larger commercial cooling loads.",
     ],
     airtechCapabilities: [
       "HVAC systems selected for compatibility with DG power and site voltage conditions",
-      "VRF/VRV design for high-end corporate fit-outs",
+      "VRF design for high-end corporate fit-outs; chiller plant for larger loads.",
       "Integrated electrical distribution for banks and corporate offices",
     ],
-    relatedServiceSlugs: ["hvac", "electrical", "bms-systems-integration"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -177,7 +178,7 @@ export const industries: Industry[] = [
       "Precision-type air-conditioners for data centres and server rooms, with and without indirect free cooling",
       "Modular access flooring",
     ],
-    relatedServiceSlugs: ["hvac", "electrical", "bms-systems-integration"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: ["ncell-corporate-office"],
     proofPoints: [],
     seo: {
@@ -204,7 +205,7 @@ export const industries: Industry[] = [
     airtechCapabilities: [
       "HVAC and electrical systems for bank branches and financial-institution offices",
     ],
-    relatedServiceSlugs: ["hvac", "electrical"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -233,7 +234,7 @@ export const industries: Industry[] = [
       "Acoustic-conscious duct design for recording studios, lecture halls and theatres",
       "Peak-load HVAC design for auditoriums and cinema halls",
     ],
-    relatedServiceSlugs: ["hvac", "electrical"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -250,7 +251,7 @@ export const industries: Industry[] = [
     operationalChallenges: [],
     technicalRequirements: [],
     airtechCapabilities: ["HVAC services for diplomatic and international-organisation offices"],
-    relatedServiceSlugs: ["hvac", "electrical"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
@@ -267,7 +268,7 @@ export const industries: Industry[] = [
     operationalChallenges: [],
     technicalRequirements: [],
     airtechCapabilities: ["Integrated HVAC, electrical, plumbing and fire-protection delivery for educational and institutional buildings"],
-    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: ["nobel-college-health-education"],
     proofPoints: [],
     seo: {
