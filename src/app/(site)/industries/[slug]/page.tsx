@@ -78,15 +78,22 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
 
       {relatedServices.length > 0 && (
         <Section>
-          <SectionHeader eyebrow="Relevant expertise" heading="Disciplines Airtech brings to this sector." />
-          <div className="mt-10 flex flex-wrap gap-3">
+          <SectionHeader
+            eyebrow="Every project"
+            heading="Every sector, all five services."
+            description="Airtech delivers HVAC, electrical, plumbing, fire protection and ELV as one integrated scope on every project — the emphasis shifts by sector, the coverage does not."
+          />
+          <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
             {relatedServices.map((s) => (
               <Link
                 key={s.slug}
                 href={`/expertise/${s.slug}`}
-                className="border border-(--color-line-strong) px-4 py-2 text-sm text-(--color-ink-soft) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
+                className="group block border-t border-(--color-line) pt-4"
               >
-                {s.name}
+                <span className="font-mono text-xs text-(--color-brand-blue)">{s.disciplineCode}</span>
+                <h3 className="mt-1 font-display text-lg font-semibold text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
+                  {s.name}
+                </h3>
               </Link>
             ))}
           </div>
