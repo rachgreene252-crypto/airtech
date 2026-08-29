@@ -2,6 +2,8 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { ButtonLink } from "@/components/ui/Button";
 
 /**
  * Section 02 — Hero. GSAP ScrollTrigger canvas frame-sequence: the full,
@@ -31,6 +33,7 @@ export function CinematicHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
   useLayoutEffect(() => {
@@ -130,8 +133,24 @@ export function CinematicHero() {
           offsetY = (cssH - drawH) / 2;
         }
         ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+
+        // Grade the frame: a --color-blue-deep (#0d2b3e) multiply wash keeps
+        // the sequence in the site's palette instead of raw photography
+        // tones, then a bottom-up --color-ink (#161a1f) scrim gives the
+        // headline layer (Step 4 below) a controlled dark field to sit on.
+        ctx.save();
+        ctx.globalCompositeOperation = "multiply";
+        ctx.fillStyle = "rgba(13, 43, 62, 0.4)";
+        ctx.fillRect(0, 0, cssW, cssH);
+        ctx.restore();
+
+        const scrim = ctx.createLinearGradient(0, cssH * 0.35, 0, cssH);
+        scrim.addColorStop(0, "rgba(22, 26, 31, 0)");
+        scrim.addColorStop(1, "rgba(22, 26, 31, 0.78)");
+        ctx.fillStyle = scrim;
+        ctx.fillRect(0, cssH * 0.35, cssW, cssH * 0.65);
       } else {
-        ctx.fillStyle = "#eef2f6";
+        ctx.fillStyle = "#0d2b3e";
         ctx.fillRect(0, 0, cssW, cssH);
       }
 
@@ -177,6 +196,9 @@ export function CinematicHero() {
             if (indicatorRef.current) {
               indicatorRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 6));
             }
+            if (headlineRef.current) {
+              headlineRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 3));
+            }
             draw();
           },
         });
@@ -197,20 +219,30 @@ export function CinematicHero() {
 
   if (reduceMotion) {
     return (
-      <section className="relative h-[86vh] min-h-[600px] w-full overflow-hidden bg-(--color-white)">
+      <section className="relative h-[86vh] min-h-[600px] w-full overflow-hidden bg-(--color-blue-deep)">
         {/* eslint-disable-next-line @next/next/no-img-element -- static reduced-motion fallback, not part of next/image's responsive pipeline */}
         <img
-          src="/images/backgrounds/architectural-light.webp"
+          src="/images/hero/frames-desktop/frame_001.webp"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ filter: "brightness(0.55) saturate(1.05)" }}
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/brand/airtech-logo.png"
-            alt="Airtech Industries"
-            className="w-[min(420px,40vw)]"
-          />
+        <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/35 to-(--color-blue-deep)/30" />
+        <div className="relative z-10 flex h-full flex-col items-start justify-end p-6 pb-16 sm:p-10 lg:p-16">
+          <h1 className="max-w-3xl font-display text-(--text-display-xl) font-bold leading-[0.98] text-balance text-white">
+            Engineering the systems behind Nepal&apos;s most demanding buildings.
+          </h1>
+          <p className="mt-5 max-w-xl text-(--text-body-l) leading-relaxed text-white/75">
+            Integrated MEP and HVAC — from design through commissioning and long-term support.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-6">
+            <ButtonLink href="/contact/project-enquiry" size="lg">
+              Discuss your project
+            </ButtonLink>
+            <Link href="/projects" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+              Explore our work →
+            </Link>
+          </div>
         </div>
       </section>
     );
@@ -220,23 +252,43 @@ export function CinematicHero() {
     <div ref={wrapperRef} className="relative w-full min-h-[100dvh]">
       <section
         ref={sectionRef}
-        className="sticky top-0 h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-white)"
+        className="sticky top-0 h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-blue-deep)"
         style={{
           backgroundImage: "url(/images/backgrounds/architectural-light.webp)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        aria-label="Airtech Industries: engineering the systems behind extraordinary spaces"
+        aria-label="Airtech Industries: engineering the systems behind Nepal's most demanding buildings"
       >
         <canvas ref={canvasRef} className="absolute inset-0 block" />
+
+        <div
+          ref={headlineRef}
+          className="absolute inset-0 flex flex-col items-start justify-end p-6 pb-20 sm:p-10 sm:pb-24 lg:p-16 lg:pb-28"
+        >
+          <h1 className="max-w-3xl font-display text-(--text-display-xl) font-bold leading-[0.98] text-balance text-white">
+            Engineering the systems behind Nepal&apos;s most demanding buildings.
+          </h1>
+          <p className="mt-5 max-w-xl text-(--text-body-l) leading-relaxed text-white/75">
+            Integrated MEP and HVAC — from design through commissioning and long-term support.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-6">
+            <ButtonLink href="/contact/project-enquiry" size="lg">
+              Discuss your project
+            </ButtonLink>
+            <Link href="/projects" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+              Explore our work →
+            </Link>
+          </div>
+        </div>
 
         <span
           ref={indicatorRef}
           aria-hidden="true"
           className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity"
         >
-          <span className="flex h-9 w-5 items-start justify-center rounded-full border border-(--color-ink)/35 pt-1.5">
-            <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-(--color-ink)/55" />
+          <span className="flex h-9 w-5 items-start justify-center rounded-full border border-white/40 pt-1.5">
+            <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-white/70" />
           </span>
         </span>
       </section>
