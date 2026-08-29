@@ -320,3 +320,31 @@ body::before {
   animation: advisory-scan 4s ease-in-out infinite;
   transform-box: fill-box;
 }
+
+/* ClientJourney step visuals (spec §7.3) — two new loops beyond the
+   existing discipline-motif keyframes above. Both respect the global
+   prefers-reduced-motion rule automatically since it zeroes every
+   animation-duration. */
+@keyframes engineer-crossfade {
+  0%, 20% { opacity: 1; }
+  25%, 100% { opacity: 0; }
+}
+.animate-engineer-crossfade {
+  animation-name: engineer-crossfade;
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Uses pathLength="1" on the target <circle> so stroke-dashoffset is a
+   0..1 fraction regardless of the circle's real radius/circumference. */
+@keyframes gauge-fill {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.animate-gauge-fill {
+  animation-name: gauge-fill;
+  animation-duration: 1.3s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: forwards;
+}
