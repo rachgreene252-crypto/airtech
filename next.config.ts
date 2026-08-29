@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   typedRoutes: true,
+  async redirects() {
+    return [
+      { source: "/resources", destination: "/engineering-library", permanent: true },
+      { source: "/resources/:slug*", destination: "/engineering-library/:slug*", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

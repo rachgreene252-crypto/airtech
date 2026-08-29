@@ -18,7 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/company/leadership",
     "/company/quality-certifications",
     "/company/careers",
-    "/resources",
+    "/how-we-work",
+    "/engineering-library",
     "/contact",
     "/contact/project-enquiry",
   ].map((path) => ({
@@ -42,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const resourceRoutes = resources.map((r) => ({
-    url: `${siteUrl}/resources/${r.slug}`,
+    url: `${siteUrl}/engineering-library/${r.slug}`,
     lastModified: new Date(),
   }));
 
