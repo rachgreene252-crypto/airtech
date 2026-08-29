@@ -20,6 +20,7 @@ export interface NavGroup {
 }
 
 export const primaryNav: NavGroup[] = [
+  { label: "How We Work", href: "/how-we-work" },
   {
     label: "Expertise",
     href: "/expertise",
@@ -39,10 +40,10 @@ export const primaryNav: NavGroup[] = [
       { label: "History", href: "/company/history" },
       { label: "Leadership", href: "/company/leadership" },
       { label: "Quality & Certifications", href: "/company/quality-certifications" },
+      { label: "Engineering Library", href: "/engineering-library" },
       { label: "Careers", href: "/company/careers" },
     ],
   },
-  { label: "Resources", href: "/resources" },
 ];
 
 export const footerNav: { title: string; links: NavLink[] }[] = [
@@ -61,8 +62,9 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "History", href: "/company/history" },
       { label: "Leadership", href: "/company/leadership" },
       { label: "Quality & Certifications", href: "/company/quality-certifications" },
+      { label: "Engineering Library", href: "/engineering-library" },
       { label: "Careers", href: "/company/careers" },
-      { label: "Resources", href: "/resources" },
+      { label: "How We Work", href: "/how-we-work" },
     ],
   },
   {
