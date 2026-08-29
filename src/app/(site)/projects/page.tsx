@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { projects } from "@/content/projects";
@@ -40,6 +42,24 @@ export default function ProjectsPage() {
           <ProjectsExplorer projects={projects} industries={industries} />
         </Suspense>
       </Container>
+
+      <Container className="py-16 sm:py-20 lg:py-24">
+        <SectionHeader eyebrow="Browse by industry" heading="Explore by sector." />
+        <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+          {industries.map((industry) => (
+            <Link
+              key={industry.slug}
+              href={`/industries/${industry.slug}`}
+              className="group block border-t border-(--color-line) pt-4"
+            >
+              <h3 className="font-display text-lg font-semibold leading-snug text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
+                {industry.name}
+              </h3>
+            </Link>
+          ))}
+        </div>
+      </Container>
+
       <div className="lg:hidden h-[68px]" aria-hidden="true" />
       <StickyEnquiryBar />
     </>
