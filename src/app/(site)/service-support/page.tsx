@@ -34,7 +34,7 @@ export default function ServiceSupportPage() {
       <section className="grid border-b border-(--color-line) lg:grid-cols-2">
         <div className="flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:order-2 lg:px-14 lg:py-20">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Service & Support" }]} />
-          <p className="mt-8 font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
+          <p className="mt-8 font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
             After the handover
           </p>
           <h1 className="mt-4 font-display text-4xl sm:text-5xl font-bold leading-[0.98] text-balance">
@@ -68,13 +68,13 @@ export default function ServiceSupportPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-10 font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
+        <p className="mt-10 font-sans text-(--text-label) text-(--color-steel)">
           Engineers trained at manufacturer centres: {trainingLocations.join(" · ")}
         </p>
       </Section>
 
       <Section tone="ink" className="text-center">
-        <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
+        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
           Existing Airtech customer?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">

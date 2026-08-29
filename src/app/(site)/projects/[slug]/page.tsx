@@ -135,7 +135,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {storySections.map((section, i) => (
         <Section key={section.label} tone={i % 2 === 0 ? "raised" : "paper"}>
           <div className="max-w-3xl">
-            <h2 className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-signal)">
+            <h2 className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
               {section.label}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
@@ -160,7 +160,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             <p className="font-display text-2xl sm:text-3xl leading-snug text-balance">
               &ldquo;{testimonial.quote}&rdquo;
             </p>
-            <footer className="mt-6 font-mono text-xs tracking-[0.06em] uppercase text-(--color-steel)">
+            <footer className="mt-6 font-sans text-(--text-label) text-(--color-steel)">
               {testimonial.personName}, {testimonial.personTitle} · {testimonial.organisation}
             </footer>
           </blockquote>
@@ -196,7 +196,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section tone="ink" className="text-center">
-        <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
+        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
           {industry ? `Planning a ${industry.name.toLowerCase()} project?` : "Have a project in planning?"}
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">

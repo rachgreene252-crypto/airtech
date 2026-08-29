@@ -23,10 +23,10 @@ export default function ProjectsPage() {
       <div className="bg-site-texture pt-8 pb-16 sm:pb-20 lg:pb-24">
         <Container>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
-          <p className="mt-10 font-mono text-xs tracking-[0.2em] uppercase text-(--color-signal)">
+          <p className="mt-10 font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
             Projects
           </p>
-          <h1 className="mt-5 max-w-3xl font-display text-6xl sm:text-7xl lg:text-8xl font-bold leading-[0.92] text-balance">
+          <h1 className="mt-5 max-w-3xl font-display text-(--text-display-xl) font-bold leading-[0.92] text-balance">
             Buildings.
             <br />
             Systems.

@@ -57,8 +57,8 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
             ]}
             className="text-(--color-paper)/60 [&_a]:text-(--color-paper)/60 [&_a:hover]:text-(--color-paper)"
           />
-          <p className="mt-8 font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
-            Discipline {service.disciplineCode}
+          <p className="mt-8 font-sans text-(--text-label) font-medium text-(--color-brand-blue-soft)">
+            Discipline <span className="font-mono">{service.disciplineCode}</span>
           </p>
           <h1 className="mt-4 max-w-4xl font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.96] text-balance text-(--color-paper)">
             {service.name}

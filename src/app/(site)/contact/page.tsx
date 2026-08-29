@@ -26,13 +26,13 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-10">
             <div>
-              <h2 className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">
+              <h2 className="font-sans text-(--text-label) font-medium text-(--color-steel)">
                 Head office
               </h2>
               <p className="mt-2 text-lg text-(--color-ink)">{siteSettings.headOffice}</p>
             </div>
             <div>
-              <h2 className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">Email</h2>
+              <h2 className="font-sans text-(--text-label) font-medium text-(--color-steel)">Email</h2>
               <a
                 href={`mailto:${siteSettings.primaryEmail}`}
                 className="mt-2 block text-lg text-(--color-signal) hover:underline"
@@ -41,7 +41,7 @@ export default function ContactPage() {
               </a>
             </div>
             <div>
-              <h2 className="font-mono text-[11px] tracking-[0.1em] uppercase text-(--color-steel)">
+              <h2 className="font-sans text-(--text-label) font-medium text-(--color-steel)">
                 Response time
               </h2>
               <p className="mt-2 text-lg text-(--color-ink)">Within one business day for qualified enquiries.</p>

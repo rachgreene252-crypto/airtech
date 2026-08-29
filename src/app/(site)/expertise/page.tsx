@@ -38,7 +38,7 @@ export default function ExpertisePage() {
                   {service.shortDescription}
                 </p>
                 {service.subServices.length > 0 && (
-                  <p className="mt-4 font-mono text-[11px] tracking-[0.06em] uppercase text-(--color-steel)">
+                  <p className="mt-4 font-sans text-(--text-label) text-(--color-steel)">
                     {service.subServices.slice(0, 5).join(" · ")}
                   </p>
                 )}
