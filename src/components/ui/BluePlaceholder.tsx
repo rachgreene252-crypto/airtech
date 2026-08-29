@@ -37,7 +37,7 @@ export function BluePlaceholder({
         <circle cx={250} cy={105} r={3} fill="white" />
       </svg>
       {label && (
-        <p className="relative font-sans text-(--text-label) font-medium text-white/80">
+        <p className="relative font-sans text-label font-medium text-white/80">
           {label}
         </p>
       )}

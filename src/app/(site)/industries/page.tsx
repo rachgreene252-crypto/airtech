@@ -38,7 +38,7 @@ export default function IndustriesPage() {
                   {industry.overview}
                 </p>
                 {industry.operationalChallenges.length > 0 && (
-                  <p className="mt-4 font-sans text-(--text-label) text-(--color-steel)">
+                  <p className="mt-4 font-sans text-label text-(--color-steel)">
                     {industry.operationalChallenges[0]}
                   </p>
                 )}

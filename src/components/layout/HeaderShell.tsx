@@ -33,7 +33,7 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
             priority
             className="h-8 w-auto sm:h-9"
           />
-          <span className="hidden sm:inline font-sans text-(--text-label) text-(--color-steel)">
+          <span className="hidden sm:inline font-sans text-label text-(--color-steel)">
             {siteSettings.tagline}
           </span>
         </Link>

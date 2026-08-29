@@ -21,7 +21,7 @@ export default function HowWeWorkPage() {
       />
       <ClientJourney variant="full" />
       <Section className="text-center">
-        <h2 className="font-display text-(--text-display-m) font-semibold max-w-2xl mx-auto text-balance">
+        <h2 className="font-display text-display-m font-semibold max-w-2xl mx-auto text-balance">
           Ready to start the conversation?
         </h2>
         <div className="mt-8">

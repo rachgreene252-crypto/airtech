@@ -36,7 +36,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center p-6 text-center">
-        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue-soft)">
+        <p className="font-sans text-label font-medium text-(--color-brand-blue-soft)">
           {industryName ?? project.projectType}
         </p>
         <h3 className="mt-2 font-display text-xl sm:text-2xl font-semibold leading-tight text-(--color-paper)">

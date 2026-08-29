@@ -84,7 +84,7 @@ export function MEPSequence() {
   return (
     <section ref={sectionRef} className="bg-site-texture py-24 sm:py-32 lg:py-40">
       <Container className="max-w-3xl text-center">
-        <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
+        <p className="font-sans text-label font-medium text-(--color-brand-blue)">
           Five disciplines. One delivery.
         </p>
         <p className="mx-auto mt-4 max-w-md text-base text-(--color-steel)">

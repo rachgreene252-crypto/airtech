@@ -70,7 +70,7 @@ export function TrustedBy() {
     <section className="border-t border-(--color-line) bg-(--color-white) py-24 sm:py-32">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
+          <p className="font-sans text-label font-medium text-(--color-brand-blue)">
             Trusted by
           </p>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.02] text-(--color-ink) text-balance">

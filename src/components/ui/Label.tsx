@@ -21,7 +21,7 @@ export function Label({
   return (
     <Tag
       className={cn(
-        "font-sans text-(--text-label) font-medium",
+        "font-sans text-label font-medium",
         tone === "accent" ? "text-(--color-brand-blue)" : "text-(--color-steel)",
         className
       )}

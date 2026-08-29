@@ -45,7 +45,7 @@ export function TechnicalFrame({
         )}
       </div>
       {showCaption && (image?.caption || (label && image?.src)) && (
-        <figcaption className="mt-2 font-sans text-(--text-label) text-(--color-steel)">
+        <figcaption className="mt-2 font-sans text-label text-(--color-steel)">
           {image?.caption ?? label}
         </figcaption>
       )}

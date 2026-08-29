@@ -20,11 +20,11 @@ export function PageHero({
       <Container>
         <Breadcrumbs items={breadcrumbs} />
         {eyebrow && (
-          <p className="mt-8 font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
+          <p className="mt-8 font-sans text-label font-medium text-(--color-brand-blue)">
             {eyebrow}
           </p>
         )}
-        <h1 className="mt-4 max-w-4xl font-display text-(--text-display-xl) font-bold leading-[0.96] text-balance">
+        <h1 className="mt-4 max-w-4xl font-display text-display-xl font-bold leading-[0.96] text-balance">
           {heading}
         </h1>
         {description && (

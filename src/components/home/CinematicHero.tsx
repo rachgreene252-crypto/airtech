@@ -229,10 +229,10 @@ export function CinematicHero() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/35 to-(--color-blue-deep)/30" />
         <div className="relative z-10 flex h-full flex-col items-start justify-end p-6 pb-16 sm:p-10 lg:p-16">
-          <h1 className="max-w-3xl font-display text-(--text-display-xl) font-bold leading-[0.98] text-balance text-white">
+          <h1 className="max-w-3xl font-display text-display-xl font-bold leading-[0.98] text-balance text-white">
             Engineering the systems behind Nepal&apos;s most demanding buildings.
           </h1>
-          <p className="mt-5 max-w-xl text-(--text-body-l) leading-relaxed text-white/75">
+          <p className="mt-5 max-w-xl text-body-l leading-relaxed text-white/75">
             Integrated MEP and HVAC — from design through commissioning and long-term support.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-6">
@@ -266,10 +266,10 @@ export function CinematicHero() {
           ref={headlineRef}
           className="absolute inset-0 flex flex-col items-start justify-end p-6 pb-20 sm:p-10 sm:pb-24 lg:p-16 lg:pb-28"
         >
-          <h1 className="max-w-3xl font-display text-(--text-display-xl) font-bold leading-[0.98] text-balance text-white">
+          <h1 className="max-w-3xl font-display text-display-xl font-bold leading-[0.98] text-balance text-white">
             Engineering the systems behind Nepal&apos;s most demanding buildings.
           </h1>
-          <p className="mt-5 max-w-xl text-(--text-body-l) leading-relaxed text-white/75">
+          <p className="mt-5 max-w-xl text-body-l leading-relaxed text-white/75">
             Integrated MEP and HVAC — from design through commissioning and long-term support.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-6">

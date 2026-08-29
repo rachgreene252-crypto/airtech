@@ -30,7 +30,7 @@ export function Site({ active }: { active: boolean }) {
           />
         ))}
       </svg>
-      <p className="font-sans text-(--text-small) text-(--color-steel)">
+      <p className="font-sans text-small text-(--color-steel)">
         {HOTSPOTS.map((h) => h.label).join(" · ")}
       </p>
     </div>

@@ -10,7 +10,7 @@ import { partners } from "@/content/certifications";
 export function Procure({ active: _active }: { active: boolean }) {
   return (
     <div className="flex h-full w-full flex-col items-start justify-center gap-4 px-2" aria-hidden="true">
-      <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue-soft)">
+      <p className="font-sans text-label font-medium text-(--color-brand-blue-soft)">
         Trusted equipment partners
       </p>
       <div className="flex flex-wrap gap-3">

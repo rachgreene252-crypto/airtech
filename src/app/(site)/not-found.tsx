@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Section border={false}>
       <Container className="text-center py-16">
-        <p className="font-mono text-(--text-label) text-(--color-brand-blue)">404</p>
+        <p className="font-mono text-label text-(--color-brand-blue)">404</p>
         <h1 className="mt-5 font-display text-5xl sm:text-6xl font-bold">Page not found.</h1>
         <p className="mt-5 text-(--color-steel) max-w-md mx-auto">
           The page you&apos;re looking for doesn&apos;t exist, or has moved.

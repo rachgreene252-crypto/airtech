@@ -55,10 +55,10 @@ function CompactJourney() {
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             <Label>Client journey</Label>
-            <h2 className="mt-4 font-display text-(--text-display-l) font-semibold leading-[0.98] text-(--color-ink) text-balance">
+            <h2 className="mt-4 font-display text-display-l font-semibold leading-[0.98] text-(--color-ink) text-balance">
               One partner, the whole lifecycle.
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-(--text-body-l) leading-relaxed text-(--color-steel)">
+            <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
               {journeyIntro}
             </p>
           </div>
@@ -224,14 +224,14 @@ function StepSection({
         )}
         <div className={isFinale ? "" : "order-1 lg:order-2"}>
           <p
-            className={`font-display text-(--text-display-m) font-semibold ${
+            className={`font-display text-display-m font-semibold ${
               isFinale ? "text-white" : "text-(--color-brand-blue)"
             }`}
           >
             {String(step.index).padStart(2, "0")} — {step.label}
           </p>
           <h2
-            className={`mt-3 font-display text-(--text-display-l) font-semibold leading-[1.02] text-balance ${
+            className={`mt-3 font-display text-display-l font-semibold leading-[1.02] text-balance ${
               isFinale ? "text-white" : "text-(--color-ink)"
             }`}
           >
@@ -241,7 +241,7 @@ function StepSection({
             {step.subLabel}
           </Label>
           <p
-            className={`mt-3 max-w-xl text-(--text-body-l) leading-relaxed ${
+            className={`mt-3 max-w-xl text-body-l leading-relaxed ${
               isFinale ? "mx-auto text-white/80" : "text-(--color-steel)"
             }`}
           >
@@ -251,7 +251,7 @@ function StepSection({
             {step.points.map((point) => (
               <li
                 key={point}
-                className={`flex gap-3 text-(--text-body) ${isFinale ? "text-white/90" : "text-(--color-ink)"}`}
+                className={`flex gap-3 text-body ${isFinale ? "text-white/90" : "text-(--color-ink)"}`}
               >
                 <span aria-hidden="true" className={isFinale ? "text-(--color-brand-blue-soft)" : "text-(--color-brand-blue)"}>
                   —

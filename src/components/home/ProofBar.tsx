@@ -77,7 +77,7 @@ export function ProofBar() {
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 />
-                <p className="mx-auto mt-4 max-w-[11rem] font-sans text-(--text-label) leading-relaxed text-(--color-steel)">
+                <p className="mx-auto mt-4 max-w-[11rem] font-sans text-label leading-relaxed text-(--color-steel)">
                   {stat.label}
                 </p>
               </div>
