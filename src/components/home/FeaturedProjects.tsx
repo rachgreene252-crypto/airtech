@@ -106,10 +106,10 @@ export function FeaturedProjects() {
           <p className="font-sans text-label font-medium text-(--color-brand-blue)">
             Featured projects
           </p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-semibold leading-[0.98] text-(--color-ink) text-balance">
+          <h2 className="mt-4 font-display text-display-l font-semibold leading-[0.98] text-(--color-ink) text-balance">
             See our expertise
           </h2>
-          <p className="mx-auto mt-4 max-w-md font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel)">
+          <p className="mx-auto mt-4 max-w-md font-mono text-label text-(--color-steel)">
             {String(activeCard + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
           </p>
         </div>
@@ -126,7 +126,7 @@ export function FeaturedProjects() {
               type="button"
               aria-label="Previous project"
               onClick={() => scrollByCard(-1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
             >
               ←
             </button>
@@ -134,7 +134,7 @@ export function FeaturedProjects() {
               type="button"
               aria-label="Next project"
               onClick={() => scrollByCard(1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
             >
               →
             </button>
@@ -144,7 +144,7 @@ export function FeaturedProjects() {
         <div
           ref={trackRef}
           onScroll={handleScroll}
-          className="mt-12 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="mt-12 flex gap-6 overflow-x-auto overscroll-x-contain pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {PROJECTS.map((project, i) => (
             <motion.div
@@ -167,24 +167,25 @@ export function FeaturedProjects() {
                   sizes="(min-width: 1024px) 430px, (min-width: 640px) 400px, 80vw"
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90" />
-
-                <span className="absolute left-6 top-6 font-mono text-[11px] tracking-[0.1em] text-(--color-paper)/70 sm:left-7 sm:top-7">
+                <span className="absolute left-6 top-6 font-mono text-label text-(--color-paper)/70 sm:left-7 sm:top-7">
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                  <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-(--color-signal-soft)">
-                    {project.sector}
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl font-semibold text-(--color-paper)">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>
-                  <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                    View Project
-                    <span aria-hidden="true">→</span>
-                  </span>
+                <div className="absolute inset-x-0 bottom-0">
+                  <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) from-5% via-(--color-ink)/60 via-40% to-transparent to-75% transition-opacity duration-300 group-hover:from-(--color-ink)" />
+                  <div className="relative p-6 sm:p-7">
+                    <p className="font-sans text-label font-medium text-(--color-brand-blue-soft)">
+                      {project.sector}
+                    </p>
+                    <h3 className="mt-2 font-display text-2xl font-semibold text-(--color-paper)">
+                      {project.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>
+                    <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                      View project
+                      <span aria-hidden="true">→</span>
+                    </span>
+                  </div>
                 </div>
               </Link>
             </motion.div>
