@@ -3,23 +3,16 @@ import { EngineeringStatement } from "@/components/home/EngineeringStatement";
 import { MEPSequence } from "@/components/home/MEPSequence";
 import { ProofBar } from "@/components/home/ProofBar";
 import { WhatWeDo } from "@/components/home/WhatWeDo";
-import { SolutionsExperience } from "@/components/home/SolutionsExperience";
+import { ClientJourney } from "@/components/journey/ClientJourney";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { TrustedBy } from "@/components/home/TrustedBy";
 
-// Homepage sequence — same section order as the 2026-08-22 implementation
-// brief, elevated by the same-day "premium visual reconception" brief
-// (richtext_converted_to_markdown (1).md): GSAP cinematic frame-sequence
-// hero, full light/white + Airtech-blue palette, center-aligned editorial
-// text sections. 01 Navigation -> 02 Cinematic hero -> 03 Engineering
-// headline -> 04 MEP system sequence -> 05 Proof bar -> 06 What We Do -> 07
-// Our Solutions -> 08 Featured Projects -> 09 Trusted By. The closing
-// "Recognised by our clients" reference-letter strip (ClientRecognition)
-// has been removed from this page per explicit request; the component
-// itself is left in src/components/home in case it's wanted elsewhere
-// (e.g. company/quality-certifications). Prior components remain in
-// src/components/home for reuse elsewhere (e.g. SystemShowcase's
-// per-discipline panels fit /expertise better) and are not deleted.
+// Homepage sequence per the 2026-08-28 blue-reset/ClientJourney spec (§5):
+// CinematicHero -> EngineeringStatement (slim intro band) -> MEPSequence ->
+// ProofBar -> WhatWeDo -> ClientJourney (compact) -> FeaturedProjects ->
+// TrustedBy. ClientJourney replaces the retired SolutionsExperience
+// component. Prior unused components remain in src/components/home for
+// reuse elsewhere and are not deleted.
 export default function HomePage() {
   return (
     <>
@@ -28,7 +21,7 @@ export default function HomePage() {
       <MEPSequence />
       <ProofBar />
       <WhatWeDo />
-      <SolutionsExperience />
+      <ClientJourney variant="compact" />
       <FeaturedProjects />
       <TrustedBy />
     </>
