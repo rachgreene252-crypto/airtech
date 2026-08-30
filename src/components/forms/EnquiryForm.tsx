@@ -7,14 +7,16 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import type { Industry } from "@/content/types";
 
-// Matches the client's 5-step spec exactly: what do you need -> contact ->
-// project -> documents -> submit.
+// What you need -> Contact -> Project -> Documents -> Done. Step 0 is a
+// multi-select checkbox group (spec §8.2) — a project can span more than
+// one discipline, so a single radio choice was under-representing what
+// visitors actually needed to tell Airtech.
 const STEPS = ["What you need", "Contact", "Project", "Documents", "Done"] as const;
 
 const MAX_TOTAL_BYTES = 12 * 1024 * 1024;
 
 const emptyForm: EnquiryInput = {
-  intent: "",
+  intent: [],
   name: "",
   company: "",
   designation: "",
@@ -43,6 +45,13 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
+  function toggleIntent(value: string) {
+    setForm((f) => ({
+      ...f,
+      intent: f.intent.includes(value) ? f.intent.filter((v) => v !== value) : [...f.intent, value],
+    }));
+  }
+
   function goToStep(next: number) {
     setStep(next);
     formTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -50,7 +59,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
   function validateStep(current: number): boolean {
     const nextErrors: Record<string, string> = {};
-    if (current === 0 && !form.intent) nextErrors.intent = "Choose one option to continue.";
+    if (current === 0 && form.intent.length === 0) nextErrors.intent = "Choose at least one option to continue.";
     if (current === 1) {
       if (form.name.trim().length < 2) nextErrors.name = "Enter your name.";
       if (!form.company.trim()) nextErrors.company = "Enter your company or organisation.";
@@ -103,7 +112,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
   return (
     <div ref={formTopRef}>
-      <ol className="flex flex-wrap gap-x-6 gap-y-2 mb-10 font-mono text-xs tracking-[0.06em] uppercase">
+      <ol className="flex flex-wrap gap-x-6 gap-y-2 mb-10 font-sans text-label">
         {STEPS.map((label, i) => (
           <li
             key={label}
@@ -116,7 +125,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
               className={cn(
                 "flex h-5 w-5 items-center justify-center border text-[10px]",
                 i === step
-                  ? "border-(--color-signal) text-(--color-signal)"
+                  ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                   : i < step
                     ? "border-(--color-ink) bg-(--color-ink) text-(--color-paper)"
                     : "border-(--color-line-strong)"
@@ -132,35 +141,40 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
       {step === 0 && (
         <fieldset>
           <legend className="font-display text-2xl font-semibold mb-6">What do you need?</legend>
-          <div role="radiogroup" aria-label="What do you need">
-            {intentOptions.map((opt) => (
-              <label
-                key={opt.value}
-                className={cn(
-                  "flex min-h-14 cursor-pointer items-center gap-4 border-t border-(--color-line) py-4 pl-4 text-base transition-colors first:border-t-0 hover:bg-(--color-paper-raised)",
-                  form.intent === opt.value && "border-l-2 border-l-(--color-signal) bg-(--color-paper-raised)"
-                )}
-              >
-                <input
-                  type="radio"
-                  name="intent"
-                  value={opt.value}
-                  checked={form.intent === opt.value}
-                  onChange={() => update("intent", opt.value)}
-                  className="sr-only"
-                />
-                <span
-                  aria-hidden="true"
+          <div role="group" aria-label="What do you need">
+            {intentOptions.map((opt) => {
+              const checked = form.intent.includes(opt.value);
+              return (
+                <label
+                  key={opt.value}
                   className={cn(
-                    "h-2.5 w-2.5 shrink-0 rounded-full border",
-                    form.intent === opt.value ? "border-(--color-signal) bg-(--color-signal)" : "border-(--color-line-strong)"
+                    "flex min-h-14 cursor-pointer items-center gap-4 border-t border-(--color-line) py-4 pl-4 text-base transition-colors first:border-t-0 hover:bg-(--color-paper-raised)",
+                    checked && "border-l-2 border-l-(--color-brand-blue) bg-(--color-paper-raised)"
                   )}
-                />
-                {opt.label}
-              </label>
-            ))}
+                >
+                  <input
+                    type="checkbox"
+                    name="intent"
+                    value={opt.value}
+                    checked={checked}
+                    onChange={() => toggleIntent(opt.value)}
+                    className="sr-only"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "flex h-4 w-4 shrink-0 items-center justify-center border",
+                      checked ? "border-(--color-brand-blue) bg-(--color-brand-blue)" : "border-(--color-line-strong)"
+                    )}
+                  >
+                    {checked && <span className="h-1.5 w-1.5 bg-white" />}
+                  </span>
+                  {opt.label}
+                </label>
+              );
+            })}
           </div>
-          {errors.intent && <p className="mt-3 text-sm text-(--color-signal)" role="alert">{errors.intent}</p>}
+          {errors.intent && <p className="mt-3 text-sm text-(--color-brand-blue)" role="alert">{errors.intent}</p>}
           <div className="mt-8">
             <Button type="button" onClick={handleNext} size="lg">
               Continue
@@ -301,7 +315,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="mt-5 flex min-h-14 w-full items-center justify-center border border-dashed border-(--color-line-strong) py-8 text-sm text-(--color-steel) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
+            className="mt-5 flex min-h-14 w-full items-center justify-center border border-dashed border-(--color-line-strong) py-8 text-sm text-(--color-steel) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) transition-colors"
           >
             Click to attach files
           </button>
@@ -317,7 +331,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
           />
 
           {fileError && (
-            <p className="mt-3 text-sm text-(--color-signal)" role="alert">
+            <p className="mt-3 text-sm text-(--color-brand-blue)" role="alert">
               {fileError}
             </p>
           )}
@@ -334,7 +348,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                   <button
                     type="button"
                     onClick={() => removeFile(i)}
-                    className="shrink-0 font-mono text-xs uppercase text-(--color-signal) hover:underline"
+                    className="shrink-0 font-sans text-label font-medium text-(--color-brand-blue) hover:underline"
                   >
                     Remove
                   </button>
@@ -344,7 +358,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
           )}
 
           {submitError && (
-            <p className="mt-4 text-sm text-(--color-signal)" role="alert">
+            <p className="mt-4 text-sm text-(--color-brand-blue)" role="alert">
               {submitError}
             </p>
           )}
@@ -361,7 +375,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
       {step === 4 && (
         <div className="border-t border-(--color-line) pt-10 text-center">
-          <p className="font-mono text-xs tracking-[0.14em] uppercase text-(--color-signal)">Enquiry received</p>
+          <p className="font-sans text-label font-medium text-(--color-brand-blue)">Enquiry received</p>
           <h2 className="mt-4 font-display text-3xl font-semibold">
             Thanks, {form.name.split(" ")[0] || "there"}.
           </h2>
@@ -381,7 +395,7 @@ function formatBytes(bytes: number): string {
 }
 
 const inputClass =
-  "w-full border border-(--color-line-strong) bg-(--color-paper-raised) px-3.5 py-2.5 text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--color-signal)";
+  "w-full border border-(--color-line-strong) bg-(--color-paper-raised) px-3.5 py-2.5 text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--color-brand-blue)";
 
 function Field({
   label,
@@ -396,12 +410,12 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block font-mono text-[11px] tracking-[0.08em] uppercase text-(--color-steel) mb-1.5">
-        {label} {optional && <span className="normal-case text-(--color-steel)">(optional)</span>}
+      <span className="block font-sans text-label font-medium text-(--color-steel) mb-1.5">
+        {label} {optional && <span className="text-(--color-steel)">(optional)</span>}
       </span>
       {children}
       {error && (
-        <span className="mt-1.5 block text-sm text-(--color-signal)" role="alert">
+        <span className="mt-1.5 block text-sm text-(--color-brand-blue)" role="alert">
           {error}
         </span>
       )}
