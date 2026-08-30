@@ -1,11 +1,15 @@
 import { z } from "zod";
 
 export const intentOptions = [
-  { value: "hvac", label: "New project — HVAC" },
-  { value: "electrical", label: "New project — Electrical" },
-  { value: "full-mep", label: "New project — Full MEP / multiple disciplines" },
+  { value: "hvac", label: "HVAC" },
+  { value: "electrical", label: "Electrical" },
+  { value: "plumbing", label: "Plumbing & Public Health" },
+  { value: "fire", label: "Fire Protection & Fire Alarm" },
+  { value: "elv", label: "ELV / Security / IT" },
+  { value: "bms", label: "BMS / Systems Integration" },
+  { value: "advisory", label: "Engineering / Advisory" },
+  { value: "full-mep", label: "Full MEP / integrated delivery" },
   { value: "amc-service", label: "AMC / Service & Support" },
-  { value: "consultation", label: "Consultation / advisory" },
 ] as const;
 
 export const projectStageOptions = [
@@ -17,7 +21,9 @@ export const projectStageOptions = [
 ] as const;
 
 export const enquirySchema = z.object({
-  intent: z.enum(intentOptions.map((o) => o.value) as [string, ...string[]]),
+  intent: z
+    .array(z.enum(intentOptions.map((o) => o.value) as [string, ...string[]]))
+    .min(1, "Choose at least one option."),
   name: z.string().min(2, "Enter your name"),
   company: z.string().min(1, "Enter your company or organisation"),
   designation: z.string().optional(),
