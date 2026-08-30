@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { LibraryExplorer } from "@/components/library/LibraryExplorer";
 import { resources } from "@/content/resources";
 
 export const metadata: Metadata = {
@@ -21,7 +23,9 @@ export default function EngineeringLibraryPage() {
       />
       <Section>
         {resources.length > 0 ? (
-          <div>{/* resource list renders here once content exists */}</div>
+          <Suspense fallback={null}>
+            <LibraryExplorer resources={resources} />
+          </Suspense>
         ) : (
           <EmptyState
             title="Library in progress"
