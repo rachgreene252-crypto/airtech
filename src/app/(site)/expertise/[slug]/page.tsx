@@ -7,7 +7,6 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Reveal } from "@/components/ui/Reveal";
 import { SystemMotif, SERVICE_MOTIFS } from "@/components/ui/SystemMotif";
 import { ProjectFeatureRow } from "@/components/projects/ProjectFeatureRow";
 import { ProjectListRow } from "@/components/projects/ProjectListRow";
@@ -33,9 +32,6 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const relatedIndustries = service.relatedIndustrySlugs
-    .map((s) => getIndustryBySlug(s))
-    .filter((i): i is NonNullable<typeof i> => Boolean(i));
   const relatedProjects = getProjectsByService(service.slug);
   const featuredProjects = relatedProjects.filter((p) => p.heroImage?.src).slice(0, 2);
   const listedProjects = relatedProjects.filter((p) => !p.heroImage?.src).slice(0, 4);
@@ -92,26 +88,6 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
               >
                 {s}
               </span>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {relatedIndustries.length > 0 && (
-        <Section>
-          <SectionHeader eyebrow="Applications" heading="Where this discipline is applied." />
-          <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
-            {relatedIndustries.map((industry, i) => (
-              <Reveal key={industry.slug} delay={i * 0.05}>
-                <Link href={`/industries/${industry.slug}`} className="group block">
-                  <h3 className="font-display text-xl font-semibold group-hover:text-(--color-signal) transition-colors">
-                    {industry.name}
-                  </h3>
-                  <span className="mt-1 inline-block text-sm text-(--color-signal) opacity-0 group-hover:opacity-100 transition-opacity">
-                    View sector →
-                  </span>
-                </Link>
-              </Reveal>
             ))}
           </div>
         </Section>
