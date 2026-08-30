@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
@@ -19,6 +19,15 @@ import { ButtonLink } from "@/components/ui/Button";
  * with limited concurrency) — canvas draws always clamp to the highest
  * contiguously-loaded frame, so scrubbing ahead of the network never shows
  * a blank frame, it just holds the last available one.
+ *
+ * Layout: a single JSX tree in every state. The scroll-track height lives
+ * entirely in CSS (`.hero-scroll-track` in globals.css) — 330vh desktop /
+ * 250vh mobile for the scrub, collapsing to one viewport under
+ * `prefers-reduced-motion`. Nothing here mutates layout after hydration, so
+ * the sections below the hero never shift (an earlier version grew the
+ * wrapper height in an effect and measured as CLS ~0.41). Reduced motion /
+ * no-JS falls back to a single graded still frame via `motion-reduce:`
+ * utilities; the effect below no-ops in that case.
  */
 const DESKTOP_FRAME_COUNT = 240;
 const MOBILE_FRAME_NUMBERS = Array.from({ length: 80 }, (_, i) => 1 + i * 3);
@@ -36,7 +45,7 @@ export function CinematicHero() {
   const headlineRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (reduceMotion) return;
 
     const wrapper = wrapperRef.current;
@@ -89,7 +98,24 @@ export function CinematicHero() {
       }
       if (next < total) requestAnimationFrame(pump);
     }
-    pump();
+
+    // Hold the rest of the sequence (80–240 requests) until the browser is
+    // idle or the visitor scrolls — firing them all at hydration otherwise
+    // saturates a slow connection and pushes out the hero's own LCP paint.
+    // draw() clamps to loaded frames, so an early scrub just holds frame 0.
+    let pumpStarted = false;
+    const startPump = () => {
+      if (pumpStarted || cancelled) return;
+      pumpStarted = true;
+      window.removeEventListener("scroll", startPump);
+      pump();
+    };
+    window.addEventListener("scroll", startPump, { once: true, passive: true });
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(startPump, { timeout: 2500 });
+    } else {
+      window.setTimeout(startPump, 1500);
+    }
 
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let cssW = 0;
@@ -137,7 +163,7 @@ export function CinematicHero() {
         // Grade the frame: a --color-blue-deep (#0d2b3e) multiply wash keeps
         // the sequence in the site's palette instead of raw photography
         // tones, then a bottom-up --color-ink (#161a1f) scrim gives the
-        // headline layer (Step 4 below) a controlled dark field to sit on.
+        // headline layer a controlled dark field to sit on.
         ctx.save();
         ctx.globalCompositeOperation = "multiply";
         ctx.fillStyle = "rgba(13, 43, 62, 0.4)";
@@ -163,18 +189,21 @@ export function CinematicHero() {
     let scrollTriggerInstance: { kill: () => void } | undefined;
     let ctxGsap: { revert: () => void } | undefined;
 
-    const pinDistance = window.innerHeight * (isMobile ? 1.5 : 2.3);
+    // Scrub distance as a multiple of the live viewport height, kept as a
+    // function + invalidateOnRefresh so it tracks orientation changes and
+    // the mobile URL bar. Must stay in sync with `.hero-scroll-track`'s
+    // min-height in globals.css: 1 viewport (sticky section) + this.
+    const scrubViewports = isMobile ? 1.5 : 2.3;
+    const endDistance = () => `+=${window.innerHeight * scrubViewports}`;
+
     // CSS `sticky` does the pinning, not GSAP: ScrollTrigger's own `pin: true`
     // inserts a pin-spacer wrapper div via raw DOM APIs, which Next's Cache
     // Components (React Activity keeps hidden routes' DOM alive instead of
     // unmounting it) can't reconcile against — React expects `section` to
     // stay a direct child of its original parent, and the untracked wrapper
     // causes an `insertBefore` crash the next time React touches that
-    // subtree. `wrapper` reserves the scroll distance in JSX-owned DOM and
-    // `section` is `sticky top-0` inside it (see the returned JSX below), so
-    // ScrollTrigger only reads scroll progress here — it never mutates the DOM.
-    wrapper.style.height = `${window.innerHeight + pinDistance}px`;
-
+    // subtree. `section` is `sticky top-0` inside `wrapper`, so ScrollTrigger
+    // only reads scroll progress here — it never mutates the DOM.
     (async () => {
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
@@ -187,10 +216,10 @@ export function CinematicHero() {
         const st = ScrollTrigger.create({
           trigger: wrapper,
           start: "top top",
-          end: `+=${pinDistance}`,
+          end: endDistance,
           pin: false,
           scrub: 0.35,
-          anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
             currentIndex = Math.min(total - 1, Math.round(self.progress * (total - 1)));
             if (indicatorRef.current) {
@@ -211,56 +240,53 @@ export function CinematicHero() {
     return () => {
       cancelled = true;
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", startPump);
       window.clearInterval(drawLoop);
       scrollTriggerInstance?.kill();
       ctxGsap?.revert();
     };
   }, [reduceMotion]);
 
-  if (reduceMotion) {
-    return (
-      <section className="relative h-[86vh] min-h-[600px] w-full overflow-hidden bg-(--color-blue-deep)">
-        {/* eslint-disable-next-line @next/next/no-img-element -- static reduced-motion fallback, not part of next/image's responsive pipeline */}
-        <img
-          src="/images/hero/frames-desktop/frame_001.webp"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ filter: "brightness(0.55) saturate(1.05)" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/35 to-(--color-blue-deep)/30" />
-        <div className="relative z-10 flex h-full flex-col items-start justify-end p-6 pb-16 sm:p-10 lg:p-16">
-          <h1 className="max-w-3xl font-display text-display-xl font-bold leading-[0.98] text-balance text-white">
-            Engineering the systems behind Nepal&apos;s most demanding buildings.
-          </h1>
-          <p className="mt-5 max-w-xl text-body-l leading-relaxed text-white/75">
-            Integrated MEP and HVAC — from design through commissioning and long-term support.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <ButtonLink href="/contact/project-enquiry" size="lg">
-              Discuss your project
-            </ButtonLink>
-            <Link href="/projects" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
-              Explore our work →
-            </Link>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <div ref={wrapperRef} className="relative w-full min-h-[100dvh]">
+    <div ref={wrapperRef} className="hero-scroll-track relative w-full">
       <section
         ref={sectionRef}
         className="sticky top-0 h-[100dvh] min-h-[560px] w-full overflow-hidden bg-(--color-blue-deep)"
-        style={{
-          backgroundImage: "url(/images/backgrounds/architectural-light.webp)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
         aria-label="Airtech Industries: engineering the systems behind Nepal's most demanding buildings"
       >
-        <canvas ref={canvasRef} className="absolute inset-0 block" />
+        {/* Base still: the first frame as an eager <img> so the hero has a
+            real picture at first paint without waiting on hydration + the
+            GSAP chunks, and its bytes are reused by the canvas (same URLs).
+            No fetchpriority — it must not contend with the document's own
+            critical chain. The canvas draws the full sequence over it once
+            motion is allowed; under reduced motion the canvas stays hidden
+            and this frame plus the grade below are the whole hero. */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- hero still, outside next/image's responsive pipeline */}
+        <img
+          src="/images/hero/frames-desktop/frame_001.webp"
+          srcSet="/images/hero/frames-mobile/frame_001.webp 640w, /images/hero/frames-desktop/frame_001.webp 1280w"
+          sizes="100vw"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Palette grade + headline scrim, mirroring canvas draw()'s wash. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 mix-blend-multiply"
+          style={{ background: "rgba(13, 43, 62, 0.4)" }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(22,26,31,0.78), rgba(22,26,31,0.2) 45%, transparent 65%)",
+          }}
+        />
+
+        {/* Scrubbed frame sequence — drawn over the base still once motion is
+            allowed (draw() reapplies the same grade). */}
+        <canvas ref={canvasRef} className="absolute inset-0 block motion-reduce:hidden" />
 
         <div
           ref={headlineRef}
@@ -285,7 +311,7 @@ export function CinematicHero() {
         <span
           ref={indicatorRef}
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity"
+          className="absolute inset-x-0 bottom-9 flex justify-center transition-opacity motion-reduce:hidden"
         >
           <span className="flex h-9 w-5 items-start justify-center rounded-full border border-white/40 pt-1.5">
             <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-white/70" />

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -23,9 +22,7 @@ export default function EngineeringLibraryPage() {
       />
       <Section>
         {resources.length > 0 ? (
-          <Suspense fallback={null}>
-            <LibraryExplorer resources={resources} />
-          </Suspense>
+          <LibraryExplorer resources={resources} />
         ) : (
           <EmptyState
             title="Library in progress"

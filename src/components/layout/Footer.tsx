@@ -16,6 +16,10 @@ export async function Footer() {
   return (
     <footer className="border-t border-(--color-line) bg-(--color-ink) text-(--color-paper) mt-auto">
       <Container className="py-16 lg:py-20">
+        {/* Anchors the footer's nav-group <h3>s in the document heading
+            outline — pages whose main content has no <h2> (e.g. the enquiry
+            form) would otherwise jump h1 → h3 here. */}
+        <h2 className="sr-only">Site footer</h2>
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-x-6 gap-y-12">
           <div className="col-span-2 lg:col-span-2 pr-6">
             <span className="font-display text-3xl font-bold">{siteSettings.brandName}</span>

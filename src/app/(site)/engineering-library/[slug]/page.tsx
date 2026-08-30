@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { getResourceBySlug, RESOURCE_KIND_LABELS } from "@/content/resources";
+import { resources, getResourceBySlug, RESOURCE_KIND_LABELS } from "@/content/resources";
 
-// No generateStaticParams: src/content/resources.ts entries are all
-// status: "source_only" with no fileUrl/body until Task 26 seeds real
-// placeholder entries (Phase 8) — this route resolves on demand.
+// Every library entry is a known, finite content record — prerender all of
+// them so this route is fully static (no runtime data during prerender, no
+// route-level loading fallback on first paint). getResourceBySlug + notFound
+// still guard any slug outside this set.
+export function generateStaticParams() {
+  return resources.map((r) => ({ slug: r.slug }));
+}
 
 export async function generateMetadata({
   params,

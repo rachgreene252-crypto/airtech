@@ -187,6 +187,28 @@ body::before {
   background-repeat: no-repeat;
 }
 
+/* CinematicHero scroll track. One viewport for the sticky hero section plus
+   the frame-scrub distance (globals here must match `scrubViewports` in
+   CinematicHero.tsx: 1.5 mobile / 2.3 desktop). Declared in CSS — not grown
+   from JS after paint — so the server-rendered and hydrated heights match
+   and nothing below the hero shifts. Reduced motion has no scrub, so the
+   track collapses to a single viewport. `vh` (large viewport) is deliberate:
+   the scrub end is computed from live innerHeight, and the track only needs
+   to be *at least* that tall. */
+.hero-scroll-track {
+  min-height: 250vh;
+}
+@media (min-width: 768px) {
+  .hero-scroll-track {
+    min-height: 330vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-track {
+    min-height: 100dvh;
+  }
+}
+
 ::selection {
   background: var(--color-blueprint);
   color: var(--color-paper);

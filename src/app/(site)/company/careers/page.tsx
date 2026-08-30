@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { siteSettings } from "@/content/site-settings";
 
 export const metadata: Metadata = {
@@ -58,14 +58,12 @@ export default function CareersPage() {
 
       <Section tone="raised">
         <SectionHeader eyebrow="Open positions" heading="Current openings." />
-        <div className="relative mt-10 aspect-[21/9] w-full overflow-hidden">
-          <BluePlaceholder label="No open positions listed right now" />
+        <div className="mt-10">
+          <EmptyState
+            title="No open positions listed right now"
+            description="If you're an engineer or technician interested in Airtech's work, send your CV and area of interest — we keep it on file for the next relevant opening."
+          />
         </div>
-        <p className="mt-6 max-w-xl text-(--color-steel) leading-relaxed">
-          No open positions are listed here right now. If you&apos;re an engineer or technician
-          interested in Airtech&apos;s work, send your CV and area of interest — we keep it on file
-          for the next relevant opening.
-        </p>
       </Section>
 
       <Section>

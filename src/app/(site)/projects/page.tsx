@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -38,9 +37,7 @@ export default function ProjectsPage() {
         </Container>
       </div>
       <Container>
-        <Suspense fallback={null}>
-          <ProjectsExplorer projects={projects} industries={industries} />
-        </Suspense>
+        <ProjectsExplorer projects={projects} industries={industries} />
       </Container>
 
       <Container className="py-16 sm:py-20 lg:py-24">
