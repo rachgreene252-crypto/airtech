@@ -44,7 +44,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
         </h3>
         {project.location && <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>}
         <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          View Project
+          View project
           <span aria-hidden="true">→</span>
         </span>
       </div>

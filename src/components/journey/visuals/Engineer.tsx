@@ -41,7 +41,12 @@ export function Engineer({ active }: { active: boolean }) {
           key={i}
           className={active ? "animate-engineer-crossfade" : undefined}
           style={{
-            opacity: active ? undefined : i === 0 ? 1 : 0,
+            // Non-first layers stay opacity:0 by default so they're hidden
+            // during their animation-delay window — the keyframe has no
+            // fill-mode and its 0% frame is opacity:1, so `backwards` can't
+            // help. The running animation overrides this inline value once
+            // each layer's delay elapses.
+            opacity: i === 0 ? (active ? undefined : 1) : 0,
             animationDelay: active ? `${i * 2}s` : undefined,
           }}
         >

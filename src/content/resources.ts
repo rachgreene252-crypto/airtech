@@ -1,5 +1,14 @@
 import type { Resource } from "./types";
 
+/** Sentence-case display labels for `Resource["kind"]`, shared by the
+ * library list and the document detail page so both read identically. */
+export const RESOURCE_KIND_LABELS: Record<Resource["kind"], string> = {
+  guideline: "Guideline",
+  bulletin: "Bulletin",
+  download: "Download",
+  insight: "Insight",
+};
+
 /**
  * Engineering Library seed — technical-credibility placeholders for
  * consultants, architects and specifiers (spec §9), not a blog. Every entry

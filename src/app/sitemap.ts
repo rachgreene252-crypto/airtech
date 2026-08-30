@@ -2,7 +2,6 @@ import type { MetadataRoute } from "next";
 import { services } from "@/content/services";
 import { industries } from "@/content/industries";
 import { projects } from "@/content/projects";
-import { resources } from "@/content/resources";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.airtech.com.np";
 
@@ -42,10 +41,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  const resourceRoutes = resources.map((r) => ({
-    url: `${siteUrl}/engineering-library/${r.slug}`,
-    lastModified: new Date(),
-  }));
+  // Engineering Library document detail pages (/engineering-library/[slug])
+  // are unlinked "content coming soon" stubs until Airtech supplies the real
+  // decks — they resolve on demand but aren't indexable content yet, so they
+  // stay out of the sitemap. Add them back once the list links to them.
 
-  return [...staticRoutes, ...serviceRoutes, ...industryRoutes, ...projectRoutes, ...resourceRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...industryRoutes, ...projectRoutes];
 }

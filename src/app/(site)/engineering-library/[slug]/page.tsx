@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { getResourceBySlug } from "@/content/resources";
+import { getResourceBySlug, RESOURCE_KIND_LABELS } from "@/content/resources";
 
 // No generateStaticParams: src/content/resources.ts entries are all
 // status: "source_only" with no fileUrl/body until Task 26 seeds real
@@ -32,7 +32,7 @@ export default async function EngineeringLibraryDetailPage({
           { label: "Engineering Library", href: "/engineering-library" },
           { label: resource.title },
         ]}
-        eyebrow={resource.kind}
+        eyebrow={RESOURCE_KIND_LABELS[resource.kind]}
         heading={resource.title}
         description={resource.summary}
       />

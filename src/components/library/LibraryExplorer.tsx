@@ -4,14 +4,8 @@ import { useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
 import { Label } from "@/components/ui/Label";
+import { RESOURCE_KIND_LABELS as KIND_LABELS } from "@/content/resources";
 import type { Resource } from "@/content/types";
-
-const KIND_LABELS: Record<Resource["kind"], string> = {
-  guideline: "Guideline",
-  bulletin: "Bulletin",
-  download: "Download",
-  insight: "Insight",
-};
 
 export function LibraryExplorer({ resources }: { resources: Resource[] }) {
   const router = useRouter();
