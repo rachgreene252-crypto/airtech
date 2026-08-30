@@ -26,7 +26,7 @@ export function WhatWeDo() {
     <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue)">
+          <p className="font-sans text-(--text-label) font-medium text-(--color-brand-blue)">
             What we do
           </p>
           <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[0.98] text-(--color-ink) text-balance">
@@ -70,7 +70,7 @@ export function WhatWeDo() {
                   </p>
                   <Link
                     href={`/expertise/${service.slug}`}
-                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.08em] text-(--color-brand-blue) opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:mt-auto sm:pt-4"
+                    className="mt-4 inline-flex items-center gap-1.5 text-(--text-label) font-medium text-(--color-brand-blue) opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:mt-auto sm:pt-4"
                   >
                     Learn more
                     <span aria-hidden="true">→</span>

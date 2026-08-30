@@ -7,7 +7,8 @@ import { partners } from "@/content/certifications";
  * supplied yet, so partners render as clean text chips rather than
  * BluePlaceholder image boxes.
  */
-export function Procure({ active: _active }: { active: boolean }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- `active` is part of the shared VISUALS component signature; this visual has no active/resting distinction.
+export function Procure({ active }: { active: boolean }) {
   return (
     <div className="flex h-full w-full flex-col items-start justify-center gap-4 px-2" aria-hidden="true">
       <p className="font-sans text-label font-medium text-(--color-brand-blue-soft)">

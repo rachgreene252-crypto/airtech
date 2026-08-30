@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 // bar) to match the site's canvas instead of the browser default — no
 // theme-color existed before this.
 export const viewport: Viewport = {
-  themeColor: "#f6f3ec",
+  themeColor: "#f3f5f7",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

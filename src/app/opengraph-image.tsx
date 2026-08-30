@@ -20,38 +20,38 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#f6f3ec",
+          backgroundColor: "#f3f5f7",
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <svg width="40" height="40" viewBox="0 0 32 32">
-            <rect width="32" height="32" fill="#252629" />
+            <rect width="32" height="32" fill="#161a1f" />
             <path
               d="M8 24 L16 7 L24 24 M11.5 17 H20.5"
-              stroke="#c6a15b"
+              stroke="#0099da"
               strokeWidth="2.4"
               fill="none"
               strokeLinejoin="round"
               strokeLinecap="square"
             />
           </svg>
-          <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 2, color: "#252629" }}>AIRTECH</span>
-          <span style={{ fontSize: 14, letterSpacing: 3, color: "#66645a", textTransform: "uppercase" }}>
+          <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 2, color: "#161a1f" }}>AIRTECH</span>
+          <span style={{ fontSize: 14, color: "#454c55" }}>
             Reliability Matters
           </span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", marginTop: 56 }}>
-          <span style={{ fontSize: 68, fontWeight: 700, lineHeight: 1.05, color: "#252629" }}>
+          <span style={{ fontSize: 68, fontWeight: 700, lineHeight: 1.05, color: "#161a1f" }}>
             Engineering
           </span>
-          <span style={{ fontSize: 68, fontWeight: 700, lineHeight: 1.05, color: "#8a6428" }}>
+          <span style={{ fontSize: 68, fontWeight: 700, lineHeight: 1.05, color: "#045c80" }}>
             complex spaces.
           </span>
         </div>
 
-        <span style={{ marginTop: 40, fontSize: 20, letterSpacing: 2, color: "#66645a", textTransform: "uppercase" }}>
+        <span style={{ marginTop: 40, fontSize: 20, color: "#454c55" }}>
           Est. 2000 · MEP since 2013 · Kathmandu, Nepal
         </span>
       </div>
