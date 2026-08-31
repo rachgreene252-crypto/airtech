@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { ComponentType } from "react";
 import Link from "next/link";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
@@ -33,6 +33,10 @@ const VISUALS: Record<JourneyStep["visual"], ComponentType<{ active: boolean }>>
 export function ClientJourney({ variant }: { variant: "compact" | "full" }) {
   return variant === "full" ? <FullJourney /> : <CompactJourney />;
 }
+
+/* ------------------------------------------------------------------ */
+/* Compact — homepage                                                  */
+/* ------------------------------------------------------------------ */
 
 function CompactJourney() {
   const reduceMotion = useReducedMotion();
@@ -67,10 +71,10 @@ function CompactJourney() {
             {/* Mobile: vertical rail */}
             <div className="relative pl-8 sm:hidden">
               <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-(--color-line-strong)" />
-              <motion.span
+              <span
                 aria-hidden="true"
-                className="absolute left-0 top-1 w-px origin-top bg-(--color-brand-blue)"
-                style={{ height: `${displayFill * 100}%` }}
+                className="absolute left-0 top-1 bottom-1 w-px origin-top bg-(--color-brand-blue) transition-transform duration-300 ease-out"
+                style={{ transform: `scaleY(${displayFill})` }}
               />
               {journeySteps.map((step) => (
                 <div key={step.index} className="mb-8 last:mb-0">
@@ -86,10 +90,10 @@ function CompactJourney() {
             {/* Desktop: horizontal rail */}
             <div className="relative hidden pt-6 sm:block">
               <span aria-hidden="true" className="absolute left-0 right-0 top-0 h-px bg-(--color-line-strong)" />
-              <motion.span
+              <span
                 aria-hidden="true"
-                className="absolute left-0 top-0 h-px origin-left bg-(--color-brand-blue)"
-                style={{ width: `${displayFill * 100}%` }}
+                className="absolute left-0 right-0 top-0 h-px origin-left bg-(--color-brand-blue) transition-transform duration-300 ease-out"
+                style={{ transform: `scaleX(${displayFill})` }}
               />
               <div className="grid grid-cols-6 gap-4">
                 {journeySteps.map((step) => (
@@ -110,10 +114,12 @@ function CompactJourney() {
           <div className="mt-12 text-center">
             <Link
               href="/how-we-work"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:gap-2.5 transition-all"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-(--color-brand-blue)"
             >
               Explore how we work
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true" className="transition-transform duration-200 ease-out group-hover:translate-x-1">
+                &rarr;
+              </span>
             </Link>
           </div>
         </Reveal>
@@ -122,156 +128,233 @@ function CompactJourney() {
   );
 }
 
-function FullJourney() {
-  const [activeIndex, setActiveIndex] = useState(1);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+/* ------------------------------------------------------------------ */
+/* Full — /how-we-work                                                 */
+/* ------------------------------------------------------------------ */
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const idx = Number(entry.target.getAttribute("data-step-index"));
-          if (idx) setActiveIndex(idx);
-        });
-      },
-      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-    );
-    stepRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+function FullJourney() {
+  const reduceMotion = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const total = journeySteps.length;
+
+  // One scroll signal drives everything: the rail fill AND which step reads
+  // as active, so they never drift apart. Progress runs 0 as the track's top
+  // reaches the viewport centre to 1 as its bottom does.
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ["start center", "end center"],
+  });
+  const [progress, setProgress] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(Math.max(0, Math.min(1, v))));
+
+  const p = reduceMotion ? 1 : progress;
+  // active step: 1..total, advancing a touch before the exact boundary so the
+  // rail marker lights as the step arrives rather than after it.
+  const activeIndex = Math.min(total, Math.max(1, Math.ceil(p * total + 0.0001)));
 
   return (
-    <div className="relative">
-      <div className="sticky top-[72px] z-10 border-b border-(--color-line) bg-(--color-paper)/95 px-5 py-3 backdrop-blur sm:hidden">
-        <p className="font-mono text-xs text-(--color-brand-blue)">
-          {String(activeIndex).padStart(2, "0")} / {String(journeySteps.length).padStart(2, "0")}
-        </p>
+    <div className="relative border-t border-(--color-line) bg-(--color-white)">
+      {/* Mobile progress bar */}
+      <div className="sticky top-[72px] z-20 border-b border-(--color-line) bg-(--color-white)/95 backdrop-blur lg:hidden">
+        <div className="h-0.5 w-full bg-(--color-line)">
+          <div
+            className="h-full origin-left bg-(--color-brand-blue) transition-transform duration-200 ease-out"
+            style={{ transform: `scaleX(${p})` }}
+          />
+        </div>
+        <Container className="flex items-baseline justify-between py-2.5">
+          <span className="font-mono text-xs text-(--color-brand-blue)">
+            Step {activeIndex} / {total}
+          </span>
+          <span className="font-sans text-label font-medium text-(--color-steel)">
+            {journeySteps[activeIndex - 1].label}
+          </span>
+        </Container>
       </div>
 
-      <div className="lg:grid lg:grid-cols-[64px_1fr]">
-        <div className="hidden lg:sticky lg:top-24 lg:flex lg:h-fit lg:flex-col lg:items-center lg:gap-6 lg:self-start lg:pt-2">
-          {journeySteps.map((step) => (
-            <div key={step.index} className="flex flex-col items-center gap-2">
+      <Container className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-16">
+        {/* Desktop rail */}
+        <div className="hidden lg:block">
+          <div className="sticky top-28 self-start pb-12">
+            <p className="font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
+              The lifecycle
+            </p>
+            <ol className="relative mt-6 pl-6">
+              <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-(--color-line-strong)" />
               <span
-                className={`font-mono text-xs transition-colors ${
-                  activeIndex === step.index ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
-                }`}
-              >
-                {String(step.index).padStart(2, "0")}
-              </span>
-              <span
-                className={`h-6 w-px transition-colors ${
-                  activeIndex === step.index ? "bg-(--color-brand-blue)" : "bg-(--color-line-strong)"
-                }`}
+                aria-hidden="true"
+                className="absolute left-0 top-1 bottom-1 w-px origin-top bg-(--color-brand-blue) transition-transform duration-300 ease-out"
+                style={{ transform: `scaleY(${p})` }}
               />
-            </div>
-          ))}
+              {journeySteps.map((step) => {
+                const reached = activeIndex >= step.index;
+                return (
+                  <li key={step.index} className="relative mb-7 last:mb-0">
+                    <span
+                      aria-hidden="true"
+                      className={`absolute -left-[1.4375rem] top-[0.45rem] h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                        reached ? "bg-(--color-brand-blue)" : "bg-(--color-line-strong)"
+                      }`}
+                    />
+                    <span
+                      className={`font-mono text-[11px] transition-colors duration-300 ${
+                        reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
+                      }`}
+                    >
+                      {String(step.index).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`mt-0.5 block font-sans text-small font-medium transition-colors duration-300 ${
+                        activeIndex === step.index
+                          ? "text-(--color-ink)"
+                          : reached
+                            ? "text-(--color-steel)"
+                            : "text-(--color-steel-soft)"
+                      }`}
+                    >
+                      {step.label}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
         </div>
 
-        <div>
+        {/* Steps */}
+        <div ref={trackRef} className="divide-y divide-(--color-line)">
           {journeySteps.map((step, i) => (
             <StepSection
               key={step.index}
               step={step}
-              isFinale={i === journeySteps.length - 1}
+              position={i + 1}
+              total={total}
+              isFinale={i === total - 1}
               active={activeIndex === step.index}
-              setRef={(el) => {
-                stepRefs.current[i] = el;
-              }}
+              reversed={i % 2 === 1}
             />
           ))}
         </div>
-      </div>
+      </Container>
     </div>
   );
 }
 
 function StepSection({
   step,
+  position,
+  total,
   isFinale,
   active,
-  setRef,
+  reversed,
 }: {
   step: JourneyStep;
+  position: number;
+  total: number;
   isFinale: boolean;
   active: boolean;
-  setRef: (el: HTMLDivElement | null) => void;
+  reversed: boolean;
 }) {
   const Visual = VISUALS[step.visual];
 
   return (
-    <motion.div
-      ref={setRef}
+    <motion.section
       data-step-index={step.index}
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`flex min-h-[80vh] flex-col justify-center border-t border-(--color-line) px-5 py-16 sm:px-8 lg:px-0 lg:pr-12 ${
-        isFinale ? "bg-(--color-blue-deep) text-white" : ""
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className={`relative overflow-hidden ${
+        isFinale
+          ? "bg-(--color-blue-deep) px-6 py-20 text-white sm:px-12 sm:py-24"
+          : "py-20 sm:py-28"
       }`}
     >
+      {/* Ghost numeral */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute -top-4 right-2 select-none font-display text-[7rem] font-semibold leading-none sm:text-[10rem] ${
+          isFinale ? "text-white/[0.07]" : "text-(--color-brand-blue)/[0.06]"
+        }`}
+      >
+        {String(step.index).padStart(2, "0")}
+      </span>
+
       <div
-        className={
-          isFinale ? "mx-auto max-w-2xl text-center" : "grid gap-10 lg:grid-cols-2 lg:items-center"
-        }
+        className={`relative grid items-center gap-10 lg:gap-16 ${
+          isFinale ? "" : "lg:grid-cols-2"
+        }`}
       >
         {!isFinale && (
-          <div className="order-2 aspect-[3/2] w-full lg:order-1">
-            <Visual active={active} />
+          <div className={`aspect-[4/3] w-full ${reversed ? "lg:order-2" : "lg:order-1"}`}>
+            <div className="crop-frame relative h-full w-full border border-(--color-line) text-(--color-line-strong)">
+              <span className="crop-tick-tl" />
+              <span className="crop-tick-br" />
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <Visual active={active} />
+              </div>
+            </div>
           </div>
         )}
-        <div className={isFinale ? "" : "order-1 lg:order-2"}>
+
+        <div className={isFinale ? "mx-auto max-w-2xl text-center" : reversed ? "lg:order-1" : "lg:order-2"}>
           <p
-            className={`font-display text-display-m font-semibold ${
-              isFinale ? "text-white" : "text-(--color-brand-blue)"
+            className={`flex items-baseline gap-3 font-sans text-label font-medium tracking-[0.01em] ${
+              isFinale ? "justify-center text-white/70" : "text-(--color-brand-blue)"
             }`}
           >
-            {String(step.index).padStart(2, "0")} — {step.label}
+            <span className="font-mono">
+              {String(position).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
+            <span>{step.subLabel}</span>
           </p>
+
           <h2
-            className={`mt-3 font-display text-display-l font-semibold leading-[1.02] text-balance ${
+            className={`mt-4 font-display text-display-m font-semibold leading-[1.05] tracking-[-0.015em] ${
               isFinale ? "text-white" : "text-(--color-ink)"
             }`}
           >
             {step.sentence}
           </h2>
-          <Label className={`mt-5 block ${isFinale ? "text-(--color-brand-blue-soft)" : ""}`}>
-            {step.subLabel}
-          </Label>
+
           <p
-            className={`mt-3 max-w-xl text-body-l leading-relaxed ${
+            className={`mt-4 max-w-xl text-body-l leading-relaxed ${
               isFinale ? "mx-auto text-white/80" : "text-(--color-steel)"
             }`}
           >
             {step.description}
           </p>
-          <ul className={`mt-6 flex flex-col gap-2 ${isFinale ? "mx-auto max-w-xs items-start" : ""}`}>
+
+          <ul
+            className={`mt-7 grid gap-x-8 gap-y-3 sm:grid-cols-2 ${
+              isFinale ? "mx-auto max-w-md text-left" : ""
+            }`}
+          >
             {step.points.map((point) => (
               <li
                 key={point}
-                className={`flex gap-3 text-body ${isFinale ? "text-white/90" : "text-(--color-ink)"}`}
+                className={`flex gap-3 text-small ${isFinale ? "text-white/90" : "text-(--color-ink-soft)"}`}
               >
-                <span aria-hidden="true" className={isFinale ? "text-(--color-brand-blue-soft)" : "text-(--color-brand-blue)"}>
-                  —
-                </span>
-                {point}
+                <span
+                  aria-hidden="true"
+                  className={`mt-[0.7em] h-px w-3.5 shrink-0 ${
+                    isFinale ? "bg-(--color-brand-blue-soft)" : "bg-(--color-brand-blue)"
+                  }`}
+                />
+                <span>{point}</span>
               </li>
             ))}
           </ul>
+
           {isFinale && (
-            <div className="mx-auto mt-10 max-w-xs">
-              <Visual active={active} />
-              <div className="mt-10">
-                <ButtonLink href="/contact/project-enquiry" size="lg">
-                  Discuss your project
-                </ButtonLink>
-              </div>
+            <div className="mt-10">
+              <ButtonLink href="/contact/project-enquiry" size="lg">
+                Discuss your project
+              </ButtonLink>
             </div>
           )}
         </div>
       </div>
-    </motion.div>
+    </motion.section>
   );
 }
