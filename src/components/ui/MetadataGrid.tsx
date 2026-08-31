@@ -12,13 +12,13 @@ export function MetadataGrid({ items }: { items: MetadataItem[] }) {
   if (visible.length === 0) return null;
 
   return (
-    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 border-t border-(--color-line) pt-6">
+    <dl className="grid grid-cols-1 gap-x-14 gap-y-7 border-t border-(--color-line-strong) pt-8 sm:grid-cols-2">
       {visible.map((item) => (
-        <div key={item.label} className="border-b border-(--color-line) pb-4">
-          <dt className="font-sans text-label font-medium text-(--color-steel)">
+        <div key={item.label} className="border-b border-(--color-line) pb-5">
+          <dt className="font-sans text-label font-medium tracking-[0.01em] text-(--color-steel)">
             {item.label}
           </dt>
-          <dd className="mt-1.5 text-lg text-(--color-ink)">{item.value}</dd>
+          <dd className="mt-2 text-lg text-(--color-ink)">{item.value}</dd>
         </div>
       ))}
     </dl>

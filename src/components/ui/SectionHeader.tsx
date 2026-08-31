@@ -31,20 +31,20 @@ export function SectionHeader({
       {eyebrow && (
         <p
           className={cn(
-            "mb-4 font-sans text-label font-medium",
+            "mb-3.5 font-sans text-label font-medium tracking-[0.01em]",
             tone === "ink" ? "text-(--color-brand-blue)" : "text-(--color-brand-blue-soft)"
           )}
         >
           {eyebrow}
         </p>
       )}
-      <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-balance">
+      <h2 className="font-display text-3xl sm:text-4xl font-semibold leading-[1.06] tracking-[-0.015em] text-balance">
         {heading}
       </h2>
       {description && (
         <p
           className={cn(
-            "mt-5 text-base sm:text-lg leading-relaxed",
+            "mt-4 max-w-[44rem] text-base sm:text-lg leading-relaxed",
             tone === "ink" ? "text-(--color-steel)" : "text-(--color-steel-soft)"
           )}
         >

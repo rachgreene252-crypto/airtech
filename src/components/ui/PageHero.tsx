@@ -16,19 +16,19 @@ export function PageHero({
   meta?: ReactNode;
 }) {
   return (
-    <section className="border-b border-(--color-line) bg-site-texture pt-8 pb-14 sm:pt-10 sm:pb-16">
+    <section className="border-b border-(--color-line) bg-site-texture pt-8 pb-16 sm:pt-12 sm:pb-24">
       <Container>
         <Breadcrumbs items={breadcrumbs} />
         {eyebrow && (
-          <p className="mt-8 font-sans text-label font-medium text-(--color-brand-blue)">
+          <p className="mt-10 font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
             {eyebrow}
           </p>
         )}
-        <h1 className="mt-4 max-w-4xl font-display text-display-xl font-bold leading-[0.96] text-balance">
+        <h1 className="mt-4 max-w-[22ch] font-display text-display-l font-semibold leading-[1.03] tracking-[-0.018em] text-balance">
           {heading}
         </h1>
         {description && (
-          <p className="mt-6 max-w-2xl text-lg text-(--color-steel) leading-relaxed">{description}</p>
+          <p className="mt-6 max-w-[44rem] text-lg text-(--color-steel) leading-relaxed">{description}</p>
         )}
         {meta && <div className="mt-8">{meta}</div>}
       </Container>
