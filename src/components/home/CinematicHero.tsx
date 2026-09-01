@@ -133,7 +133,11 @@ export function CinematicHero() {
       draw();
     }
 
-    let currentIndex = 0;
+    let currentIndex = 0; // frame index last drawn
+    let targetIndex = 0; // frame the scroll position wants (float)
+    let renderIndex = 0; // eased position gliding toward targetIndex
+    let lastLoadedUpTo = 0;
+    let primed = false; // snap (not ease) to the first scroll position
 
     function draw() {
       if (!ctx || cssW === 0 || cssH === 0) return;
@@ -188,6 +192,8 @@ export function CinematicHero() {
 
     let scrollTriggerInstance: { kill: () => void } | undefined;
     let ctxGsap: { revert: () => void } | undefined;
+    let tickerFn: (() => void) | undefined;
+    let gsapForCleanup: { ticker: { remove: (fn: () => void) => void } } | undefined;
 
     // Scrub distance as a multiple of the live viewport height, kept as a
     // function + invalidateOnRefresh so it tracks orientation changes and
@@ -211,6 +217,12 @@ export function CinematicHero() {
       ]);
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
+      gsapForCleanup = gsap;
+
+      // Keep GSAP's frame clock steady through main-thread stalls (image
+      // decodes, route work) so the scrub doesn't jump when it recovers.
+      gsap.ticker.lagSmoothing(700, 33);
+      ScrollTrigger.config({ ignoreMobileResize: true });
 
       ctxGsap = gsap.context(() => {
         const st = ScrollTrigger.create({
@@ -218,30 +230,49 @@ export function CinematicHero() {
           start: "top top",
           end: endDistance,
           pin: false,
-          scrub: 0.35,
+          // A slightly longer catch-up than before; the per-frame lerp
+          // below adds the final smoothing so playback never visibly steps.
+          scrub: 0.6,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            currentIndex = Math.min(total - 1, Math.round(self.progress * (total - 1)));
+            targetIndex = self.progress * (total - 1);
+            if (!primed) {
+              renderIndex = targetIndex;
+              primed = true;
+            }
             if (indicatorRef.current) {
               indicatorRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 6));
             }
             if (headlineRef.current) {
               headlineRef.current.style.opacity = String(Math.max(0, 1 - self.progress * 3));
             }
-            draw();
           },
         });
         scrollTriggerInstance = st;
       }, wrapper);
-    })();
 
-    const drawLoop = window.setInterval(draw, 400);
+      // Render on GSAP's ticker (~60fps) instead of a 400ms interval: ease
+      // renderIndex toward the scroll target every frame and only repaint
+      // when the rounded frame changes or more frames have finished loading.
+      tickerFn = () => {
+        renderIndex += (targetIndex - renderIndex) * 0.2;
+        if (Math.abs(targetIndex - renderIndex) < 0.01) renderIndex = targetIndex;
+        const idx = Math.max(0, Math.min(total - 1, Math.round(renderIndex)));
+        const loadedChanged = loadedUpToRef.current !== lastLoadedUpTo;
+        if (idx !== currentIndex || loadedChanged) {
+          currentIndex = idx;
+          lastLoadedUpTo = loadedUpToRef.current;
+          draw();
+        }
+      };
+      gsap.ticker.add(tickerFn);
+    })();
 
     return () => {
       cancelled = true;
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", startPump);
-      window.clearInterval(drawLoop);
+      if (tickerFn) gsapForCleanup?.ticker.remove(tickerFn);
       scrollTriggerInstance?.kill();
       ctxGsap?.revert();
     };

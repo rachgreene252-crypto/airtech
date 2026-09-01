@@ -3,12 +3,20 @@
 import { useRef, useState } from "react";
 import type { ComponentType } from "react";
 import Link from "next/link";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { journeySteps, journeyIntro, type JourneyStep } from "@/content/journey";
+
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 import { Conversation } from "./visuals/Conversation";
 import { Engineer } from "./visuals/Engineer";
 import { Procure } from "./visuals/Procure";
@@ -43,15 +51,28 @@ function CompactJourney() {
   const railRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: railRef,
-    offset: ["start 0.8", "end 0.6"],
+    offset: ["start 0.85", "end 0.55"],
   });
-  const [fill, setFill] = useState(0);
+  const [progress, setProgress] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(clamp01(v)));
 
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setFill(Math.max(0, Math.min(1, v)));
-  });
+  // Which step the user is pointing at overrides the scroll-derived one.
+  const [pinned, setPinned] = useState<number | null>(null);
 
-  const displayFill = reduceMotion ? 1 : fill;
+  const total = journeySteps.length;
+  const scrollIndex = reduceMotion
+    ? 1
+    : Math.min(total, Math.max(1, Math.ceil(progress * total + 0.0001)));
+  const activeIndex = pinned ?? scrollIndex;
+  const active = journeySteps[activeIndex - 1];
+  const Visual = VISUALS[active.visual];
+
+  // Rail fill: follows the pointer when pinned, otherwise the scroll signal.
+  const fill = reduceMotion
+    ? 1
+    : pinned != null
+      ? (pinned - 0.5) / total
+      : progress;
 
   return (
     <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
@@ -67,51 +88,196 @@ function CompactJourney() {
             </p>
           </div>
 
-          <div ref={railRef} className="relative mx-auto mt-16 max-w-5xl">
-            {/* Mobile: vertical rail */}
-            <div className="relative pl-8 sm:hidden">
-              <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-(--color-line-strong)" />
-              <span
-                aria-hidden="true"
-                className="absolute left-0 top-1 bottom-1 w-px origin-top bg-(--color-brand-blue) transition-transform duration-300 ease-out"
-                style={{ transform: `scaleY(${displayFill})` }}
-              />
-              {journeySteps.map((step) => (
-                <div key={step.index} className="mb-8 last:mb-0">
-                  <p className="font-mono text-xs text-(--color-brand-blue)">
-                    {String(step.index).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold text-(--color-ink)">{step.label}</h3>
-                  <p className="mt-1 text-sm text-(--color-steel)">{step.sentence}</p>
+          <div ref={railRef} className="mx-auto mt-14 max-w-5xl">
+            {/* Console: the active step, shown as an engineering viewport
+                beside its scope. Transparent so the section texture carries
+                through; fixed min-height so swapping steps never shifts the
+                layout. */}
+            <div className="crop-frame relative border border-(--color-line-strong) text-(--color-brand-blue)">
+              <span className="crop-tick-tl" />
+              <span className="crop-tick-br" />
+              <div className="grid divide-(--color-line-strong) sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:divide-x max-sm:divide-y">
+                <div className="relative flex min-h-[16rem] items-center justify-center overflow-hidden p-6 sm:min-h-[20rem] sm:p-8">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-3 top-2 select-none font-display text-[6rem] font-semibold leading-none text-(--color-brand-blue)/[0.08] sm:text-[8rem]"
+                  >
+                    {String(active.index).padStart(2, "0")}
+                  </span>
+                  <div className="relative h-52 w-full max-w-sm sm:h-64">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={active.index}
+                        initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={reduceMotion ? undefined : { opacity: 0, scale: 1.02 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex h-full w-full items-center justify-center"
+                      >
+                        <Visual active />
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
-              ))}
+
+                <div className="flex min-h-[16rem] flex-col justify-center p-7 sm:min-h-[20rem] sm:p-9">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={active.index}
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <p className="flex items-baseline gap-3 font-sans text-label font-medium text-(--color-brand-blue)">
+                        <span className="font-mono">
+                          {String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                        </span>
+                        <span>{active.subLabel}</span>
+                      </p>
+                      <h3 className="mt-3 font-display text-2xl font-semibold leading-[1.1] text-(--color-ink) sm:text-[1.75rem]">
+                        {active.sentence}
+                      </h3>
+                      <p className="mt-3 text-body leading-relaxed text-(--color-steel)">
+                        {active.description}
+                      </p>
+                      <ul className="mt-5 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                        {active.points.map((point) => (
+                          <li
+                            key={point}
+                            className="flex gap-2.5 text-small text-(--color-ink-soft)"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="mt-[0.7em] h-px w-3 shrink-0 bg-(--color-brand-blue)"
+                            />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
 
-            {/* Desktop: horizontal rail */}
-            <div className="relative hidden pt-6 sm:block">
-              <span aria-hidden="true" className="absolute left-0 right-0 top-0 h-px bg-(--color-line-strong)" />
-              <span
-                aria-hidden="true"
-                className="absolute left-0 right-0 top-0 h-px origin-left bg-(--color-brand-blue) transition-transform duration-300 ease-out"
-                style={{ transform: `scaleX(${displayFill})` }}
-              />
-              <div className="grid grid-cols-6 gap-4">
-                {journeySteps.map((step) => (
-                  <div key={step.index}>
-                    <p className="font-mono text-xs text-(--color-brand-blue)">
-                      {String(step.index).padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-1 font-display text-lg font-semibold leading-tight text-(--color-ink)">
-                      {step.label}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-(--color-steel)">{step.sentence}</p>
-                  </div>
-                ))}
+            {/* Node rail — the six stations as a connected process line.
+                Scroll advances the active station; hovering / focusing one
+                pins it. Horizontal on desktop, a vertical rail on mobile. */}
+            <div className="mt-9" onMouseLeave={() => setPinned(null)}>
+              {/* Desktop */}
+              <div className="relative hidden sm:block">
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 right-0 top-[6px] h-px bg-(--color-line-strong)"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 right-0 top-[6px] h-px origin-left bg-(--color-brand-blue) transition-transform duration-500 ease-out"
+                  style={{ transform: `scaleX(${fill})` }}
+                />
+                <ol className="grid grid-cols-6">
+                  {journeySteps.map((step) => {
+                    const isActive = step.index === activeIndex;
+                    const reached = step.index <= activeIndex;
+                    return (
+                      <li key={step.index} className="relative pr-4">
+                        <button
+                          type="button"
+                          onMouseEnter={() => setPinned(step.index)}
+                          onFocus={() => setPinned(step.index)}
+                          onBlur={() => setPinned(null)}
+                          aria-pressed={isActive}
+                          className="group flex w-full flex-col items-start pt-5 text-left outline-none"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={`absolute left-0 top-0 h-[13px] w-[13px] rounded-full border-2 bg-(--color-paper) transition-all duration-300 ${
+                              isActive
+                                ? "scale-110 border-(--color-brand-blue) bg-(--color-brand-blue)"
+                                : reached
+                                  ? "border-(--color-brand-blue)"
+                                  : "border-(--color-line-strong) group-hover:border-(--color-brand-blue)"
+                            }`}
+                          />
+                          <span
+                            className={`font-mono text-[11px] transition-colors duration-300 ${
+                              reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
+                            }`}
+                          >
+                            {String(step.index).padStart(2, "0")}
+                          </span>
+                          <span
+                            className={`mt-1 font-display text-[0.95rem] font-semibold leading-tight transition-colors duration-300 ${
+                              isActive
+                                ? "text-(--color-ink)"
+                                : "text-(--color-steel) group-hover:text-(--color-ink)"
+                            }`}
+                          >
+                            {step.label}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
               </div>
+
+              {/* Mobile */}
+              <ol className="relative pl-7 sm:hidden">
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[6px] top-2 bottom-2 w-px bg-(--color-line-strong)"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[6px] top-2 bottom-2 w-px origin-top bg-(--color-brand-blue) transition-transform duration-500 ease-out"
+                  style={{ transform: `scaleY(${fill})` }}
+                />
+                {journeySteps.map((step) => {
+                  const isActive = step.index === activeIndex;
+                  const reached = step.index <= activeIndex;
+                  return (
+                    <li key={step.index} className="relative mb-4 last:mb-0">
+                      <button
+                        type="button"
+                        onClick={() => setPinned(step.index)}
+                        aria-pressed={isActive}
+                        className="flex items-baseline gap-3 text-left outline-none"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`absolute -left-7 top-[0.3rem] h-[13px] w-[13px] rounded-full border-2 bg-(--color-paper) transition-all duration-300 ${
+                            isActive
+                              ? "border-(--color-brand-blue) bg-(--color-brand-blue)"
+                              : reached
+                                ? "border-(--color-brand-blue)"
+                                : "border-(--color-line-strong)"
+                          }`}
+                        />
+                        <span
+                          className={`font-mono text-[11px] ${
+                            reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
+                          }`}
+                        >
+                          {String(step.index).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={`font-display text-lg font-semibold leading-tight ${
+                            isActive ? "text-(--color-ink)" : "text-(--color-steel)"
+                          }`}
+                        >
+                          {step.label}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-14 text-center">
             <Link
               href="/how-we-work"
               className="group inline-flex items-center gap-2 text-sm font-medium text-(--color-brand-blue)"
@@ -125,6 +291,25 @@ function CompactJourney() {
         </Reveal>
       </Container>
     </section>
+  );
+}
+
+function FullRailVisual({ index, reduceMotion }: { index: number; reduceMotion: boolean }) {
+  const step = journeySteps[index - 1];
+  const Visual = VISUALS[step.visual];
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={step.index}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={reduceMotion ? undefined : { opacity: 0, scale: 1.03 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="flex h-full w-full items-center justify-center"
+      >
+        <Visual active />
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -172,10 +357,18 @@ function FullJourney() {
         </Container>
       </div>
 
-      <Container className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-16">
+      <Container className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-16">
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
+            {/* Live viewport of the stage currently in view */}
+            <div className="crop-frame relative mb-7 aspect-[4/3] border border-(--color-line-strong) text-(--color-brand-blue)">
+              <span className="crop-tick-tl" />
+              <span className="crop-tick-br" />
+              <div className="absolute inset-0 flex items-center justify-center p-6">
+                <FullRailVisual index={activeIndex} reduceMotion={!!reduceMotion} />
+              </div>
+            </div>
             <p className="font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
               The lifecycle
             </p>
