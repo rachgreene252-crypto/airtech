@@ -36,12 +36,8 @@ export function WhatWeDo() {
           </h2>
           <p className="mx-auto mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-steel)">
             From climate control and electrical infrastructure to water, fire protection and
-            intelligent building systems, Airtech brings multiple disciplines together under
-            one coordinated engineering approach.
-          </p>
-          <p className="mx-auto mt-5 max-w-lg text-base sm:text-lg leading-relaxed text-(--color-ink-soft) font-medium">
-            The result is not simply a collection of installed systems. It is one coordinated
-            building environment, engineered to perform.
+            intelligent building systems — brought together under one coordinated engineering
+            approach.
           </p>
         </div>
 
@@ -66,7 +62,7 @@ export function WhatWeDo() {
                     {service.name}
                   </h3>
                   <p className="mt-2.5 text-sm leading-relaxed text-(--color-steel)">
-                    {service.shortDescription}
+                    {service.homeSummary}
                   </p>
                   <Link
                     href={`/expertise/${service.slug}`}

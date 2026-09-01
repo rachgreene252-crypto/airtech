@@ -43,6 +43,8 @@ export interface Service {
   category: ServiceCategory;
   /** Short drawing-sheet style code, e.g. "M", "E", "PHE", "FP", "ELV", "BMS" */
   disciplineCode: string;
+  /** One-line compression of shortDescription for the homepage discipline grid. */
+  homeSummary: string;
   shortDescription: string;
   detailedDescription: string;
   capabilities: string[];

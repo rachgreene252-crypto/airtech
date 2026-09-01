@@ -12,6 +12,8 @@ export const services: Service[] = [
     name: "HVAC",
     category: "hvac",
     disciplineCode: "M",
+    homeSummary:
+      "Air-conditioning and ventilation, from room comfort cooling to commercial chiller plant and specialised process cooling.",
     shortDescription:
       "Design, equipment selection, procurement, installation, testing and commissioning of air-conditioning and ventilation systems, from single-room comfort cooling to large commercial chiller plant and specialised process cooling.",
     detailedDescription:
@@ -63,6 +65,8 @@ export const services: Service[] = [
     name: "Electrical",
     category: "electrical",
     disciplineCode: "E",
+    homeSummary:
+      "Internal and external electrification — HT/LT feeders and panels, transformers, lightning protection and earthing.",
     shortDescription:
       "Internal and external electrification: HT/LT feeders and panels, distribution boards, schematics, transformers, lightning protection and earthing.",
     detailedDescription:
@@ -100,6 +104,8 @@ export const services: Service[] = [
     name: "Plumbing & Public Health",
     category: "plumbing-public-health",
     disciplineCode: "PHE",
+    homeSummary:
+      "Water supply, drainage and rainwater harvesting, plus sewage and water treatment plants.",
     shortDescription:
       "Internal and external plumbing and sanitary systems, domestic water supply, drainage, rainwater harvesting, and sewage and water treatment plants.",
     detailedDescription:
@@ -139,6 +145,8 @@ export const services: Service[] = [
     name: "Fire Protection & Fire Alarm",
     category: "fire-protection",
     disciplineCode: "FP",
+    homeSummary:
+      "Wet and dry firefighting, hydrants and pumps, and intelligent fire alarm and detection.",
     shortDescription:
       "Wet and dry firefighting systems, fire hydrants and pumps, and intelligent fire alarm and detection systems.",
     detailedDescription:
@@ -175,6 +183,8 @@ export const services: Service[] = [
     name: "ELV / Security / IT",
     category: "elv-security",
     disciplineCode: "ELV",
+    homeSummary:
+      "Extra-low-voltage systems — access control, CCTV, telephone and networking, IPTV and nurse call.",
     shortDescription:
       "Extra-low-voltage systems: access control, CCTV, telephone and networking, IPTV and nurse call.",
     detailedDescription:
@@ -204,6 +214,8 @@ export const services: Service[] = [
     name: "BMS / Systems Integration",
     category: "bms-systems-integration",
     disciplineCode: "BMS",
+    homeSummary:
+      "Real-time monitoring and integration of a building's mechanical, electrical, security and life-safety systems.",
     shortDescription:
       "Building Management Systems for real-time monitoring, control and integration of a building's mechanical, electrical, security and life-safety systems.",
     detailedDescription:
@@ -239,6 +251,8 @@ export const services: Service[] = [
     name: "Engineering / Advisory",
     category: "engineering-advisory",
     disciplineCode: "ADV",
+    homeSummary:
+      "MEP audit, design peer review, energy audit, commissioning checks and project cost optimisation.",
     shortDescription:
       "MEP audit, design peer review, energy audit, commissioning checks, installation audits, site supervision, due diligence and project cost optimisation.",
     detailedDescription:
