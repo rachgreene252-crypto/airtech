@@ -100,14 +100,14 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
+    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-sans text-label font-medium text-(--color-brand-blue)">
-            Featured projects
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            Selected work
           </p>
-          <h2 className="mt-4 font-display text-display-l font-semibold leading-[0.98] text-(--color-ink) text-balance">
-            See our expertise
+          <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+            The buildings behind the systems.
           </h2>
           <p className="mx-auto mt-4 max-w-md font-mono text-label text-(--color-steel)">
             {String(activeCard + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
@@ -158,7 +158,7 @@ export function FeaturedProjects() {
               <Link
                 data-card
                 href={project.href as Route}
-                className="group relative block overflow-hidden rounded-3xl w-[80vw] sm:w-[400px] lg:w-[430px] aspect-[4/3]"
+                className="group relative block overflow-hidden rounded-[4px] w-[80vw] sm:w-[400px] lg:w-[430px] aspect-[4/3]"
               >
                 <Image
                   src={project.image}
@@ -174,7 +174,7 @@ export function FeaturedProjects() {
                 <div className="absolute inset-x-0 bottom-0">
                   <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) from-5% via-(--color-ink)/60 via-40% to-transparent to-75% transition-opacity duration-300 group-hover:from-(--color-ink)" />
                   <div className="relative p-6 sm:p-7">
-                    <p className="font-sans text-label font-medium text-(--color-brand-blue-soft)">
+                    <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
                       {project.sector}
                     </p>
                     <h3 className="mt-2 font-display text-2xl font-semibold text-(--color-paper)">

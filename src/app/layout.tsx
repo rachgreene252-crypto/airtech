@@ -1,42 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Oswald, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-// Condensed, bold, industrial — originally a signage/wayfinding face, which
-// suits an engineering-drawing register. Chosen over Big Shoulders because
-// this Next.js version has no fallback-metric data for that family.
-//
-// display: "optional" rather than "swap" — Oswald is dramatically narrower
-// than any fallback sans-serif, so headlines re-wrap onto a different number
-// of lines on swap regardless of metric-matched fallback (size-adjust
-// matches average glyph size, not condensed-vs-normal width ratio). That
-// reflow was pushing everything below the hero down, measured as CLS 0.7 on
-// the homepage. "optional" uses the fallback for the entire page load if the
-// font isn't already cached, trading "always show the exact display face"
-// for "never reflow the page after first paint" — the right trade for a
-// branding/headline font that isn't load-bearing content.
-const displayFont = Oswald({
+// Fraunces — an editorial "old-style" serif with real thick/thin contrast
+// and an optical-size axis, so display headlines get the display cut, not a
+// scaled-up text cut. This replaces Oswald (condensed signage) to move the
+// brand from "industrial contractor" to "design-led engineering practice."
+// display: "swap" is safe here — Fraunces ships fallback-metric data, so
+// there's none of the condensed-width reflow that forced Oswald to
+// "optional" (and made cold loads render in Arial Narrow).
+const displayFont = Fraunces({
   variable: "--font-display-face",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "optional",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  display: "swap",
 });
 
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
+// Geist — a clean, cool, low-contrast grotesque for body and UI. Neutral
+// enough to sit under Fraunces without competing, precise enough to read as
+// contemporary rather than corporate.
+const sansFont = Geist({
+  variable: "--font-sans-face",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  // "optional": body text on every page uses this font, so a swap-driven
-  // reflow here (not just the display face) is what was actually behind the
-  // measured CLS — see note above.
-  display: "optional",
+  display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+// IBM Plex Mono stays — reserved for genuine machine data (discipline codes,
+// drawing references, spec values), never prose eyebrows.
+const monoFont = IBM_Plex_Mono({
+  variable: "--font-mono-face",
   subsets: ["latin"],
   weight: ["400", "500"],
-  display: "optional",
+  display: "swap",
 });
 
 const siteTitle = "Airtech Industries | Engineering & Integrated MEP Partner, Nepal";
@@ -70,7 +66,7 @@ export const metadata: Metadata = {
 // bar) to match the site's canvas instead of the browser default — no
 // theme-color existed before this.
 export const viewport: Viewport = {
-  themeColor: "#f3f5f7",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -78,7 +74,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${displayFont.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

@@ -22,7 +22,7 @@ export default function LeadershipPage() {
           {team.map((person) => (
             <div key={person.id} className="border-t border-(--color-line) py-8 first:border-t-0">
               <h2 className="font-display text-3xl sm:text-4xl font-semibold">{person.name}</h2>
-              <p className="mt-2 font-sans text-label font-medium text-(--color-brand-blue)">
+              <p className="mt-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 {person.role}
               </p>
               {person.bio && <p className="mt-4 max-w-2xl text-sm text-(--color-steel) leading-relaxed">{person.bio}</p>}

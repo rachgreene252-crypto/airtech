@@ -21,19 +21,22 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <div className="bg-site-texture pt-8 pb-16 sm:pb-20 lg:pb-24">
-        <Container>
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
-          <p className="mt-10 font-sans text-label font-medium text-(--color-brand-blue)">
+      <div className="pt-8 pb-14 sm:pb-16 lg:pb-20">
+        <Container className="flex flex-col items-center text-center">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Projects" }]}
+            className="[&_ol]:justify-center"
+          />
+          <p className="mt-10 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Projects
           </p>
-          <h1 className="mt-5 max-w-3xl font-display text-display-xl font-bold leading-[0.92] text-balance">
-            Buildings.
-            <br />
-            Systems.
-            <br />
-            Engineering.
+          <h1 className="mt-5 max-w-[16ch] font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
+            Buildings, systems, engineering.
           </h1>
+          <p className="mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
+            Selected work across hospitality, healthcare, banking, aviation, industry
+            and institutional buildings — delivered by one engineering team.
+          </p>
         </Container>
       </div>
       <Container>

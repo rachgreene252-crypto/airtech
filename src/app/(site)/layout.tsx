@@ -1,10 +1,11 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
-    <>
+    <SmoothScroll>
       <OrganizationJsonLd />
       <a
         href="#main-content"
@@ -17,6 +18,6 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
         {children}
       </main>
       <Footer />
-    </>
+    </SmoothScroll>
   );
 }

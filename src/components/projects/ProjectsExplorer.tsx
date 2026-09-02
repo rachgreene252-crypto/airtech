@@ -47,7 +47,7 @@ export function ProjectsExplorer({ projects, industries }: { projects: Project[]
           value={industryFilter}
           onChange={(e) => setIndustry(e.target.value)}
           aria-label="Filter projects by industry"
-          className="border border-(--color-line-strong) bg-(--color-paper-raised) px-5 py-2.5 text-sm font-medium text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--color-signal)"
+          className="select-field"
         >
           <option value="">All industries</option>
           {industries.map((i) => (
@@ -80,7 +80,7 @@ export function ProjectsExplorer({ projects, industries }: { projects: Project[]
 
       {rest.length > 0 && (
         <div className="mt-16 sm:mt-20">
-          <h2 className="font-sans text-label font-medium text-(--color-brand-blue)">
+          <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Also in our portfolio
           </h2>
           <div className="mt-4 divide-y divide-(--color-line)">

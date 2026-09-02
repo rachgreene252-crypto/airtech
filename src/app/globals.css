@@ -1,55 +1,48 @@
 @import "tailwindcss";
 
 /*
-  Airtech design tokens — blue-primary reset (2026-08-28).
+  Airtech design tokens — editorial reset (2026-09-02).
 
-  --color-brand-blue is the single primary accent: CTAs, links, focus
-  rings, active states, eyebrow accents. It is a deliberate, contrast-tuned
-  UI blue, not a literal sample of the logo mark — see the --color-brand-blue
-  comment below for the accessibility rationale. --color-brand-blue-soft
-  keeps the literal logo blue (#0099DA) for large/decorative/on-dark use
-  only, where its lower contrast is acceptable.
-
-  --color-signal, --color-amber and --color-heritage are repointed (not
-  removed) so every existing call site across the codebase recolors to blue
-  automatically — see the repoint comment in :root below.
-
-  Canvas is a cool architectural off-white (--color-paper), ink is a deep
-  cool near-black. Type system unchanged: Oswald (display) + IBM Plex Sans
-  (body/UI) + IBM Plex Mono (technical labels — discipline codes, drawing
-  references, spec values only; prose eyebrows use --font-sans now, see the
-  micro-label reset in the components that consume --text-label).
+  Brief: the site read "gloomy and old-school." Fixes:
+  - Display face moves from Oswald (condensed signage) to Fraunces (editorial
+    serif, real thick/thin contrast). Body/UI moves to Geist. IBM Plex Mono
+    stays, reserved for genuine machine data (discipline codes, drawing refs,
+    spec values) — never prose eyebrows.
+  - Palette stays cool but is brightened and de-hazed: --color-paper is now
+    pure white (was a murky #f3f5f7 grey), ink is a cool near-black, and the
+    accent is a cleaner architect's blue.
+  - --color-signal / --color-amber / --color-heritage stay repointed to the
+    blue so every existing call site recolours with zero component edits.
+  - Fonts use display:"swap" now (was "optional", which showed Arial Narrow
+    on a cold load); Geist/Fraunces have fallback-metric data so there's no
+    condensed-width reflow like Oswald had.
 */
 
 :root {
-  --color-ink: #161a1f;
-  --color-ink-soft: #3a4048;
-  --color-paper: #f3f5f7;
-  --color-paper-raised: #ffffff;
-  --color-steel: #454c55;
-  --color-steel-soft: #8b929b;
-  --color-line: #e2e6ea;
-  --color-line-strong: #c3cbd3;
-  --color-blueprint: #496b82;
+  --color-ink: #14181d;
+  --color-ink-soft: #3c4550;
+  --color-paper: #ffffff;
+  --color-paper-raised: #f4f7f9;
+  --color-steel: #586470;
+  --color-steel-soft: #7e8894;
+  --color-line: #e4e8ec;
+  --color-line-strong: #cbd2d9;
+  --color-blueprint: #4a6b82;
   --color-blueprint-soft: #8fafc4;
 
   /* Airtech blue — the single primary accent. --color-brand-blue is a
-     deliberate, contrast-tuned UI blue (NOT a sample of the logo mark):
-     white text on it and it on --color-paper both clear ~6:1. Logo fidelity
-     lives only in --color-brand-blue-soft (the literal #0099DA), used for
-     large/decorative/on-dark accents where its ~3:1 is acceptable. A press
-     darkens toward --color-brand-blue-hover rather than brightening toward
-     the soft/logo blue — see Button.tsx. */
-  --color-brand-blue: #045c80;
-  --color-brand-blue-hover: #0a4a67;
-  --color-brand-blue-soft: #0099da;
-  --color-brand-blue-tint: #e8f1f6;
-  --color-blue-deep: #0d2b3e;
+     contrast-tuned architect's blue: white text on it and it on white paper
+     both clear AA. --color-brand-blue-soft is the lighter on-dark /
+     decorative tone. A press darkens toward --color-brand-blue-hover. */
+  --color-brand-blue: #1a5a9e;
+  --color-brand-blue-hover: #154a83;
+  --color-brand-blue-soft: #5b8fc7;
+  --color-brand-blue-tint: #eaf1f8;
+  --color-blue-deep: #0c2233;
 
-  /* Repointed, not renamed: every existing --color-signal, --color-amber
-     and --color-heritage usage across the codebase becomes Airtech blue
-     with zero component edits. A later cleanup commit (out of scope for
-     this plan) can rename these call sites to --color-blue directly. */
+  /* Repointed, not renamed: existing --color-signal / --color-amber /
+     --color-heritage call sites across the codebase become Airtech blue with
+     no component edits. */
   --color-signal: var(--color-brand-blue);
   --color-signal-soft: var(--color-brand-blue-soft);
   --color-signal-tint: var(--color-brand-blue-tint);
@@ -61,24 +54,35 @@
   --color-white: #ffffff;
   --color-pale-blue: #eef4f9;
 
-  --font-display: var(--font-display-face), "Arial Narrow", sans-serif;
-  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  /* Fraunces (display serif) / Geist (body + UI) / IBM Plex Mono (machine
+     data). Source variables set in layout.tsx. */
+  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sans-face), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, "SFMono-Regular", monospace;
 
-  /* Type scale — see the design spec §3.3. display-xl is reserved for the
-     hero H1 only; display-l for section H2s; display-m for sub-section/step
-     headings. label is the new micro-label size (replaces the old
-     font-mono text-xs uppercase tracked pattern). */
-  --text-display-xl: clamp(2.75rem, 6vw, 4.5rem);
-  --text-display-l: clamp(2.25rem, 4.5vw, 3.5rem);
-  --text-display-m: clamp(1.6rem, 3vw, 2.25rem);
-  --text-title: 1.25rem;
-  --text-body-l: 1.125rem;
-  --text-body: 1rem;
-  --text-small: 0.875rem;
+  /* Type scale — editorial, with the mid-steps filled in (there was nothing
+     between the 72px hero and 18px body before). display-2xl is the homepage
+     hero H1 only; display-xl for page H1s; display-l for section H2s;
+     display-m for sub-section headings. */
+  --text-display-2xl: clamp(3rem, 1.6rem + 6vw, 6rem);
+  --text-display-xl: clamp(2.5rem, 1.6rem + 4vw, 4rem);
+  --text-display-l: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --text-display-m: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  --text-title: 1.375rem;
+  --text-body-l: 1.1875rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.9375rem;
   --text-label: 0.8125rem;
 
-  --container-max: 1440px;
+  /* Motion — one easing, one duration ladder. Lenis handles smooth scroll;
+     GSAP ScrollTrigger drives the three choreographed moments; everything
+     else is a Framer opacity Reveal. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-1: 200ms;
+  --dur-2: 350ms;
+  --dur-3: 600ms;
+
+  --container-max: 1320px;
   --container-pad: 1.25rem;
 }
 
@@ -112,6 +116,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
+  --text-display-2xl: var(--text-display-2xl);
   --text-display-xl: var(--text-display-xl);
   --text-display-l: var(--text-display-l);
   --text-display-m: var(--text-display-m);
@@ -120,6 +125,8 @@
   --text-body: var(--text-body);
   --text-small: var(--text-small);
   --text-label: var(--text-label);
+
+  --ease-out: var(--ease-out);
 
   --radius-none: 0px;
   --radius-xs: 2px;
@@ -137,10 +144,16 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Lenis is not initialised under reduced motion, so native scroll must
+     work — re-enable the smooth anchor behaviour it would otherwise own. */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 html {
-  scroll-behavior: smooth;
+  /* No scroll-behavior here: Lenis owns smooth scroll. The reduced-motion
+     block above restores native smooth scrolling when Lenis is off. */
   scrollbar-gutter: stable;
 }
 
@@ -148,60 +161,67 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Sitewide canvas texture — the same architectural line-art wash used in
-   the hero. This is the site's true default backdrop (not just an opt-in
-   per-section class) so every page reads as one continuous system instead
-   of a patchwork of pages that remembered to opt in and ones that didn't.
-   Implemented as a `position: fixed` pseudo-layer behind everything, NOT
-   as `background-attachment: fixed` on <body> itself — the latter forces
-   Chromium to recompute compositing for that background on every scroll
-   frame across the *entire* (very tall, GSAP-pinned) document, which was
-   measured hanging page-screenshot/paint in practice. A fixed, viewport-
-   sized pseudo-element composites once and stays static — the same visual
-   result, none of the cost. */
+/* Fraunces reads best with optical sizing on and a light display weight —
+   hierarchy comes from size, not boldness. The compound selectors below
+   out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs 0,1,0)
+   so the ~73 existing `font-display ... font-semibold` headings across the
+   codebase all lighten to an editorial weight with no per-file edits. */
+.font-display {
+  font-optical-sizing: auto;
+  font-synthesis-weight: none;
+  letter-spacing: -0.011em;
+}
+.font-display.font-bold {
+  font-weight: 470;
+}
+.font-display.font-semibold {
+  font-weight: 430;
+}
+.font-display.font-medium {
+  font-weight: 420;
+}
+
+/* Sitewide architectural line-art layer. Kept from the previous design but
+   brightened (heavier white veil) and softened (blur) so it reads as faint
+   drafting texture rather than a grey haze. `position: fixed` pseudo-layer,
+   composited once — never `background-attachment: fixed` on <body>, which
+   forces a full-document repaint every scroll frame on a GSAP-pinned page. */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -20px;
   z-index: -1;
   background-color: var(--color-paper);
   background-image:
-    linear-gradient(rgba(243, 245, 247, 0.65) 0 0),
+    linear-gradient(rgba(255, 255, 255, 0.86) 0 0),
     url(/images/backgrounds/architectural-light.webp);
-  background-blend-mode: normal, normal;
   background-size: cover, cover;
   background-position: center top, center top;
   background-repeat: no-repeat, no-repeat;
+  filter: blur(2px) brightness(1.05);
   pointer-events: none;
 }
 
+/* The body layer above is the sitewide backdrop, so the old per-section
+   opt-in class just needs to be transparent to let it through. Kept as a
+   hook so existing markup that references it doesn't break. */
 .bg-site-texture {
-  background-color: var(--color-paper);
-  background-image: url(/images/backgrounds/architectural-light.webp);
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: transparent;
 }
 
-/* CinematicHero scroll track. One viewport for the sticky hero section plus
-   the frame-scrub distance (globals here must match `scrubViewports` in
-   CinematicHero.tsx: 1.5 mobile / 2.3 desktop). Declared in CSS — not grown
-   from JS after paint — so the server-rendered and hydrated heights match
-   and nothing below the hero shifts. Reduced motion has no scrub, so the
-   track collapses to a single viewport. `vh` (large viewport) is deliberate:
-   the scrub end is computed from live innerHeight, and the track only needs
-   to be *at least* that tall. */
+/* CinematicHero scroll track. The sticky hero pins for one viewport; the
+   extra height is the distance over which the still parallaxes and the copy
+   fades out. Declared in CSS so SSR and hydrated heights match and nothing
+   below the hero shifts. Reduced motion has no parallax, so the track
+   collapses to a single viewport. */
 .hero-scroll-track {
-  min-height: 250vh;
-}
-@media (min-width: 768px) {
-  .hero-scroll-track {
-    min-height: 330vh;
-  }
+  min-height: 175vh;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-track {
@@ -210,12 +230,12 @@ body::before {
 }
 
 ::selection {
-  background: var(--color-blueprint);
-  color: var(--color-paper);
+  background: var(--color-brand-blue);
+  color: var(--color-white);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-signal);
+  outline: 2px solid var(--color-brand-blue);
   outline-offset: 2px;
 }
 
@@ -259,9 +279,38 @@ body::before {
   text-wrap: balance;
 }
 
-/* SystemShowcase motifs — one distinct loop per engineering discipline.
-   Plain CSS @keyframes so the prefers-reduced-motion rule above (which zeroes
-   all animation-duration) disables every one of these automatically. */
+/* A hairline that draws itself in — used in the hero choreography and
+   section intros. GSAP/Framer set the width; this is the reduced-motion and
+   no-JS resting state (fully drawn). */
+.rule-draw {
+  transform-origin: left center;
+}
+
+/* Filter/select control — native <select> with the OS chevron replaced by a
+   drawn one so it reads as part of the design, not a browser default. */
+.select-field {
+  appearance: none;
+  background-color: var(--color-paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%231a5a9e' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  border: 1px solid var(--color-line-strong);
+  padding: 0.625rem 2.75rem 0.625rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  border-radius: 0;
+}
+.select-field:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 1px;
+}
+
+/* SystemShowcase / discipline motifs — plain CSS @keyframes so the
+   prefers-reduced-motion rule above (which zeroes all animation-duration)
+   disables every one automatically. */
 @keyframes airflow-drift {
   0% { transform: translateX(0); opacity: 0; }
   12% { opacity: 1; }
@@ -320,8 +369,7 @@ body::before {
 }
 
 /* TrustedBy marquee — seamless loop via a doubled track translated by
-   exactly -50%. Paused on hover so a visitor can read a logo; disabled
-   entirely by the prefers-reduced-motion rule above. */
+   exactly -50%. Paused on hover; disabled by prefers-reduced-motion. */
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -343,10 +391,6 @@ body::before {
   transform-box: fill-box;
 }
 
-/* ClientJourney step visuals (spec §7.3) — two new loops beyond the
-   existing discipline-motif keyframes above. Both respect the global
-   prefers-reduced-motion rule automatically since it zeroes every
-   animation-duration. */
 @keyframes engineer-crossfade {
   0%, 20% { opacity: 1; }
   25%, 100% { opacity: 0; }
@@ -358,8 +402,6 @@ body::before {
   animation-iteration-count: infinite;
 }
 
-/* Uses pathLength="1" on the target <circle> so stroke-dashoffset is a
-   0..1 fraction regardless of the circle's real radius/circumference. */
 @keyframes gauge-fill {
   from { stroke-dashoffset: 1; }
   to { stroke-dashoffset: 0; }

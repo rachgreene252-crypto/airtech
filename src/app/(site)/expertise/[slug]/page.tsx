@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { Route } from "next";
 import { notFound } from "next/navigation";
-import { Container } from "@/components/ui/Container";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { SystemMotif, SERVICE_MOTIFS } from "@/components/ui/SystemMotif";
-import { ProjectFeatureRow } from "@/components/projects/ProjectFeatureRow";
-import { ProjectListRow } from "@/components/projects/ProjectListRow";
 import { services, getServiceBySlug } from "@/content/services";
 import { getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService } from "@/content/projects";
@@ -28,201 +20,141 @@ export async function generateMetadata({
   return { title: service.seo.title, description: service.seo.description };
 }
 
+/**
+ * A single discipline, rendered as the right-hand panel inside the shared
+ * Expertise layout (the page header + rail come from expertise/layout.tsx).
+ * No hero section of its own — switching disciplines swaps only this panel.
+ */
 export default async function ServiceDetailPage({ params }: PageProps<"/expertise/[slug]">) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const relatedProjects = getProjectsByService(service.slug);
-  const featuredProjects = relatedProjects.filter((p) => p.heroImage?.src).slice(0, 2);
-  const listedProjects = relatedProjects.filter((p) => !p.heroImage?.src).slice(0, 4);
-  const motif = SERVICE_MOTIFS[service.slug] ?? "signal";
+  const relatedProjects = getProjectsByService(service.slug).slice(0, 6);
   const sectors = service.relatedIndustrySlugs
     .map((s) => getIndustryBySlug(s))
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
 
-  const stats = [
-    { value: String(service.capabilities.length).padStart(2, "0"), label: "Capabilities" },
-    service.subServices.length > 0
-      ? { value: String(service.subServices.length).padStart(2, "0"), label: "Sub-services" }
-      : null,
-    service.systems.length > 0
-      ? { value: String(service.systems.length).padStart(2, "0"), label: "System types" }
-      : null,
-  ].filter((x): x is { value: string; label: string } => Boolean(x));
-
   return (
-    <>
-      {/* Each discipline gets its own visual world via SystemMotif, rather
-          than an identical hero template repeated seven times (brief §10). */}
-      <section className="relative overflow-hidden bg-(--color-ink) pt-8 pb-16 sm:pb-20">
-        <SystemMotif motif={motif} />
-        <div className="absolute inset-0 bg-gradient-to-b from-(--color-ink)/40 via-transparent to-(--color-ink)" />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-4 -top-10 select-none font-display text-[10rem] font-bold leading-none text-white/[0.04] sm:text-[16rem]"
-        >
-          {service.disciplineCode}
-        </span>
+    <article>
+      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        Discipline <span className="text-(--color-steel-soft)">/ {service.disciplineCode}</span>
+      </p>
+      <h2 className="mt-4 font-display text-display-m font-normal leading-[1.1] tracking-[-0.012em] text-balance">
+        {service.name}
+      </h2>
+      <p className="mt-5 max-w-2xl text-body-l leading-relaxed text-(--color-steel)">
+        {service.detailedDescription}
+      </p>
 
-        <Container className="relative z-10">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Expertise", href: "/expertise" },
-              { label: service.name },
-            ]}
-            className="text-(--color-paper)/60 [&_a]:text-(--color-paper)/60 [&_a:hover]:text-(--color-paper)"
-          />
-          <p className="mt-8 font-sans text-label font-medium text-(--color-brand-blue-soft)">
-            Discipline <span className="font-mono">{service.disciplineCode}</span>
-          </p>
-          <h1 className="mt-4 max-w-4xl font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.96] text-balance text-(--color-paper)">
-            {service.name}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-(--color-paper)/75 leading-relaxed">
-            {service.detailedDescription}
-          </p>
-
-          <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-4 border-t border-white/15 pt-6">
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="font-display text-2xl font-semibold text-(--color-paper)">
-                  {stat.value}
-                </dt>
-                <dd className="mt-1 font-sans text-label text-(--color-paper)/55">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </Container>
+      {/* Capabilities */}
+      <section className="mt-12">
+        <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          What Airtech delivers
+        </h3>
+        <ol className="mt-4 border-t border-(--color-line)">
+          {service.capabilities.map((c, i) => (
+            <li
+              key={c}
+              className="flex items-baseline gap-5 border-b border-(--color-line) py-4"
+            >
+              <span className="font-mono text-xs text-(--color-brand-blue)">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-body leading-relaxed text-(--color-ink-soft)">{c}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <Section>
-        <Reveal>
-          <SectionHeader eyebrow="Capabilities" heading="What Airtech delivers." />
-        </Reveal>
-        <Reveal delay={0.05}>
-          <ol className="mt-12 border-t border-(--color-line)">
-            {service.capabilities.map((c, i) => (
+      {/* Systems within the discipline */}
+      {service.subServices.length > 0 && (
+        <section className="mt-12">
+          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            Systems within this discipline
+          </h3>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {service.subServices.map((s) => (
               <li
-                key={c}
-                className="group flex items-baseline gap-5 border-b border-(--color-line) py-5 transition-colors hover:bg-(--color-paper-raised) sm:gap-8"
+                key={s}
+                className="border border-(--color-line-strong) px-3 py-1.5 text-small text-(--color-ink-soft)"
               >
-                <span className="font-mono text-xs text-(--color-brand-blue) sm:text-sm">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-body leading-relaxed text-(--color-ink-soft) transition-colors group-hover:text-(--color-ink) sm:text-lg">
-                  {c}
-                </span>
+                {s}
               </li>
             ))}
-          </ol>
-        </Reveal>
-      </Section>
-
-      {service.subServices.length > 0 && (
-        <Section tone="raised">
-          <Reveal>
-            <SectionHeader eyebrow="Technical scope" heading="The systems within this discipline." />
-          </Reveal>
-          <Reveal delay={0.05}>
-            <div className="mt-10 grid grid-cols-1 border-l border-t border-(--color-line-strong) sm:grid-cols-2 lg:grid-cols-3">
-              {service.subServices.map((s, i) => (
-                <div
-                  key={s}
-                  className="flex items-baseline gap-3 border-b border-r border-(--color-line-strong) px-5 py-4"
-                >
-                  <span className="font-mono text-[11px] text-(--color-steel-soft)">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm text-(--color-ink-soft)">{s}</span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </Section>
+          </ul>
+        </section>
       )}
 
+      {/* Sectors */}
       {sectors.length > 0 && (
-        <Section>
-          <Reveal>
-            <SectionHeader
-              eyebrow="Where it's deployed"
-              heading={`${service.name} across the sectors Airtech works in.`}
-            />
-          </Reveal>
-          <Reveal delay={0.05}>
-            <div className="mt-10 grid grid-cols-1 border-l border-t border-(--color-line-strong) sm:grid-cols-2">
-              {sectors.map((sector) => (
+        <section className="mt-12">
+          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            Where it&apos;s deployed
+          </h3>
+          <ul className="mt-4 border-t border-(--color-line)">
+            {sectors.map((sector) => (
+              <li key={sector.slug}>
                 <Link
-                  key={sector.slug}
-                  href={`/industries/${sector.slug}`}
-                  className="group flex items-center justify-between gap-4 border-b border-r border-(--color-line-strong) px-6 py-6 transition-colors hover:bg-(--color-paper-raised)"
+                  href={`/industries/${sector.slug}` as Route}
+                  className="group flex items-center justify-between gap-4 border-b border-(--color-line) py-4 transition-colors hover:bg-(--color-paper-raised)"
                 >
-                  <span className="font-display text-lg font-semibold text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
+                  <span className="font-display text-body font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
                     {sector.name}
                   </span>
                   <span
                     aria-hidden="true"
-                    className="text-lg text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
+                    className="text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
                   >
                     →
                   </span>
                 </Link>
-              ))}
-            </div>
-          </Reveal>
-        </Section>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
-      <Section tone="raised">
-        <Reveal>
-          <SectionHeader eyebrow="Related projects" heading="Where this discipline has been delivered." />
-        </Reveal>
-        <div className="mt-10">
-          {relatedProjects.length > 0 ? (
-            <>
-              {featuredProjects.length > 0 && (
-                <div>
-                  {featuredProjects.map((project, i) => (
-                    <ProjectFeatureRow
-                      key={project.slug}
-                      project={project}
-                      industryName={getIndustryBySlug(project.industrySlug)?.name}
-                      index={i + 1}
-                      variant={i % 2 === 0 ? "side" : "side-reversed"}
-                    />
-                  ))}
-                </div>
-              )}
-              {listedProjects.length > 0 && (
-                <div className={featuredProjects.length > 0 ? "mt-10" : undefined}>
-                  {listedProjects.map((project) => (
-                    <ProjectListRow
-                      key={project.slug}
-                      project={project}
-                      industryName={getIndustryBySlug(project.industrySlug)?.name}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <EmptyState title="Case studies in progress" description="Project documentation for this discipline is being confirmed for publication." />
-          )}
-        </div>
-      </Section>
+      {/* Related projects */}
+      <section className="mt-12">
+        <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          Where this discipline has been delivered
+        </h3>
+        {relatedProjects.length > 0 ? (
+          <ul className="mt-4 border-t border-(--color-line)">
+            {relatedProjects.map((project) => (
+              <li key={project.slug}>
+                <Link
+                  href={`/projects/${project.slug}` as Route}
+                  className="group flex items-baseline justify-between gap-4 border-b border-(--color-line) py-4 transition-colors hover:bg-(--color-paper-raised)"
+                >
+                  <span className="font-display text-body font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
+                    {project.name}
+                  </span>
+                  <span className="shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+                    {getIndustryBySlug(project.industrySlug)?.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 border-t border-(--color-line) pt-4 text-small text-(--color-steel)">
+            Project documentation for this discipline is being confirmed for publication.
+          </p>
+        )}
+      </section>
 
-      <Section className="text-center">
-        <h2 className="font-display text-display-m font-semibold max-w-2xl mx-auto text-balance">
+      <div className="mt-14 border-t border-(--color-line) pt-10">
+        <p className="font-display text-title font-normal text-balance">
           Planning a project that needs {service.name.toLowerCase()}?
-        </h2>
-        <div className="mt-8">
+        </p>
+        <div className="mt-6">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Discuss Your Project
+            Discuss your project
           </ButtonLink>
         </div>
-      </Section>
-    </>
+      </div>
+    </article>
   );
 }

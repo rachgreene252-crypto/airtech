@@ -19,8 +19,8 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
       className={cn(
         "sticky top-0 z-40 border-b transition-colors duration-300",
         transparent
-          ? "border-transparent bg-gradient-to-b from-white/70 via-white/35 to-transparent"
-          : "border-(--color-line) bg-(--color-paper)/95 backdrop-blur supports-backdrop-blur:bg-(--color-paper)/80"
+          ? "border-transparent bg-gradient-to-b from-white/85 via-white/45 to-transparent"
+          : "border-(--color-line) bg-(--color-paper)/90 backdrop-blur supports-backdrop-blur:bg-(--color-paper)/75"
       )}
     >
       <Container className="flex h-18 items-center justify-between gap-6 py-3">
@@ -31,9 +31,9 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
             width={640}
             height={109}
             priority
-            className="h-8 w-auto sm:h-9"
+            className="h-7 w-auto sm:h-8"
           />
-          <span className="hidden sm:inline font-sans text-label text-(--color-steel)">
+          <span className="hidden sm:inline font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-(--color-steel)">
             {siteSettings.tagline}
           </span>
         </Link>

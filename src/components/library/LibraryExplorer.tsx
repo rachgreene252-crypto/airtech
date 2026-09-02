@@ -36,7 +36,7 @@ export function LibraryExplorer({ resources }: { resources: Resource[] }) {
           value={kindFilter}
           onChange={(e) => setKind(e.target.value)}
           aria-label="Filter by document type"
-          className="border border-(--color-line-strong) bg-(--color-paper-raised) px-5 py-2.5 text-sm font-medium text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--color-brand-blue)"
+          className="select-field"
         >
           <option value="">All document types</option>
           {kinds.map((kind) => (

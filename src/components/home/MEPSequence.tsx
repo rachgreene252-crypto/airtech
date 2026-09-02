@@ -82,16 +82,17 @@ export function MEPSequence() {
   const displayActive = reduceMotion ? SYSTEMS.length : active;
 
   return (
-    <section ref={sectionRef} className="bg-site-texture py-24 sm:py-32 lg:py-40">
+    <section ref={sectionRef} className="py-14 sm:py-16 lg:py-20">
       <Container className="max-w-3xl text-center">
-        <p className="font-sans text-label font-medium text-(--color-brand-blue)">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Five disciplines. One delivery.
         </p>
-        <p className="mx-auto mt-4 max-w-md text-base text-(--color-steel)">
-          Integrated systems, engineered as one.
+        <p className="mx-auto mt-4 max-w-md text-body-l text-(--color-steel)">
+          Integrated systems, engineered as one — not an air-conditioning
+          company that also handles the rest.
         </p>
 
-        <div className="relative mx-auto mt-16 inline-block pl-8 text-left sm:pl-10">
+        <div className="relative mx-auto mt-12 inline-block pl-8 text-left sm:pl-10">
           <div
             aria-hidden="true"
             className="absolute left-0 top-2 bottom-2 w-px bg-(--color-line-strong)"
@@ -137,9 +138,9 @@ export function MEPSequence() {
           })}
         </div>
 
-        <div className="relative mt-20">
+        <div className="relative mt-12">
           <span aria-hidden="true" className="mx-auto mb-5 block h-px w-14 bg-(--color-signal-soft)" />
-          <p className="font-display text-2xl sm:text-3xl font-semibold text-(--color-ink) text-balance">
+          <p className="font-display text-display-m font-normal text-(--color-ink) text-balance">
             One integrated engineering solution.
           </p>
         </div>

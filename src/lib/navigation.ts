@@ -21,15 +21,11 @@ export interface NavGroup {
 
 export const primaryNav: NavGroup[] = [
   { label: "How We Work", href: "/how-we-work" },
-  {
-    label: "Expertise",
-    href: "/expertise",
-    children: services.map((s) => ({
-      label: s.name,
-      href: `/expertise/${s.slug}`,
-      description: s.shortDescription,
-    })),
-  },
+  // Expertise is deliberately a plain link, not a dropdown: it's one page
+  // with a persistent left-rail switcher for the seven disciplines
+  // (src/app/(site)/expertise/layout.tsx). A visitor picks the discipline
+  // inside the page, not from a menu.
+  { label: "Expertise", href: "/expertise" },
   { label: "Projects", href: "/projects" },
   { label: "Service & Support", href: "/service-support" },
   {

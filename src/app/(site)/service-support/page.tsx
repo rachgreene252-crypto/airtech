@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
@@ -28,35 +27,12 @@ const trainingLocations = ["Germany", "Japan", "Italy", "Malaysia", "China", "In
 export default function ServiceSupportPage() {
   return (
     <>
-      {/* Asymmetric photo/text hero — systems Airtech delivered are the same
-          ones this page is about supporting, an honest pairing rather than
-          a generic centered text block. */}
-      <section className="grid border-b border-(--color-line) lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:order-2 lg:px-14 lg:py-20">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Service & Support" }]} />
-          <p className="mt-8 font-sans text-label font-medium text-(--color-brand-blue)">
-            After the handover
-          </p>
-          <h1 className="mt-4 font-display text-4xl sm:text-5xl font-bold leading-[0.98] text-balance">
-            Airtech stays involved after the project is complete.
-          </h1>
-          <p className="mt-6 max-w-lg text-lg text-(--color-steel) leading-relaxed">
-            A trained technical team supports installed systems through Annual Maintenance Contracts,
-            scheduled service and rapid response. Engineers trained at manufacturer training centres
-            support the designs, selection and installation needs of major customer applications.
-          </p>
-        </div>
-        <div className="relative min-h-[42vh] lg:order-1 lg:min-h-[70vh]">
-          <Image
-            src="/images/projects/laxmi-motors-kd-plant.jpg"
-            alt="Laxmi Motors KD Plant, Parasi: a system Airtech continues to support after handover"
-            fill
-            priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
+      <PageHero
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Service & Support" }]}
+        eyebrow="After the handover"
+        heading="Airtech stays involved after the project is complete."
+        description="A trained technical team supports installed systems through Annual Maintenance Contracts, scheduled service and rapid response. Engineers trained at manufacturer training centres support the design, selection and installation needs of major customer applications."
+      />
 
       <Section>
         <SectionHeader eyebrow="Coverage" heading="What's supported." />
@@ -74,7 +50,7 @@ export default function ServiceSupportPage() {
       </Section>
 
       <Section tone="ink" className="text-center">
-        <p className="font-sans text-label font-medium text-(--color-brand-blue)">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Existing Airtech customer?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">

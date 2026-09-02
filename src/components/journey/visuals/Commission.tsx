@@ -35,7 +35,7 @@ export function Commission({ active }: { active: boolean }) {
           />
         )}
       </svg>
-      <p className="font-sans text-label font-medium text-(--color-brand-blue)">System: 100% ready</p>
+      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">System: 100% ready</p>
     </div>
   );
 }

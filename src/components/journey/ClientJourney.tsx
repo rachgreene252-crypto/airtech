@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { ComponentType } from "react";
 import Link from "next/link";
 import {
   AnimatePresence,
@@ -11,27 +10,11 @@ import {
   useScroll,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Label } from "@/components/ui/Label";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { journeySteps, journeyIntro, type JourneyStep } from "@/content/journey";
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
-import { Conversation } from "./visuals/Conversation";
-import { Engineer } from "./visuals/Engineer";
-import { Procure } from "./visuals/Procure";
-import { Site } from "./visuals/Site";
-import { Commission } from "./visuals/Commission";
-import { Support } from "./visuals/Support";
-
-const VISUALS: Record<JourneyStep["visual"], ComponentType<{ active: boolean }>> = {
-  conversation: Conversation,
-  engineer: Engineer,
-  procure: Procure,
-  site: Site,
-  commission: Commission,
-  support: Support,
-};
 
 /**
  * The canonical Airtech project lifecycle, rendered two ways from the same
@@ -65,7 +48,6 @@ function CompactJourney() {
     : Math.min(total, Math.max(1, Math.ceil(progress * total + 0.0001)));
   const activeIndex = pinned ?? scrollIndex;
   const active = journeySteps[activeIndex - 1];
-  const Visual = VISUALS[active.visual];
 
   // Rail fill: follows the pointer when pinned, otherwise the scroll signal.
   const fill = reduceMotion
@@ -75,12 +57,14 @@ function CompactJourney() {
       : progress;
 
   return (
-    <section className="bg-site-texture py-20 sm:py-24 lg:py-28">
+    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
       <Container>
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <Label>Client journey</Label>
-            <h2 className="mt-4 font-display text-display-l font-semibold leading-[0.98] text-(--color-ink) text-balance">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              Client journey
+            </p>
+            <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
               One partner, the whole lifecycle.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
@@ -88,39 +72,21 @@ function CompactJourney() {
             </p>
           </div>
 
-          <div ref={railRef} className="mx-auto mt-14 max-w-5xl">
-            {/* Console: the active step, shown as an engineering viewport
-                beside its scope. Transparent so the section texture carries
-                through; fixed min-height so swapping steps never shifts the
-                layout. */}
+          <div ref={railRef} className="mx-auto mt-12 max-w-3xl">
+            {/* Console: the active step, swapped as the visitor scrolls or
+                points at a station on the rail below. Fixed min-height so
+                changing steps never shifts the layout. */}
             <div className="crop-frame relative border border-(--color-line-strong) text-(--color-brand-blue)">
               <span className="crop-tick-tl" />
               <span className="crop-tick-br" />
-              <div className="grid divide-(--color-line-strong) sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:divide-x max-sm:divide-y">
-                <div className="relative flex min-h-[16rem] items-center justify-center overflow-hidden p-6 sm:min-h-[20rem] sm:p-8">
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute left-3 top-2 select-none font-display text-[6rem] font-semibold leading-none text-(--color-brand-blue)/[0.08] sm:text-[8rem]"
-                  >
-                    {String(active.index).padStart(2, "0")}
-                  </span>
-                  <div className="relative h-52 w-full max-w-sm sm:h-64">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={active.index}
-                        initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={reduceMotion ? undefined : { opacity: 0, scale: 1.02 }}
-                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex h-full w-full items-center justify-center"
-                      >
-                        <Visual active />
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </div>
-
-                <div className="flex min-h-[16rem] flex-col justify-center p-7 sm:min-h-[20rem] sm:p-9">
+              <div className="relative min-h-[19rem] p-8 text-left sm:min-h-[17rem] sm:p-12">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-6 top-4 select-none font-display text-[5rem] font-semibold leading-none text-(--color-brand-blue)/[0.07] sm:text-[7rem]"
+                >
+                  {String(active.index).padStart(2, "0")}
+                </span>
+                <div className="relative">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={active.index}
@@ -129,13 +95,13 @@ function CompactJourney() {
                       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <p className="flex items-baseline gap-3 font-sans text-label font-medium text-(--color-brand-blue)">
+                      <p className="flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                         <span className="font-mono">
                           {String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}
                         </span>
                         <span>{active.subLabel}</span>
                       </p>
-                      <h3 className="mt-3 font-display text-2xl font-semibold leading-[1.1] text-(--color-ink) sm:text-[1.75rem]">
+                      <h3 className="mt-3 font-display text-display-m font-normal leading-[1.12] text-(--color-ink)">
                         {active.sentence}
                       </h3>
                       <p className="mt-3 text-body leading-relaxed text-(--color-steel)">
@@ -294,25 +260,6 @@ function CompactJourney() {
   );
 }
 
-function FullRailVisual({ index, reduceMotion }: { index: number; reduceMotion: boolean }) {
-  const step = journeySteps[index - 1];
-  const Visual = VISUALS[step.visual];
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={step.index}
-        initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={reduceMotion ? undefined : { opacity: 0, scale: 1.03 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="flex h-full w-full items-center justify-center"
-      >
-        <Visual active />
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
 /* ------------------------------------------------------------------ */
 /* Full — /how-we-work                                                 */
 /* ------------------------------------------------------------------ */
@@ -361,15 +308,7 @@ function FullJourney() {
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
-            {/* Live viewport of the stage currently in view */}
-            <div className="crop-frame relative mb-7 aspect-[4/3] border border-(--color-line-strong) text-(--color-brand-blue)">
-              <span className="crop-tick-tl" />
-              <span className="crop-tick-br" />
-              <div className="absolute inset-0 flex items-center justify-center p-6">
-                <FullRailVisual index={activeIndex} reduceMotion={!!reduceMotion} />
-              </div>
-            </div>
-            <p className="font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               The lifecycle
             </p>
             <ol className="relative mt-6 pl-6">
@@ -423,8 +362,6 @@ function FullJourney() {
               position={i + 1}
               total={total}
               isFinale={i === total - 1}
-              active={activeIndex === step.index}
-              reversed={i % 2 === 1}
             />
           ))}
         </div>
@@ -438,61 +375,35 @@ function StepSection({
   position,
   total,
   isFinale,
-  active,
-  reversed,
 }: {
   step: JourneyStep;
   position: number;
   total: number;
   isFinale: boolean;
-  active: boolean;
-  reversed: boolean;
 }) {
-  const Visual = VISUALS[step.visual];
-
   return (
-    <motion.section
+    <section
       data-step-index={step.index}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`relative overflow-hidden ${
         isFinale
-          ? "bg-(--color-blue-deep) px-6 py-20 text-white sm:px-12 sm:py-24"
-          : "py-20 sm:py-28"
+          ? "bg-(--color-blue-deep) px-6 py-16 text-white sm:px-12 sm:py-20"
+          : "py-12 sm:py-16"
       }`}
     >
       {/* Ghost numeral */}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute -top-4 right-2 select-none font-display text-[7rem] font-semibold leading-none sm:text-[10rem] ${
+        className={`pointer-events-none absolute -top-6 right-0 select-none font-display text-[6rem] font-semibold leading-none sm:text-[9rem] ${
           isFinale ? "text-white/[0.07]" : "text-(--color-brand-blue)/[0.06]"
         }`}
       >
         {String(step.index).padStart(2, "0")}
       </span>
 
-      <div
-        className={`relative grid items-center gap-10 lg:gap-16 ${
-          isFinale ? "" : "lg:grid-cols-2"
-        }`}
-      >
-        {!isFinale && (
-          <div className={`aspect-[4/3] w-full ${reversed ? "lg:order-2" : "lg:order-1"}`}>
-            <div className="crop-frame relative h-full w-full border border-(--color-line) text-(--color-line-strong)">
-              <span className="crop-tick-tl" />
-              <span className="crop-tick-br" />
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <Visual active={active} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className={isFinale ? "mx-auto max-w-2xl text-center" : reversed ? "lg:order-1" : "lg:order-2"}>
+      <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
+        <div>
           <p
-            className={`flex items-baseline gap-3 font-sans text-label font-medium tracking-[0.01em] ${
+            className={`flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${
               isFinale ? "justify-center text-white/70" : "text-(--color-brand-blue)"
             }`}
           >
@@ -548,6 +459,6 @@ function StepSection({
           )}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
