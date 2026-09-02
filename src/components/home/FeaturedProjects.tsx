@@ -1,208 +1,171 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 
 /**
- * Section 08 — Featured Projects. Real landmark photography from
- * /public/images/landmarks (sourced from the supplied ASSETS/project hero
- * folder). Names/locations/sectors are limited to what the brochure and
- * client questionnaire already establish — no scope or capacity invented.
- * Each card links to its own case-study route in src/content/projects.ts
- * (the extended landmark list from docs/AIRTECH_CONTENT_AUDIT.md §2d).
- * Per the 2026-08-22 visual-correction brief: rounded architectural cards,
- * a gentler 4:3 crop (the original portrait 4:5 cut too much off wide
- * building photography), and circular/pill controls instead of square
- * buttons.
+ * Section 06 — Selected work.
+ *
+ * Desktop: a GSAP ScrollTrigger horizontal gallery. The section is a tall
+ * track; a `position: sticky` viewport pins for its duration (CSS sticky,
+ * NOT ScrollTrigger `pin: true` — the pin-spacer div it inserts breaks
+ * Next's Cache Components reconciliation, same reason CinematicHero avoids
+ * it) while GSAP scrubs the card row sideways in step with vertical scroll.
+ *
+ * Mobile / reduced-motion: a normal horizontal swipe carousel, no pinning.
+ *
+ * Names/locations/sectors are limited to what the brochure and questionnaire
+ * establish — no scope or capacity invented.
  */
 const PROJECTS = [
-  {
-    name: "Ncell Iconic Building",
-    location: "Kathmandu",
-    sector: "Telecom / Corporate",
-    image: "/images/landmarks/ncell-iconic-building.jpg",
-    href: "/projects/ncell-corporate-office",
-  },
-  {
-    name: "Nepal Mediciti Hospital",
-    location: "Lalitpur",
-    sector: "Healthcare",
-    image: "/images/landmarks/nepal-mediciti-hospital.jpg",
-    href: "/projects/nepal-mediciti",
-  },
-  {
-    name: "Tiger Palace Resort",
-    location: "Bhairahawa",
-    sector: "Hospitality",
-    image: "/images/landmarks/tiger-palace-resort.jpg",
-    href: "/projects/tiger-palace-resort",
-  },
-  {
-    name: "Laxmi Motors KD Plant",
-    location: "Parasi",
-    sector: "Industrial",
-    image: "/images/landmarks/laxmi-motors-kd-plant.jpg",
-    href: "/projects/laxmi-motor-corporation",
-  },
-  {
-    name: "CAAN Office Building",
-    location: "Kathmandu",
-    sector: "Aviation / Corporate",
-    image: "/images/landmarks/caan-office-building.jpg",
-    href: "/projects/caan-civil-aviation-authority",
-  },
-  {
-    name: "Hyatt Centric",
-    location: "Kathmandu",
-    sector: "Hospitality",
-    image: "/images/landmarks/hyatt-centric.jpg",
-    href: "/projects/hyatt-centric",
-  },
-  {
-    name: "Dusit Princess",
-    location: "Kathmandu",
-    sector: "Hospitality",
-    image: "/images/landmarks/dusit-princess.jpg",
-    href: "/projects/dusit-princess",
-  },
-  {
-    name: "Skyline Mall",
-    location: "Birgunj",
-    sector: "Retail",
-    image: "/images/landmarks/skyline-mall-birgunj.jpg",
-    href: "/projects/skyline-mall-birgunj",
-  },
+  { name: "Ncell Iconic Building", location: "Kathmandu", sector: "Telecom / Corporate", image: "/images/landmarks/ncell-iconic-building.jpg", href: "/projects/ncell-corporate-office" },
+  { name: "Nepal Mediciti Hospital", location: "Lalitpur", sector: "Healthcare", image: "/images/landmarks/nepal-mediciti-hospital.jpg", href: "/projects/nepal-mediciti" },
+  { name: "Tiger Palace Resort", location: "Bhairahawa", sector: "Hospitality", image: "/images/landmarks/tiger-palace-resort.jpg", href: "/projects/tiger-palace-resort" },
+  { name: "Laxmi Motors KD Plant", location: "Parasi", sector: "Industrial", image: "/images/landmarks/laxmi-motors-kd-plant.jpg", href: "/projects/laxmi-motor-corporation" },
+  { name: "CAAN Office Building", location: "Kathmandu", sector: "Aviation / Corporate", image: "/images/landmarks/caan-office-building.jpg", href: "/projects/caan-civil-aviation-authority" },
+  { name: "Hyatt Centric", location: "Kathmandu", sector: "Hospitality", image: "/images/landmarks/hyatt-centric.jpg", href: "/projects/hyatt-centric" },
+  { name: "Dusit Princess", location: "Kathmandu", sector: "Hospitality", image: "/images/landmarks/dusit-princess.jpg", href: "/projects/dusit-princess" },
+  { name: "Skyline Mall", location: "Birgunj", sector: "Retail", image: "/images/landmarks/skyline-mall-birgunj.jpg", href: "/projects/skyline-mall-birgunj" },
 ] as const;
 
+function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; index: number }) {
+  return (
+    <Link
+      href={project.href as Route}
+      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[4px] sm:w-[360px] lg:aspect-[4/3] lg:w-[440px]"
+    >
+      <Image
+        src={project.image}
+        alt={`${project.name}, ${project.location}`}
+        fill
+        sizes="(min-width: 1024px) 440px, (min-width: 640px) 360px, 78vw"
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+      />
+      <span className="absolute left-5 top-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-white/70">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <div className="absolute inset-x-0 bottom-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-transparent" />
+        <div className="relative p-6">
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+            {project.sector}
+          </p>
+          <h3 className="mt-2 font-display text-2xl font-normal text-white">{project.name}</h3>
+          <p className="mt-1 text-sm text-white/75">{project.location}</p>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export function FeaturedProjects() {
-  const trackRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const [activeCard, setActiveCard] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  function scrollByCard(direction: 1 | -1) {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-card]");
-    const amount = (card?.offsetWidth ?? 380) + 24;
-    track.scrollBy({ left: direction * amount, behavior: "smooth" });
-  }
+  useEffect(() => {
+    if (reduceMotion) return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
 
-  function handleScroll() {
+    const wrapper = wrapperRef.current;
+    const sticky = stickyRef.current;
     const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-card]");
-    const step = (card?.offsetWidth ?? 380) + 24;
-    setActiveCard(Math.round(track.scrollLeft / step));
-  }
+    if (!wrapper || !sticky || !track) return;
+
+    let cancelled = false;
+    let ctx: { revert: () => void } | undefined;
+
+    (async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const maxX = () => Math.max(0, track.scrollWidth - sticky.clientWidth + 48);
+      // The wrapper has to be exactly tall enough for one viewport of pin
+      // plus the horizontal travel, or the last card gets clipped / a dead
+      // zone opens at the end. Set here (not in CSS) because the travel
+      // depends on measured content width; kept in sync on refresh/resize.
+      const sizeWrapper = () => {
+        wrapper.style.height = window.innerHeight + maxX() + "px";
+      };
+      sizeWrapper();
+
+      ctx = gsap.context(() => {
+        gsap.to(track, {
+          x: () => -maxX(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top top",
+            end: () => "+=" + maxX(),
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+            onRefresh: sizeWrapper,
+          },
+        });
+      }, wrapper);
+    })();
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+      if (wrapper) wrapper.style.height = "";
+    };
+  }, [reduceMotion]);
 
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
-      <Container>
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
-            Selected work
-          </p>
-          <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
-            The buildings behind the systems.
-          </h2>
-          <p className="mx-auto mt-4 max-w-md font-mono text-label text-(--color-steel)">
-            {String(activeCard + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
-          </p>
-        </div>
+    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-0">
+      {/* Desktop: tall track + sticky viewport (GSAP scrubs the row sideways).
+          Mobile: collapses to a normal swipe carousel. */}
+      <div ref={wrapperRef}>
+        <div
+          ref={stickyRef}
+          className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden"
+        >
+          <Container className="lg:pb-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                Selected work
+              </p>
+              <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+                The buildings behind the systems.
+              </h2>
+              <p className="mx-auto mt-4 max-w-md text-body-l leading-relaxed text-(--color-steel) lg:hidden">
+                Hospitality, healthcare, aviation, industry and institutional buildings.
+              </p>
+            </div>
+          </Container>
 
-        <div className="mt-8 flex items-center justify-center gap-5">
-          <Link
-            href="/projects"
-            className="rounded-full border border-(--color-brand-blue) px-5 py-2 text-sm font-medium text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
+          <div
+            ref={trackRef}
+            className="mt-8 flex gap-5 overflow-x-auto px-5 pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:mt-0 lg:overflow-visible lg:px-12"
           >
-            View All Projects →
-          </Link>
-          <div className="hidden sm:flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Previous project"
-              onClick={() => scrollByCard(-1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
+            {PROJECTS.map((project, i) => (
+              <ProjectCard key={project.name} project={project} index={i} />
+            ))}
+            <Link
+              href="/projects"
+              className="group flex aspect-[4/5] w-[78vw] shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-[4px] border border-(--color-line-strong) text-center sm:w-[360px] lg:aspect-[4/3] lg:w-[380px]"
             >
-              ←
-            </button>
-            <button
-              type="button"
-              aria-label="Next project"
-              onClick={() => scrollByCard(1)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white transition-colors"
-            >
-              →
-            </button>
+              <span className="font-display text-title font-normal text-(--color-ink)">All projects</span>
+              <span
+                aria-hidden="true"
+                className="text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
           </div>
         </div>
-
-        <div
-          ref={trackRef}
-          onScroll={handleScroll}
-          className="mt-12 flex gap-6 overflow-x-auto overscroll-x-contain pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {PROJECTS.map((project, i) => (
-            <motion.div
-              key={project.name}
-              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="shrink-0 snap-start"
-            >
-              <Link
-                data-card
-                href={project.href as Route}
-                className="group relative block overflow-hidden rounded-[4px] w-[80vw] sm:w-[400px] lg:w-[430px] aspect-[4/3]"
-              >
-                <Image
-                  src={project.image}
-                  alt={`${project.name}, ${project.location}`}
-                  fill
-                  sizes="(min-width: 1024px) 430px, (min-width: 640px) 400px, 80vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-                />
-                <span className="absolute left-6 top-6 font-mono text-label text-(--color-paper)/70 sm:left-7 sm:top-7">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <div className="absolute inset-x-0 bottom-0">
-                  <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) from-5% via-(--color-ink)/60 via-40% to-transparent to-75% transition-opacity duration-300 group-hover:from-(--color-ink)" />
-                  <div className="relative p-6 sm:p-7">
-                    <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
-                      {project.sector}
-                    </p>
-                    <h3 className="mt-2 font-display text-2xl font-semibold text-(--color-paper)">
-                      {project.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>
-                    <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                      View project
-                      <span aria-hidden="true">→</span>
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="mt-6 flex items-center justify-center gap-1.5" aria-hidden="true">
-          {PROJECTS.map((project, i) => (
-            <span
-              key={project.name}
-              className={`h-1 rounded-full transition-all duration-300 ${
-                i === activeCard ? "w-6 bg-(--color-brand-blue)" : "w-1.5 bg-(--color-line-strong)"
-              }`}
-            />
-          ))}
-        </div>
-      </Container>
+      </div>
     </section>
   );
 }

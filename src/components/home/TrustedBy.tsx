@@ -1,52 +1,87 @@
 import { Container } from "@/components/ui/Container";
 
 /**
- * Section 07 — Trusted By. A typographic client index rather than a logo
- * marquee: the supplied logo assets are upscaled/cropped screenshots that
- * render with hard boxes and halo artefacts (see the previous version's file
- * note), per-logo publication permission is still an open item
- * (docs/AIRTECH_OPEN_DECISIONS.md B5), and a clean set-in-Fraunces list
- * reads as more considered than a strip of mismatched marks. Grouped by
- * sector so the breadth is legible. Huawei is deliberately excluded, as in
- * src/content/projects.ts. No count claim is made.
+ * Section 07 — Trusted By. A continuous logo marquee. The supplied marks are
+ * a mix of transparent logos and full-colour brand tiles, so every one is
+ * dropped into an identical white chip — the wall reads as one system rather
+ * than a row of mismatched cut-outs. Two tracks scroll in opposite
+ * directions; both pause on hover so a visitor can read a mark; the global
+ * prefers-reduced-motion rule stops them entirely.
  *
- * When Airtech supplies official vector/transparent logo assets, this can
- * return to a mark-based treatment.
+ * Huawei is deliberately excluded (as in src/content/projects.ts). No count
+ * claim is made. Per-logo publication permission is still an open item
+ * (docs/AIRTECH_OPEN_DECISIONS.md B5).
  */
-const CLIENT_GROUPS = [
-  {
-    sector: "Banking & finance",
-    clients: [
-      "Standard Chartered",
-      "Nabil Bank",
-      "Himalayan Bank",
-      "NIC Asia",
-      "Everest Bank",
-      "Nepal Investment Bank",
-      "NMB Bank",
-      "Prabhu Bank",
-      "Siddhartha Bank",
-      "Sanima Bank",
-      "Citizens Bank",
-      "Bank of Kathmandu",
-    ],
-  },
-  {
-    sector: "Pharmaceuticals & laboratories",
-    clients: [
-      "Quest Pharmaceuticals",
-      "Ohm Pharma",
-      "Alive Pharmaceutical",
-      "Time Pharmaceuticals",
-      "Vijayadeep Laboratories",
-      "Arya Pharmalab",
-    ],
-  },
-  {
-    sector: "Institutional & other",
-    clients: ["Rato Bangala School", "Magnus", "Panas", "Simca"],
-  },
+const ROW_A = [
+  { file: "standard-chartered.webp", name: "Standard Chartered" },
+  { file: "nabil-bank.webp", name: "Nabil Bank" },
+  { file: "himalayan-bank.webp", name: "Himalayan Bank" },
+  { file: "nic-asia.webp", name: "NIC Asia Bank" },
+  { file: "everest-bank.webp", name: "Everest Bank" },
+  { file: "nepal-investment-bank.webp", name: "Nepal Investment Bank" },
+  { file: "nmb-bank.webp", name: "NMB Bank" },
+  { file: "prabhu-bank.webp", name: "Prabhu Bank" },
+  { file: "siddhartha-bank.webp", name: "Siddhartha Bank" },
+  { file: "sanima-bank.webp", name: "Sanima Bank" },
+  { file: "citizens-bank.webp", name: "Citizens Bank" },
+  { file: "bank-of-kathmandu.webp", name: "Bank of Kathmandu" },
+  { file: "prime-commercial-bank.webp", name: "Prime Commercial Bank" },
+  { file: "agricultural-development-bank.webp", name: "Agricultural Development Bank" },
 ];
+
+const ROW_B = [
+  { file: "ncell.png", name: "Ncell" },
+  { file: "nepal-telecom.png", name: "Nepal Telecom" },
+  { file: "quest-pharmaceuticals.webp", name: "Quest Pharmaceuticals" },
+  { file: "ohm-pharma.webp", name: "Ohm Pharma" },
+  { file: "alive-pharmaceutical.webp", name: "Alive Pharmaceutical" },
+  { file: "time-pharmaceuticals.webp", name: "Time Pharmaceuticals" },
+  { file: "vijayadeep-laboratories.webp", name: "Vijayadeep Laboratories" },
+  { file: "us-embassy-nepal.png", name: "US Embassy, Nepal" },
+  { file: "british-embassy-kathmandu.png", name: "British Embassy, Kathmandu" },
+  { file: "embassy-of-switzerland.png", name: "Embassy of Switzerland" },
+  { file: "jica.png", name: "JICA" },
+  { file: "giz.png", name: "GIZ" },
+  { file: "rato-bangala-school.png", name: "Rato Bangala School" },
+  { file: "lincoln-school.png", name: "Lincoln School" },
+];
+
+function Marquee({
+  items,
+  reverse = false,
+}: {
+  items: { file: string; name: string }[];
+  reverse?: boolean;
+}) {
+  const track = [...items, ...items];
+  return (
+    <div className="group relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+      <ul
+        className={`flex w-max items-stretch gap-4 animate-marquee ${
+          reverse ? "[animation-direction:reverse]" : ""
+        } group-hover:[animation-play-state:paused]`}
+      >
+        {track.map((logo, i) => (
+          <li
+            key={`${logo.file}-${i}`}
+            className="flex h-24 w-44 shrink-0 items-center justify-center border border-(--color-line) bg-white p-5"
+          >
+            {/* Mixed asset set (transparent logos + colour tiles), so a plain
+                contained <img> in a uniform chip — see file note. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/images/clients/${logo.file}`}
+              alt={logo.name}
+              loading="lazy"
+              decoding="async"
+              className="max-h-full max-w-full object-contain"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function TrustedBy() {
   return (
@@ -59,28 +94,17 @@ export function TrustedBy() {
           <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
             Organisations across Nepal rely on Airtech.
           </h2>
-        </div>
-
-        <div className="mx-auto mt-14 grid max-w-4xl gap-x-12 gap-y-12 sm:grid-cols-3">
-          {CLIENT_GROUPS.map((group) => (
-            <div key={group.sector}>
-              <h3 className="border-b border-(--color-line) pb-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
-                {group.sector}
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {group.clients.map((client) => (
-                  <li
-                    key={client}
-                    className="font-display text-body font-normal leading-snug text-(--color-ink-soft)"
-                  >
-                    {client}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <p className="mx-auto mt-5 max-w-lg text-body-l leading-relaxed text-(--color-steel)">
+            Banks, hospitals, hospitality groups, telecoms, pharmaceutical
+            plants, embassies and institutions.
+          </p>
         </div>
       </Container>
+
+      <div className="mt-12 flex flex-col gap-4 sm:mt-14">
+        <Marquee items={ROW_A} />
+        <Marquee items={ROW_B} reverse />
+      </div>
     </section>
   );
 }
