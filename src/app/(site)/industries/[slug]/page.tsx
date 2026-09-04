@@ -51,7 +51,7 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
       {industry.operationalChallenges.length > 0 && (
         <Section>
           <SectionHeader eyebrow="The challenge" heading="What makes this sector different." />
-          <ul className="mt-10 grid grid-cols-1 gap-x-16 gap-y-5 sm:grid-cols-2">
+          <ul className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-x-14 gap-y-4 text-left sm:grid-cols-2">
             {industry.operationalChallenges.map((c) => (
               <li key={c} className="flex gap-4 text-body leading-relaxed text-(--color-ink-soft)">
                 <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-(--color-brand-blue)" />
@@ -65,7 +65,7 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
       {industry.technicalRequirements.length > 0 && (
         <Section tone="raised">
           <SectionHeader eyebrow="Technical requirements" heading="What the system has to do." />
-          <ul className="mt-10 grid grid-cols-1 gap-x-16 gap-y-5 sm:grid-cols-2">
+          <ul className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-x-14 gap-y-4 text-left sm:grid-cols-2">
             {industry.technicalRequirements.map((r) => (
               <li key={r} className="flex gap-4 text-body leading-relaxed text-(--color-ink-soft)">
                 <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-(--color-blueprint)" />
@@ -83,7 +83,7 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
             heading="Every sector, all five services."
             description="Airtech delivers HVAC, electrical, plumbing, fire protection and ELV as one integrated scope on every project — the emphasis shifts by sector, the coverage does not."
           />
-          <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-8 text-left sm:grid-cols-3 lg:grid-cols-5">
             {relatedServices.map((s) => (
               <Link
                 key={s.slug}
@@ -91,7 +91,7 @@ export default async function IndustryDetailPage({ params }: PageProps<"/industr
                 className="group block border-t border-(--color-line) pt-4"
               >
                 <span className="font-mono text-xs text-(--color-brand-blue)">{s.disciplineCode}</span>
-                <h3 className="mt-1 font-display text-lg font-semibold text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
+                <h3 className="mt-1 font-display text-body-l font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
                   {s.name}
                 </h3>
               </Link>

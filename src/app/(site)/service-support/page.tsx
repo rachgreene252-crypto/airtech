@@ -36,7 +36,7 @@ export default function ServiceSupportPage() {
 
       <Section>
         <SectionHeader eyebrow="Coverage" heading="What's supported." />
-        <ul className="mt-10 grid grid-cols-1 gap-x-16 gap-y-5 sm:grid-cols-2">
+        <ul className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-x-14 gap-y-4 text-left sm:grid-cols-2">
           {coverage.map((item) => (
             <li key={item} className="flex gap-4 text-body leading-relaxed text-(--color-ink-soft)">
               <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-(--color-brand-blue)" />
@@ -44,8 +44,8 @@ export default function ServiceSupportPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-10 font-sans text-label text-(--color-steel)">
-          Engineers trained at manufacturer centres: {trainingLocations.join(" · ")}
+        <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+          Engineers trained at manufacturer centres · {trainingLocations.join(" · ")}
         </p>
       </Section>
 

@@ -111,14 +111,14 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
   }
 
   return (
-    <div ref={formTopRef}>
-      <ol className="flex flex-wrap gap-x-6 gap-y-2 mb-10 font-sans text-label">
+    <div ref={formTopRef} className="scroll-mt-28">
+      <ol className="mb-10 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em]">
         {STEPS.map((label, i) => (
           <li
             key={label}
             className={cn(
               "flex items-center gap-2",
-              i === step ? "text-(--color-ink)" : "text-(--color-steel)"
+              i === step ? "text-(--color-ink)" : "text-(--color-steel-soft)"
             )}
           >
             <span
@@ -127,7 +127,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                 i === step
                   ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                   : i < step
-                    ? "border-(--color-ink) bg-(--color-ink) text-(--color-paper)"
+                    ? "border-(--color-brand-blue) bg-(--color-brand-blue) text-white"
                     : "border-(--color-line-strong)"
               )}
             >
@@ -148,7 +148,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                 <label
                   key={opt.value}
                   className={cn(
-                    "flex min-h-14 cursor-pointer items-center gap-4 border-t border-(--color-line) py-4 pl-4 text-base transition-colors first:border-t-0 hover:bg-(--color-paper-raised)",
+                    "group flex min-h-14 cursor-pointer items-center gap-4 border-t border-(--color-line) py-4 pl-4 text-body transition-colors first:border-t-0 hover:bg-(--color-paper-raised)",
                     checked && "border-l-2 border-l-(--color-brand-blue) bg-(--color-paper-raised)"
                   )}
                 >
@@ -163,11 +163,13 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "flex h-4 w-4 shrink-0 items-center justify-center border",
-                      checked ? "border-(--color-brand-blue) bg-(--color-brand-blue)" : "border-(--color-line-strong)"
+                      "flex h-5 w-5 shrink-0 items-center justify-center border transition-colors",
+                      checked
+                        ? "border-(--color-brand-blue) bg-(--color-brand-blue)"
+                        : "border-(--color-line-strong) group-hover:border-(--color-brand-blue)"
                     )}
                   >
-                    {checked && <span className="h-1.5 w-1.5 bg-white" />}
+                    {checked && <span className="h-2 w-2 bg-white" />}
                   </span>
                   {opt.label}
                 </label>

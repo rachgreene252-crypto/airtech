@@ -82,7 +82,7 @@ export function MEPSequence() {
   const displayActive = reduceMotion ? SYSTEMS.length : active;
 
   return (
-    <section ref={sectionRef} className="py-14 sm:py-16 lg:py-20">
+    <section ref={sectionRef} className="py-12 sm:py-14 lg:py-16">
       <Container className="max-w-3xl text-center">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Five disciplines. One delivery.
@@ -92,7 +92,7 @@ export function MEPSequence() {
           company that also handles the rest.
         </p>
 
-        <div className="relative mx-auto mt-12 inline-block pl-8 text-left sm:pl-10">
+        <div className="relative mx-auto mt-10 inline-block pl-8 text-left sm:pl-10">
           <div
             aria-hidden="true"
             className="absolute left-0 top-2 bottom-2 w-px bg-(--color-line-strong)"
@@ -138,7 +138,7 @@ export function MEPSequence() {
           })}
         </div>
 
-        <div className="relative mt-12">
+        <div className="relative mt-10">
           <span aria-hidden="true" className="mx-auto mb-5 block h-px w-14 bg-(--color-signal-soft)" />
           <p className="font-display text-display-m font-normal text-(--color-ink) text-balance">
             One integrated engineering solution.

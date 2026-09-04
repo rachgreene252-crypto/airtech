@@ -122,15 +122,17 @@ export function FeaturedProjects() {
   }, [reduceMotion]);
 
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-0">
-      {/* Desktop: tall track + sticky viewport (GSAP scrubs the row sideways).
-          Mobile: collapses to a normal swipe carousel. */}
+    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-0 motion-reduce:lg:py-16">
+      {/* lg + motion allowed: a tall track + sticky viewport that GSAP
+          scrubs sideways. Reduced-motion (and every smaller screen): a
+          plain horizontal swipe carousel — the motion-reduce: overrides
+          neutralise the sticky/clip classes purely in CSS, no JS branch. */}
       <div ref={wrapperRef}>
         <div
           ref={stickyRef}
-          className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden"
+          className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden motion-reduce:lg:static motion-reduce:lg:block motion-reduce:lg:h-auto motion-reduce:lg:overflow-visible"
         >
-          <Container className="lg:pb-10">
+          <Container className="lg:pb-10 motion-reduce:lg:pb-0">
             <div className="mx-auto max-w-2xl text-center">
               <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 Selected work
@@ -146,7 +148,7 @@ export function FeaturedProjects() {
 
           <div
             ref={trackRef}
-            className="mt-8 flex gap-5 overflow-x-auto px-5 pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:mt-0 lg:overflow-visible lg:px-12"
+            className="mt-8 flex gap-5 overflow-x-auto px-5 pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:mt-0 lg:overflow-visible lg:px-12 motion-reduce:lg:mt-8 motion-reduce:lg:overflow-x-auto"
           >
             {PROJECTS.map((project, i) => (
               <ProjectCard key={project.name} project={project} index={i} />

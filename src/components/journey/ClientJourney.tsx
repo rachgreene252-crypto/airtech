@@ -34,7 +34,7 @@ function CompactJourney() {
   const railRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: railRef,
-    offset: ["start 0.85", "end 0.55"],
+    offset: ["start 0.9", "end 0.25"],
   });
   const [progress, setProgress] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(clamp01(v)));
@@ -43,21 +43,19 @@ function CompactJourney() {
   const [pinned, setPinned] = useState<number | null>(null);
 
   const total = journeySteps.length;
-  const scrollIndex = reduceMotion
-    ? 1
-    : Math.min(total, Math.max(1, Math.ceil(progress * total + 0.0001)));
+  // Derived purely from scroll/pointer state (both start at 0 / null), so
+  // SSR and first client render agree regardless of reduced-motion — which
+  // useReducedMotion can't know on the server. Scroll still advances the
+  // rail under reduced motion; globals.css just removes the tween.
+  const scrollIndex = Math.min(total, Math.max(1, Math.ceil(progress * total + 0.0001)));
   const activeIndex = pinned ?? scrollIndex;
   const active = journeySteps[activeIndex - 1];
 
   // Rail fill: follows the pointer when pinned, otherwise the scroll signal.
-  const fill = reduceMotion
-    ? 1
-    : pinned != null
-      ? (pinned - 0.5) / total
-      : progress;
+  const fill = pinned != null ? (pinned - 0.5) / total : progress;
 
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
+    <section className="border-t border-(--color-line) py-12 sm:py-14 lg:py-16">
       <Container>
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
@@ -72,14 +70,14 @@ function CompactJourney() {
             </p>
           </div>
 
-          <div ref={railRef} className="mx-auto mt-12 max-w-3xl">
+          <div ref={railRef} className="mx-auto mt-10 max-w-3xl">
             {/* Console: the active step, swapped as the visitor scrolls or
                 points at a station on the rail below. Fixed min-height so
                 changing steps never shifts the layout. */}
             <div className="crop-frame relative border border-(--color-line-strong) text-(--color-brand-blue)">
               <span className="crop-tick-tl" />
               <span className="crop-tick-br" />
-              <div className="relative min-h-[19rem] p-8 text-left sm:min-h-[17rem] sm:p-12">
+              <div className="relative min-h-[16rem] p-7 text-left sm:min-h-[14rem] sm:p-10">
                 <span
                   aria-hidden="true"
                   className="pointer-events-none absolute right-6 top-4 select-none font-display text-[5rem] font-semibold leading-none text-(--color-brand-blue)/[0.07] sm:text-[7rem]"
@@ -87,7 +85,11 @@ function CompactJourney() {
                   {String(active.index).padStart(2, "0")}
                 </span>
                 <div className="relative">
-                  <AnimatePresence mode="wait">
+                  {/* initial={false} on AnimatePresence: the first render
+                      (SSR + hydration) paints the panel at its resting state
+                      — no `initial` style — so there's no hydration
+                      mismatch. Only later step swaps animate. */}
+                  <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={active.index}
                       initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -243,7 +245,7 @@ function CompactJourney() {
             </div>
           </div>
 
-          <div className="mt-14 text-center">
+          <div className="mt-9 text-center">
             <Link
               href="/how-we-work"
               className="group inline-flex items-center gap-2 text-sm font-medium text-(--color-brand-blue)"
@@ -265,7 +267,6 @@ function CompactJourney() {
 /* ------------------------------------------------------------------ */
 
 function FullJourney() {
-  const reduceMotion = useReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   const total = journeySteps.length;
 
@@ -279,7 +280,9 @@ function FullJourney() {
   const [progress, setProgress] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(Math.max(0, Math.min(1, v))));
 
-  const p = reduceMotion ? 1 : progress;
+  // Scroll-derived only (starts at 0) so SSR and hydration agree; scroll
+  // advances the rail under reduced motion too, just without the tween.
+  const p = progress;
   // active step: 1..total, advancing a touch before the exact boundary so the
   // rail marker lights as the step arrives rather than after it.
   const activeIndex = Math.min(total, Math.max(1, Math.ceil(p * total + 0.0001)));

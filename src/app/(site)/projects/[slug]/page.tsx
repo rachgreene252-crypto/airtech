@@ -51,6 +51,12 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   const relatedProjects = getRelatedProjects(project);
   const testimonial = project.testimonialId ? getTestimonialForProject(project.slug) : undefined;
 
+  // Some provisional entries carry a generic "featured in our portfolio"
+  // placeholder for airtechRole — that's the honest "scope not yet
+  // documented" state, but it adds nothing as a metadata value, so it's
+  // omitted rather than shown. Real scope lines still display.
+  const specificRole = /featured in airtech/i.test(project.airtechRole) ? "" : project.airtechRole;
+
   const storySections = [
     { label: "The challenge", body: project.challenge },
     { label: "Engineering solution", body: project.engineeringApproach },
@@ -84,7 +90,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             />
           </Container>
           <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.98] max-w-4xl text-balance text-(--color-paper)">
+            <h1 className="max-w-4xl font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance text-(--color-paper)">
               {project.name}
             </h1>
           </Container>
@@ -102,20 +108,20 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
           </Container>
           <Container className="pb-14">
             <TechnicalFrame image={project.heroImage} label={project.name} aspect="aspect-[16/9]" priority />
-            <h1 className="mt-8 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.98] max-w-4xl text-balance">
+            <h1 className="mt-8 max-w-4xl font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
               {project.name}
             </h1>
           </Container>
         </section>
       )}
 
-      <Section border={false} className="pt-0 pb-14 sm:pb-16">
+      <Section border={false} className="pt-0 pb-12 sm:pb-14">
         <MetadataGrid
           items={[
             { label: "Client", value: project.clientDisplayApproved ? (project.client ?? "") : "" },
             { label: "Location", value: project.location ?? "" },
             { label: "Industry", value: industry?.name ?? "" },
-            { label: "Airtech role", value: project.airtechRole },
+            { label: "Airtech role", value: specificRole },
             { label: "Project type", value: project.projectType },
             { label: "Completion", value: project.completionYear ?? "" },
             { label: "Installed capacity", value: project.installedCapacity ?? "" },
@@ -130,6 +136,24 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             },
           ]}
         />
+        {relatedServices.length > 0 && (
+          <div className="mt-10 border-t border-(--color-line) pt-8">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+              Systems Airtech delivered
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              {relatedServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/expertise/${s.slug}`}
+                  className="border border-(--color-line-strong) px-4 py-2 text-small text-(--color-ink-soft) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
+                >
+                  {s.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </Section>
 
       {storySections.map((section, i) => (
@@ -164,23 +188,6 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               {testimonial.personName}, {testimonial.personTitle} · {testimonial.organisation}
             </footer>
           </blockquote>
-        </Section>
-      )}
-
-      {relatedServices.length > 0 && (
-        <Section tone="raised">
-          <SectionHeader eyebrow="Scope" heading="Related services." />
-          <div className="mt-10 flex flex-wrap gap-3">
-            {relatedServices.map((s) => (
-              <Link
-                key={s.slug}
-                href={`/expertise/${s.slug}`}
-                className="border border-(--color-line-strong) px-4 py-2 text-sm text-(--color-ink-soft) hover:border-(--color-signal) hover:text-(--color-signal) transition-colors"
-              >
-                {s.name}
-              </Link>
-            ))}
-          </div>
         </Section>
       )}
 

@@ -85,7 +85,7 @@ function Marquee({
 
 export function TrustedBy() {
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
+    <section className="border-t border-(--color-line) py-12 sm:py-14 lg:py-16">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">

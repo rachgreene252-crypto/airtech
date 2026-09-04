@@ -27,10 +27,10 @@ export default function QualityCertificationsPage() {
         <SectionHeader eyebrow="Certifications" heading="Management system certification." />
         <div className="mt-10">
           {certifications.length > 0 ? (
-            <ul className="flex flex-wrap gap-4">
+            <ul className="flex flex-wrap justify-center gap-4">
               {certifications.map((c) => (
-                <li key={c.id} className="border border-(--color-line-strong) px-5 py-3">
-                  <p className="font-display text-lg font-semibold">{c.name}</p>
+                <li key={c.id} className="border border-(--color-line-strong) px-5 py-3 text-center">
+                  <p className="font-display text-body-l font-normal">{c.name}</p>
                   <p className="text-xs text-(--color-steel)">{c.issuingBody}</p>
                 </li>
               ))}
@@ -46,13 +46,13 @@ export default function QualityCertificationsPage() {
 
       <Section tone="raised">
         <SectionHeader eyebrow="Equipment partners" heading="Manufacturer relationships." />
-        <p className="mt-6 max-w-2xl text-(--color-steel)">
+        <p className="mx-auto mt-6 max-w-2xl text-center text-body-l leading-relaxed text-(--color-steel)">
           Airtech works with established equipment manufacturers. These relationships support Airtech&apos;s
           engineering, not the other way around.
         </p>
-        <div className="mt-8 flex flex-wrap gap-x-12 gap-y-4">
+        <div className="mt-9 flex flex-wrap justify-center gap-x-12 gap-y-4">
           {partners.map((p) => (
-            <span key={p.id} className="font-display text-2xl font-semibold text-(--color-ink-soft)">
+            <span key={p.id} className="font-display text-display-m font-normal text-(--color-ink-soft)">
               {p.name}
             </span>
           ))}

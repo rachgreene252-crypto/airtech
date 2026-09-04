@@ -24,7 +24,7 @@ export default function ProjectEnquiryPage() {
         description="Tell us what you're building. A member of Airtech's engineering team will respond within one business day."
       />
       <Section>
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl">
           <EnquiryForm industries={industries} />
         </div>
       </Section>

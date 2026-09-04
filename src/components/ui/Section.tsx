@@ -27,7 +27,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "py-16 sm:py-20 lg:py-28",
+        "py-14 sm:py-16 lg:py-20",
         border && "border-t border-(--color-line)",
         toneClasses,
         className

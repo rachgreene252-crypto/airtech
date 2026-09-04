@@ -38,16 +38,18 @@ export default function HistoryPage() {
         heading="From HVAC specialist to integrated engineering partner."
       />
       <Section>
-        <div className="max-w-2xl border-l border-(--color-line) pl-8 space-y-14">
+        <ol className="mx-auto max-w-xl space-y-11 border-l border-(--color-line-strong) pl-8">
           {milestones.map((m) => (
-            <div key={m.year} className="relative">
-              <span className="absolute -left-[41px] top-1 h-2 w-2 rounded-full bg-(--color-signal)" />
-              <p className="font-mono text-sm text-(--color-signal)">{m.year}</p>
-              <h2 className="mt-2 font-display text-2xl font-semibold">{m.title}</h2>
-              <p className="mt-3 text-(--color-steel) leading-relaxed">{m.body}</p>
-            </div>
+            <li key={m.year} className="relative">
+              <span className="absolute -left-[2.55rem] top-1.5 h-2 w-2 rounded-full bg-(--color-brand-blue)" />
+              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                {m.year}
+              </p>
+              <h2 className="mt-2 font-display text-title font-normal text-(--color-ink)">{m.title}</h2>
+              <p className="mt-2.5 text-body leading-relaxed text-(--color-steel)">{m.body}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </Section>
     </>
   );

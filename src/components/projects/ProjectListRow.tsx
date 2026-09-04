@@ -24,9 +24,9 @@ export function ProjectListRow({ project, industryName }: { project: Project; in
           {project.name}
         </h3>
       </div>
-      <p className="text-sm text-(--color-steel) shrink-0">
-        {[project.location, project.airtechRole].filter(Boolean).join(" · ")}
-      </p>
+      {project.location && (
+        <p className="shrink-0 text-sm text-(--color-steel)">{project.location}</p>
+      )}
     </Link>
   );
 }

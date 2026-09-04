@@ -46,11 +46,11 @@ export default function CareersPage() {
 
       <Section>
         <SectionHeader eyebrow="Why Airtech" heading="What working here is like." />
-        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-8 text-center sm:grid-cols-3">
           {WHY_AIRTECH.map((item) => (
             <div key={item.title}>
-              <h3 className="font-display text-xl font-semibold text-(--color-ink)">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-(--color-steel)">{item.body}</p>
+              <h3 className="font-display text-title font-normal text-(--color-ink)">{item.title}</h3>
+              <p className="mt-2 text-small leading-relaxed text-(--color-steel)">{item.body}</p>
             </div>
           ))}
         </div>
@@ -68,7 +68,7 @@ export default function CareersPage() {
 
       <Section>
         <SectionHeader eyebrow="How to apply" heading="Send us your CV." />
-        <p className="mt-6 max-w-xl text-(--color-steel) leading-relaxed">
+        <p className="mx-auto mt-6 max-w-xl text-center text-body-l leading-relaxed text-(--color-steel)">
           Email your CV and area of interest to{" "}
           <a href={`mailto:${siteSettings.primaryEmail}`} className="text-(--color-brand-blue) hover:underline">
             {siteSettings.primaryEmail}

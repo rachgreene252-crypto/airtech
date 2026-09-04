@@ -44,8 +44,10 @@ export function CinematicHero() {
       gsap.registerPlugin(ScrollTrigger);
 
       ctx = gsap.context(() => {
-        // Intro — quiet, one curve, small travel.
-        gsap.set(headline, { opacity: 1 });
+        // Intro — quiet, one curve, small travel. The headline wrapper is
+        // always visible in the DOM (no inline opacity — that caused a
+        // hydration mismatch that left it invisible under reduced motion);
+        // GSAP animates the individual lines up from 0.
         const intro = gsap.timeline({ defaults: { ease: "power2.out" } });
         intro
           .from("[data-hero-step]", { opacity: 0, y: 18, duration: 0.7, stagger: 0.09 }, 0.15)
@@ -128,7 +130,6 @@ export function CinematicHero() {
         <div
           ref={headlineRef}
           className="relative z-10 flex flex-col items-center px-6 text-center will-change-transform"
-          style={{ opacity: reduceMotion ? 1 : 0 }}
         >
           <p
             data-hero-step
@@ -138,7 +139,7 @@ export function CinematicHero() {
           </p>
           <h1
             data-hero-step
-            className="mt-6 max-w-[15ch] font-display text-display-2xl font-normal leading-[1.02] tracking-[-0.015em] text-balance text-white"
+            className="mt-6 max-w-[19ch] font-display text-display-2xl font-normal leading-[1.03] tracking-[-0.015em] text-balance text-white sm:max-w-[15ch]"
           >
             Engineering what keeps Nepal moving.
           </h1>
