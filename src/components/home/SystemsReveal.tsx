@@ -45,13 +45,13 @@ export function SystemsReveal() {
 
   return (
     <Section tone="ink" border={false} className="overflow-hidden">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
         <div>
-          <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal-soft)">
-            Systems — 02
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+            What Airtech does
           </p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[0.98] text-(--color-paper) text-balance">
-            <AnimatePresence mode="wait">
+          <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-paper) text-balance">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={headline}
                 initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -64,10 +64,10 @@ export function SystemsReveal() {
               </motion.span>
             </AnimatePresence>
           </h2>
-          <p className="mt-5 max-w-md text-base sm:text-lg leading-relaxed text-(--color-steel-soft)">
-            These aren&apos;t six contractors&apos; scopes stitched together after the fact.
-            Airtech engineers and executes every system as one coordinated delivery, sharing
-            the same risers and plant rooms.
+          <p className="mt-5 max-w-md text-body-l leading-relaxed text-(--color-paper)/70">
+            Not six contractors&apos; scopes stitched together after the fact. Airtech engineers
+            and executes every system as one coordinated delivery — sharing the same risers,
+            plant rooms and drawings. Step through the building.
           </p>
 
           {/* Stepper — the accessible, non-animated fallback and the primary control. */}
@@ -123,7 +123,7 @@ export function SystemsReveal() {
             </button>
           </div>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             {activeZone && (
               <motion.div
                 key={activeZone.slug}
@@ -133,15 +133,15 @@ export function SystemsReveal() {
                 transition={{ duration: 0.3 }}
                 className="mt-8 border-t border-(--color-ink-soft) pt-6"
               >
-                <h3 className="font-display text-xl font-semibold text-(--color-paper)">{activeZone.name}</h3>
-                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-(--color-paper)/75">
+                <h3 className="font-display text-title font-normal text-(--color-paper)">{activeZone.name}</h3>
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-small text-(--color-paper)/75">
                   {activeZone.systems.map((s) => (
                     <li key={s}>{s}</li>
                   ))}
                 </ul>
                 <Link
                   href={`/expertise/${activeZone.slug}`}
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-signal-soft) hover:text-(--color-signal) transition-colors"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-brand-blue-soft) transition-colors hover:text-(--color-paper)"
                 >
                   Explore {activeZone.name}
                   <span aria-hidden="true">→</span>
@@ -182,14 +182,16 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
       <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel)" strokeWidth={1.5} />
 
       {/* Building outline — a pale glass fill instead of flat none, so the
-          diagram reads as a material object rather than a wireframe. */}
+          diagram reads as a material object rather than a wireframe.
+          Structural lines are blueprint-soft (a light sky blue) so they stay
+          legible against the dark section. */}
       <rect
         x={BUILDING_LEFT}
         y={BUILDING_TOP}
         width={BUILDING_RIGHT - BUILDING_LEFT}
         height={BUILDING_BOTTOM - BUILDING_TOP}
         fill="url(#building-glass)"
-        stroke="var(--color-steel-soft)"
+        stroke="var(--color-blueprint-soft)"
         strokeWidth={1.25}
       />
       {/* Roofline parapet detail */}
@@ -198,11 +200,11 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
         y1={BUILDING_TOP}
         x2={BUILDING_RIGHT + 6}
         y2={BUILDING_TOP}
-        stroke="var(--color-steel-soft)"
+        stroke="var(--color-blueprint-soft)"
         strokeWidth={2.5}
       />
       {FLOOR_YS.map((y) => (
-        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-ink-soft)" strokeWidth={1} opacity={0.7} />
+        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-blueprint-soft)" strokeWidth={1} opacity={0.4} />
       ))}
 
       {services
@@ -236,9 +238,10 @@ function SystemTrace({
   active: boolean;
   reduceMotion: boolean;
 }) {
-  const pathAnim = reduceMotion
-    ? { pathLength: active ? 1 : 0 }
-    : { pathLength: active ? 1 : 0, opacity: active ? 1 : 0 };
+  // Same animate target regardless of reduced motion (SSR can't know the
+  // preference — a branch here caused a hydration mismatch); reduced motion
+  // just collapses the transition to 0.
+  const pathAnim = { pathLength: active ? 1 : 0, opacity: active ? 1 : 0 };
   const transition = { duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] as const };
 
   if (slug === "hvac") {

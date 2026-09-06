@@ -1,22 +1,23 @@
 import { CinematicHero } from "@/components/home/CinematicHero";
 import { ProofBar } from "@/components/home/ProofBar";
-import { WhatWeDo } from "@/components/home/WhatWeDo";
+import { SystemsReveal } from "@/components/home/SystemsReveal";
 import { ClientJourney } from "@/components/journey/ClientJourney";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { TrustedBy } from "@/components/home/TrustedBy";
 
 // Homepage sequence (2026-09-04):
-// CinematicHero -> ProofBar -> WhatWeDo (positioning + discipline taxonomy)
+// CinematicHero -> ProofBar -> SystemsReveal (the interactive
+// building-systems diagram — brief §2, "what does Airtech actually do")
 // -> ClientJourney (compact) -> FeaturedProjects (GSAP horizontal) ->
-// TrustedBy. MEPSequence and EngineeringStatement were folded into
-// WhatWeDo / the hero — both duplicated the "what we do" message. Both
-// files stay in src/components/home for reuse elsewhere.
+// TrustedBy. SystemsReveal replaces the earlier flat WhatWeDo list (kept in
+// src/components/home for reuse); MEPSequence / EngineeringStatement were
+// deleted as duplicative.
 export default function HomePage() {
   return (
     <>
       <CinematicHero />
       <ProofBar />
-      <WhatWeDo />
+      <SystemsReveal />
       <ClientJourney variant="compact" />
       <FeaturedProjects />
       <TrustedBy />
