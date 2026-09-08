@@ -22,7 +22,7 @@ export interface NavGroup {
 export const primaryNav: NavGroup[] = [
   { label: "How We Work", href: "/how-we-work" },
   // Expertise is deliberately a plain link, not a dropdown: it's one page
-  // with a persistent left-rail switcher for the seven disciplines
+  // with a persistent left-rail switcher for the six disciplines
   // (src/app/(site)/expertise/layout.tsx). A visitor picks the discipline
   // inside the page, not from a menu.
   { label: "Expertise", href: "/expertise" },
@@ -49,7 +49,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
   },
   {
     title: "Industries",
-    links: industries.slice(0, 7).map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
+    links: industries.slice(0, 7).map((i) => ({ label: i.name, href: `/projects?industry=${i.slug}` })),
   },
   {
     title: "Company",
@@ -67,7 +67,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
     title: "Get in touch",
     links: [
       { label: "Contact", href: "/contact" },
-      { label: "Discuss your project", href: "/contact/project-enquiry" },
+      { label: "Inquire for Services", href: "/contact/project-enquiry" },
       { label: "Service & AMC", href: "/service-support" },
       { label: "Projects", href: "/projects" },
     ],

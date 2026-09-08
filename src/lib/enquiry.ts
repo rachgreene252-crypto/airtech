@@ -4,10 +4,9 @@ export const intentOptions = [
   { value: "hvac", label: "HVAC" },
   { value: "electrical", label: "Electrical" },
   { value: "plumbing", label: "Plumbing & Public Health" },
-  { value: "fire", label: "Fire Protection & Fire Alarm" },
+  { value: "fire", label: "Fire Fighting & Fire Protection" },
   { value: "elv", label: "ELV / Security / IT" },
   { value: "bms", label: "BMS / Systems Integration" },
-  { value: "advisory", label: "Engineering / Advisory" },
   { value: "full-mep", label: "Full MEP / integrated delivery" },
   { value: "amc-service", label: "AMC / Service & Support" },
 ] as const;

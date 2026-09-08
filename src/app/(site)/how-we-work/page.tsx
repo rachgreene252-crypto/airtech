@@ -39,7 +39,7 @@ export default function HowWeWorkPage() {
             {journeySteps.map((step, i) => (
               <li key={step.index} className="flex items-center gap-3">
                 <span className="flex items-baseline gap-2">
-                  <span className="font-mono text-[11px] text-(--color-brand-blue)">
+                  <span className="font-mono text-[12px] text-(--color-brand-blue)">
                     {String(step.index).padStart(2, "0")}
                   </span>
                   <span className="font-display text-sm font-semibold text-(--color-ink)">
@@ -65,7 +65,7 @@ export default function HowWeWorkPage() {
         </h2>
         <div className="mt-8">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Discuss your project
+            Inquire for Services
           </ButtonLink>
         </div>
       </Section>

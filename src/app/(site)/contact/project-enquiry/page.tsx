@@ -5,7 +5,7 @@ import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { industries } from "@/content/industries";
 
 export const metadata: Metadata = {
-  title: "Discuss Your Project",
+  title: "Inquire for Services",
   description:
     "Tell Airtech about your HVAC, electrical, plumbing, fire-protection or integrated MEP project. Our engineering team responds within one business day.",
 };
@@ -17,10 +17,10 @@ export default function ProjectEnquiryPage() {
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Contact", href: "/contact" },
-          { label: "Discuss Your Project" },
+          { label: "Inquire for Services" },
         ]}
         eyebrow="Project enquiry"
-        heading="Discuss your project."
+        heading="Inquire for services."
         description="Tell us what you're building. A member of Airtech's engineering team will respond within one business day."
       />
       <Section>

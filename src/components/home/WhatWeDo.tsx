@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { services } from "@/content/services";
 
 /**
- * Section 04 — What We Do. The seven client-confirmed disciplines from
+ * Section 04 — What We Do. The six client-confirmed disciplines from
  * src/content/services.ts, as a numbered sheet index (code, name, one-line
  * scope) rather than a grid of bordered cards — same list language as the
  * Expertise page it links into.
@@ -15,14 +15,14 @@ export function WhatWeDo() {
     <section className="border-t border-(--color-line) py-12 sm:py-14 lg:py-16">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             What we do
           </p>
           <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
             An integrated MEP practice with deep HVAC roots.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
-            Not an air-conditioning company that also handles the rest. Seven
+            Not an air-conditioning company that also handles the rest. Six
             engineering disciplines — designed, procured, installed and commissioned
             under one team.
           </p>
@@ -35,7 +35,7 @@ export function WhatWeDo() {
               href={`/expertise/${service.slug}` as Route}
               className="group flex items-baseline gap-4 border-b border-(--color-line) py-5 transition-colors hover:bg-(--color-paper-raised) sm:gap-6"
             >
-              <span className="font-mono text-[0.6875rem] text-(--color-steel-soft)">
+              <span className="font-mono text-[0.75rem] text-(--color-steel-soft)">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="flex-1">

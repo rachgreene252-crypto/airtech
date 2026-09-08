@@ -47,7 +47,7 @@ export function SystemsReveal() {
     <Section tone="ink" border={false} className="overflow-hidden">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
         <div>
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
             What Airtech does
           </p>
           <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-paper) text-balance">
@@ -77,7 +77,7 @@ export function SystemsReveal() {
                 type="button"
                 onClick={() => setStep(0)}
                 aria-current={step === 0}
-                className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                   step === 0
                     ? "border-(--color-signal) text-(--color-paper)"
                     : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
@@ -92,7 +92,7 @@ export function SystemsReveal() {
                   type="button"
                   onClick={() => setStep(i + 1)}
                   aria-current={step === i + 1}
-                  className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.1em] uppercase border transition-colors ${
+                  className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                     step >= i + 1
                       ? "border-(--color-signal) text-(--color-paper)"
                       : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
@@ -219,7 +219,7 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
           cx={320}
           cy={242}
           r={7}
-          fill="var(--color-amber)"
+          fill="var(--color-brand-blue-soft)"
           initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
@@ -294,7 +294,7 @@ function SystemTrace({
           FLOOR_MIDS.map((y, i) => (
             <g key={y}>
               <line x1={x} y1={y} x2={x + 16} y2={y - 10} strokeWidth={1.25} opacity={0.8} />
-              {i === 2 && <circle cx={x} cy={y} r={4.5} fill="var(--color-amber)" />}
+              {i === 2 && <circle cx={x} cy={y} r={4.5} fill="var(--color-brand-blue-soft)" />}
             </g>
           ))}
       </g>
@@ -327,7 +327,7 @@ function SystemTrace({
     { x: 340, y: FLOOR_MIDS[3] },
   ];
   return (
-    <g stroke="var(--color-amber)" strokeWidth={1.25} fill="none" opacity={active ? 0.9 : 0}>
+    <g stroke="var(--color-brand-blue-soft)" strokeWidth={1.25} fill="none" opacity={active ? 0.9 : 0}>
       {targets.map((t, i) => (
         <motion.line
           key={i}

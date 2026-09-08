@@ -56,7 +56,7 @@ export default function ContactPage() {
             </p>
             <div className="mt-6">
               <ButtonLink href="/contact/project-enquiry" size="lg">
-                Discuss Your Project
+                Inquire for Services
               </ButtonLink>
             </div>
 

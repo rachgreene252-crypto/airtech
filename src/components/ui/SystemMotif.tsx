@@ -7,7 +7,7 @@
  * `prefers-reduced-motion` rule already zeroes every CSS animation's
  * duration, so these need no extra motion-safety wiring.
  */
-export type SystemMotifKind = "airflow" | "energy" | "flow" | "detect" | "signal" | "converge" | "advisory";
+export type SystemMotifKind = "airflow" | "energy" | "flow" | "detect" | "signal" | "converge";
 
 export const SERVICE_MOTIFS: Record<string, SystemMotifKind> = {
   hvac: "airflow",
@@ -16,7 +16,6 @@ export const SERVICE_MOTIFS: Record<string, SystemMotifKind> = {
   "fire-protection": "detect",
   "elv-security": "signal",
   "bms-systems-integration": "converge",
-  "engineering-advisory": "advisory",
 };
 
 export function SystemMotif({ motif }: { motif: SystemMotifKind }) {

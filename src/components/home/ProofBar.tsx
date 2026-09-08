@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 /**
  * Section 03 — Proof. Only claims confirmed in source material
  * (site-settings.ts / docs/AIRTECH_OPEN_DECISIONS.md #3): 25+ years,
- * established 2000, MEP operations from 2013, seven engineering disciplines
+ * established 2000, MEP operations from 2013, six engineering disciplines
  * (src/content/services.ts). Headcount / project-count figures stay
  * `needs_verification` and are not shown.
  *
@@ -15,7 +15,7 @@ const STATS = [
   { value: "25+", label: "Years of engineering experience" },
   { value: "2000", label: "Established in Nepal" },
   { value: "2013", label: "MEP operations commenced" },
-  { value: "7", label: "Engineering disciplines, coordinated as one" },
+  { value: "6", label: "Engineering disciplines, coordinated as one" },
 ] as const;
 
 export function ProofBar() {

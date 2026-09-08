@@ -45,13 +45,13 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
         sizes="(min-width: 1024px) 440px, (min-width: 640px) 360px, 78vw"
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
       />
-      <span className="absolute left-5 top-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-white/70">
+      <span className="absolute left-5 top-5 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-white/70">
         {String(index + 1).padStart(2, "0")}
       </span>
       <div className="absolute inset-x-0 bottom-0">
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-transparent" />
         <div className="relative p-6">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
             {project.sector}
           </p>
           <h3 className="mt-2 font-display text-2xl font-normal text-white">{project.name}</h3>
@@ -112,6 +112,30 @@ export function FeaturedProjects() {
           },
         });
       }, wrapper);
+
+      // The wrapper height is derived from the card row's measured width, so
+      // it is wrong until every card image has decoded. Re-measure on each
+      // load (and once more when the web fonts settle) so the pin length and
+      // the horizontal travel can never drift apart — that drift is what
+      // makes a pinned horizontal section "break": clipped last card, or a
+      // dead scroll zone at the end.
+      const imgs = Array.from(track.querySelectorAll("img"));
+      let pending = imgs.length;
+      const settle = () => {
+        if (cancelled) return;
+        sizeWrapper();
+        ScrollTrigger.refresh();
+      };
+      imgs.forEach((img) => {
+        if (img.complete) {
+          pending -= 1;
+        } else {
+          img.addEventListener("load", () => { pending -= 1; settle(); }, { once: true });
+          img.addEventListener("error", () => { pending -= 1; settle(); }, { once: true });
+        }
+      });
+      if (pending <= 0) settle();
+      document.fonts?.ready.then(settle);
     })();
 
     return () => {
@@ -134,7 +158,7 @@ export function FeaturedProjects() {
         >
           <Container className="lg:pb-10 motion-reduce:lg:pb-0">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 Selected work
               </p>
               <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">

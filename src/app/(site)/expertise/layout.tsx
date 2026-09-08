@@ -18,16 +18,17 @@ export default function ExpertiseLayout({ children }: LayoutProps<"/expertise">)
             items={[{ label: "Home", href: "/" }, { label: "Expertise" }]}
             className="[&_ol]:justify-center"
           />
-          <p className="mt-9 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="mt-9 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Engineering disciplines
           </p>
           <h1 className="mt-5 max-w-[20ch] font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
             Every discipline a complex building needs, under one team.
           </h1>
           <p className="mt-6 max-w-[44rem] text-body-l text-(--color-steel) leading-relaxed">
-            Airtech coordinates HVAC, electrical, plumbing, fire protection, ELV and
-            building-systems integration as a single engineering practice — so responsibility
-            for how systems work together never falls between contractors.
+            Airtech coordinates HVAC, electrical, plumbing &amp; public health, fire fighting &amp;
+            fire protection, ELV and building-systems integration as a single engineering
+            practice — so responsibility for how systems work together never falls between
+            contractors.
           </p>
         </Container>
       </section>

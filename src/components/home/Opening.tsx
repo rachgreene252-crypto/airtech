@@ -56,7 +56,7 @@ export function Opening() {
             className="mt-10 flex flex-wrap items-center gap-6"
           >
             <ButtonLink href="/contact/project-enquiry" size="lg">
-              Discuss Your Project
+              Inquire for Services
             </ButtonLink>
             <Link
               href="/projects"

@@ -27,7 +27,7 @@ export default function IndustriesPage() {
         {industries.map((industry, i) => (
           <Reveal key={industry.slug} delay={i * 0.03}>
             <Link
-              href={`/industries/${industry.slug}`}
+              href={`/projects?industry=${industry.slug}`}
               className="group grid gap-3 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8 sm:py-12"
             >
               <div>
@@ -43,11 +43,16 @@ export default function IndustriesPage() {
                   </p>
                 )}
               </div>
-              <span
-                aria-hidden="true"
-                className="hidden shrink-0 self-center text-2xl text-(--color-signal) transition-transform group-hover:translate-x-1.5 sm:block"
-              >
-                →
+              <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
+                <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em]">
+                  View projects
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="text-2xl transition-transform group-hover:translate-x-1.5"
+                >
+                  →
+                </span>
               </span>
             </Link>
           </Reveal>

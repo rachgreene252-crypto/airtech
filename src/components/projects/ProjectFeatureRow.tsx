@@ -31,7 +31,7 @@ export function ProjectFeatureRow({
     <>
       <p
         className={cn(
-          "font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em]",
+          "font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em]",
           dark ? "text-(--color-brand-blue-soft)" : "text-(--color-brand-blue)"
         )}
       >

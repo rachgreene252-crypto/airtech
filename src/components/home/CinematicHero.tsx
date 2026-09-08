@@ -144,20 +144,33 @@ export function CinematicHero() {
             Engineering what keeps Nepal moving.
           </h1>
           <span
-            data-hero-rule
-            aria-hidden="true"
-            className="mt-8 block h-px w-24 origin-center bg-white/50"
-          />
+            data-hero-step
+            className="mt-9 flex items-center gap-4 text-white"
+          >
+            <span
+              data-hero-rule
+              aria-hidden="true"
+              className="block h-px w-10 origin-right bg-white/45 sm:w-16"
+            />
+            <span className="font-mono text-small font-medium uppercase tracking-[0.3em]">
+              Reliability&nbsp;matters
+            </span>
+            <span
+              data-hero-rule
+              aria-hidden="true"
+              className="block h-px w-10 origin-left bg-white/45 sm:w-16"
+            />
+          </span>
           <p
             data-hero-step
-            className="mt-8 max-w-xl text-body-l leading-relaxed text-white/85"
+            className="mt-6 max-w-xl text-body-l leading-relaxed text-white/85"
           >
             Integrated MEP and HVAC — from first drawing to commissioning, and
             the years of support that follow.
           </p>
           <div data-hero-step className="mt-10 flex flex-wrap items-center justify-center gap-6">
             <ButtonLink href="/contact/project-enquiry" size="lg">
-              Discuss your project
+              Inquire for Services
             </ButtonLink>
             <Link
               href="/projects"

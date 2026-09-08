@@ -27,8 +27,8 @@ export async function Footer() {
           <span className="font-display text-display-m font-normal tracking-[-0.01em]">
             {siteSettings.brandName}
           </span>
-          <p className="mt-3 font-mono text-label uppercase tracking-[0.14em] text-(--color-steel)">
-            {siteSettings.tagline}
+          <p className="mt-4 font-display text-title font-normal tracking-[-0.01em] text-(--color-brand-blue)">
+            {siteSettings.tagline}.
           </p>
           <p className="mt-6 max-w-xs text-small text-(--color-steel) leading-relaxed">
             {siteSettings.headOffice}

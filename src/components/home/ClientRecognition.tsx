@@ -61,7 +61,7 @@ export function ClientRecognition() {
                     className="object-cover object-top"
                   />
                 </div>
-                <p className="mt-2 text-[11px] leading-tight text-(--color-steel)">{item.client}</p>
+                <p className="mt-2 text-[12px] leading-tight text-(--color-steel)">{item.client}</p>
               </div>
             ))}
           </div>

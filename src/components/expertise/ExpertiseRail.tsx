@@ -30,7 +30,7 @@ export function ExpertiseRail() {
       <div className="lg:hidden">
         <label
           htmlFor="discipline-select"
-          className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)"
+          className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)"
         >
           Discipline
         </label>
@@ -50,7 +50,7 @@ export function ExpertiseRail() {
 
       {/* Desktop */}
       <div className="hidden lg:block">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           Disciplines
         </p>
         <ul className="mt-4 flex flex-col">
@@ -69,7 +69,7 @@ export function ExpertiseRail() {
                   )}
                 >
                   {i > 0 && (
-                    <span className="font-mono text-[0.6875rem] text-(--color-steel-soft)">
+                    <span className="font-mono text-[0.75rem] text-(--color-steel-soft)">
                       {String(i).padStart(2, "0")}
                     </span>
                   )}

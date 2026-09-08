@@ -44,13 +44,13 @@ export default function ServiceSupportPage() {
             </li>
           ))}
         </ul>
-        <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+        <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
           Engineers trained at manufacturer centres · {trainingLocations.join(" · ")}
         </p>
       </Section>
 
       <Section tone="ink" className="text-center">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Existing Airtech customer?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">

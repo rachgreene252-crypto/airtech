@@ -33,7 +33,7 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
             priority
             className="h-7 w-auto sm:h-8"
           />
-          <span className="hidden sm:inline font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-(--color-steel)">
+          <span className="hidden sm:inline font-mono text-[0.75rem] uppercase tracking-[0.14em] text-(--color-steel)">
             {siteSettings.tagline}
           </span>
         </Link>
@@ -42,7 +42,7 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
 
         <div className="hidden xl:block shrink-0">
           <ButtonLink href="/contact/project-enquiry" size="md">
-            Discuss Your Project
+            Inquire for Services
           </ButtonLink>
         </div>
       </Container>

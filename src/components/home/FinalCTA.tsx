@@ -17,7 +17,7 @@ export function FinalCTA() {
         </p>
         <div className="mt-9">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Discuss Your Project
+            Inquire for Services
           </ButtonLink>
         </div>
       </div>

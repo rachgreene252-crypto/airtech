@@ -138,7 +138,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         />
         {relatedServices.length > 0 && (
           <div className="mt-10 border-t border-(--color-line) pt-8">
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
               Systems Airtech delivered
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
@@ -159,7 +159,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {storySections.map((section, i) => (
         <Section key={section.label} tone={i % 2 === 0 ? "raised" : "paper"}>
           <div className="max-w-3xl">
-            <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               {section.label}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
@@ -203,15 +203,15 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section tone="ink" className="text-center">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           {industry ? `Planning a ${industry.name.toLowerCase()} project?` : "Have a project in planning?"}
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">
-          Discuss your project with our engineering team.
+          Inquire for services from our engineering team.
         </h2>
         <div className="mt-8">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Discuss Your Project
+            Inquire for Services
           </ButtonLink>
         </div>
       </Section>

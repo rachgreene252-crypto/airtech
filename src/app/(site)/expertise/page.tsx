@@ -6,11 +6,11 @@ import { services } from "@/content/services";
 export const metadata: Metadata = {
   title: "Expertise",
   description:
-    "Airtech's engineering disciplines: HVAC, Electrical, Plumbing & Public Health, Fire Protection, ELV/Security, BMS/Systems Integration and Engineering/Advisory — coordinated as one practice.",
+    "Airtech's engineering disciplines: HVAC, Electrical, Plumbing & Public Health, Fire Fighting & Fire Protection, ELV/Security, and BMS/Systems Integration — coordinated as one practice.",
 };
 
 const FACTS = [
-  { value: "07", label: "Engineering disciplines, coordinated as one" },
+  { value: "06", label: "Engineering disciplines, coordinated as one" },
   { value: "01", label: "One practice — not a chain of sub-contractors" },
   { value: "2000", label: "Delivering integrated MEP in Nepal since" },
 ];
@@ -23,7 +23,7 @@ const FACTS = [
 export default function ExpertiseOverviewPage() {
   return (
     <div>
-      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         Overview
       </p>
       <h2 className="mt-4 font-display text-display-m font-normal leading-[1.1] tracking-[-0.012em] text-balance">

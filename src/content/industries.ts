@@ -12,6 +12,33 @@ import type { Industry } from "./types";
  */
 export const industries: Industry[] = [
   {
+    slug: "hospitality",
+    name: "Hospitality",
+    overview:
+      "Airtech designs zone-specific HVAC for hotels and resorts: guest rooms, restaurants, lobbies, health clubs and banquet halls each carry distinct load and comfort requirements, and the system is designed around the precise needs of each area.",
+    operationalChallenges: [
+      "Partial load due to varying occupancy rates",
+      "Higher load at more heavily occupied zones such as banquet halls and restaurants",
+      "Frequent door openings in reception areas",
+      "Ventilation to utility areas such as kitchens, toilets and car parks",
+      "Low noise levels required in guest rooms",
+    ],
+    technicalRequirements: ["Zone-specific load design", "High energy efficiency", "Aesthetic integration with interior design"],
+    airtechCapabilities: [
+      "Zone-specific HVAC design across guest rooms, restaurants, lobbies, health clubs and banquet halls",
+      "Integrated electrical, plumbing and fire-protection delivery for hotel and resort projects",
+    ],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
+    relatedProjectSlugs: [],
+    proofPoints: [],
+    seo: {
+      title: "Hospitality HVAC & MEP Engineering",
+      description:
+        "Zone-specific HVAC, electrical, plumbing and fire-protection engineering for hotels and resorts: from guest rooms to banquet halls.",
+    },
+    status: "client_confirmed",
+  },
+  {
     slug: "healthcare",
     name: "Healthcare & Hospitals",
     overview:
@@ -38,33 +65,6 @@ export const industries: Industry[] = [
       title: "Healthcare & Hospital HVAC / MEP",
       description:
         "HVAC and MEP engineering for hospitals and healthcare facilities: operation theatres, ICUs, diagnostic areas and 24×7 clinical environments.",
-    },
-    status: "client_confirmed",
-  },
-  {
-    slug: "hospitality",
-    name: "Hospitality",
-    overview:
-      "Airtech designs zone-specific HVAC for hotels and resorts: guest rooms, restaurants, lobbies, health clubs and banquet halls each carry distinct load and comfort requirements, and the system is designed around the precise needs of each area.",
-    operationalChallenges: [
-      "Partial load due to varying occupancy rates",
-      "Higher load at more heavily occupied zones such as banquet halls and restaurants",
-      "Frequent door openings in reception areas",
-      "Ventilation to utility areas such as kitchens, toilets and car parks",
-      "Low noise levels required in guest rooms",
-    ],
-    technicalRequirements: ["Zone-specific load design", "High energy efficiency", "Aesthetic integration with interior design"],
-    airtechCapabilities: [
-      "Zone-specific HVAC design across guest rooms, restaurants, lobbies, health clubs and banquet halls",
-      "Integrated electrical, plumbing and fire-protection delivery for hotel and resort projects",
-    ],
-    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
-    relatedProjectSlugs: [],
-    proofPoints: [],
-    seo: {
-      title: "Hospitality HVAC & MEP Engineering",
-      description:
-        "Zone-specific HVAC, electrical, plumbing and fire-protection engineering for hotels and resorts: from guest rooms to banquet halls.",
     },
     status: "client_confirmed",
   },
@@ -154,7 +154,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Corporate & Commercial HVAC / MEP",
       description:
-        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, VRF/VRV design and server-room cooling.",
+        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, VRF design and server-room cooling.",
     },
     status: "client_confirmed",
   },

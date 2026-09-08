@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   AnimatePresence,
@@ -39,27 +39,61 @@ function CompactJourney() {
   const [progress, setProgress] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(clamp01(v)));
 
-  // Which step the user is pointing at overrides the scroll-derived one.
-  const [pinned, setPinned] = useState<number | null>(null);
-
   const total = journeySteps.length;
-  // Derived purely from scroll/pointer state (both start at 0 / null), so
-  // SSR and first client render agree regardless of reduced-motion — which
-  // useReducedMotion can't know on the server. Scroll still advances the
-  // rail under reduced motion; globals.css just removes the tween.
+
+  // The station the visitor has selected (click / key / autoplay). Until
+  // they interact, `pinned` is null and the rail follows the scroll signal.
+  const [pinned, setPinned] = useState<number | null>(null);
+  const [engaged, setEngaged] = useState(false);
+
   const scrollIndex = Math.min(total, Math.max(1, Math.ceil(progress * total + 0.0001)));
   const activeIndex = pinned ?? scrollIndex;
   const active = journeySteps[activeIndex - 1];
 
-  // Rail fill: follows the pointer when pinned, otherwise the scroll signal.
   const fill = pinned != null ? (pinned - 0.5) / total : progress;
+
+  const select = useCallback(
+    (index: number) => {
+      setPinned(Math.min(total, Math.max(1, index)));
+      setEngaged(true);
+    },
+    [total]
+  );
+
+  // Autoplay — a slow walk through the lifecycle so the section reads as
+  // alive on load. Stops for good the moment the visitor takes control, and
+  // never runs under reduced motion.
+  useEffect(() => {
+    if (reduceMotion || engaged) return;
+    const id = window.setInterval(() => {
+      setPinned((cur) => {
+        const from = cur ?? 0;
+        return from >= total ? 1 : from + 1;
+      });
+    }, 4200);
+    return () => window.clearInterval(id);
+  }, [reduceMotion, engaged, total]);
+
+  function onRailKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    let target: number | null = null;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") target = activeIndex + 1;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") target = activeIndex - 1;
+    else if (e.key === "Home") target = 1;
+    else if (e.key === "End") target = total;
+    if (target == null) return;
+    e.preventDefault();
+    const clamped = Math.min(total, Math.max(1, target));
+    select(clamped);
+    const tabs = e.currentTarget.querySelectorAll<HTMLButtonElement>("button");
+    tabs[clamped - 1]?.focus();
+  }
 
   return (
     <section className="border-t border-(--color-line) py-12 sm:py-14 lg:py-16">
       <Container>
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               Client journey
             </p>
             <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
@@ -77,10 +111,10 @@ function CompactJourney() {
             <div className="crop-frame relative border border-(--color-line-strong) text-(--color-brand-blue)">
               <span className="crop-tick-tl" />
               <span className="crop-tick-br" />
-              <div className="relative min-h-[16rem] p-7 text-left sm:min-h-[14rem] sm:p-10">
+              <div className="relative min-h-[17rem] p-7 text-left sm:min-h-[14rem] sm:p-10">
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute right-6 top-4 select-none font-display text-[5rem] font-semibold leading-none text-(--color-brand-blue)/[0.07] sm:text-[7rem]"
+                  className="pointer-events-none absolute right-4 top-3 select-none font-display text-[4rem] font-semibold leading-none text-(--color-brand-blue)/[0.06] sm:right-6 sm:top-4 sm:text-[7rem]"
                 >
                   {String(active.index).padStart(2, "0")}
                 </span>
@@ -97,11 +131,9 @@ function CompactJourney() {
                       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <p className="flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
-                        <span className="font-mono">
-                          {String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}
-                        </span>
-                        <span>{active.subLabel}</span>
+                      <p className="max-w-[calc(100%-3rem)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                        <span>{String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
+                        <span className="ml-3 inline-block">{active.subLabel}</span>
                       </p>
                       <h3 className="mt-3 font-display text-display-m font-normal leading-[1.12] text-(--color-ink)">
                         {active.sentence}
@@ -129,12 +161,41 @@ function CompactJourney() {
               </div>
             </div>
 
-            {/* Node rail — the six stations as a connected process line.
-                Scroll advances the active station; hovering / focusing one
-                pins it. Horizontal on desktop, a vertical rail on mobile. */}
-            <div className="mt-9" onMouseLeave={() => setPinned(null)}>
+            {/* Console controls — prev / next / step counter. */}
+            <div className="mt-4 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => select(activeIndex - 1)}
+                disabled={activeIndex === 1}
+                aria-label="Previous step"
+                className="flex h-10 w-10 items-center justify-center border border-(--color-line-strong) text-(--color-brand-blue) transition-colors hover:border-(--color-brand-blue) disabled:opacity-30 disabled:hover:border-(--color-line-strong)"
+              >
+                <span aria-hidden="true">&larr;</span>
+              </button>
+              <p className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-(--color-steel)">
+                Step {activeIndex} of {total}
+              </p>
+              <button
+                type="button"
+                onClick={() => select(activeIndex + 1)}
+                disabled={activeIndex === total}
+                aria-label="Next step"
+                className="flex h-10 w-10 items-center justify-center border border-(--color-line-strong) text-(--color-brand-blue) transition-colors hover:border-(--color-brand-blue) disabled:opacity-30 disabled:hover:border-(--color-line-strong)"
+              >
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+
+            {/* Node rail — the six stations. Click or arrow keys select one;
+                the scroll signal drives it until the visitor takes control. */}
+            <div className="mt-8">
               {/* Desktop */}
-              <div className="relative hidden sm:block">
+              <div
+                role="group"
+                aria-label="Project lifecycle stages"
+                onKeyDown={onRailKeyDown}
+                className="relative hidden sm:block"
+              >
                 <span
                   aria-hidden="true"
                   className="absolute left-0 right-0 top-[6px] h-px bg-(--color-line-strong)"
@@ -152,11 +213,10 @@ function CompactJourney() {
                       <li key={step.index} className="relative pr-4">
                         <button
                           type="button"
-                          onMouseEnter={() => setPinned(step.index)}
-                          onFocus={() => setPinned(step.index)}
-                          onBlur={() => setPinned(null)}
                           aria-pressed={isActive}
-                          className="group flex w-full flex-col items-start pt-5 text-left outline-none"
+                          tabIndex={isActive ? 0 : -1}
+                          onClick={() => select(step.index)}
+                          className="group flex w-full cursor-pointer flex-col items-start pt-5 text-left outline-none focus-visible:[&>span:last-child]:underline"
                         >
                           <span
                             aria-hidden="true"
@@ -169,14 +229,14 @@ function CompactJourney() {
                             }`}
                           />
                           <span
-                            className={`font-mono text-[11px] transition-colors duration-300 ${
+                            className={`font-mono text-[12px] transition-colors duration-300 ${
                               reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
                             }`}
                           >
                             {String(step.index).padStart(2, "0")}
                           </span>
                           <span
-                            className={`mt-1 font-display text-[0.95rem] font-semibold leading-tight transition-colors duration-300 ${
+                            className={`mt-1 font-display text-small font-normal leading-tight transition-colors duration-300 ${
                               isActive
                                 ? "text-(--color-ink)"
                                 : "text-(--color-steel) group-hover:text-(--color-ink)"
@@ -192,7 +252,12 @@ function CompactJourney() {
               </div>
 
               {/* Mobile */}
-              <ol className="relative pl-7 sm:hidden">
+              <div
+                role="group"
+                aria-label="Project lifecycle stages"
+                onKeyDown={onRailKeyDown}
+                className="relative pl-7 sm:hidden"
+              >
                 <span
                   aria-hidden="true"
                   className="absolute left-[6px] top-2 bottom-2 w-px bg-(--color-line-strong)"
@@ -202,6 +267,7 @@ function CompactJourney() {
                   className="absolute left-[6px] top-2 bottom-2 w-px origin-top bg-(--color-brand-blue) transition-transform duration-500 ease-out"
                   style={{ transform: `scaleY(${fill})` }}
                 />
+                <ol>
                 {journeySteps.map((step) => {
                   const isActive = step.index === activeIndex;
                   const reached = step.index <= activeIndex;
@@ -209,9 +275,10 @@ function CompactJourney() {
                     <li key={step.index} className="relative mb-4 last:mb-0">
                       <button
                         type="button"
-                        onClick={() => setPinned(step.index)}
                         aria-pressed={isActive}
-                        className="flex items-baseline gap-3 text-left outline-none"
+                        tabIndex={isActive ? 0 : -1}
+                        onClick={() => select(step.index)}
+                        className="flex items-baseline gap-3 text-left outline-none focus-visible:[&>span:last-child]:underline"
                       >
                         <span
                           aria-hidden="true"
@@ -224,14 +291,14 @@ function CompactJourney() {
                           }`}
                         />
                         <span
-                          className={`font-mono text-[11px] ${
+                          className={`font-mono text-[12px] ${
                             reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
                           }`}
                         >
                           {String(step.index).padStart(2, "0")}
                         </span>
                         <span
-                          className={`font-display text-lg font-semibold leading-tight ${
+                          className={`font-display text-body font-normal leading-tight ${
                             isActive ? "text-(--color-ink)" : "text-(--color-steel)"
                           }`}
                         >
@@ -241,7 +308,8 @@ function CompactJourney() {
                     </li>
                   );
                 })}
-              </ol>
+                </ol>
+              </div>
             </div>
           </div>
 
@@ -311,7 +379,7 @@ function FullJourney() {
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               The lifecycle
             </p>
             <ol className="relative mt-6 pl-6">
@@ -332,7 +400,7 @@ function FullJourney() {
                       }`}
                     />
                     <span
-                      className={`font-mono text-[11px] transition-colors duration-300 ${
+                      className={`font-mono text-[12px] transition-colors duration-300 ${
                         reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
                       }`}
                     >
@@ -406,7 +474,7 @@ function StepSection({
       <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
         <div>
           <p
-            className={`flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${
+            className={`flex items-baseline gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] ${
               isFinale ? "justify-center text-white/70" : "text-(--color-brand-blue)"
             }`}
           >
@@ -456,7 +524,7 @@ function StepSection({
           {isFinale && (
             <div className="mt-10">
               <ButtonLink href="/contact/project-enquiry" size="lg">
-                Discuss your project
+                Inquire for Services
               </ButtonLink>
             </div>
           )}

@@ -1,37 +1,56 @@
-import type { Certification, Partner } from "./types";
+import type { Certification } from "./types";
 
 /**
- * Certification badges appear on the 2025 brochure back cover (UKAS-accredited,
- * URS-certified) but current validity has not been confirmed by management —
- * Master Source of Truth §11 explicitly requires confirmation before use.
- * status: "source_only" keeps these out of live rendering (see the
- * Certifications section component, which only renders "verified" /
- * "client_confirmed" entries) until certificate copies are supplied.
- * See docs/OPEN_DECISIONS.md #2.
+ * ISO / management-system certifications.
+ *
+ * The 2025 brochure back cover shows ISO 9001:2015, ISO 14001:2015 and
+ * ISO 45001:2018 (URS, UKAS-accredited), but current validity and the
+ * certificate letters themselves have not been supplied — Master Source of
+ * Truth §11 and docs/AIRTECH_OPEN_DECISIONS.md #2 require confirmation
+ * before anything is published.
+ *
+ * These entries are staged, not live: `getCertifications()` only returns
+ * "verified" / "client_confirmed" rows, so nothing renders yet. When Airtech
+ * supplies each ISO letter, drop the scan into /public/documents/certifications/,
+ * set `documentUrl` to its path, add `validUntil`, and change `status` to
+ * "client_confirmed" — the Quality & Certifications page then shows the
+ * certificate with a link to the document. Do not change status without the
+ * actual letter.
  */
 export const certifications: Certification[] = [
-  { id: "iso-9001", name: "ISO 9001:2015", issuingBody: "URS (UKAS-accredited)", status: "source_only" },
-  { id: "iso-14001", name: "ISO 14001:2015", issuingBody: "URS (UKAS-accredited)", status: "source_only" },
-  { id: "iso-45001", name: "ISO 45001:2018", issuingBody: "URS (UKAS-accredited)", status: "source_only" },
-];
-
-/**
- * Mitsubishi and Midea are the two manufacturer relationships the client
- * questionnaire names directly (§8.6) — the same answer explicitly states the
- * website must not be defined by these brands. relationshipNote is
- * deliberately neutral ("equipment used in Airtech installations") rather
- * than "authorized dealer/distributor" wording, since that specific legal
- * relationship has not been confirmed. See docs/OPEN_DECISIONS.md #10.
- */
-export const partners: Partner[] = [
-  { id: "mitsubishi-electric", name: "Mitsubishi Electric", relationshipNote: "Equipment used in Airtech installations", status: "client_confirmed" },
-  { id: "midea", name: "Midea", relationshipNote: "Equipment used in Airtech installations", status: "client_confirmed" },
+  {
+    id: "iso-9001",
+    name: "ISO 9001:2015",
+    issuingBody: "URS (UKAS-accredited)",
+    status: "source_only",
+    // documentUrl: "/documents/certifications/iso-9001.pdf",
+    // validUntil: "",
+  },
+  {
+    id: "iso-14001",
+    name: "ISO 14001:2015",
+    issuingBody: "URS (UKAS-accredited)",
+    status: "source_only",
+  },
+  {
+    id: "iso-45001",
+    name: "ISO 45001:2018",
+    issuingBody: "URS (UKAS-accredited)",
+    status: "source_only",
+  },
 ];
 
 export function getCertifications() {
   return certifications.filter((c) => c.status === "verified" || c.status === "client_confirmed");
 }
 
-export function getPartners() {
-  return partners;
+/**
+ * The standards Airtech works to, shown on the Quality page regardless of
+ * whether the signed certificate letter has been supplied yet. The standard
+ * name + issuing body are source-backed (2025 brochure back cover); the
+ * `documentUrl` / `validUntil` gate stays exactly as above — a letter only
+ * appears once its scan is dropped into /public/documents/certifications/.
+ */
+export function getCertificationStandards() {
+  return certifications;
 }

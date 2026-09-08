@@ -64,21 +64,21 @@ export function ProjectShowcase() {
                 <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-(--color-paper)/20 pt-6 max-w-3xl">
                   {project.location && (
                     <div>
-                      <dt className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                      <dt className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                         Location
                       </dt>
                       <dd className="mt-1 text-sm text-(--color-paper)/90">{project.location}</dd>
                     </div>
                   )}
                   <div>
-                    <dt className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                    <dt className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                       Airtech&apos;s Role
                     </dt>
                     <dd className="mt-1 text-sm text-(--color-paper)/90 max-w-xs">{project.airtechRole}</dd>
                   </div>
                   {systems.length > 0 && (
                     <div>
-                      <dt className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                      <dt className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                         Systems
                       </dt>
                       <dd className="mt-1 text-sm text-(--color-paper)/90">{systems.join(" · ")}</dd>

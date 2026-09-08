@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import type { Route } from "next";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectListRow } from "./ProjectListRow";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -8,25 +10,41 @@ import type { Project, Industry } from "@/content/types";
 
 /**
  * Featured projects lead as a card grid; the rest of the portfolio follows
- * as a compact typographic list so every project detail page has a path in
- * from the index (and matches its sitemap entry). One dropdown (industry)
- * narrows both.
+ * as a compact typographic list. One dropdown (industry) narrows both.
  *
- * Filter state is local (not `useSearchParams`) so the whole list renders on
- * the server and ships in the initial HTML — this keeps the route static and
- * out of a client-only Suspense boundary whose reveal was measuring as CLS
- * ~0.5. Selecting an industry still writes `?industry=` for a shareable link.
+ * `urlSync` + `initialIndustry` come from ProjectsView (which reads
+ * `?industry=` inside a <Suspense> boundary); `setIndustry` then keeps the
+ * URL in step so the dropdown and the "browse by sector" links agree.
+ * Without `urlSync` it is a self-contained static shell.
  */
-export function ProjectsExplorer({ projects, industries }: { projects: Project[]; industries: Industry[] }) {
-  const [industryFilter, setIndustryFilter] = useState("");
+export function ProjectsExplorer({
+  projects,
+  industries,
+  initialIndustry = "",
+  urlSync = false,
+}: {
+  projects: Project[];
+  industries: Industry[];
+  initialIndustry?: string;
+  urlSync?: boolean;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const seed = industries.some((i) => i.slug === initialIndustry) ? initialIndustry : "";
+  const [industryFilter, setIndustryFilter] = useState(seed);
 
   function setIndustry(value: string) {
     setIndustryFilter(value);
-    const params = new URLSearchParams(window.location.search);
-    if (value) params.set("industry", value);
-    else params.delete("industry");
-    const qs = params.toString();
-    window.history.replaceState(null, "", qs ? `${window.location.pathname}?${qs}` : window.location.pathname);
+    if (urlSync) {
+      router.replace((value ? `${pathname}?industry=${value}` : pathname) as Route, { scroll: false });
+    } else if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (value) params.set("industry", value);
+      else params.delete("industry");
+      const qs = params.toString();
+      window.history.replaceState(null, "", qs ? `${window.location.pathname}?${qs}` : window.location.pathname);
+    }
   }
 
   const inIndustry = useMemo(
@@ -40,9 +58,11 @@ export function ProjectsExplorer({ projects, industries }: { projects: Project[]
     return industries.find((i) => i.slug === project.industrySlug)?.name;
   }
 
+  const activeName = industries.find((i) => i.slug === industryFilter)?.name;
+
   return (
     <div>
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-3">
         <select
           value={industryFilter}
           onChange={(e) => setIndustry(e.target.value)}
@@ -56,6 +76,18 @@ export function ProjectsExplorer({ projects, industries }: { projects: Project[]
             </option>
           ))}
         </select>
+        {activeName && (
+          <p className="text-small text-(--color-steel)">
+            Showing {inIndustry.length} {activeName} project{inIndustry.length === 1 ? "" : "s"} ·{" "}
+            <button
+              type="button"
+              onClick={() => setIndustry("")}
+              className="font-medium text-(--color-brand-blue) hover:underline"
+            >
+              Clear
+            </button>
+          </p>
+        )}
       </div>
 
       {featured.length === 0 && rest.length === 0 && (
@@ -80,8 +112,8 @@ export function ProjectsExplorer({ projects, industries }: { projects: Project[]
 
       {rest.length > 0 && (
         <div className="mt-16 sm:mt-20">
-          <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
-            Also in our portfolio
+          <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            {featured.length > 0 ? "Also in our portfolio" : "Portfolio"}
           </h2>
           <div className="mt-4 divide-y divide-(--color-line)">
             {rest.map((project) => (

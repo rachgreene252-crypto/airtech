@@ -16,12 +16,12 @@ const milestones = [
   {
     year: "2013",
     title: "MEP division launched",
-    body: "Airtech expanded beyond HVAC, launching its MEP division to provide integrated mechanical, electrical and plumbing solutions.",
+    body: "Airtech expanded beyond HVAC, launching its MEP division to provide integrated mechanical, electrical, PHE and ELV solutions.",
   },
   {
     year: "Today",
     title: "Integrated engineering contractor",
-    body: "Airtech operates as a comprehensive engineering and MEP contractor, with capabilities spanning HVAC, electrical, plumbing, fire protection, ventilation, water systems and security systems.",
+    body: "Airtech operates as a comprehensive engineering and MEP contractor, with capabilities spanning HVAC, electrical, PHE, fire protection, ELV, ventilation and water systems.",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function HistoryPage() {
           {milestones.map((m) => (
             <li key={m.year} className="relative">
               <span className="absolute -left-[2.55rem] top-1.5 h-2 w-2 rounded-full bg-(--color-brand-blue)" />
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 {m.year}
               </p>
               <h2 className="mt-2 font-display text-title font-normal text-(--color-ink)">{m.title}</h2>

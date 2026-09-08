@@ -16,7 +16,7 @@ export function EmptyState({
   if (align === "left") {
     return (
       <div className="border-l-2 border-(--color-line-strong) py-10 pl-6 sm:py-12 sm:pl-8">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           {title}
         </p>
         {description && (
@@ -29,7 +29,7 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center py-8 text-center">
       <span aria-hidden="true" className="mb-5 block h-px w-10 bg-(--color-brand-blue)" />
-      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         {title}
       </p>
       {description && (

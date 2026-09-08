@@ -34,8 +34,7 @@ export type ServiceCategory =
   | "plumbing-public-health"
   | "fire-protection"
   | "elv-security"
-  | "bms-systems-integration"
-  | "engineering-advisory";
+  | "bms-systems-integration";
 
 export interface Service {
   slug: string;
@@ -142,15 +141,11 @@ export interface Certification {
   name: string;
   issuingBody: string;
   validUntil?: string;
+  /** Path to the supplied certificate letter / scan (PDF or image) in
+   *  /public. Set alongside status "client_confirmed" once Airtech provides
+   *  the document — the Quality & Certifications page links it automatically. */
+  documentUrl?: string;
   documentImage?: SanityImageRef;
-  status: VerificationStatus;
-}
-
-export interface Partner {
-  id: string;
-  name: string;
-  logo?: SanityImageRef;
-  relationshipNote: string;
   status: VerificationStatus;
 }
 

@@ -46,7 +46,7 @@ export function IndustryJourney() {
             type="button"
             onClick={() => setActive(i)}
             aria-current={active === i}
-            className={`min-h-11 px-3 py-2 font-mono text-[11px] tracking-[0.08em] uppercase border transition-colors ${
+            className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.08em] uppercase border transition-colors ${
               active === i
                 ? "border-(--color-signal-soft) text-(--color-paper)"
                 : "border-(--color-ink-soft) text-(--color-steel-soft) hover:border-(--color-steel-soft)"
@@ -92,7 +92,7 @@ export function IndustryJourney() {
               <div className="mt-8 grid gap-8 border-t border-(--color-paper)/20 pt-6 sm:grid-cols-3">
                 {industry.operationalChallenges.length > 0 && (
                   <div>
-                    <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                    <p className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                       Engineering Challenge
                     </p>
                     <p className="mt-2 text-sm text-(--color-paper)/80 leading-relaxed">
@@ -102,7 +102,7 @@ export function IndustryJourney() {
                 )}
                 {industry.airtechCapabilities.length > 0 && (
                   <div>
-                    <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                    <p className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                       Airtech Capability
                     </p>
                     <p className="mt-2 text-sm text-(--color-paper)/80 leading-relaxed">
@@ -112,7 +112,7 @@ export function IndustryJourney() {
                 )}
                 {project && (
                   <div>
-                    <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
+                    <p className="font-mono text-[12px] tracking-[0.12em] uppercase text-(--color-steel-soft)">
                       Relevant Project
                     </p>
                     <Link

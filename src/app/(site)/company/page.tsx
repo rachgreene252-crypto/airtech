@@ -7,7 +7,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 const companyPages = [
   { label: "History", href: "/company/history", description: "How Airtech grew from an HVAC specialist into an integrated MEP contractor." },
   { label: "Leadership", href: "/company/leadership", description: "The people behind Airtech's engineering delivery." },
-  { label: "Quality & Certifications", href: "/company/quality-certifications", description: "Management system certification and equipment partners." },
+  { label: "Quality & Certifications", href: "/company/quality-certifications", description: "Management-system certification." },
   { label: "Careers", href: "/company/careers", description: "Engineers who want to work on projects that matter." },
 ] as const;
 
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     "Airtech Industries is a Nepal-based engineering and MEP company specialising in HVAC, electrical, plumbing and fire-protection solutions.",
 };
 
-const drivers = [
-  { title: "Result-oriented approach", body: "An efficient, can-do attitude on every project." },
+const coreValues = [
   { title: "Integrity", body: "Taking responsibility for what we promise." },
-  { title: "Excellence", body: "Through proper thinking, planning and implementation." },
+  { title: "Technical excellence", body: "Through proper thinking, planning and implementation." },
+  { title: "Reliability", body: "Systems that keep running — and a team that stays accountable for them." },
   { title: "Flexibility", body: "Understanding what each client actually needs." },
   { title: "Responsiveness", body: "A receptive approach to customer needs." },
-  { title: "Team work", body: "Open exchange of information and resources with our clients." },
+  { title: "Collaborative teamwork", body: "Open exchange of information and resources with our clients." },
 ];
 
 export default function CompanyPage() {
@@ -39,12 +39,12 @@ export default function CompanyPage() {
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
-            <SectionHeader eyebrow="Mission" heading="Customer for life." />
+            <SectionHeader eyebrow="Mission" heading="Our mission." />
             <p className="mt-6 text-(--color-steel) leading-relaxed">
-              Airtech strives to meet the needs of its customers by providing complete, engineered,
-              innovative and customised technology solutions that constantly exceed expectations. The
-              mission is to build a reputation for integrity, excellence, reliability, flexibility,
-              responsiveness, innovative service and team work.
+              To deliver engineered, innovative and customised technology solutions through integrity,
+              technical excellence, reliability, flexibility, responsiveness and collaborative
+              teamwork. We are committed to understanding our customers&rsquo; needs, applying our
+              expertise to every challenge, and continuously improving the way we serve.
             </p>
           </div>
           <div>
@@ -59,9 +59,9 @@ export default function CompanyPage() {
       </Section>
 
       <Section tone="raised">
-        <SectionHeader eyebrow="What drives us" heading="Our drivers." />
+        <SectionHeader eyebrow="What we value" heading="Our core values." />
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
-          {drivers.map((d) => (
+          {coreValues.map((d) => (
             <div key={d.title}>
               <h3 className="font-display text-xl font-semibold">{d.title}</h3>
               <p className="mt-2 text-sm text-(--color-steel) leading-relaxed">{d.body}</p>

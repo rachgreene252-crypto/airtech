@@ -25,7 +25,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/15 to-transparent opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
+          <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-(--color-ink)/5 transition-opacity duration-300 group-hover:from-(--color-ink)" />
         </>
       ) : (
         // Shared BluePlaceholder fallback — same treatment as TechnicalFrame
@@ -36,7 +36,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center p-6 text-center">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
           {industryName ?? project.projectType}
         </p>
         <h3 className="mt-2 font-display text-xl sm:text-2xl font-semibold leading-tight text-(--color-paper)">

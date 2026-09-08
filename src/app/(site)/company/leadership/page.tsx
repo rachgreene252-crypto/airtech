@@ -25,7 +25,7 @@ export default function LeadershipPage() {
               className="border-t border-(--color-line) py-8 text-center first:border-t-0"
             >
               <h2 className="font-display text-display-m font-normal text-(--color-ink)">{person.name}</h2>
-              <p className="mt-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <p className="mt-2 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 {person.role}
               </p>
               {person.bio && (

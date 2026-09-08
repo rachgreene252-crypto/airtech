@@ -43,7 +43,7 @@ export function HVACSpotlight() {
 
           <dl className="mt-10 space-y-6 border-t border-(--color-line) pt-6">
             <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
+              <dt className="font-mono text-[12px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
                 Systems
               </dt>
               <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-(--color-ink)">
@@ -51,7 +51,7 @@ export function HVACSpotlight() {
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
+              <dt className="font-mono text-[12px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
                 Applications
               </dt>
               <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-(--color-ink)">
@@ -59,7 +59,7 @@ export function HVACSpotlight() {
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
+              <dt className="font-mono text-[12px] tracking-[0.14em] uppercase text-(--color-steel-soft)">
                 Delivery
               </dt>
               <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-(--color-ink)">

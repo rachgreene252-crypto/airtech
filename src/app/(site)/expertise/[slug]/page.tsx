@@ -3,8 +3,9 @@ import Link from "next/link";
 import type { Route } from "next";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
+import { SystemMotif, SERVICE_MOTIFS } from "@/components/ui/SystemMotif";
 import { services, getServiceBySlug } from "@/content/services";
-import { getIndustryBySlug } from "@/content/industries";
+import { industries, getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService } from "@/content/projects";
 
 export function generateStaticParams() {
@@ -31,13 +32,14 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
   if (!service) notFound();
 
   const relatedProjects = getProjectsByService(service.slug).slice(0, 6);
-  const sectors = service.relatedIndustrySlugs
-    .map((s) => getIndustryBySlug(s))
-    .filter((x): x is NonNullable<typeof x> => Boolean(x));
+  // "Where it's deployed" is common across every discipline — Airtech runs
+  // all six as one integrated scope on every project, so the sector list is
+  // the same regardless of which discipline you're reading (hospitality first).
+  const sectors = industries;
 
   return (
     <article>
-      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         Discipline <span className="text-(--color-steel-soft)">/ {service.disciplineCode}</span>
       </p>
       <h2 className="mt-4 font-display text-display-m font-normal leading-[1.1] tracking-[-0.012em] text-balance">
@@ -47,9 +49,18 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         {service.detailedDescription}
       </p>
 
+      {/* Discipline motif — one animated visual metaphor per discipline
+          (CSS keyframes, zeroed under prefers-reduced-motion). */}
+      <div className="relative mt-8 h-36 overflow-hidden border border-(--color-line-strong) bg-(--color-blue-deep) sm:h-44">
+        <SystemMotif motif={SERVICE_MOTIFS[service.slug] ?? "converge"} />
+        <span className="absolute bottom-3 left-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-white/55">
+          {service.disciplineCode}
+        </span>
+      </div>
+
       {/* Capabilities */}
       <section className="mt-12">
-        <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           What Airtech delivers
         </h3>
         <ol className="mt-4 border-t border-(--color-line)">
@@ -70,7 +81,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {/* Systems within the discipline */}
       {service.subServices.length > 0 && (
         <section className="mt-12">
-          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
             Systems within this discipline
           </h3>
           <ul className="mt-4 flex flex-wrap gap-2">
@@ -89,14 +100,14 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {/* Sectors */}
       {sectors.length > 0 && (
         <section className="mt-12">
-          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
             Where it&apos;s deployed
           </h3>
           <ul className="mt-4 border-t border-(--color-line)">
             {sectors.map((sector) => (
               <li key={sector.slug}>
                 <Link
-                  href={`/industries/${sector.slug}` as Route}
+                  href={`/projects?industry=${sector.slug}`}
                   className="group flex items-center justify-between gap-4 border-b border-(--color-line) py-4 transition-colors hover:bg-(--color-paper-raised)"
                 >
                   <span className="font-display text-body font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
@@ -117,7 +128,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
 
       {/* Related projects */}
       <section className="mt-12">
-        <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           Where this discipline has been delivered
         </h3>
         {relatedProjects.length > 0 ? (
@@ -131,7 +142,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
                   <span className="font-display text-body font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
                     {project.name}
                   </span>
-                  <span className="shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+                  <span className="shrink-0 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
                     {getIndustryBySlug(project.industrySlug)?.name}
                   </span>
                 </Link>
@@ -151,7 +162,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         </p>
         <div className="mt-6">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Discuss your project
+            Inquire for Services
           </ButtonLink>
         </div>
       </div>
