@@ -49,9 +49,7 @@ export function CinematicHero() {
         // hydration mismatch that left it invisible under reduced motion);
         // GSAP animates the individual lines up from 0.
         const intro = gsap.timeline({ defaults: { ease: "power2.out" } });
-        intro
-          .from("[data-hero-step]", { opacity: 0, y: 18, duration: 0.7, stagger: 0.09 }, 0.15)
-          .from("[data-hero-rule]", { scaleX: 0, duration: 0.9 }, 0.4);
+        intro.from("[data-hero-step]", { opacity: 0, y: 18, duration: 0.7, stagger: 0.09 }, 0.15);
 
         // Scroll — as the hero scrolls away under the next section, drift
         // the still down + up-scale it a touch (parallax) and fade/lift the
@@ -96,7 +94,7 @@ export function CinematicHero() {
     <div ref={wrapperRef} className="relative w-full">
       <section
         className="relative flex h-[100svh] min-h-[560px] w-full items-center justify-center overflow-hidden bg-(--color-blue-deep)"
-        aria-label="Airtech Industries — engineering what keeps Nepal moving"
+        aria-label="Airtech Industries — keeping Nepal moving"
       >
         <div ref={imageRef} className="absolute inset-0 will-change-transform">
           {/* eslint-disable-next-line @next/next/no-img-element -- full-bleed hero still, outside next/image's responsive pipeline */}
@@ -139,27 +137,21 @@ export function CinematicHero() {
           </p>
           <h1
             data-hero-step
-            className="mt-6 max-w-[19ch] font-display text-display-2xl font-normal leading-[1.03] tracking-[-0.015em] text-balance text-white sm:max-w-[15ch]"
+            className="mt-6 max-w-[13ch] font-display text-display-2xl font-normal leading-[1.03] tracking-[-0.015em] text-balance text-white"
           >
-            Engineering what keeps Nepal moving.
+            Keeping Nepal moving.
           </h1>
           <span
             data-hero-step
-            className="mt-9 flex items-center gap-4 text-white"
+            className="mt-9 inline-flex items-center gap-3 border border-(--color-brand-blue-soft)/60 bg-(--color-brand-blue)/90 px-5 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-sm"
           >
             <span
-              data-hero-rule
               aria-hidden="true"
-              className="block h-px w-10 origin-right bg-white/45 sm:w-16"
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-white animate-energy-pulse"
             />
-            <span className="font-mono text-small font-medium uppercase tracking-[0.3em]">
+            <span className="font-mono text-small font-semibold uppercase tracking-[0.28em]">
               Reliability&nbsp;matters
             </span>
-            <span
-              data-hero-rule
-              aria-hidden="true"
-              className="block h-px w-10 origin-left bg-white/45 sm:w-16"
-            />
           </span>
           <p
             data-hero-step

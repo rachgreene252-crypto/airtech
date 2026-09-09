@@ -1,14 +1,29 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { industries } from "@/content/industries";
+import type { IndustrySlug } from "@/content/types";
 
 export const metadata: Metadata = {
   title: "Industries",
   description:
     "Sectors Airtech engineers for: healthcare, hospitality, pharmaceuticals, industrial, corporate, telecom/data centres, banking, auditoriums, embassies/INGOs and education.",
+};
+
+// Real, already-sourced project/recognition photography, matched to the
+// sector it was actually shot in. Sectors with no sourced photo (pharma,
+// banking, auditoriums) simply render without a thumbnail rather than a
+// stand-in image — same content-truth rule as everywhere else on the site.
+const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>> = {
+  hospitality: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa" },
+  healthcare: { src: "/images/projects/nepal-mediciti-hospital.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
+  "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
+  industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
+  "telecom-data-centres": { src: "/images/projects/ncell-iconic-building.jpg", alt: "Ncell Iconic Building, Kathmandu" },
+  "embassies-ingos": { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu" },
 };
 
 // A sector atlas, not a grid of boxes: large typographic rows, each carrying
@@ -24,39 +39,57 @@ export default function IndustriesPage() {
         description="Healthcare, pharmaceuticals, hospitality, industrial and telecom environments each carry distinct operational demands. Airtech designs to the requirement, not a generic template."
       />
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
-        {industries.map((industry, i) => (
-          <Reveal key={industry.slug} delay={i * 0.03}>
-            <Link
-              href={`/projects?industry=${industry.slug}`}
-              className="group grid gap-3 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8 sm:py-12"
-            >
-              <div>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-signal) transition-colors text-balance">
-                  {industry.name}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">
-                  {industry.overview}
-                </p>
-                {industry.operationalChallenges.length > 0 && (
-                  <p className="mt-4 font-sans text-label text-(--color-steel)">
-                    {industry.operationalChallenges[0]}
-                  </p>
+        {industries.map((industry, i) => {
+          const photo = industryPhoto[industry.slug];
+          return (
+            <Reveal key={industry.slug} delay={i * 0.03}>
+              <Link
+                href={`/projects?industry=${industry.slug}`}
+                className={`group grid gap-5 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:items-center sm:gap-8 sm:py-12 ${
+                  photo ? "sm:grid-cols-[160px_1fr_auto]" : "sm:grid-cols-[1fr_auto]"
+                }`}
+              >
+                {photo && (
+                  <div className="crop-frame relative hidden aspect-[4/3] w-full overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue) sm:block">
+                    <span className="crop-tick-tl" />
+                    <span className="crop-tick-br" />
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="160px"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                  </div>
                 )}
-              </div>
-              <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
-                <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em]">
-                  View projects
+                <div>
+                  <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-signal) transition-colors text-balance">
+                    {industry.name}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">
+                    {industry.overview}
+                  </p>
+                  {industry.operationalChallenges.length > 0 && (
+                    <p className="mt-4 font-sans text-label text-(--color-steel)">
+                      {industry.operationalChallenges[0]}
+                    </p>
+                  )}
+                </div>
+                <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
+                  <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em]">
+                    View projects
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="text-2xl transition-transform group-hover:translate-x-1.5"
+                  >
+                    →
+                  </span>
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="text-2xl transition-transform group-hover:translate-x-1.5"
-                >
-                  →
-                </span>
-              </span>
-            </Link>
-          </Reveal>
-        ))}
+              </Link>
+            </Reveal>
+          );
+        })}
       </div>
       <div className="lg:hidden h-[68px]" aria-hidden="true" />
       <StickyEnquiryBar />

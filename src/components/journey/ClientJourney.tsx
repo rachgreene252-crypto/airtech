@@ -34,7 +34,7 @@ function CompactJourney() {
   const railRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: railRef,
-    offset: ["start 0.9", "end 0.25"],
+    offset: ["start start", "end end"],
   });
   const [progress, setProgress] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(clamp01(v)));
@@ -104,7 +104,20 @@ function CompactJourney() {
             </p>
           </div>
 
-          <div ref={railRef} className="mx-auto mt-10 max-w-3xl">
+          {/* Scroll track — on large screens this is a runway with a sticky
+              console pinned inside it, so the section genuinely scrolls
+              through the six stations rather than just reacting to a click.
+              Sized to ~1.6 viewports (not several) so the pin releases
+              before the gap between card and track edges reads as dead
+              space; a tinted band fills that runway so it reads as a held
+              moment, not a rendering gap. Collapses to natural height (no
+              pin) on small screens, where tap/swipe is the more natural
+              gesture. */}
+          <div
+            ref={railRef}
+            className="relative mx-auto mt-10 max-w-3xl lg:h-[165vh] lg:bg-(--color-paper-raised) lg:px-10"
+          >
+          <div className="lg:sticky lg:top-28 lg:py-10">
             {/* Console: the active step, swapped as the visitor scrolls or
                 points at a station on the rail below. Fixed min-height so
                 changing steps never shifts the layout. */}
@@ -311,6 +324,7 @@ function CompactJourney() {
                 </ol>
               </div>
             </div>
+          </div>
           </div>
 
           <div className="mt-9 text-center">

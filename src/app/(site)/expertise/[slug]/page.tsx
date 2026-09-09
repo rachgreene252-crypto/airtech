@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { notFound } from "next/navigation";
@@ -32,6 +33,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
   if (!service) notFound();
 
   const relatedProjects = getProjectsByService(service.slug).slice(0, 6);
+  const photoProjects = relatedProjects.filter((p) => p.heroImage).slice(0, 3);
   // "Where it's deployed" is common across every discipline — Airtech runs
   // all six as one integrated scope on every project, so the sector list is
   // the same regardless of which discipline you're reading (hospitality first).
@@ -57,6 +59,60 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
           {service.disciplineCode}
         </span>
       </div>
+
+      {/* Photography — real project stills where this discipline has a
+          sourced hero image, so text-heavy discipline pages carry evidence,
+          not just prose. Omitted entirely where no photo is sourced yet
+          (elv-security / bms currently have none) rather than padded with a
+          stand-in image. */}
+      {photoProjects.length > 0 && (
+        <section className="mt-12">
+          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            Delivered on site
+          </h3>
+          <div
+            className={`mt-4 grid gap-4 ${
+              photoProjects.length === 1
+                ? "grid-cols-1"
+                : photoProjects.length === 2
+                  ? "grid-cols-1 sm:grid-cols-2"
+                  : "grid-cols-1 sm:grid-cols-3"
+            }`}
+          >
+            {photoProjects.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}` as Route}
+                className="crop-frame group relative block aspect-[4/3] overflow-hidden border border-(--color-line-strong) text-white"
+              >
+                <span className="crop-tick-tl" />
+                <span className="crop-tick-br" />
+                <Image
+                  src={project.heroImage!.src}
+                  alt={project.heroImage!.alt}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-(--color-blue-deep)/85 via-transparent to-transparent"
+                />
+                <span className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 p-4">
+                  <span className="font-display text-small font-medium leading-tight">
+                    {project.name}
+                  </span>
+                  {project.location && (
+                    <span className="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-white/70">
+                      {project.location}
+                    </span>
+                  )}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Capabilities */}
       <section className="mt-12">
