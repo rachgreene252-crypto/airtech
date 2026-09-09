@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 
@@ -17,6 +18,11 @@ const milestones = [
     year: "2013",
     title: "MEP division launched",
     body: "Airtech expanded beyond HVAC, launching its MEP division to provide integrated mechanical, electrical, PHE and ELV solutions.",
+  },
+  {
+    year: "2025",
+    title: "25 years — Reliability Matters",
+    body: "Airtech marked 25 years in business with a company-wide anniversary celebration, reaffirming the reliability the brand was built on.",
   },
   {
     year: "Today",
@@ -50,6 +56,35 @@ export default function HistoryPage() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      {/* 25th-anniversary team photograph — real photography from the
+          "AIRTECH RELIABILITY MATTERS" event, supplied directly for
+          publication (2026-09-09). */}
+      <Section tone="raised">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            25 years
+          </p>
+          <h2 className="mt-4 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+            One team, a quarter century of reliability.
+          </h2>
+        </div>
+        <div className="crop-frame relative mx-auto mt-10 aspect-[3/2] w-full max-w-4xl overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue)">
+          <span className="crop-tick-tl" />
+          <span className="crop-tick-br" />
+          <Image
+            src="/images/team/team-25th-anniversary.jpg"
+            alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
+            fill
+            sizes="(min-width: 1024px) 896px, 100vw"
+            className="object-cover"
+          />
+        </div>
+        <p className="mx-auto mt-4 max-w-4xl text-center text-small text-(--color-steel)">
+          The Airtech team at the company&rsquo;s 25th-anniversary, &ldquo;Reliability Matters&rdquo;
+          celebration.
+        </p>
       </Section>
     </>
   );

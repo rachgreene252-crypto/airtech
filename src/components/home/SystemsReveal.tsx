@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Section } from "@/components/ui/Section";
@@ -8,9 +8,11 @@ import { services, getServiceBySlug } from "@/content/services";
 
 /**
  * The signature interaction: one building, six systems added one at a time.
- * Deliberately click/tap-driven rather than scroll-jacked — the visitor
- * controls the pace, it works with keyboard-only navigation, and it degrades
- * to a single fully-layered diagram with no JS or with reduced motion.
+ * Click/tap/keyboard stays the primary control (works with no JS, reduced
+ * motion collapses to the fully-layered diagram) — but the first time the
+ * section scrolls into view, a GSAP ScrollTrigger plays the build-out once,
+ * automatically, so the section reads as alive rather than waiting to be
+ * clicked. Any manual interaction cancels the autoplay outright.
  */
 const ZONE_SLUGS = [
   "hvac",
@@ -36,16 +38,57 @@ const FLOOR_MIDS = Array.from({ length: FLOORS }, (_, i) => BUILDING_TOP + (i + 
 
 export function SystemsReveal() {
   const [step, setStep] = useState(0); // 0 = building only, 1..6 = zones active
+  const [engaged, setEngaged] = useState(false);
   const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLDivElement>(null);
   const total = ZONES.length;
   const activeZone = step > 0 ? ZONES[step - 1] : null;
+
+  // Any manual interaction takes over from the autoplay for good.
+  function userSelect(next: number) {
+    setEngaged(true);
+    setStep(Math.min(total, Math.max(0, next)));
+  }
+
+  // GSAP ScrollTrigger — plays the six-step build-out once, the first time
+  // the section is about two-thirds into view. Purely a timing/orchestration
+  // use of GSAP (the draw-in itself stays on the Framer paths below, which
+  // already react to `step`); this is the "explain the system on arrival"
+  // moment the diagram was missing when it only reacted to clicks.
+  useEffect(() => {
+    if (reduceMotion || engaged) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    let cancelled = false;
+    let ctx: { revert: () => void } | undefined;
+    (async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: el, start: "top 65%", once: true },
+        });
+        for (let i = 1; i <= total; i++) {
+          tl.call(() => setStep((s) => (s < i ? i : s)), undefined, i === 1 ? 0.2 : "+=0.65");
+        }
+      }, el);
+    })();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
+  }, [reduceMotion, engaged, total]);
 
   const headline =
     step === 0 ? "One building." : step === total ? "One engineering partner." : "Many systems.";
 
   return (
     <Section tone="ink" border={false} className="overflow-hidden">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
+      <div ref={sectionRef} className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
         <div>
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
             What Airtech does
@@ -75,7 +118,7 @@ export function SystemsReveal() {
             <li>
               <button
                 type="button"
-                onClick={() => setStep(0)}
+                onClick={() => userSelect(0)}
                 aria-current={step === 0}
                 className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                   step === 0
@@ -90,7 +133,7 @@ export function SystemsReveal() {
               <li key={zone.slug}>
                 <button
                   type="button"
-                  onClick={() => setStep(i + 1)}
+                  onClick={() => userSelect(i + 1)}
                   aria-current={step === i + 1}
                   className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                     step >= i + 1
@@ -107,7 +150,7 @@ export function SystemsReveal() {
           <div className="mt-6 flex items-center gap-3">
             <button
               type="button"
-              onClick={() => setStep((s) => Math.max(0, s - 1))}
+              onClick={() => userSelect(step - 1)}
               disabled={step === 0}
               className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
@@ -115,7 +158,7 @@ export function SystemsReveal() {
             </button>
             <button
               type="button"
-              onClick={() => setStep((s) => Math.min(total, s + 1))}
+              onClick={() => userSelect(step + 1)}
               disabled={step === total}
               className="font-mono text-xs tracking-[0.1em] uppercase text-(--color-steel-soft) hover:text-(--color-paper) disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
@@ -158,61 +201,119 @@ export function SystemsReveal() {
 }
 
 function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: boolean }) {
+  const scanRef = useRef<SVGRectElement>(null);
+  const total = ZONES.length;
+  const activeZone = step > 0 ? ZONES[step - 1] : null;
+
+  // GSAP — a horizontal scan sweeps across the building at the band each new
+  // system occupies, every time `step` advances. This is the one thing GSAP
+  // does here that Framer's per-path draw doesn't: a single imperative,
+  // scroll-triggered-adjacent "reading" motion across the whole diagram, the
+  // same vocabulary as a real coordination-drawing markup pass.
+  useEffect(() => {
+    if (step === 0 || reduceMotion) return;
+    let cancelled = false;
+    (async () => {
+      const { gsap } = await import("gsap");
+      if (cancelled || !scanRef.current) return;
+      const bandHeight = (BUILDING_BOTTOM - BUILDING_TOP) / total;
+      const y = BUILDING_TOP + (step - 1) * bandHeight;
+      gsap.killTweensOf(scanRef.current);
+      gsap.fromTo(
+        scanRef.current,
+        { attr: { x: BUILDING_LEFT - 60, y }, opacity: 0.9 },
+        { attr: { x: BUILDING_RIGHT }, opacity: 0, duration: 0.85, ease: "power2.out" }
+      );
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [step, reduceMotion, total]);
+
   return (
-    <svg
-      viewBox="0 0 640 480"
-      className="w-full h-auto"
-      role="img"
-      aria-label={`Building cross-section, showing ${step} of ${ZONES.length} coordinated engineering systems`}
-    >
-      <defs>
-        <linearGradient id="building-glass" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="var(--color-signal-tint)" stopOpacity={0.35} />
-          <stop offset="100%" stopColor="var(--color-signal-tint)" stopOpacity={0.05} />
-        </linearGradient>
-        <radialGradient id="building-shadow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.35} />
-          <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
-        </radialGradient>
-      </defs>
+    <div className="relative">
+      <svg
+        viewBox="0 0 640 480"
+        className="w-full h-auto"
+        role="img"
+        aria-label={`Building cross-section, showing ${step} of ${total} coordinated engineering systems`}
+      >
+        <defs>
+          <linearGradient id="building-glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="var(--color-signal-tint)" stopOpacity={0.35} />
+            <stop offset="100%" stopColor="var(--color-signal-tint)" stopOpacity={0.05} />
+          </linearGradient>
+          <radialGradient id="building-shadow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.35} />
+            <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
+          </radialGradient>
+          <linearGradient id="building-scan" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="var(--color-brand-blue-soft)" stopOpacity={0} />
+            <stop offset="50%" stopColor="var(--color-brand-blue-soft)" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="var(--color-brand-blue-soft)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
 
-      {/* Ground shadow — grounds the building as a physical object, not a
-          floating diagram. */}
-      <ellipse cx={320} cy={BUILDING_BOTTOM + 4} rx={210} ry={14} fill="url(#building-shadow)" />
-      <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel)" strokeWidth={1.5} />
+        {/* Ground shadow — grounds the building as a physical object, not a
+            floating diagram. */}
+        <ellipse cx={320} cy={BUILDING_BOTTOM + 4} rx={210} ry={14} fill="url(#building-shadow)" />
+        <line x1={110} y1={BUILDING_BOTTOM} x2={530} y2={BUILDING_BOTTOM} stroke="var(--color-steel)" strokeWidth={1.5} />
 
-      {/* Building outline — a pale glass fill instead of flat none, so the
-          diagram reads as a material object rather than a wireframe.
-          Structural lines are blueprint-soft (a light sky blue) so they stay
-          legible against the dark section. */}
-      <rect
-        x={BUILDING_LEFT}
-        y={BUILDING_TOP}
-        width={BUILDING_RIGHT - BUILDING_LEFT}
-        height={BUILDING_BOTTOM - BUILDING_TOP}
-        fill="url(#building-glass)"
-        stroke="var(--color-blueprint-soft)"
-        strokeWidth={1.25}
-      />
-      {/* Roofline parapet detail */}
-      <line
-        x1={BUILDING_LEFT - 6}
-        y1={BUILDING_TOP}
-        x2={BUILDING_RIGHT + 6}
-        y2={BUILDING_TOP}
-        stroke="var(--color-blueprint-soft)"
-        strokeWidth={2.5}
-      />
-      {FLOOR_YS.map((y) => (
-        <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-blueprint-soft)" strokeWidth={1} opacity={0.4} />
-      ))}
-
-      {services
-        .filter((s) => ZONE_SLUGS.includes(s.slug as (typeof ZONE_SLUGS)[number]))
-        .map((s) => s.slug)
-        .map((slug, i) => (
-          <SystemTrace key={slug} slug={slug} active={step > i} reduceMotion={reduceMotion} />
+        {/* Building outline — a pale glass fill instead of flat none, so the
+            diagram reads as a material object rather than a wireframe.
+            Structural lines are blueprint-soft (a light sky blue) so they stay
+            legible against the dark section. */}
+        <rect
+          x={BUILDING_LEFT}
+          y={BUILDING_TOP}
+          width={BUILDING_RIGHT - BUILDING_LEFT}
+          height={BUILDING_BOTTOM - BUILDING_TOP}
+          fill="url(#building-glass)"
+          stroke="var(--color-blueprint-soft)"
+          strokeWidth={1.25}
+        />
+        {/* Occupied-systems wash — the interior warms from a bare outline to
+            a confidently filled volume as more systems come online, so the
+            diagram gains visual weight instead of staying three thin lines. */}
+        <rect
+          x={BUILDING_LEFT}
+          y={BUILDING_TOP}
+          width={BUILDING_RIGHT - BUILDING_LEFT}
+          height={BUILDING_BOTTOM - BUILDING_TOP}
+          fill="var(--color-brand-blue)"
+          opacity={reduceMotion ? step / total * 0.14 : undefined}
+          style={reduceMotion ? undefined : { transition: "opacity 0.6s var(--ease-out)", opacity: (step / total) * 0.14 }}
+        />
+        {/* Roofline parapet detail */}
+        <line
+          x1={BUILDING_LEFT - 6}
+          y1={BUILDING_TOP}
+          x2={BUILDING_RIGHT + 6}
+          y2={BUILDING_TOP}
+          stroke="var(--color-blueprint-soft)"
+          strokeWidth={2.5}
+        />
+        {FLOOR_YS.map((y) => (
+          <line key={y} x1={BUILDING_LEFT} y1={y} x2={BUILDING_RIGHT} y2={y} stroke="var(--color-blueprint-soft)" strokeWidth={1} opacity={0.4} />
         ))}
+
+        {services
+          .filter((s) => ZONE_SLUGS.includes(s.slug as (typeof ZONE_SLUGS)[number]))
+          .map((s) => s.slug)
+          .map((slug, i) => (
+            <SystemTrace key={slug} slug={slug} active={step > i} reduceMotion={reduceMotion} />
+          ))}
+
+        {/* GSAP scan bar — a wide soft rect swept across the active band. */}
+        <rect
+          ref={scanRef}
+          y={BUILDING_TOP}
+          width={60}
+          height={(BUILDING_BOTTOM - BUILDING_TOP) / total}
+          fill="url(#building-scan)"
+          opacity={0}
+          style={{ mixBlendMode: "screen" }}
+        />
 
       {step === ZONES.length && (
         <motion.circle
@@ -225,7 +326,33 @@ function BuildingDiagram({ step, reduceMotion }: { step: number; reduceMotion: b
           transition={{ duration: 0.4, delay: 0.2 }}
         />
       )}
-    </svg>
+      </svg>
+
+      {/* HUD readout — a live coordination-drawing-style callout naming
+          whatever system is currently active, so the abstract lines resolve
+          into a labelled discipline rather than staying purely decorative. */}
+      <div className="pointer-events-none absolute right-0 top-0 hidden sm:block">
+        <AnimatePresence mode="wait" initial={false}>
+          {activeZone && (
+            <motion.div
+              key={activeZone.slug}
+              initial={reduceMotion ? false : { opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="border border-(--color-brand-blue-soft)/40 bg-(--color-ink)/80 px-3 py-2 backdrop-blur-sm"
+            >
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+                Sys {String(step).padStart(2, "0")}/{String(total).padStart(2, "0")} · {activeZone.disciplineCode}
+              </p>
+              <p className="mt-0.5 font-display text-small font-normal text-(--color-paper)">
+                {activeZone.name}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
