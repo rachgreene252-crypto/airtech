@@ -104,20 +104,12 @@ function CompactJourney() {
             </p>
           </div>
 
-          {/* Scroll track — on large screens this is a runway with a sticky
-              console pinned inside it, so the section genuinely scrolls
-              through the six stations rather than just reacting to a click.
-              Sized to ~1.6 viewports (not several) so the pin releases
-              before the gap between card and track edges reads as dead
-              space; a tinted band fills that runway so it reads as a held
-              moment, not a rendering gap. Collapses to natural height (no
-              pin) on small screens, where tap/swipe is the more natural
-              gesture. */}
-          <div
-            ref={railRef}
-            className="relative mx-auto mt-10 max-w-3xl lg:h-[165vh] lg:bg-(--color-paper-raised) lg:px-10"
-          >
-          <div className="lg:sticky lg:top-28 lg:py-10">
+          {/* No scroll-pin — removed 2026-09-10 (client: unpin Featured
+              Projects AND this section; a visitor should be able to keep
+              scrolling past freely and only slide/click if they choose to).
+              Autoplay + click/keyboard stay the primary interaction. */}
+          <div ref={railRef} className="relative mx-auto mt-10 max-w-3xl">
+          <div>
             {/* Console: the active step, swapped as the visitor scrolls or
                 points at a station on the rail below. Fixed min-height so
                 changing steps never shifts the layout. */}

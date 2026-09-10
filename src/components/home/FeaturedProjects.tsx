@@ -1,22 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 
 /**
  * Section 06 — Selected work.
  *
- * Desktop: a GSAP ScrollTrigger horizontal gallery. The section is a tall
- * track; a `position: sticky` viewport pins for its duration (CSS sticky,
- * NOT ScrollTrigger `pin: true` — the pin-spacer div it inserts breaks
- * Next's Cache Components reconciliation, same reason CinematicHero avoids
- * it) while GSAP scrubs the card row sideways in step with vertical scroll.
- *
- * Mobile / reduced-motion: a normal horizontal swipe carousel, no pinning.
+ * Rebuilt 2026-09-10: was a GSAP-pinned horizontal scroll-jack (vertical
+ * scroll drove the card row, forcing the visitor through every card before
+ * the page would continue down). Client feedback: a visitor should be able
+ * to keep scrolling past this section freely, and slide the row themselves
+ * only if they want to — so this is now a plain, un-pinned horizontal
+ * carousel: native drag/swipe/scroll on the row, optional arrow buttons,
+ * edge fades (mask-image) so it reads as "more to see" rather than a hard
+ * crop. Vertical page scroll is never intercepted.
  *
  * Names/locations/sectors are limited to what the brochure and questionnaire
  * establish — no scope or capacity invented.
@@ -36,13 +37,13 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
   return (
     <Link
       href={project.href as Route}
-      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[4px] sm:w-[360px] lg:aspect-[4/3] lg:w-[440px]"
+      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[4px] sm:w-[360px] lg:aspect-[4/3] lg:w-[420px]"
     >
       <Image
         src={project.image}
         alt={`${project.name}, ${project.location}`}
         fill
-        sizes="(min-width: 1024px) 440px, (min-width: 640px) 360px, 78vw"
+        sizes="(min-width: 1024px) 420px, (min-width: 640px) 360px, 78vw"
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
       />
       <span className="absolute left-5 top-5 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-white/70">
@@ -54,7 +55,7 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
             {project.sector}
           </p>
-          <h3 className="mt-2 font-display text-2xl font-normal text-white">{project.name}</h3>
+          <h3 className="mt-2 font-display text-2xl font-semibold text-white">{project.name}</h3>
           <p className="mt-1 text-sm text-white/75">{project.location}</p>
         </div>
       </div>
@@ -63,133 +64,105 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
 }
 
 export function FeaturedProjects() {
-  const reduceMotion = useReducedMotion();
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
-    if (reduceMotion) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-
-    const wrapper = wrapperRef.current;
-    const sticky = stickyRef.current;
     const track = trackRef.current;
-    if (!wrapper || !sticky || !track) return;
-
-    let cancelled = false;
-    let ctx: { revert: () => void } | undefined;
-
-    (async () => {
-      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-        import("gsap"),
-        import("gsap/ScrollTrigger"),
-      ]);
-      if (cancelled) return;
-      gsap.registerPlugin(ScrollTrigger);
-
-      const maxX = () => Math.max(0, track.scrollWidth - sticky.clientWidth + 48);
-      // The wrapper has to be exactly tall enough for one viewport of pin
-      // plus the horizontal travel, or the last card gets clipped / a dead
-      // zone opens at the end. Set here (not in CSS) because the travel
-      // depends on measured content width; kept in sync on refresh/resize.
-      const sizeWrapper = () => {
-        wrapper.style.height = window.innerHeight + maxX() + "px";
-      };
-      sizeWrapper();
-
-      ctx = gsap.context(() => {
-        gsap.to(track, {
-          x: () => -maxX(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: () => "+=" + maxX(),
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-            onRefresh: sizeWrapper,
-          },
-        });
-      }, wrapper);
-
-      // The wrapper height is derived from the card row's measured width, so
-      // it is wrong until every card image has decoded. Re-measure on each
-      // load (and once more when the web fonts settle) so the pin length and
-      // the horizontal travel can never drift apart — that drift is what
-      // makes a pinned horizontal section "break": clipped last card, or a
-      // dead scroll zone at the end.
-      const imgs = Array.from(track.querySelectorAll("img"));
-      let pending = imgs.length;
-      const settle = () => {
-        if (cancelled) return;
-        sizeWrapper();
-        ScrollTrigger.refresh();
-      };
-      imgs.forEach((img) => {
-        if (img.complete) {
-          pending -= 1;
-        } else {
-          img.addEventListener("load", () => { pending -= 1; settle(); }, { once: true });
-          img.addEventListener("error", () => { pending -= 1; settle(); }, { once: true });
-        }
-      });
-      if (pending <= 0) settle();
-      document.fonts?.ready.then(settle);
-    })();
-
-    return () => {
-      cancelled = true;
-      ctx?.revert();
-      if (wrapper) wrapper.style.height = "";
+    if (!track) return;
+    const update = () => {
+      setCanScrollLeft(track.scrollLeft > 8);
+      setCanScrollRight(track.scrollLeft < track.scrollWidth - track.clientWidth - 8);
     };
-  }, [reduceMotion]);
+    update();
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      track.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  function slide(direction: -1 | 1) {
+    const track = trackRef.current;
+    if (!track) return;
+    const cardWidth = track.querySelector("a")?.clientWidth ?? 400;
+    track.scrollBy({ left: direction * (cardWidth + 20), behavior: "smooth" });
+  }
 
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-0 motion-reduce:lg:py-16">
-      {/* lg + motion allowed: a tall track + sticky viewport that GSAP
-          scrubs sideways. Reduced-motion (and every smaller screen): a
-          plain horizontal swipe carousel — the motion-reduce: overrides
-          neutralise the sticky/clip classes purely in CSS, no JS branch. */}
-      <div ref={wrapperRef}>
-        <div
-          ref={stickyRef}
-          className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden motion-reduce:lg:static motion-reduce:lg:block motion-reduce:lg:h-auto motion-reduce:lg:overflow-visible"
-        >
-          <Container className="lg:pb-10 motion-reduce:lg:pb-0">
-            <div className="mx-auto max-w-2xl text-center">
+    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
+      <Container>
+        <Reveal>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-xl">
               <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 Selected work
               </p>
-              <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+              <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.015em] text-(--color-ink) text-balance">
                 The buildings behind the systems.
               </h2>
-              <p className="mx-auto mt-4 max-w-md text-body-l leading-relaxed text-(--color-steel) lg:hidden">
+              <p className="mt-4 text-body-l leading-relaxed text-(--color-steel)">
                 Hospitality, healthcare, aviation, industry and institutional buildings.
               </p>
             </div>
-          </Container>
 
-          <div
-            ref={trackRef}
-            className="mt-8 flex gap-5 overflow-x-auto px-5 pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:mt-0 lg:overflow-visible lg:px-12 motion-reduce:lg:mt-8 motion-reduce:lg:overflow-x-auto"
-          >
-            {PROJECTS.map((project, i) => (
-              <ProjectCard key={project.name} project={project} index={i} />
-            ))}
-            <Link
-              href="/projects"
-              className="group flex aspect-[4/5] w-[78vw] shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-[4px] border border-(--color-line-strong) text-center sm:w-[360px] lg:aspect-[4/3] lg:w-[380px]"
-            >
-              <span className="font-display text-title font-normal text-(--color-ink)">All projects</span>
-              <span
-                aria-hidden="true"
-                className="text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
+            {/* Arrow controls — reference pattern: circular buttons, disabled
+                at each end rather than hidden, so the row's extent is always
+                legible. */}
+            <div className="hidden shrink-0 items-center gap-3 sm:flex">
+              <button
+                type="button"
+                onClick={() => slide(-1)}
+                disabled={!canScrollLeft}
+                aria-label="Scroll projects left"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) disabled:opacity-30 disabled:pointer-events-none"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={() => slide(1)}
+                disabled={!canScrollRight}
+                aria-label="Scroll projects right"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) text-(--color-ink) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) disabled:opacity-30 disabled:pointer-events-none"
               >
                 →
-              </span>
-            </Link>
+              </button>
+            </div>
           </div>
+        </Reveal>
+      </Container>
+
+      {/* Edge fades — mask-image, not a solid overlay, so the crop reads as
+          "more to see" rather than a hard cut. */}
+      <div
+        className="relative mt-8"
+        style={{
+          maskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
+        }}
+      >
+        <div
+          ref={trackRef}
+          className="flex gap-5 overflow-x-auto px-5 pb-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:px-12"
+        >
+          {PROJECTS.map((project, i) => (
+            <ProjectCard key={project.name} project={project} index={i} />
+          ))}
+          <Link
+            href="/projects"
+            className="group flex aspect-[4/5] w-[78vw] shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-[4px] border border-(--color-line-strong) text-center sm:w-[360px] lg:aspect-[4/3] lg:w-[380px]"
+          >
+            <span className="font-display text-title font-semibold text-(--color-ink)">All projects</span>
+            <span
+              aria-hidden="true"
+              className="text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
         </div>
       </div>
     </section>

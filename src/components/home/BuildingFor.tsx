@@ -58,7 +58,7 @@ const SECTORS: {
 
 export function BuildingFor() {
   return (
-    <section className="border-t border-(--color-line) py-14 sm:py-16 lg:py-20">
+    <section className="border-t border-(--color-line) bg-soft-glow py-14 sm:py-16 lg:py-20">
       <Container>
         <Reveal>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { ReactLenis, type LenisRef } from "lenis/react";
 import { useReducedMotion } from "framer-motion";
 
@@ -18,6 +19,17 @@ import { useReducedMotion } from "framer-motion";
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const reduceMotion = useReducedMotion();
   const lenisRef = useRef<LenisRef>(null);
+  const pathname = usePathname();
+
+  // Lenis owns scroll position independently of the browser, so a
+  // client-side route change (Next <Link>) left the visitor at their old
+  // scroll Y on the new page — reading as "navigation dumps you in the
+  // middle of the page." Force both Lenis and native scroll to the top on
+  // every route change, before paint.
+  useEffect(() => {
+    lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     if (reduceMotion) return;

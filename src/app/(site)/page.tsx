@@ -7,18 +7,19 @@ import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { TrustedBy } from "@/components/home/TrustedBy";
 import { FinalCTA } from "@/components/home/FinalCTA";
 
-// Homepage sequence (rebuilt 2026-09-10 against the client's reference
-// layout): CinematicHero -> BuildingFor ("what are you trying to build?",
-// photo-led sector grid) -> SystemsReveal (the isometric interactive
-// building-systems diagram — brief §2) -> FeaturedProjects (GSAP
-// horizontal) -> ClientJourney (compact, the process timeline) -> ProofBar
-// (stats) -> TrustedBy (client logos) -> FinalCTA.
+// Homepage sequence (reordered 2026-09-10, client: "what Airtech does"
+// should follow the hero directly): CinematicHero -> SystemsReveal ("what
+// Airtech does" — the isometric interactive building-systems diagram, brief
+// §2) -> BuildingFor ("what are you trying to build?", photo-led sector
+// grid) -> FeaturedProjects (free horizontal carousel) -> ClientJourney
+// (compact, the process timeline) -> ProofBar (stats) -> TrustedBy (client
+// logos) -> FinalCTA.
 export default function HomePage() {
   return (
     <>
       <CinematicHero />
-      <BuildingFor />
       <SystemsReveal />
+      <BuildingFor />
       <FeaturedProjects />
       <ClientJourney variant="compact" />
       <ProofBar />

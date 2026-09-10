@@ -224,6 +224,34 @@ body {
   background-color: transparent;
 }
 
+/* Soft glow background — 2026-09-10, per the client's reference (a faint
+   radial blue wash + thin diagonal hairlines behind light sections, not a
+   flat grey haze like the texture removed above). Opt-in per section, not
+   sitewide, so it stays a deliberate accent rather than the thing that got
+   pulled for reading as "dull." */
+.bg-soft-glow {
+  position: relative;
+  isolation: isolate;
+}
+.bg-soft-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-paper-raised);
+  background-image:
+    radial-gradient(60% 55% at 15% 0%, rgba(0, 153, 218, 0.09), transparent 60%),
+    radial-gradient(50% 50% at 100% 100%, rgba(0, 153, 218, 0.07), transparent 60%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(0, 153, 218, 0.05) 0px,
+      rgba(0, 153, 218, 0.05) 1px,
+      transparent 1px,
+      transparent 64px
+    );
+  pointer-events: none;
+}
+
 /* CinematicHero scroll track. The sticky hero pins for one viewport; the
    extra height is the distance over which the still parallaxes and the copy
    fades out. Declared in CSS so SSR and hydrated heights match and nothing

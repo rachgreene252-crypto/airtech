@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
@@ -8,21 +8,20 @@ import { ButtonLink } from "@/components/ui/Button";
 /**
  * Section 01 — Hero.
  *
- * Rebuilt 2026-09-10 on direct client feedback ("doesn't look alive," "very
- * dull and dark," reference image supplied): the previous hero was a pale,
- * AI-generated architectural line-art still (no real building in it at all)
- * behind centred copy. This is a real, striking project photograph —
- * Hyatt Centric at dusk, lit against the Kathmandu skyline — with a
- * left-aligned text column (photo stays visible, not obscured) and a
- * top-right capability strip + bottom-right photo credit, matching the
- * reference layout directly.
- *
- * GSAP does three things, all transform/opacity only (no layout thrash, so
- * it stays smooth under scroll): a staggered entrance, a slow continuous
- * Ken Burns drift on the photo (so the hero never looks static even before
- * anyone scrolls), and the existing scroll-linked parallax + fade as the
- * hero clears. Everything no-ops under prefers-reduced-motion.
+ * Rebuilt 2026-09-10 again on client feedback: centred (not left-aligned —
+ * that was last session's call, reversed here), and now carries the
+ * Airtech logo-reveal animation (the "MEP wheel" frame sequence in
+ * ASSETS/hero-frames — 240 raw frames, sampled to 40 and compressed to
+ * public/images/hero/logo-reveal/ since the raw set is ~800MB) as a small
+ * badge above the headline, driven by GSAP. The client asked for this
+ * specifically and repeatedly — a prior session's call to drop it (some
+ * mid-sequence frames render "Mectritical"-style garbled text as the ring
+ * segments cross-fade) is overridden by direct instruction; playing the
+ * whole 40-frame set fast (under 1s) keeps the garbled frames from ever
+ * holding still enough to read clearly, landing on a fully clean final
+ * frame as a static mark.
  */
+const LOGO_FRAME_COUNT = 40;
 const CAPABILITIES = [
   { code: "hvac", label: "HVAC" },
   { code: "mep", label: "MEP" },
@@ -37,9 +36,16 @@ export function CinematicHero() {
   const headlineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
+  // Starts on frame 1 so the GSAP reveal below has somewhere to animate
+  // from; reduced-motion (or if JS never runs the effect) jumps straight to
+  // the clean final frame instead of sitting on a half-formed logo forever.
+  const [logoFrame, setLogoFrame] = useState(1);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion) {
+      setLogoFrame(LOGO_FRAME_COUNT);
+      return;
+    }
     const wrapper = wrapperRef.current;
     const headline = headlineRef.current;
     const image = imageRef.current;
@@ -58,14 +64,24 @@ export function CinematicHero() {
       gsap.registerPlugin(ScrollTrigger);
 
       ctx = gsap.context(() => {
-        // Intro — quiet, one curve, small travel. The headline wrapper is
-        // always visible in the DOM (no inline opacity — that caused a
-        // hydration mismatch that left it invisible under reduced motion);
-        // GSAP animates the individual lines up from 0.
+        // Intro — the headline column eases up in sequence; the logo badge
+        // plays its frame sequence over the same beat, landing on the clean
+        // final frame just as the CTAs settle in.
+        const frameCounter = { n: 1 };
         const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
         intro
           .from("[data-hero-step]", { opacity: 0, y: 22, duration: 0.8, stagger: 0.1 }, 0.15)
-          .from("[data-hero-badge]", { opacity: 0, x: 16, duration: 0.7 }, 0.35);
+          .from("[data-hero-badge]", { opacity: 0, x: 16, duration: 0.7 }, 0.35)
+          .to(
+            frameCounter,
+            {
+              n: LOGO_FRAME_COUNT,
+              duration: 0.9,
+              ease: "power1.inOut",
+              onUpdate: () => setLogoFrame(Math.round(frameCounter.n)),
+            },
+            0.1
+          );
 
         // Ken Burns — a slow, continuous drift so the hero reads as alive
         // even before the visitor scrolls. Separate layer from the scroll
@@ -82,23 +98,13 @@ export function CinematicHero() {
         gsap.to(image, {
           yPercent: 10,
           ease: "none",
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.6,
-          },
+          scrollTrigger: { trigger: wrapper, start: "top top", end: "bottom top", scrub: 0.6 },
         });
         gsap.to(headline, {
           opacity: 0,
           y: -40,
           ease: "none",
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: "70% top",
-            scrub: 0.6,
-          },
+          scrollTrigger: { trigger: wrapper, start: "top top", end: "70% top", scrub: 0.6 },
         });
         gsap.to(indicatorRef.current, {
           opacity: 0,
@@ -117,7 +123,7 @@ export function CinematicHero() {
   return (
     <div ref={wrapperRef} className="relative w-full">
       <section
-        className="relative flex h-[100svh] min-h-[620px] w-full items-center overflow-hidden bg-(--color-blue-deep)"
+        className="relative flex h-[100svh] min-h-[640px] w-full items-center justify-center overflow-hidden bg-(--color-blue-deep)"
         aria-label="Airtech Industries — keeping Nepal moving"
       >
         <div ref={imageRef} className="absolute inset-0 will-change-transform">
@@ -132,106 +138,91 @@ export function CinematicHero() {
           </div>
         </div>
 
-        {/* Left-to-right grade: the text column gets a confident dark wash,
-            the building itself stays bright and clearly visible on the
-            right — the reference layout, not a flat vignette over the
-            whole frame. */}
+        {/* Even top+bottom vignette for centred copy (a left-right grade
+            only makes sense for a left-aligned column). */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(100deg, rgba(3,13,23,0.88) 0%, rgba(3,13,23,0.72) 26%, rgba(3,13,23,0.28) 52%, rgba(3,13,23,0.06) 68%, transparent 82%)",
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(to top, rgba(3,13,23,0.55) 0%, rgba(3,13,23,0) 30%)",
+              "linear-gradient(to bottom, rgba(3,13,23,0.62) 0%, rgba(3,13,23,0.32) 30%, rgba(3,13,23,0.28) 62%, rgba(3,13,23,0.66) 100%)",
           }}
         />
 
         <div
           ref={headlineRef}
-          className="relative z-10 flex w-full flex-col px-6 will-change-transform sm:px-10 lg:px-16"
+          className="relative z-10 flex w-full flex-col items-center px-6 text-center will-change-transform sm:px-10"
         >
-          <div className="mx-auto flex w-full max-w-[1440px] flex-col">
-            <p
-              data-hero-step
-              className="font-mono text-label uppercase tracking-[0.2em] text-(--color-brand-blue-soft)"
-            >
-              Engineering behind the places that matter
-            </p>
-            <h1
-              data-hero-step
-              className="mt-5 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.02] tracking-[-0.02em] text-balance text-white"
-            >
-              Keeping Nepal moving.
-            </h1>
-            <p
-              data-hero-step
-              className="mt-6 max-w-lg text-body-l leading-relaxed text-white/85"
-            >
-              Integrated MEP and HVAC — from first drawing to commissioning, and
-              the years of support that follow.
-            </p>
-            <span
-              data-hero-step
-              className="mt-7 inline-flex w-fit items-center gap-3 border border-(--color-brand-blue-soft)/60 bg-(--color-brand-blue-vivid)/90 px-5 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-sm"
-            >
-              <span
-                aria-hidden="true"
-                className="h-1.5 w-1.5 shrink-0 rounded-full bg-white animate-energy-pulse"
-              />
-              <span className="font-mono text-small font-semibold uppercase tracking-[0.28em]">
-                Reliability&nbsp;matters
-              </span>
+          {/* Logo-reveal badge — the MEP wheel frame sequence, GSAP-driven. */}
+          <span
+            data-hero-badge
+            className="mb-6 block h-24 w-24 overflow-hidden rounded-full bg-white shadow-[0_8px_30px_rgba(3,13,23,0.35)] ring-1 ring-white/40 sm:h-28 sm:w-28"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- sequential frame swap, not a responsive asset */}
+            <img
+              src={`/images/hero/logo-reveal/frame_${String(logoFrame).padStart(2, "0")}.webp`}
+              alt="Airtech — Mechanical, Electrical, Plumbing"
+              className="h-full w-full scale-[1.7] object-cover object-center"
+            />
+          </span>
+
+          <p
+            data-hero-step
+            className="font-mono text-label uppercase tracking-[0.2em] text-(--color-brand-blue-soft)"
+          >
+            Engineering behind the places that matter
+          </p>
+          <h1
+            data-hero-step
+            className="mt-5 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.02] tracking-[-0.02em] text-balance text-white"
+          >
+            Keeping Nepal moving.
+          </h1>
+          <p data-hero-step className="mt-6 max-w-lg text-body-l leading-relaxed text-white/85">
+            Integrated MEP and HVAC — from first drawing to commissioning, and
+            the years of support that follow.
+          </p>
+          <span
+            data-hero-step
+            className="mt-7 inline-flex w-fit items-center gap-3 border border-(--color-brand-blue-soft)/60 bg-(--color-brand-blue-vivid)/90 px-5 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-sm"
+          >
+            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-white animate-energy-pulse" />
+            <span className="font-mono text-small font-semibold uppercase tracking-[0.28em]">
+              Reliability&nbsp;matters
             </span>
-            <div data-hero-step className="mt-10 flex flex-wrap items-center gap-6">
-              <ButtonLink href="/contact/project-enquiry" size="lg">
-                Inquire for Services
-              </ButtonLink>
-              <Link
-                href="/projects"
-                className="text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline transition-colors"
-              >
-                Explore our work →
-              </Link>
-            </div>
-            <p data-hero-step className="mt-9 font-mono text-[0.75rem] uppercase tracking-[0.14em] text-white/60">
-              Est. 2000 · HVAC expertise · Integrated MEP since 2013
-            </p>
+          </span>
+          <div data-hero-step className="mt-10 flex flex-wrap items-center justify-center gap-6">
+            <ButtonLink href="/contact/project-enquiry" size="lg">
+              Inquire for Services
+            </ButtonLink>
+            <Link
+              href="/projects"
+              className="text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline transition-colors"
+            >
+              Explore our work →
+            </Link>
           </div>
-        </div>
 
-        {/* Capability strip — top-right, matching the reference's corner
-            badge. Real capability codes (src/content/services.ts), not
-            decoration. */}
-        <div
-          data-hero-badge
-          className="absolute right-6 top-24 z-10 hidden flex-col gap-3 border border-white/15 bg-(--color-blue-deep)/60 px-4 py-4 backdrop-blur-sm sm:flex lg:right-16"
-        >
-          {CAPABILITIES.map((c) => (
-            <span key={c.code} className="flex items-center gap-2.5 text-white/85">
-              <CapabilityIcon code={c.code} />
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em]">{c.label}</span>
-            </span>
-          ))}
-        </div>
+          {/* Capability strip — a centred inline row, not a floating corner
+              box, to match the centred composition. */}
+          <ul data-hero-step className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {CAPABILITIES.map((c) => (
+              <li key={c.code} className="flex items-center gap-2 text-white/75">
+                <CapabilityIcon code={c.code} />
+                <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em]">{c.label}</span>
+              </li>
+            ))}
+          </ul>
 
-        {/* Photo credit — bottom-right, matching the reference's caption. */}
-        <div className="absolute bottom-9 right-6 z-10 hidden text-right sm:block lg:right-16">
-          <p className="font-display text-small font-medium text-white">Hyatt Centric</p>
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-white/60">
-            Hospitality · Kathmandu
+          <p data-hero-step className="mt-6 font-mono text-[0.75rem] uppercase tracking-[0.14em] text-white/55">
+            Est. 2000 · HVAC expertise · Integrated MEP since 2013
           </p>
         </div>
 
         <span
           ref={indicatorRef}
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-9 z-10 flex justify-center motion-reduce:hidden sm:hidden"
+          className="absolute inset-x-0 bottom-9 z-10 flex justify-center motion-reduce:hidden"
         >
           <span className="flex h-9 w-5 items-start justify-center rounded-full border border-white/40 pt-1.5">
             <span className="h-1.5 w-[1.5px] animate-flow-drop rounded-full bg-white/70" />
@@ -243,7 +234,7 @@ export function CinematicHero() {
 }
 
 function CapabilityIcon({ code }: { code: string }) {
-  const common = { width: 15, height: 15, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const common = { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (code) {
     case "hvac":
       return (

@@ -100,7 +100,7 @@ export function SystemsReveal() {
     step === 0 ? "One building." : step === total ? "One engineering partner." : "Many systems.";
 
   return (
-    <Section tone="raised" border={false} className="overflow-hidden">
+    <Section tone="raised" border={false} className="overflow-hidden bg-soft-glow">
       <div ref={sectionRef} className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:items-center">
         <div>
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
@@ -237,14 +237,14 @@ export function SystemsReveal() {
 // 2:1 dimetric projection — x runs back-right, y runs back-left, z is
 // vertical height. Every element (shell, floors, risers, plant) is placed
 // on this one grid so nothing has to be hand-fudged into alignment.
-const XU = 46; // px per grid unit, x axis
-const YU = 46; // px per grid unit, y axis
-const ZU = 27; // px per grid unit, z (height) axis
+const XU = 48; // px per grid unit, x axis
+const YU = 48; // px per grid unit, y axis
+const ZU = 23; // px per grid unit, z (height) axis
 const ORIGIN_X = 330;
-const ORIGIN_Y = 400;
+const ORIGIN_Y = 430;
 const BW = 5; // building width (x)
 const BD = 3; // building depth (y)
-const FLOORS = 6;
+const FLOORS = 8; // more storeys than disciplines — density, not a 1:1 map
 
 function iso(x: number, y: number, z: number): [number, number] {
   const sx = (x - y) * XU * 0.87;
@@ -307,7 +307,7 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
   return (
     <div className="relative">
       <svg
-        viewBox="0 0 660 560"
+        viewBox="0 0 660 600"
         className="h-auto w-full"
         role="img"
         aria-label={`Isometric building cutaway, showing ${step} of ${total} coordinated engineering systems routed through it`}
@@ -329,6 +329,9 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
             <stop offset="0%" stopColor="#0F1720" stopOpacity={0.18} />
             <stop offset="100%" stopColor="#0F1720" stopOpacity={0} />
           </radialGradient>
+          <filter id="riser-shadow" x="-40%" y="-20%" width="180%" height="140%">
+            <feDropShadow dx="1.5" dy="2" stdDeviation="1.6" floodColor="#0F1720" floodOpacity="0.28" />
+          </filter>
         </defs>
 
         {/* Ground shadow */}
@@ -356,11 +359,15 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
         {/* GSAP colour-wash scan, keyed to the active system's colour. */}
         <polygon ref={scanRef} points={leftFace} opacity={0} />
 
-        {/* Rooftop chiller — lights up for HVAC. */}
-        <IsoBox x={0.6} y={0.5} z={FLOORS} w={1.3} d={1} h={0.5} active={step > 0} color={SYSTEM_COLOR.hvac} />
-        {/* Ground-floor plant room boxes — pump (plumbing) + fire pump (fire). */}
-        <IsoBox x={0.4} y={0.3} z={-0.55} w={0.9} d={0.7} h={0.55} active={step > 2} color={SYSTEM_COLOR["plumbing-public-health"]} />
-        <IsoBox x={2.9} y={0.3} z={-0.55} w={0.9} d={0.7} h={0.55} active={step > 3} color={SYSTEM_COLOR["fire-protection"]} />
+        {/* Rooftop plant — two chiller/AHU units, lighting up for HVAC. */}
+        <IsoBox x={0.5} y={0.4} z={FLOORS} w={1.2} d={0.9} h={0.55} active={step > 0} color={SYSTEM_COLOR.hvac} />
+        <IsoBox x={2.1} y={1.5} z={FLOORS} w={1} d={0.8} h={0.4} active={step > 0} color={SYSTEM_COLOR.hvac} />
+        {/* Ground-floor plant room boxes — pump (plumbing), fire pump (fire),
+            an electrical switchgear box, and an ELV/IT rack. */}
+        <IsoBox x={0.3} y={0.2} z={-0.55} w={0.85} d={0.65} h={0.55} active={step > 2} color={SYSTEM_COLOR["plumbing-public-health"]} />
+        <IsoBox x={1.4} y={0.2} z={-0.55} w={0.75} d={0.6} h={0.5} active={step > 1} color={SYSTEM_COLOR.electrical} />
+        <IsoBox x={2.4} y={0.2} z={-0.55} w={0.85} d={0.65} h={0.6} active={step > 3} color={SYSTEM_COLOR["fire-protection"]} />
+        <IsoBox x={3.5} y={0.2} z={-0.55} w={0.7} d={0.6} h={0.65} active={step > 4} color={SYSTEM_COLOR["elv-security"]} />
 
         {/* Per-system risers + floor branches. */}
         <Riser slug="hvac" face="left" pos={1} active={step > 0} floorMidZs={floorMidZs} branchTo={0.9} />
@@ -502,36 +509,37 @@ function Riser({
   // opacity fade on the whole group, with the branches/cap rendered as
   // plain (non-animated) SVG that simply mounts with it, reads almost as
   // well and costs a fraction of the compositing work.
+  // A twin-line riser (supply + return), the way a real coordination
+  // drawing shows a pipe/duct pair rather than a single schematic line —
+  // reads as denser and more "real" at a glance, per the client's reference.
+  const offset = 3.2;
+
   return (
     <motion.g
       style={{ color }}
       initial={false}
       animate={{ opacity: active ? 1 : 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      filter="url(#riser-shadow)"
     >
-      <line
-        x1={x1}
-        y1={y1}
-        x2={x2}
-        y2={y2}
-        stroke="currentColor"
-        strokeWidth={2.5}
-        strokeDasharray={dashed ? "4 4" : undefined}
-      />
+      <line x1={x1 - offset} y1={y1} x2={x2 - offset} y2={y2} stroke="currentColor" strokeWidth={2.75} strokeDasharray={dashed ? "4 4" : undefined} />
+      <line x1={x1 + offset} y1={y1} x2={x2 + offset} y2={y2} stroke="currentColor" strokeWidth={2.75} opacity={0.55} strokeDasharray={dashed ? "4 4" : undefined} />
       {branchPoints.map(({ from, to, z }) => (
-        <line
-          key={z}
-          x1={from[0]}
-          y1={from[1]}
-          x2={to[0]}
-          y2={to[1]}
-          stroke="currentColor"
-          strokeWidth={1.75}
-          opacity={0.9}
-          strokeDasharray={dashed ? "3 3" : undefined}
-        />
+        <g key={z}>
+          <line
+            x1={from[0] - offset}
+            y1={from[1]}
+            x2={to[0]}
+            y2={to[1]}
+            stroke="currentColor"
+            strokeWidth={2}
+            opacity={0.9}
+            strokeDasharray={dashed ? "3 3" : undefined}
+          />
+          <circle cx={from[0] - offset} cy={from[1]} r={2.5} fill="currentColor" />
+        </g>
       ))}
-      <circle cx={x2} cy={y2} r={4} fill="currentColor" />
+      <circle cx={x2} cy={y2} r={4.5} fill="currentColor" stroke="white" strokeWidth={1} />
     </motion.g>
   );
 }
