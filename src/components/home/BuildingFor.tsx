@@ -91,7 +91,7 @@ export function BuildingFor() {
             <Reveal key={sector.slug} delay={i * 0.05}>
               <Link
                 href={`/projects?industry=${sector.slug}`}
-                className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-(--color-line-strong) bg-(--color-paper-raised)"
+                className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-(--color-line-strong) bg-(--color-paper-raised) transition-shadow duration-300 hover:shadow-[0_20px_40px_-16px_rgba(0,153,218,0.35)]"
               >
                 {sector.photo ? (
                   <>
