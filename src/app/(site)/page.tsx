@@ -1,26 +1,29 @@
 import { CinematicHero } from "@/components/home/CinematicHero";
+import { BuildingFor } from "@/components/home/BuildingFor";
 import { ProofBar } from "@/components/home/ProofBar";
 import { SystemsReveal } from "@/components/home/SystemsReveal";
 import { ClientJourney } from "@/components/journey/ClientJourney";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { TrustedBy } from "@/components/home/TrustedBy";
+import { FinalCTA } from "@/components/home/FinalCTA";
 
-// Homepage sequence (2026-09-04):
-// CinematicHero -> ProofBar -> SystemsReveal (the interactive
-// building-systems diagram — brief §2, "what does Airtech actually do")
-// -> ClientJourney (compact) -> FeaturedProjects (GSAP horizontal) ->
-// TrustedBy. SystemsReveal replaces the earlier flat WhatWeDo list (kept in
-// src/components/home for reuse); MEPSequence / EngineeringStatement were
-// deleted as duplicative.
+// Homepage sequence (rebuilt 2026-09-10 against the client's reference
+// layout): CinematicHero -> BuildingFor ("what are you trying to build?",
+// photo-led sector grid) -> SystemsReveal (the isometric interactive
+// building-systems diagram — brief §2) -> FeaturedProjects (GSAP
+// horizontal) -> ClientJourney (compact, the process timeline) -> ProofBar
+// (stats) -> TrustedBy (client logos) -> FinalCTA.
 export default function HomePage() {
   return (
     <>
       <CinematicHero />
-      <ProofBar />
+      <BuildingFor />
       <SystemsReveal />
-      <ClientJourney variant="compact" />
       <FeaturedProjects />
+      <ClientJourney variant="compact" />
+      <ProofBar />
       <TrustedBy />
+      <FinalCTA />
     </>
   );
 }

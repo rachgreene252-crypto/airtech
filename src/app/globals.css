@@ -30,17 +30,21 @@
   --color-blueprint: #4a6b82;
   --color-blueprint-soft: #8fafc4;
 
-  /* Airtech blue — the single primary accent. Brightened 2026-09-09 (client
-     feedback: the previous #1a5a9e read as flat and grey-washed) to a more
-     saturated architect's cobalt — still contrast-tuned: white text on it and
-     it on white paper both clear AA (5.7:1). --color-brand-blue-soft is the
-     lighter on-dark / decorative tone. A press darkens toward
-     --color-brand-blue-hover. */
-  --color-brand-blue: #0b5fc4;
-  --color-brand-blue-hover: #0a4ea3;
-  --color-brand-blue-soft: #4f93e6;
-  --color-brand-blue-tint: #e7f0fc;
-  --color-blue-deep: #071b34;
+  /* Airtech blue — sampled directly from the logo (ASSETS/logofornavigation.png
+     -> rgb(0,153,218) / #0099DA) on 2026-09-10, after client feedback that
+     the site wasn't using "the Airtech blue from the logo." --color-brand-blue-vivid
+     is that exact logo blue — use it for large/decorative surfaces (fills,
+     icon chips, borders, big numerals) where WCAG's stricter small-text
+     contrast rules don't apply. --color-brand-blue is the same hue darkened
+     just enough to clear 4.5:1 on white — use it for anything that IS body
+     text: buttons, links, small mono labels. Same hue family throughout, so
+     nothing reads as "a different blue," just a lightness step. */
+  --color-brand-blue-vivid: #0099da;
+  --color-brand-blue: #0077aa;
+  --color-brand-blue-hover: #005f87;
+  --color-brand-blue-soft: #5cc4ef;
+  --color-brand-blue-tint: #e6f6fc;
+  --color-blue-deep: #051d2b;
 
   /* Repointed, not renamed: existing --color-signal / --color-amber /
      --color-heritage call sites across the codebase become Airtech blue with
@@ -56,9 +60,14 @@
   --color-white: #ffffff;
   --color-pale-blue: #eef4f9;
 
-  /* Fraunces (display serif) / Geist (body + UI) / IBM Plex Mono (machine
-     data). Source variables set in layout.tsx. */
-  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
+  /* Display face repointed to Geist 2026-09-10 (client: "fonts are not
+     luxurious," reacting against a homepage reference that is confident
+     bold sans throughout, not an editorial serif). Fraunces stays loaded
+     (some interior long-form pages may still reference it directly) but is
+     no longer the sitewide --font-display. Geist is a variable font, so the
+     heavy weights below render as true cuts, not synthesized bold. */
+  --font-display: var(--font-sans-face), system-ui, -apple-system, sans-serif;
+  --font-editorial: var(--font-display-face), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-sans-face), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono-face), ui-monospace, "SFMono-Regular", monospace;
 
@@ -109,6 +118,7 @@
   --color-amber-tint: var(--color-amber-tint);
   --color-heritage: var(--color-heritage);
   --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-vivid: var(--color-brand-blue-vivid);
   --color-brand-blue-hover: var(--color-brand-blue-hover);
   --color-brand-blue-soft: var(--color-brand-blue-soft);
   --color-brand-blue-tint: var(--color-brand-blue-tint);
@@ -117,6 +127,7 @@
   --color-pale-blue: var(--color-pale-blue);
 
   --font-display: var(--font-display);
+  --font-editorial: var(--font-editorial);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
@@ -171,50 +182,44 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fraunces reads best with optical sizing on and a light display weight —
-   hierarchy comes from size, not boldness. The compound selectors below
-   out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs 0,1,0)
-   so the ~73 existing `font-display ... font-semibold` headings across the
-   codebase all lighten to an editorial weight with no per-file edits. */
+/* Geist is a variable font — real weight cuts, not synthesized bold. Pushed
+   heavy on 2026-09-10 (client: headlines should read "luxurious"/confident,
+   not thin) — this is the opposite direction from the Fraunces-tuned light
+   weights it replaces. The compound selectors below out-specify Tailwind's
+   own .font-bold / .font-semibold (0,2,0 vs 0,1,0) so the ~70+ existing
+   `font-display ... font-semibold` headings across the codebase all gain
+   real weight with no per-file edits. */
 .font-display {
+  letter-spacing: -0.02em;
+}
+.font-display.font-bold {
+  font-weight: 750;
+}
+.font-display.font-semibold {
+  font-weight: 650;
+}
+.font-display.font-medium {
+  font-weight: 550;
+}
+.font-display.font-normal {
+  font-weight: 500;
+}
+
+/* Escape hatch to the previous editorial serif, for the handful of spots
+   (long-form resource copy, pull quotes) where Fraunces' thick/thin
+   contrast is still the better read than a heavy grotesque. */
+.font-editorial {
+  font-family: var(--font-editorial);
   font-optical-sizing: auto;
   font-synthesis-weight: none;
   letter-spacing: -0.011em;
 }
-.font-display.font-bold {
-  font-weight: 470;
-}
-.font-display.font-semibold {
-  font-weight: 430;
-}
-.font-display.font-medium {
-  font-weight: 420;
-}
 
-/* Sitewide architectural line-art layer. Kept from the previous design but
-   brightened (heavier white veil) and softened (blur) so it reads as faint
-   drafting texture rather than a grey haze. `position: fixed` pseudo-layer,
-   composited once — never `background-attachment: fixed` on <body>, which
-   forces a full-document repaint every scroll frame on a GSAP-pinned page. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: -20px;
-  z-index: -1;
-  background-color: var(--color-paper);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.86) 0 0),
-    url(/images/backgrounds/architectural-light.webp);
-  background-size: cover, cover;
-  background-position: center top, center top;
-  background-repeat: no-repeat, no-repeat;
-  filter: blur(2px) brightness(1.05);
-  pointer-events: none;
-}
-
-/* The body layer above is the sitewide backdrop, so the old per-section
-   opt-in class just needs to be transparent to let it through. Kept as a
-   hook so existing markup that references it doesn't break. */
+/* Removed 2026-09-10 — client feedback: the site reads "dull," and this
+   sitewide blurred line-art veil (however faint) was a wash of grey behind
+   every single page. The reference direction is crisp white with real
+   photography and colour doing the work instead. `.bg-site-texture` stays
+   as a no-op hook so existing markup referencing it doesn't break. */
 .bg-site-texture {
   background-color: transparent;
 }

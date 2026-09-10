@@ -22,41 +22,89 @@ statuses are binding on this skill, not the other way around.
 
 ## 2. Visual philosophy
 
-Airtech should read as: **serious engineering company, premium B2B, architectural, technical,
-editorial, restrained, evidence-led, modern, Nepalese engineering identity without clichés.**
+**Superseded 2026-09-10** — the client (reacting to the build this section originally described)
+said the site "doesn't look alive," was "very dull and dark," disliked the grey/ink palette, and
+supplied a direct reference image (a bright, white-dominant, photo-led MEP-contractor homepage —
+real building photography, a vivid logo-accurate blue used liberally, bold confident sans
+headlines, an isometric colour-coded systems cutaway). That reference is now the visual target,
+not the restrained-editorial direction below. Where the two disagree, the client's direct
+instruction wins — this file describes the corrected direction, not the original one.
 
-Reference points: the information clarity of Stripe, the technical storytelling of Apple, the
-project presentation of AECOM/Arup, the conversion discipline of Linear/Notion — translated into
-Airtech's own material (drawings, systems, commissioning, buildings), never copied wholesale.
+Airtech should read as: **premium B2B engineering practice, but bright and alive, not muted.**
+Real project photography does the "premium" work, not restraint or negative space alone. Still
+evidence-led (projects and technical capability are still the proof, not adjectives) and still
+Nepalese-engineering-identity-without-clichés — those parts of the original brief hold.
 
-**Never:**
+Reference points: the same conceptual touchstones as before (Stripe's clarity, Apple's technical
+storytelling, AECOM/Arup's project presentation) PLUS — as of 2026-09-10 — the client's own
+supplied reference: a photo-led hero with a capability badge strip, a photographed sector grid, an
+isometric MEP-coordination cutaway with colour-coded systems, a horizontal project reel, a process
+timeline, a stat row, a client-logo strip, and a photo-backed closing CTA. That structure (see
+`src/app/(site)/page.tsx`'s homepage sequence) is now the reference layout for the homepage — copy
+its bones for any homepage-level redesign rather than re-deriving structure from scratch.
+
+**Colour**: the true Airtech blue is sampled directly from the logo
+(`ASSETS/logofornavigation.png` → `rgb(0,153,218)` / `#0099DA`) — see `--color-brand-blue-vivid` in
+`globals.css`. Use it liberally (fills, icon chips, borders, large numerals) — a darker
+same-hue variant (`--color-brand-blue`) exists specifically for anything that IS small body text
+(buttons, links, labels), where the vivid blue fails WCAG AA. Per-system colour-coding (fire =
+red, HVAC = the brand blue, electrical = amber, water = teal, ELV = violet) is correct and
+client-requested for the systems diagram specifically — it is a deliberate exception to
+"restrained monochrome," not a mistake to correct back.
+
+**Typography**: `--font-display` now points to Geist (sans), pushed heavy (500–750 weight) for
+headlines — not Fraunces. The client's reaction to a reference that's bold sans throughout, plus
+"fonts are not luxurious," is why. Fraunces is still loaded and reachable via the `.font-editorial`
+class for the rare spot where its thick/thin serif contrast is genuinely the better read (long-form
+body copy, pull quotes) — but it is not the default anymore.
+
+**Backgrounds**: no more sitewide decorative texture (the blurred architectural line-art
+`body::before` layer was removed 2026-09-10 — it read as a grey haze). No more flat, photo-less
+dark "ink"-toned sections as a default choice either — those read as "dull and dark" per the
+client. Dark sections are fine ONLY when they're carrying a real photograph (hero, closing CTA)
+or a colour-coded technical diagram (the systems cutaway's shell) — never a flat dark fill with
+nothing in it.
+
+**Never** (still true):
 - generic construction-company aesthetics
 - residential AC dealer / appliance retailer aesthetics
 - SaaS-dashboard aesthetics (this is not a product website)
-- glassmorphism, purple/generic-corporate-blue gradients, 3D blobs, AI-slop visual tropes
+- glassmorphism, purple gradients, 3D blobs, AI-slop visual tropes (including AI-generated abstract
+  "architectural line art" imagery used as a hero/background — a real one of these is exactly what
+  triggered the "doesn't look alive" feedback; use real project photography instead, always)
 - stock photography of construction workers
 - massive rounded cards with drop shadows as the default component language
-- animation or interaction that exists because it's possible, not because it explains something
-
-The existing design system (blueprint navy, drafting-paper off-white, burnt-copper signal color,
-Oswald + IBM Plex Sans/Mono, crop-mark "technical drawing" motif — see
-`docs/FINAL_IMPLEMENTATION_REPORT.md` §4) is the correct direction and should be extended, not
-replaced, unless a specific piece of it is failing on its own terms (e.g. contrast, performance).
 
 ## 3. Interaction philosophy
 
-Motion explains a system. It does not decorate a page.
+**Superseded 2026-09-10** — the client asked explicitly for "cool animations," said GSAP "adds
+character to the site" and should run in the hero itself, and singled out the homepage systems
+diagram as "very bland and not so interesting." The restrained "motion only when it explains a
+system, hover/fade only elsewhere" rule below undersold what the client actually wants. Read it as:
+**motion should feel alive and confident everywhere it reasonably can, not just in three
+choreographed moments** — GSAP is a first-class tool for that, not a special-occasion one reserved
+for exactly three sections.
 
-The only motion vocabulary that's earned its place: transitions that walk the visitor through
-**systems → engineering → projects → proof** (an interactive building-systems diagram, a
-scroll-driven project lifecycle, filter/sort transitions in the project database). Hover states,
-focus states, and opacity-fade reveals are fine anywhere. Parallax, scroll-jacking, and
-decorative entrance animation on every section are not.
+Motion still explains a system where a system exists to explain (the isometric building diagram
+— `src/components/home/SystemsReveal.tsx` — is GSAP-driven: a ScrollTrigger auto-plays the
+six-system build-out once on arrival, and a GSAP colour-scan sweeps the active face on every step;
+the hero — `CinematicHero.tsx` — runs a continuous GSAP Ken Burns drift on the photo plus the
+existing scroll parallax). But hover lifts, staggered entrances, and photo-forward sections with
+real movement are all wanted now, not just tolerated. Keep every animation GPU-cheap (transform/
+opacity only, no layout-thrashing properties) so "always runs smoothly" holds regardless of how
+much motion is on a page — that constraint is still non-negotiable, it just isn't an excuse to
+minimize the amount of motion.
 
-This is not a stylistic preference — it is a direct match to the client's own stated restriction
-against excessive/flashy animation (per the discovery questionnaire) and to the Master Source of
-Truth's animation guidance. Treat "the client doesn't want flashy" and "make this sophisticated"
-as the same instruction, not as being in tension. The bar is **"holy shit, this is sophisticated,"**
+**A note on verifying motion**: in this project's sandboxed browser QA tool, `requestAnimationFrame`
+does not fire at all (confirmed 2026-09-10 — a `CDP Runtime.evaluate` awaiting a single rAF tick
+hangs and times out, in a brand-new tab, with no page-specific JS running). Any rAF-driven
+animation (Framer Motion springs/tweens, GSAP) will appear to freeze mid-transition in a screenshot
+taken after a `wait` in that tool, in a way a real foregrounded browser never would. Don't diagnose
+"stuck" animations as app bugs from that symptom alone — check the underlying state instead (DOM
+attributes, `aria-*`, computed layout) to confirm the logic is correct, and treat visually
+"frozen-mid-fade" screenshots from long waits as inconclusive, not as evidence of a bug.
+
+The bar is **"holy shit, this is sophisticated AND alive,"**
 not **"holy shit, there are a lot of animations."**
 
 Always respect `prefers-reduced-motion`.

@@ -1,18 +1,39 @@
-import { Section } from "@/components/ui/Section";
+import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
 
+/**
+ * Closing CTA — rebuilt 2026-09-10 with real project photography (was a
+ * flat pattern-only panel) to match the client's reference, which closes
+ * on a full-bleed photo rather than another flat section.
+ */
 export function FinalCTA() {
   return (
-    <Section tone="raised" className="relative overflow-hidden text-center">
-      <FinalCTASchematic />
-      <div className="relative">
-        <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-signal)">
+    <section className="relative overflow-hidden border-t border-(--color-line) py-24 sm:py-28 lg:py-32">
+      <div className="absolute inset-0">
+        <Image
+          src="/images/landmarks/tiger-palace-resort.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(5,29,43,0.82) 0%, rgba(5,29,43,0.7) 45%, rgba(5,29,43,0.88) 100%)",
+          }}
+        />
+      </div>
+      <div className="relative mx-auto max-w-3xl px-6 text-center">
+        <p className="font-mono text-xs tracking-[0.18em] uppercase text-(--color-brand-blue-soft)">
           Have a project in planning?
         </p>
-        <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold max-w-3xl mx-auto text-balance">
-          Bring the engineering scope to us before the RFP does.
+        <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold text-balance text-white">
+          Let&apos;s build what&apos;s next.
         </h2>
-        <p className="mt-6 text-lg text-(--color-steel) max-w-xl mx-auto">
+        <p className="mt-6 text-lg text-white/80 max-w-xl mx-auto">
           Tell us what you&apos;re building and we&apos;ll respond within one business day.
         </p>
         <div className="mt-9">
@@ -21,28 +42,6 @@ export function FinalCTA() {
           </ButtonLink>
         </div>
       </div>
-    </Section>
-  );
-}
-
-/** A quiet closing echo of the site's coordination-drawing vocabulary. */
-function FinalCTASchematic() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 1440 500"
-      preserveAspectRatio="xMidYMid slice"
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06] text-(--color-blueprint)"
-    >
-      <g fill="none" stroke="currentColor" strokeWidth="1.25">
-        <rect x="560" y="120" width="320" height="280" />
-        <line x1="560" y1="190" x2="880" y2="190" />
-        <line x1="560" y1="260" x2="880" y2="260" />
-        <line x1="560" y1="330" x2="880" y2="330" />
-        <line x1="720" y1="0" x2="720" y2="120" />
-        <line x1="720" y1="400" x2="720" y2="500" />
-        <circle cx="720" cy="260" r="6" fill="currentColor" stroke="none" />
-      </g>
-    </svg>
+    </section>
   );
 }
