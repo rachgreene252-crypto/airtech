@@ -114,21 +114,23 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         </section>
       )}
 
-      {/* Capabilities */}
-      <section className="mt-12">
+      {/* Capabilities — a scannable grid of quiet cards, not a long plain
+          list; each carries a numbered mark and a hairline frame so a
+          fact-dense discipline page still reads as designed, not texty. */}
+      <section className="mt-14">
         <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           What Airtech delivers
         </h3>
-        <ol className="mt-4 border-t border-(--color-line)">
+        <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {service.capabilities.map((c, i) => (
             <li
               key={c}
-              className="flex items-baseline gap-5 border-b border-(--color-line) py-4"
+              className="flex items-start gap-4 border border-(--color-line) bg-(--color-paper) px-5 py-4 transition-colors hover:border-(--color-brand-blue-soft)"
             >
-              <span className="font-mono text-xs text-(--color-brand-blue)">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) font-mono text-[0.7rem] font-medium text-(--color-brand-blue)">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="text-body leading-relaxed text-(--color-ink-soft)">{c}</span>
+              <span className="pt-0.5 text-body leading-relaxed text-(--color-ink-soft)">{c}</span>
             </li>
           ))}
         </ol>

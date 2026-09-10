@@ -40,13 +40,17 @@ const ZONES = ZONE_SLUGS.map((slug) => getServiceBySlug(slug)).filter(
 // fire reads red, HVAC reads Airtech blue, electrical reads amber, water
 // reads teal, ELV reads violet, BMS (the integration layer, not a physical
 // system) stays a neutral slate.
+// Deepened 2026-09-11 from the first-pass bright/cartoon set — richer,
+// slightly desaturated "jewel tone" versions of the same hues read as
+// engineered material rather than crayon fills, paired with the glow filter
+// below for a premium lit-from-within quality on the active system.
 const SYSTEM_COLOR: Record<string, string> = {
-  hvac: "#0099DA",
-  electrical: "#F2A93C",
-  "plumbing-public-health": "#1FAE83",
-  "fire-protection": "#E14B3F",
-  "elv-security": "#8B6DF0",
-  "bms-systems-integration": "#64748B",
+  hvac: "#0B7FB5",
+  electrical: "#C98A2C",
+  "plumbing-public-health": "#168F6E",
+  "fire-protection": "#B23B34",
+  "elv-security": "#6B54C4",
+  "bms-systems-integration": "#5B6B7D",
 };
 
 export function SystemsReveal() {
@@ -314,23 +318,32 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
       >
         <defs>
           <linearGradient id="iso-roof" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#EAF2F8" />
-            <stop offset="100%" stopColor="#D3E3EE" />
+            <stop offset="0%" stopColor="#F1F6FA" />
+            <stop offset="100%" stopColor="#D8E5EF" />
           </linearGradient>
           <linearGradient id="iso-left" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#F7FAFC" />
-            <stop offset="100%" stopColor="#E7EEF3" />
+            <stop offset="0%" stopColor="#FAFCFE" />
+            <stop offset="100%" stopColor="#E3ECF3" />
           </linearGradient>
           <linearGradient id="iso-right" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#DCE7EE" />
-            <stop offset="100%" stopColor="#C7D6E0" />
+            <stop offset="0%" stopColor="#DCE8F1" />
+            <stop offset="100%" stopColor="#BFD1E0" />
           </linearGradient>
           <radialGradient id="iso-shadow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#0F1720" stopOpacity={0.18} />
             <stop offset="100%" stopColor="#0F1720" stopOpacity={0} />
           </radialGradient>
-          <filter id="riser-shadow" x="-40%" y="-20%" width="180%" height="140%">
-            <feDropShadow dx="1.5" dy="2" stdDeviation="1.6" floodColor="#0F1720" floodOpacity="0.28" />
+          {/* A soft colour bloom plus a grounding drop-shadow — the "lit
+              from within" quality that separates an active riser from a
+              flat coloured line. */}
+          <filter id="riser-shadow" x="-60%" y="-40%" width="220%" height="180%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="bloom" />
+            <feColorMatrix in="bloom" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0" result="softBloom" />
+            <feDropShadow in="SourceGraphic" dx="1.5" dy="2" stdDeviation="1.4" floodColor="#0F1720" floodOpacity="0.25" result="shadowed" />
+            <feMerge>
+              <feMergeNode in="softBloom" />
+              <feMergeNode in="shadowed" />
+            </feMerge>
           </filter>
         </defs>
 
