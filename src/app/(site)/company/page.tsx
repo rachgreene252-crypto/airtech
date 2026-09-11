@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
@@ -36,24 +37,51 @@ export default function CompanyPage() {
         description="Airtech is a Nepal-based engineering and MEP company specialising in HVAC, mechanical, electrical, plumbing and fire-protection solutions. Established in 2000, the company has grown from an HVAC specialist into a comprehensive MEP solutions provider serving commercial, industrial, healthcare, hospitality, pharmaceutical and institutional sectors, combining engineering, procurement, installation, testing, commissioning and after-sales support under one umbrella."
       />
 
+      {/* Mission/Vision was two paragraphs side by side with no visual
+          anchor — the plainest "texty" section on the site. Grounded now in
+          a real portrait of the MD rather than left as bare text; an
+          asymmetric split (photo + stacked statements), not a card. */}
       <Section>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div>
-            <SectionHeader eyebrow="Mission" heading="Our mission." />
-            <p className="mt-6 text-(--color-steel) leading-relaxed">
-              To deliver engineered, innovative and customised technology solutions through integrity,
-              technical excellence, reliability, flexibility, responsiveness and collaborative
-              teamwork. We are committed to understanding our customers&rsquo; needs, applying our
-              expertise to every challenge, and continuously improving the way we serve.
-            </p>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div className="crop-frame relative aspect-[4/5] w-full overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue) lg:sticky lg:top-28">
+            <span className="crop-tick-tl" />
+            <span className="crop-tick-br" />
+            <Image
+              src="/images/team/founder-manoj-bhansali.jpg"
+              alt="Manoj Bhansali, Managing Director of Airtech Industries"
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover grayscale-[10%]"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-(--color-blue-deep)/80 via-transparent to-transparent"
+            />
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <p className="font-display text-title font-semibold text-white">Manoj Bhansali</p>
+              <p className="mt-0.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-white/70">
+                Managing Director
+              </p>
+            </div>
           </div>
-          <div>
-            <SectionHeader eyebrow="Vision" heading="Built on customer focus." />
-            <p className="mt-6 text-(--color-steel) leading-relaxed">
-              Airtech&apos;s corporate vision is &ldquo;Customer for Life.&rdquo; Customer loyalty is
-              earned by listening, anticipating requirements and working to create value, with growth,
-              longevity and financial success following naturally from that focus.
-            </p>
+          <div className="flex flex-col gap-12">
+            <div>
+              <SectionHeader eyebrow="Mission" heading="Our mission." />
+              <p className="mt-6 text-body-l text-(--color-steel) leading-relaxed">
+                To deliver engineered, innovative and customised technology solutions through integrity,
+                technical excellence, reliability, flexibility, responsiveness and collaborative
+                teamwork. We are committed to understanding our customers&rsquo; needs, applying our
+                expertise to every challenge, and continuously improving the way we serve.
+              </p>
+            </div>
+            <div>
+              <SectionHeader eyebrow="Vision" heading="Built on customer focus." />
+              <p className="mt-6 text-body-l text-(--color-steel) leading-relaxed">
+                Airtech&apos;s corporate vision is &ldquo;Customer for Life.&rdquo; Customer loyalty is
+                earned by listening, anticipating requirements and working to create value, with growth,
+                longevity and financial success following naturally from that focus.
+              </p>
+            </div>
           </div>
         </div>
       </Section>
