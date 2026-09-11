@@ -60,14 +60,21 @@
   --color-white: #ffffff;
   --color-pale-blue: #eef4f9;
 
-  /* Display face repointed to Geist 2026-09-10 (client: "fonts are not
-     luxurious," reacting against a homepage reference that is confident
-     bold sans throughout, not an editorial serif). Fraunces stays loaded
-     (some interior long-form pages may still reference it directly) but is
-     no longer the sitewide --font-display. Geist is a variable font, so the
-     heavy weights below render as true cuts, not synthesized bold. */
-  --font-display: var(--font-sans-face), system-ui, -apple-system, sans-serif;
-  --font-editorial: var(--font-display-face), Georgia, "Times New Roman", serif;
+  /* Display face repointed to Fraunces again, 2026-09-11 — a deliberate
+     correction, not a reflex reversal. The all-Geist pass (2026-09-10)
+     fixed "not luxurious" by going bold, but heavy Geist on every headline
+     is also the single grotesque-doing-everything look a design review
+     flagged as reading generic/AI-templated. The actual fix is a real
+     pairing: Fraunces (characterful, used with restraint — display only)
+     over Geist (body copy, UI, buttons, labels — unchanged). This is
+     heavier than Fraunces' first outing on this site (that pass ran light/
+     thin weights, which is what got called "not luxurious" the first
+     time) — optical sizing on, weights pushed to a confident middle
+     ground instead of either extreme. --font-editorial is now the inverse
+     escape hatch (Geist) for a spot that wants plain sans inside a
+     .font-display context. */
+  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
+  --font-editorial: var(--font-sans-face), system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-sans-face), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono-face), ui-monospace, "SFMono-Regular", monospace;
 
@@ -182,27 +189,30 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Geist is a variable font — real weight cuts, not synthesized bold. Pushed
-   heavy on 2026-09-10 (client: headlines should read "luxurious"/confident,
-   not thin) — this is the opposite direction from the Fraunces-tuned light
-   weights it replaces. The compound selectors below out-specify Tailwind's
-   own .font-bold / .font-semibold (0,2,0 vs 0,1,0) so the ~70+ existing
-   `font-display ... font-semibold` headings across the codebase all gain
-   real weight with no per-file edits. */
+/* Fraunces, back as the display face 2026-09-11: optical sizing on so
+   headlines get the true display cut (not a scaled-up text cut), weights
+   pushed to a confident middle ground — heavier than the site's first
+   Fraunces pass (which ran thin and got called "not luxurious"), lighter
+   than synthetic-bold serif (which reads clumsy). The compound selectors
+   below out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs
+   0,1,0) so the ~70+ existing `font-display ... font-semibold` headings
+   across the codebase pick up the right weight with no per-file edits. */
 .font-display {
-  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+  font-synthesis-weight: none;
+  letter-spacing: -0.014em;
 }
 .font-display.font-bold {
-  font-weight: 750;
+  font-weight: 620;
 }
 .font-display.font-semibold {
-  font-weight: 650;
+  font-weight: 560;
 }
 .font-display.font-medium {
-  font-weight: 550;
+  font-weight: 500;
 }
 .font-display.font-normal {
-  font-weight: 500;
+  font-weight: 440;
 }
 
 /* Escape hatch to the previous editorial serif, for the handful of spots
@@ -210,9 +220,7 @@ body {
    contrast is still the better read than a heavy grotesque. */
 .font-editorial {
   font-family: var(--font-editorial);
-  font-optical-sizing: auto;
-  font-synthesis-weight: none;
-  letter-spacing: -0.011em;
+  letter-spacing: -0.01em;
 }
 
 /* Removed 2026-09-10 — client feedback: the site reads "dull," and this

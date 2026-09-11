@@ -5,26 +5,31 @@ import { Reveal } from "@/components/ui/Reveal";
 import type { IndustrySlug } from "@/content/types";
 
 /**
- * "What are you trying to build?" — a bright photo-led sector grid,
- * replacing the earlier single-tab dark IndustryJourney panel per the
- * 2026-09-10 client reference (a grid of six real, photographed sectors,
- * not one flat dark section switched by tab). Real photography only where
- * sourced (src/content — same set already used on /expertise and
- * /industries); Pharmaceuticals has none yet, so it renders as a clean
- * icon tile instead of a stand-in photo.
+ * "What are you trying to build?" — a bright photo-led sector index. Real
+ * photography only where sourced (src/content — same set already used on
+ * /expertise and /industries); Pharmaceuticals has none yet, so it renders
+ * as a clean colour tile instead of a stand-in photo.
+ *
+ * Redesigned 2026-09-11: was six equal cards in a uniform grid — flagged in
+ * review as the default "3-column grid" answer. Hospitality has the
+ * strongest photo of the set (Tiger Palace Resort, dusk, real depth and
+ * light) and is Airtech's largest sector by volume of work, so it now runs
+ * as one full-width featured banner above the rest, instead of being
+ * shrunk into the same cell as everything else.
  */
+const FEATURED_SECTOR: { slug: IndustrySlug; label: string; descriptor: string; photo: { src: string; alt: string } } = {
+  slug: "hospitality",
+  label: "Hospitality",
+  descriptor: "Hotels · Resorts · Luxury developments — Airtech's largest sector by volume of delivered work.",
+  photo: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa" },
+};
+
 const SECTORS: {
   slug: IndustrySlug;
   label: string;
   descriptor: string;
   photo?: { src: string; alt: string };
 }[] = [
-  {
-    slug: "hospitality",
-    label: "Hospitality",
-    descriptor: "Hotels · Resorts · Luxury developments",
-    photo: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa" },
-  },
   {
     slug: "healthcare",
     label: "Healthcare",
@@ -86,7 +91,45 @@ export function BuildingFor() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Featured banner — one exceptional photo run large, not shrunk
+            into the same grid cell as everything else. */}
+        <Reveal>
+          <Link
+            href={`/projects?industry=${FEATURED_SECTOR.slug}`}
+            className="group relative mt-10 flex aspect-[21/9] w-full flex-col justify-end overflow-hidden border border-(--color-line-strong) transition-shadow duration-300 hover:shadow-[0_28px_60px_-20px_rgba(0,153,218,0.4)] sm:aspect-[3/1]"
+          >
+            <Image
+              src={FEATURED_SECTOR.photo.src}
+              alt={FEATURED_SECTOR.photo.alt}
+              fill
+              sizes="100vw"
+              priority={false}
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-(--color-blue-deep)/92 via-(--color-blue-deep)/20 to-transparent"
+            />
+            <div className="relative z-10 flex items-end justify-between gap-6 p-6 sm:p-9">
+              <div>
+                <h3 className="font-display text-3xl font-semibold text-white sm:text-4xl">
+                  {FEATURED_SECTOR.label}
+                </h3>
+                <p className="mt-2 max-w-md text-small text-white/80 sm:text-body">
+                  {FEATURED_SECTOR.descriptor}
+                </p>
+              </div>
+              <span
+                aria-hidden="true"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/40 text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:bg-white group-hover:text-(--color-brand-blue)"
+              >
+                →
+              </span>
+            </div>
+          </Link>
+        </Reveal>
+
+        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SECTORS.map((sector, i) => (
             <Reveal key={sector.slug} delay={i * 0.05}>
               <Link

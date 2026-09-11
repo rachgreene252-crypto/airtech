@@ -56,7 +56,7 @@ export async function Footer() {
             <div className="mt-8">
               <Link
                 href="/contact/project-enquiry"
-                className="inline-flex items-center gap-2 rounded-full bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-(--color-brand-blue)"
+                className="inline-flex items-center gap-2 rounded-[2px] bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-(--color-brand-blue)"
               >
                 Inquire for Services
                 <span aria-hidden="true">→</span>

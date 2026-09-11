@@ -6,11 +6,13 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  // Focus ring is a box-shadow, not `outline` — it follows the pill radius
-  // and is unambiguous on the primary CTA (an outline on rounded-full drew
-  // a faint rectangle). A paper-coloured inner gap separates it from the
-  // fill on the solid variant.
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-150 outline-none focus-visible:shadow-[0_0_0_2px_var(--color-paper),0_0_0_4px_var(--color-brand-blue)] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-px active:translate-y-0";
+  // Sharp corners, not a pill — 2026-09-11, correcting the rounded-full
+  // shape that read as generic SaaS. A drafted rectangle (--radius-xs, the
+  // same 2px used on crop-frame photo panels elsewhere) fits the site's
+  // technical-drawing identity instead. Focus ring is a box-shadow, not
+  // `outline`, so it draws a clean concentric rectangle; a paper-coloured
+  // inner gap separates it from the fill on the solid variant.
+  "inline-flex items-center justify-center gap-2 rounded-[2px] font-medium transition-all duration-150 outline-none focus-visible:shadow-[0_0_0_2px_var(--color-paper),0_0_0_4px_var(--color-brand-blue)] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-px active:translate-y-0";
 
 const variants: Record<Variant, string> = {
   // --color-brand-blue is the primary UI blue (~6:1 on white — see
