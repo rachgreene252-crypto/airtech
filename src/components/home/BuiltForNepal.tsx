@@ -34,8 +34,8 @@ export function BuiltForNepal() {
   return (
     <section className="relative overflow-hidden border-t border-(--color-line) bg-(--color-blue-deep) pb-16 pt-16 text-white sm:pb-20 sm:pt-20">
       <HimalayanSkyline
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 w-full text-white sm:h-32"
-        opacity={0.06}
+        className="pointer-events-none absolute inset-x-0 top-0 h-24 w-full text-(--color-brand-blue-soft) sm:h-32"
+        opacity={0.22}
       />
       <Container className="relative">
         <Reveal>
