@@ -25,29 +25,35 @@ const FACTS = [
   {
     label: "Seismic zone",
     body: "The Kathmandu Valley sits in one of the world's most active seismic regions. Every system is designed and fixed accordingly, not as an afterthought.",
-    marker: { x: 61, y: 54 },
+    marker: { x: 64.5, y: 66.7 },
   },
   {
     label: "Monsoon climate",
     body: "Four months of monsoon humidity a year shape how HVAC, electrical and drainage systems are specified across Nepal, not just how they're installed.",
-    marker: { x: 38, y: 58 },
+    marker: { x: 41.3, y: 53.3 },
   },
   {
     label: "Altitude & air density",
     body: "Elevation across Nepal's hills and mountains changes how air-conditioning and ventilation equipment actually performs. Selection accounts for it from the outset.",
-    marker: { x: 52, y: 22 },
+    marker: { x: 50, y: 28.9 },
   },
   {
     label: "Dense historic fabric",
     body: "Narrow lanes, older foundations, live neighbouring structures: retrofit and new-build work in Nepal's older cities both demand a different kind of coordination.",
-    marker: { x: 67, y: 50 },
+    marker: { x: 67.5, y: 64.4 },
   },
 ] as const;
 
-// A stylised, illustrative silhouette of Nepal, not a surveyed boundary,
-// wide enough to read at a glance and hold four marker positions sensibly.
+// 2026-09-16 — the earlier freehand blob ("it is wrong") is replaced with a
+// real trace of Nepal's actual outline: the client supplied a reference
+// outline image, which was run through an OpenCV contour extraction
+// (threshold, fill, findContours, approxPolyDP) rather than hand-drawn
+// again, so this is a geometrically accurate simplification of the real
+// national boundary, not another approximation. viewBox is 400x225 (the
+// traced shape's own bounding box, normalised); marker positions below are
+// checked to fall inside this exact polygon.
 const NEPAL_PATH =
-  "M18,92 C34,78 46,96 62,86 C82,74 98,92 118,82 C142,70 160,90 184,80 C206,70 224,86 248,78 C268,70 284,84 304,76 L318,68 L312,52 C298,44 282,54 268,44 C252,32 234,46 218,36 C200,24 182,38 164,28 C146,18 128,32 110,24 C92,16 74,28 56,22 C40,16 24,26 18,40 Z";
+  "M15.4,38 L0,89 L22,105.6 L54.6,116.3 L60.5,128.8 L87.2,144.8 L127.6,155.5 L129.4,165.6 L152.5,168.5 L158.5,175.1 L165.6,168.5 L222,173.3 L223.7,189.9 L255.2,206.5 L276,204.2 L284.3,215.4 L312.2,213.6 L357.3,224.9 L395.8,217.8 L400,198.2 L391.1,181.6 L395.3,135.9 L378.6,132.3 L373.9,137.7 L346,139.5 L325.2,125.8 L313.4,132.3 L302.7,132.3 L299.7,123.4 L284.9,125.8 L276,111.6 L252.8,114.5 L251,98.5 L228.5,99.7 L205.3,84.3 L203,66.5 L191.1,60.5 L169.1,65.3 L157.3,47.5 L107.4,19.6 L99.7,3.6 L67.1,0 L64.1,14.2 L42.7,10.7 Z";
 
 export function BuiltForNepal() {
   const [active, setActive] = useState(0);
@@ -71,13 +77,14 @@ export function BuiltForNepal() {
                 climate and its cities, not a generic template dropped in from elsewhere.
               </p>
 
-              {/* Stylised interactive map — click a fact, its marker pulses. */}
-              <div className="relative mx-auto mt-10 aspect-[340/110] w-full max-w-md">
-                <svg viewBox="0 0 340 110" className="h-full w-full" role="img" aria-hidden="true">
-                  <path d={NEPAL_PATH} fill="var(--color-brand-blue-tint)" stroke="var(--color-brand-blue)" strokeWidth={1.5} />
+              {/* Interactive map, traced from the real outline — click a
+                  fact, its marker pulses. */}
+              <div className="relative mx-auto mt-10 aspect-[16/9] w-full max-w-md">
+                <svg viewBox="0 0 400 225" className="h-full w-full" role="img" aria-hidden="true">
+                  <path d={NEPAL_PATH} fill="var(--color-brand-blue-tint)" stroke="var(--color-brand-blue)" strokeWidth={2} strokeLinejoin="round" />
                   {FACTS.map((fact, i) => {
-                    const x = (fact.marker.x / 100) * 340;
-                    const y = (fact.marker.y / 100) * 110;
+                    const x = (fact.marker.x / 100) * 400;
+                    const y = (fact.marker.y / 100) * 225;
                     const isActive = active === i;
                     return (
                       <g key={fact.label} style={{ cursor: "pointer" }} onClick={() => setActive(i)}>

@@ -40,13 +40,17 @@ export function CinematicHero() {
           style={{ background: "linear-gradient(to bottom, transparent, var(--color-paper))" }}
         />
       </div>
-      <Reveal>
-        <HeroTextPanel />
-      </Reveal>
+      <HeroTextPanel />
     </div>
   );
 }
 
+// Every line arrives on its own beat instead of the whole panel fading up
+// as one flat block, per "add animation to this as well" — eyebrow,
+// headline, subcopy, buttons, then the meta line, each a touch later than
+// the last. Reveal already handles prefers-reduced-motion and fires
+// on-mount for above-the-fold content like this since it's in view
+// immediately.
 function HeroTextPanel() {
   return (
     <section
@@ -54,34 +58,44 @@ function HeroTextPanel() {
       aria-label="Airtech Industries: keeping Nepal moving"
     >
       <div className="mx-auto flex max-w-3xl flex-col items-center">
-        <p className="font-mono text-label uppercase tracking-[0.24em] text-(--color-brand-blue)">
-          Engineering behind the places that matter
-        </p>
-        <h1 className="mt-7 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.01] tracking-[-0.025em] text-balance text-(--color-ink)">
-          Keeping Nepal moving.
-        </h1>
-        <p className="mt-7 max-w-lg text-body-l leading-relaxed text-(--color-steel)">
-          Integrated MEP and HVAC, from first drawing to commissioning, and
-          the years of support that follow.
-        </p>
-        <div className="mt-11 flex flex-wrap items-center justify-center gap-7">
-          <ButtonLink href="/contact/project-enquiry" size="lg">
-            Enquire
-          </ButtonLink>
-          <Link
-            href="/projects"
-            className="text-sm font-medium text-(--color-ink-soft) underline-offset-4 hover:text-(--color-brand-blue) hover:underline transition-colors"
-          >
-            Explore our work →
-          </Link>
-        </div>
+        <Reveal delay={0}>
+          <p className="font-mono text-label uppercase tracking-[0.24em] text-(--color-brand-blue)">
+            Engineering behind the places that matter
+          </p>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <h1 className="mt-7 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.01] tracking-[-0.025em] text-balance text-(--color-ink)">
+            Keeping Nepal moving.
+          </h1>
+        </Reveal>
+        <Reveal delay={0.24}>
+          <p className="mt-7 max-w-lg text-body-l leading-relaxed text-(--color-steel)">
+            Integrated MEP and HVAC, from first drawing to commissioning, and
+            the years of support that follow.
+          </p>
+        </Reveal>
+        <Reveal delay={0.36}>
+          <div className="mt-11 flex flex-wrap items-center justify-center gap-7">
+            <ButtonLink href="/contact/project-enquiry" size="lg">
+              Enquire
+            </ButtonLink>
+            <Link
+              href="/projects"
+              className="text-sm font-medium text-(--color-ink-soft) underline-offset-4 hover:text-(--color-brand-blue) hover:underline transition-colors"
+            >
+              Explore our work →
+            </Link>
+          </div>
+        </Reveal>
 
-        <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
-          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse" />
-          <span className="font-mono text-[0.72rem] uppercase tracking-[0.2em]">
-            Reliability matters · Est. 2000 · Integrated MEP since 2013
-          </span>
-        </div>
+        <Reveal delay={0.48}>
+          <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
+            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse" />
+            <span className="font-mono text-[0.72rem] uppercase tracking-[0.2em]">
+              Reliability matters · Est. 2000 · Integrated MEP since 2013
+            </span>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

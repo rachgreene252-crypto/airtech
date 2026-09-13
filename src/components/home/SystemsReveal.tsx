@@ -20,6 +20,15 @@ import { getServiceBySlug } from "@/content/services";
  * connect to a single Airtech hub in the centre. No building, no risers,
  * no floors to interpret, just "six things, one team," which is legible
  * in about a second.
+ *
+ * Pushed further 2026-09-16, per "think of something better, like crazy
+ * impressive and related to the company": the hub now has a slow ambient
+ * glow (never fully inert), and small coloured pulses continuously travel
+ * each hub-to-discipline line, faster and brighter on the active one. Not
+ * decoration for its own sake, it's the literal idea the section makes:
+ * six systems actually running, held by one team, not six static dots
+ * connected by static lines. The discipline nodes themselves are now
+ * clickable too, not just the stepper buttons beside them.
  */
 const ZONE_SLUGS = [
   "hvac",
@@ -238,7 +247,7 @@ export function SystemsReveal() {
           </AnimatePresence>
         </div>
 
-        <HubDiagram step={step} total={total} reduceMotion={!!reduceMotion} />
+        <HubDiagram step={step} total={total} reduceMotion={!!reduceMotion} onSelect={userSelect} />
       </div>
     </Section>
   );
@@ -252,10 +261,12 @@ function HubDiagram({
   step,
   total,
   reduceMotion,
+  onSelect,
 }: {
   step: number;
   total: number;
   reduceMotion: boolean;
+  onSelect: (next: number) => void;
 }) {
   const activeZone = step > 0 ? ZONES[step - 1] : null;
   const activeColor = activeZone ? SYSTEM_COLOR[activeZone.slug] : undefined;
@@ -280,6 +291,26 @@ function HubDiagram({
 
       <div className="flex justify-center">
         <svg viewBox="0 0 420 420" className="h-auto w-full max-w-[420px]" role="img" aria-label="Six engineering disciplines connected to one Airtech team">
+          <defs>
+            <filter id="hub-glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="10" />
+            </filter>
+          </defs>
+
+          {/* Ambient glow — the hub never sits inert; it breathes, the way a
+              live control panel would, whether or not a discipline is
+              selected. */}
+          <motion.circle
+            cx={HUB.x}
+            cy={HUB.y}
+            r={54}
+            fill="var(--color-brand-blue-vivid)"
+            filter="url(#hub-glow)"
+            initial={false}
+            animate={reduceMotion ? { opacity: 0.25 } : { opacity: [0.18, 0.4, 0.18], scale: [1, 1.12, 1] }}
+            transition={reduceMotion ? undefined : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          />
+
           {ZONES.map((zone, i) => {
             const pos = NODE_POS[zone.slug];
             const color = SYSTEM_COLOR[zone.slug];
@@ -299,6 +330,35 @@ function HubDiagram({
               />
             );
           })}
+
+          {/* Flow — small pulses of colour travelling the hub->discipline
+              line on a loop, the way current, air or water actually moves
+              through a coordinated system. Directly the idea the whole
+              section is making: not six static connections, six things
+              actively running through one team. */}
+          {!reduceMotion &&
+            ZONES.map((zone, i) => {
+              const pos = NODE_POS[zone.slug];
+              const color = SYSTEM_COLOR[zone.slug];
+              const active = step === i + 1;
+              const dimmed = step > 0 && !active;
+              if (dimmed) return null;
+              return [0, 1].map((particle) => (
+                <motion.circle
+                  key={`${zone.slug}-flow-${particle}`}
+                  r={active ? 4 : 2.5}
+                  fill={color}
+                  initial={false}
+                  animate={{ cx: [HUB.x, pos.x], cy: [HUB.y, pos.y], opacity: [0, 1, 1, 0] }}
+                  transition={{
+                    duration: active ? 1.1 : 2.2,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: particle * (active ? 0.55 : 1.1),
+                  }}
+                />
+              ));
+            })}
 
           {/* Hub — the single Airtech centre every spoke belongs to. */}
           <circle cx={HUB.x} cy={HUB.y} r={54} fill="var(--color-blue-deep)" />
@@ -320,6 +380,13 @@ function HubDiagram({
             return (
               <g
                 key={zone.slug}
+                role="button"
+                tabIndex={0}
+                aria-label={`Show ${zone.name}`}
+                onClick={() => onSelect(i + 1)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") onSelect(i + 1);
+                }}
                 style={{ cursor: "pointer", transition: "opacity 0.3s ease" }}
                 opacity={dimmed ? 0.4 : 1}
               >
@@ -337,7 +404,7 @@ function HubDiagram({
                   x={pos.x}
                   y={pos.y + 4}
                   textAnchor="middle"
-                  style={{ fill: "white", fontSize: 11, fontWeight: 600, fontFamily: "var(--font-mono)", letterSpacing: "0.02em" }}
+                  style={{ fill: "white", fontSize: 11, fontWeight: 600, fontFamily: "var(--font-mono)", letterSpacing: "0.02em", pointerEvents: "none" }}
                 >
                   {zone.disciplineCode}
                 </text>
