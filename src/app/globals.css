@@ -202,9 +202,10 @@ body {
    ("paper" tone) Section is transparent (see .bg-site-texture below), so
    this shows straight through across the whole site; "raised" sections
    stay a near-identical pale tint (see --color-paper-raised) so the seam
-   between "showing the image" and "opaque band" is not visible. Dark
-   sections (Section tone="ink", hero text panel, footer) are deliberately
-   a different opaque material and sit on top unaffected. */
+   between "showing the image" and "opaque band" is not visible. There is
+   no dark/"ink" tone any more (2026-09-15, per explicit "no dark blue
+   block anywhere" feedback) — every section on the site is this same
+   light material, including the hero text panel and the footer. */
 body::before {
   content: "";
   position: fixed;

@@ -12,33 +12,36 @@ async function getCurrentYear() {
 }
 
 /**
- * Rebuilt 2026-09-10 (client: "beautify" the footer) — a dark closing band
- * (matching the hero and final CTA's photo-dark bookends) instead of a flat
- * plain-text list on white, with a clearer brand mark and a real top accent
- * line in Airtech blue.
+ * Rebuilt 2026-09-15 — dropped the dark navy closing band (rebuilt
+ * 2026-09-10 as a deliberate "photo-dark bookend" to match the old hero)
+ * per explicit "no dark blue block anywhere" feedback. The footer is now
+ * the same light material as the rest of the site — the sitewide
+ * background artwork shows through here too (bg-site-texture), with a
+ * raised tint and a brand-blue top rule doing the work of marking this as
+ * a distinct closing section instead of an inverted colour block.
  */
 export async function Footer() {
   const year = await getCurrentYear();
   return (
-    <footer className="relative mt-auto overflow-hidden bg-(--color-blue-deep) text-white">
+    <footer className="relative mt-auto overflow-hidden border-t border-(--color-line) bg-(--color-paper-raised) text-(--color-ink)">
       <div className="absolute inset-x-0 top-0 h-px bg-(--color-brand-blue-vivid)" />
       <Container className="pt-20 pb-16 lg:pt-24 lg:pb-20">
         <h2 className="sr-only">Site footer</h2>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr_2fr]">
           <div>
-            <span className="font-display text-3xl font-semibold tracking-[-0.01em] text-white">
+            <span className="font-display text-3xl font-semibold tracking-[-0.01em] text-(--color-ink)">
               {siteSettings.brandName}
             </span>
-            <p className="mt-3 font-mono text-[0.8rem] font-medium uppercase tracking-[0.16em] text-(--color-brand-blue-soft)">
+            <p className="mt-3 font-mono text-[0.8rem] font-medium uppercase tracking-[0.16em] text-(--color-brand-blue)">
               {siteSettings.tagline}
             </p>
-            <p className="mt-6 max-w-xs text-small text-white/65 leading-relaxed">
+            <p className="mt-6 max-w-xs text-small text-(--color-steel) leading-relaxed">
               {siteSettings.headOffice}
             </p>
             <a
               href={`mailto:${siteSettings.primaryEmail}`}
-              className="mt-3 inline-block text-small font-medium text-white transition-colors hover:text-(--color-brand-blue-soft)"
+              className="mt-3 inline-block text-small font-medium text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
             >
               {siteSettings.primaryEmail}
             </a>
@@ -56,7 +59,7 @@ export async function Footer() {
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
             {footerNav.map((group) => (
               <div key={group.title}>
-                <h3 className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-white/45">
+                <h3 className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
                   {group.title}
                 </h3>
                 <ul className="mt-4 flex flex-col gap-2.5">
@@ -64,7 +67,7 @@ export async function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href as Route}
-                        className="text-small text-white/80 transition-colors hover:text-(--color-brand-blue-soft)"
+                        className="text-small text-(--color-ink-soft) transition-colors hover:text-(--color-brand-blue)"
                       >
                         {link.label}
                       </Link>
@@ -76,7 +79,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/12 pt-8 text-xs text-white/50 sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-(--color-line) pt-8 text-xs text-(--color-steel-soft) sm:flex-row">
           <p>
             © {year} {siteSettings.companyName}. Established {siteSettings.establishedYear}.
           </p>

@@ -14,9 +14,11 @@ import { Reveal } from "@/components/ui/Reveal";
  * asymmetric editorial split instead — a fixed statement on the left, a
  * plain rule-separated list on the right (no boxes, no cards) so
  * hierarchy comes from typography and layout, not a repeated component.
- * 2026-09-13: dropped the illustrated mountain-skyline motif from the top
- * edge per direct client feedback ("i hate the hill design") — the section
- * now carries the same idea with a plain accent rule instead of an icon.
+ * 2026-09-13: dropped the illustrated mountain-skyline motif ("i hate the
+ * hill design"). 2026-09-15: dropped the dark navy fill too, per explicit
+ * "no dark blue block anywhere" feedback — the site is light throughout
+ * now, so this section carries its weight through type and the sitewide
+ * background artwork showing through, not an inverted colour band.
  */
 const FACTS = [
   {
@@ -39,33 +41,33 @@ const FACTS = [
 
 export function BuiltForNepal() {
   return (
-    <section className="relative overflow-hidden border-t border-(--color-line) bg-(--color-blue-deep) py-20 text-white sm:py-28">
+    <section className="relative overflow-hidden border-t border-(--color-line) bg-site-texture py-20 sm:py-28">
       <Container className="relative">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-28">
-              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue-soft)">
-                <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue-soft)" />
+              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
+                <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
                 Engineered for Nepal
               </p>
-              <h2 className="mt-6 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.015em] text-balance">
+              <h2 className="mt-6 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.015em] text-balance text-(--color-ink)">
                 Built for the Kathmandu Valley — and everywhere in between.
               </h2>
-              <p className="mt-6 max-w-md text-body-l leading-relaxed text-white/70">
+              <p className="mt-6 max-w-md text-body-l leading-relaxed text-(--color-steel)">
                 A design that works in Nepal has to work with Nepal — its geology, its
                 climate and its cities, not a generic template dropped in from elsewhere.
               </p>
             </div>
           </Reveal>
 
-          <div className="divide-y divide-white/12 border-t border-white/12">
+          <div className="divide-y divide-(--color-line) border-t border-(--color-line)">
             {FACTS.map((fact, i) => (
               <Reveal key={fact.label} delay={i * 0.07}>
                 <div className="grid grid-cols-1 gap-3 py-8 sm:grid-cols-[1fr_1.5fr] sm:gap-10">
-                  <h3 className="font-display text-2xl font-semibold leading-tight text-white">
+                  <h3 className="font-display text-2xl font-semibold leading-tight text-(--color-ink)">
                     {fact.label}
                   </h3>
-                  <p className="text-body leading-relaxed text-white/65">{fact.body}</p>
+                  <p className="text-body leading-relaxed text-(--color-steel)">{fact.body}</p>
                 </div>
               </Reveal>
             ))}

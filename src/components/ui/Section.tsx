@@ -14,12 +14,13 @@ export function Section({
   className?: string;
   containerClassName?: string;
   id?: string;
-  tone?: "paper" | "ink" | "raised";
+  // No "ink" (dark) tone by design — per explicit client feedback the site
+  // carries no full-bleed dark blocks anywhere; every section is light.
+  tone?: "paper" | "raised";
   border?: boolean;
 }) {
   const toneClasses = {
     paper: "bg-site-texture text-(--color-ink)",
-    ink: "bg-(--color-ink) text-(--color-paper)",
     raised: "bg-(--color-paper-raised) text-(--color-ink)",
   }[tone];
 

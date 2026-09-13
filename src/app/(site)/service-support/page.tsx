@@ -49,11 +49,11 @@ export default function ServiceSupportPage() {
         </p>
       </Section>
 
-      <Section tone="ink" className="text-center">
+      <Section tone="raised" className="text-center">
         <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Existing Airtech customer?
         </p>
-        <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance">
+        <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance text-(--color-ink)">
           Request an AMC or raise a service call.
         </h2>
         <div className="mt-8">

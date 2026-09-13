@@ -463,16 +463,14 @@ function StepSection({
       data-step-index={step.index}
       className={`relative overflow-hidden ${
         isFinale
-          ? "bg-(--color-blue-deep) px-6 py-16 text-white sm:px-12 sm:py-20"
+          ? "border-t border-(--color-line) bg-(--color-paper-raised) px-6 py-16 text-(--color-ink) sm:px-12 sm:py-20"
           : "py-12 sm:py-16"
       }`}
     >
       {/* Ghost numeral */}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute -top-6 right-0 select-none font-display text-[6rem] font-semibold leading-none sm:text-[9rem] ${
-          isFinale ? "text-white/[0.07]" : "text-(--color-brand-blue)/[0.06]"
-        }`}
+        className="pointer-events-none absolute -top-6 right-0 select-none font-display text-[6rem] font-semibold leading-none text-(--color-brand-blue)/[0.06] sm:text-[9rem]"
       >
         {String(step.index).padStart(2, "0")}
       </span>
@@ -480,8 +478,8 @@ function StepSection({
       <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
         <div>
           <p
-            className={`flex items-baseline gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] ${
-              isFinale ? "justify-center text-white/70" : "text-(--color-brand-blue)"
+            className={`flex items-baseline gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) ${
+              isFinale ? "justify-center" : ""
             }`}
           >
             <span className="font-mono">
@@ -490,17 +488,13 @@ function StepSection({
             <span>{step.subLabel}</span>
           </p>
 
-          <h2
-            className={`mt-4 font-display text-display-m font-semibold leading-[1.05] tracking-[-0.015em] ${
-              isFinale ? "text-white" : "text-(--color-ink)"
-            }`}
-          >
+          <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.05] tracking-[-0.015em] text-(--color-ink)">
             {step.sentence}
           </h2>
 
           <p
-            className={`mt-4 max-w-xl text-body-l leading-relaxed ${
-              isFinale ? "mx-auto text-white/80" : "text-(--color-steel)"
+            className={`mt-4 max-w-xl text-body-l leading-relaxed text-(--color-steel) ${
+              isFinale ? "mx-auto" : ""
             }`}
           >
             {step.description}
@@ -512,16 +506,8 @@ function StepSection({
             }`}
           >
             {step.points.map((point) => (
-              <li
-                key={point}
-                className={`flex gap-3 text-small ${isFinale ? "text-white/90" : "text-(--color-ink-soft)"}`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`mt-[0.7em] h-px w-3.5 shrink-0 ${
-                    isFinale ? "bg-(--color-brand-blue-soft)" : "bg-(--color-brand-blue)"
-                  }`}
-                />
+              <li key={point} className="flex gap-3 text-small text-(--color-ink-soft)">
+                <span aria-hidden="true" className="mt-[0.7em] h-px w-3.5 shrink-0 bg-(--color-brand-blue)" />
                 <span>{point}</span>
               </li>
             ))}

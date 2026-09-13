@@ -16,11 +16,17 @@ import { services, getServiceBySlug } from "@/content/services";
  *
  * Rebuilt 2026-09-10 (client reference: an isometric MEP-coordination
  * cutaway with colour-coded pipes/ducts per system, pressing a system
- * button highlights its own routing). Replaces the earlier flat 2D
- * elevation with a real isometric projection — one riser per discipline on
- * a visible building face, colour-coded (not monochrome blue, per the
- * client's explicit ask that "fire and HVAC systems come out nicely"), with
- * roof/ground plant boxes lighting up for the disciplines that live there.
+ * button highlights its own routing) — one riser per discipline,
+ * colour-coded (not monochrome blue, per the client's explicit ask that
+ * "fire and HVAC systems come out nicely"), with roof/ground plant boxes
+ * lighting up for the disciplines that live there.
+ *
+ * Rebuilt again 2026-09-15 — the isometric cutaway was replaced with a
+ * flat front elevation per direct feedback ("make it more accurate and
+ * front facing so the user can understand what is actually happening").
+ * A straight-on elevation is closer to how a real riser diagram is
+ * actually drawn, and centres cleanly by construction where the isometric
+ * projection ran off-balance in its panel.
  */
 const ZONE_SLUGS = [
   "hvac",
@@ -228,39 +234,45 @@ export function SystemsReveal() {
           </AnimatePresence>
         </div>
 
-        <IsometricBuilding step={step} total={total} reduceMotion={!!reduceMotion} />
+        <FrontElevationBuilding step={step} total={total} reduceMotion={!!reduceMotion} />
       </div>
     </Section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Isometric cutaway building                                          */
+/* Front-elevation building                                            */
 /* ------------------------------------------------------------------ */
 
-// 2:1 dimetric projection — x runs back-right, y runs back-left, z is
-// vertical height. Every element (shell, floors, risers, plant) is placed
-// on this one grid so nothing has to be hand-fudged into alignment.
-const XU = 48; // px per grid unit, x axis
-const YU = 48; // px per grid unit, y axis
-const ZU = 23; // px per grid unit, z (height) axis
-const ORIGIN_X = 330;
-const ORIGIN_Y = 430;
-const BW = 5; // building width (x)
-const BD = 3; // building depth (y)
-const FLOORS = 8; // more storeys than disciplines — density, not a 1:1 map
+// Rebuilt 2026-09-15 — replaces the isometric cutaway per direct client
+// feedback ("make it more accurate and front facing so the user can
+// understand what is actually happening"). A straight-on elevation is both
+// closer to how a real MEP riser/coordination drawing is actually drawn
+// (a flat schematic, not an artistic 3D cutaway) and far easier to read at
+// a glance: each system is one clearly vertical line running the height of
+// the building, with roof/ground plant exactly where it visually connects.
+const VB_W = 560;
+const VB_H = 460;
+const BX = 100; // building left edge
+const BW = 360; // building width
+const ROOF_Y = 60;
+const GROUND_Y = 360;
+const FLOORS = 6;
+const FLOOR_H = (GROUND_Y - ROOF_Y) / FLOORS;
 
-function iso(x: number, y: number, z: number): [number, number] {
-  const sx = (x - y) * XU * 0.87;
-  const sy = (x + y) * YU * 0.5 - z * ZU;
-  return [ORIGIN_X + sx, ORIGIN_Y + sy];
-}
+// Evenly spaced riser columns across the building width, one per system —
+// order chosen so HVAC (the only roof-connected system) sits centred under
+// its rooftop units, with the ground-served systems flanking it.
+const RISER_X: Record<string, number> = {
+  electrical: BX + BW * (0.5 / 6),
+  "plumbing-public-health": BX + BW * (1.5 / 6),
+  hvac: BX + BW * (2.5 / 6),
+  "fire-protection": BX + BW * (3.5 / 6),
+  "elv-security": BX + BW * (4.5 / 6),
+  "bms-systems-integration": BX + BW * (5.5 / 6),
+};
 
-function pts(points: [number, number, number][]) {
-  return points.map(([x, y, z]) => iso(x, y, z).join(",")).join(" ");
-}
-
-function IsometricBuilding({
+function FrontElevationBuilding({
   step,
   total,
   reduceMotion,
@@ -269,15 +281,15 @@ function IsometricBuilding({
   total: number;
   reduceMotion: boolean;
 }) {
-  const scanRef = useRef<SVGPolygonElement>(null);
+  const scanRef = useRef<SVGRectElement>(null);
   const activeZone = step > 0 ? ZONES[step - 1] : null;
   const activeSlug = activeZone?.slug;
   const activeColor = activeSlug ? SYSTEM_COLOR[activeSlug] : undefined;
 
-  // GSAP — a soft coloured wash sweeps up the active face each time `step`
-  // advances, in the active system's own colour. The one thing GSAP does
-  // here that the per-riser draw-in below doesn't: an imperative "this is
-  // the one that just lit up" pass across the whole shell.
+  // GSAP — a soft coloured wash sweeps down the building face each time
+  // `step` advances, in the active system's own colour. The one thing GSAP
+  // does here that the per-riser draw-in below doesn't: an imperative
+  // "this is the one that just lit up" pass across the whole shell.
   useEffect(() => {
     if (step === 0 || reduceMotion || !activeColor) return;
     let cancelled = false;
@@ -286,34 +298,15 @@ function IsometricBuilding({
       if (cancelled || !scanRef.current) return;
       gsap.killTweensOf(scanRef.current);
       gsap.set(scanRef.current, { attr: { fill: activeColor } });
-      gsap.fromTo(scanRef.current, { opacity: 0.55 }, { opacity: 0, duration: 1, ease: "power2.out" });
+      gsap.fromTo(scanRef.current, { opacity: 0.35 }, { opacity: 0, duration: 1, ease: "power2.out" });
     })();
     return () => {
       cancelled = true;
     };
   }, [step, reduceMotion, activeColor]);
 
-  const floorZs = Array.from({ length: FLOORS + 1 }, (_, i) => i);
-  const floorMidZs = Array.from({ length: FLOORS }, (_, i) => i + 0.5);
-
-  const leftFace = pts([
-    [0, 0, 0],
-    [BW, 0, 0],
-    [BW, 0, FLOORS],
-    [0, 0, FLOORS],
-  ]);
-  const rightFace = pts([
-    [BW, 0, 0],
-    [BW, BD, 0],
-    [BW, BD, FLOORS],
-    [BW, 0, FLOORS],
-  ]);
-  const roofFace = pts([
-    [0, 0, FLOORS],
-    [BW, 0, FLOORS],
-    [BW, BD, FLOORS],
-    [0, BD, FLOORS],
-  ]);
+  const floorLines = Array.from({ length: FLOORS - 1 }, (_, i) => ROOF_Y + FLOOR_H * (i + 1));
+  const floorMidYs = Array.from({ length: FLOORS }, (_, i) => ROOF_Y + FLOOR_H * (i + 0.5));
 
   return (
     <div className="relative border border-(--color-line-strong) bg-(--color-paper) p-4 sm:p-6">
@@ -333,97 +326,70 @@ function IsometricBuilding({
         </p>
       </div>
 
-      <svg
-        viewBox="90 216 480 436"
-        className="h-auto w-full"
-        role="img"
-        aria-label={`Isometric building cutaway, showing ${step} of ${total} coordinated engineering systems routed through it`}
-      >
-        <defs>
-          <linearGradient id="iso-roof" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#F1F6FA" />
-            <stop offset="100%" stopColor="#D8E5EF" />
-          </linearGradient>
-          <linearGradient id="iso-left" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FAFCFE" />
-            <stop offset="100%" stopColor="#E3ECF3" />
-          </linearGradient>
-          <linearGradient id="iso-right" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#DCE8F1" />
-            <stop offset="100%" stopColor="#BFD1E0" />
-          </linearGradient>
-          <radialGradient id="iso-shadow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0F1720" stopOpacity={0.18} />
-            <stop offset="100%" stopColor="#0F1720" stopOpacity={0} />
-          </radialGradient>
-          {/* A soft colour bloom plus a grounding drop-shadow — the "lit
-              from within" quality that separates an active riser from a
-              flat coloured line. */}
-          <filter id="riser-shadow" x="-60%" y="-40%" width="220%" height="180%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="bloom" />
-            <feColorMatrix in="bloom" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0" result="softBloom" />
-            <feDropShadow in="SourceGraphic" dx="1.5" dy="2" stdDeviation="1.4" floodColor="#0F1720" floodOpacity="0.25" result="shadowed" />
-            <feMerge>
-              <feMergeNode in="softBloom" />
-              <feMergeNode in="shadowed" />
-            </feMerge>
-          </filter>
-        </defs>
+      {/* Centred both ways — the isometric build ran off-balance in its
+          panel; a flat elevation is symmetric by construction, and mx-auto
+          plus a capped max-width keeps it centred at every viewport. */}
+      <div className="flex justify-center">
+        <svg
+          viewBox={`0 0 ${VB_W} ${VB_H}`}
+          className="h-auto w-full max-w-[480px]"
+          role="img"
+          aria-label={`Front elevation of a building, showing ${step} of ${total} coordinated engineering systems routed through it`}
+        >
+          <defs>
+            <linearGradient id="elev-face" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FBFDFE" />
+              <stop offset="100%" stopColor="#E9F0F5" />
+            </linearGradient>
+          </defs>
 
-        {/* Ground shadow */}
-        <ellipse cx={ORIGIN_X} cy={ORIGIN_Y + 14} rx={210} ry={22} fill="url(#iso-shadow)" />
+          {/* Ground line */}
+          <line x1={BX - 30} y1={GROUND_Y} x2={BX + BW + 30} y2={GROUND_Y} stroke="#B9CBD8" strokeWidth={1.5} />
 
-        {/* Building shell — three isometric faces. */}
-        <polygon points={roofFace} fill="url(#iso-roof)" stroke="#B9CBD8" strokeWidth={1.25} />
-        <polygon points={leftFace} fill="url(#iso-left)" stroke="#B9CBD8" strokeWidth={1.25} />
-        <polygon points={rightFace} fill="url(#iso-right)" stroke="#B9CBD8" strokeWidth={1.25} />
+          {/* Building shell — one flat front face. */}
+          <rect x={BX} y={ROOF_Y} width={BW} height={GROUND_Y - ROOF_Y} fill="url(#elev-face)" stroke="#B9CBD8" strokeWidth={1.5} />
+          {/* Roofline cap */}
+          <line x1={BX - 10} y1={ROOF_Y} x2={BX + BW + 10} y2={ROOF_Y} stroke="#9FB6C6" strokeWidth={2} />
 
-        {/* Floor dividers, drawn on both visible side faces. */}
-        {floorZs.slice(1, -1).map((z) => (
-          <g key={z} stroke="#B9CBD8" strokeWidth={1} opacity={0.8}>
-            <line {...lineProps(0, 0, z, BW, 0, z)} />
-            <line {...lineProps(BW, 0, z, BW, BD, z)} />
-          </g>
-        ))}
-        {/* Corner edges, for a crisper "built object" read. */}
-        <g stroke="#9FB6C6" strokeWidth={1.5}>
-          <line {...lineProps(0, 0, 0, 0, 0, FLOORS)} />
-          <line {...lineProps(BW, 0, 0, BW, 0, FLOORS)} />
-          <line {...lineProps(BW, BD, 0, BW, BD, FLOORS)} />
-        </g>
+          {/* Floor dividers */}
+          {floorLines.map((y) => (
+            <line key={y} x1={BX} y1={y} x2={BX + BW} y2={y} stroke="#B9CBD8" strokeWidth={1} opacity={0.7} />
+          ))}
 
-        {/* GSAP colour-wash scan, keyed to the active system's colour. */}
-        <polygon ref={scanRef} points={leftFace} opacity={0} />
+          {/* GSAP colour-wash scan, keyed to the active system's colour. */}
+          <rect ref={scanRef} x={BX} y={ROOF_Y} width={BW} height={GROUND_Y - ROOF_Y} opacity={0} />
 
-        {/* Rooftop plant — two chiller/AHU units, lighting up for HVAC. */}
-        <IsoBox x={0.5} y={0.4} z={FLOORS} w={1.2} d={0.9} h={0.55} active={step > 0} color={SYSTEM_COLOR.hvac} />
-        <IsoBox x={2.1} y={1.5} z={FLOORS} w={1} d={0.8} h={0.4} active={step > 0} color={SYSTEM_COLOR.hvac} />
-        {/* Ground-floor plant room boxes — pump (plumbing), fire pump (fire),
-            an electrical switchgear box, and an ELV/IT rack. */}
-        <IsoBox x={0.3} y={0.2} z={-0.55} w={0.85} d={0.65} h={0.55} active={step > 2} color={SYSTEM_COLOR["plumbing-public-health"]} />
-        <IsoBox x={1.4} y={0.2} z={-0.55} w={0.75} d={0.6} h={0.5} active={step > 1} color={SYSTEM_COLOR.electrical} />
-        <IsoBox x={2.4} y={0.2} z={-0.55} w={0.85} d={0.65} h={0.6} active={step > 3} color={SYSTEM_COLOR["fire-protection"]} />
-        <IsoBox x={3.5} y={0.2} z={-0.55} w={0.7} d={0.6} h={0.65} active={step > 4} color={SYSTEM_COLOR["elv-security"]} />
+          {/* Rooftop plant — two AHU/chiller units, lighting up for HVAC. */}
+          <PlantBox cx={RISER_X.hvac - 26} y={ROOF_Y - 26} w={34} h={26} active={step > 0} color={SYSTEM_COLOR.hvac} />
+          <PlantBox cx={RISER_X.hvac + 26} y={ROOF_Y - 20} w={30} h={20} active={step > 0} color={SYSTEM_COLOR.hvac} />
 
-        {/* Per-system risers + floor branches. */}
-        <Riser slug="hvac" face="left" pos={1} active={step > 0} floorMidZs={floorMidZs} branchTo={0.9} />
-        <Riser slug="fire-protection" face="left" pos={2.5} active={step > 3} floorMidZs={floorMidZs} branchTo={0.9} />
-        <Riser slug="electrical" face="left" pos={4} active={step > 1} floorMidZs={floorMidZs} branchTo={0.9} />
-        <Riser slug="plumbing-public-health" face="right" pos={0.7} active={step > 2} floorMidZs={floorMidZs} branchTo={0.9} />
-        <Riser slug="elv-security" face="right" pos={1.5} active={step > 4} floorMidZs={floorMidZs} branchTo={0.9} dashed />
-        <Riser slug="bms-systems-integration" face="right" pos={2.4} active={step > 5} floorMidZs={floorMidZs} branchTo={0.9} />
+          {/* Per-system risers + floor branches — drawn before the ground
+              plant row so the plant boxes sit visually "in front". */}
+          <Riser x={RISER_X.electrical} color={SYSTEM_COLOR.electrical} active={step > 1} floorMidYs={floorMidYs} />
+          <Riser x={RISER_X["plumbing-public-health"]} color={SYSTEM_COLOR["plumbing-public-health"]} active={step > 2} floorMidYs={floorMidYs} />
+          <Riser x={RISER_X.hvac} color={SYSTEM_COLOR.hvac} active={step > 0} floorMidYs={floorMidYs} topY={ROOF_Y - 6} />
+          <Riser x={RISER_X["fire-protection"]} color={SYSTEM_COLOR["fire-protection"]} active={step > 3} floorMidYs={floorMidYs} />
+          <Riser x={RISER_X["elv-security"]} color={SYSTEM_COLOR["elv-security"]} active={step > 4} floorMidYs={floorMidYs} dashed />
+          <Riser x={RISER_X["bms-systems-integration"]} color={SYSTEM_COLOR["bms-systems-integration"]} active={step > 5} floorMidYs={floorMidYs} />
 
-        {/* BMS convergence — thin lines tying every riser's mid-height point
-            back to a central rooftop control node, drawn last so it reads as
-            "sitting above" the other systems once it activates. */}
-        {step > 5 && <BmsConvergence reduceMotion={reduceMotion} />}
-      </svg>
+          {/* Ground-floor plant room boxes — pump (plumbing), an electrical
+              switchgear box, fire pump, an ELV/IT rack, and a BMS control
+              panel, each sitting directly under its own riser. */}
+          <PlantBox cx={RISER_X.electrical} y={GROUND_Y} w={34} h={26} active={step > 1} color={SYSTEM_COLOR.electrical} />
+          <PlantBox cx={RISER_X["plumbing-public-health"]} y={GROUND_Y} w={34} h={26} active={step > 2} color={SYSTEM_COLOR["plumbing-public-health"]} />
+          <PlantBox cx={RISER_X["fire-protection"]} y={GROUND_Y} w={34} h={26} active={step > 3} color={SYSTEM_COLOR["fire-protection"]} />
+          <PlantBox cx={RISER_X["elv-security"]} y={GROUND_Y} w={34} h={26} active={step > 4} color={SYSTEM_COLOR["elv-security"]} />
+          <PlantBox cx={RISER_X["bms-systems-integration"]} y={GROUND_Y} w={34} h={26} active={step > 5} color={SYSTEM_COLOR["bms-systems-integration"]} />
 
-      {/* Caption footer — replaces the earlier floating white HUD card
-          (which sat outside the diagram's own frame and read as a
-          disconnected widget). Now it's a fixed-height row inside the same
-          bordered panel as the drawing, so nothing jumps or floats loose
-          as the active system changes. */}
+          {/* BMS convergence — thin lines tying every riser's top back to a
+              central control node, drawn last once all six systems are live. */}
+          {step > 5 && <BmsConvergence reduceMotion={reduceMotion} />}
+        </svg>
+      </div>
+
+      {/* Caption footer — a fixed-height row inside the same bordered panel
+          as the drawing, so nothing jumps or floats loose as the active
+          system changes. */}
       <div className="mt-4 flex min-h-[2.75rem] items-center border-t border-(--color-line) pt-3">
         <AnimatePresence mode="wait" initial={false}>
           {activeZone ? (
@@ -461,166 +427,104 @@ function IsometricBuilding({
   );
 }
 
-function lineProps(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) {
-  const [sx1, sy1] = iso(x1, y1, z1);
-  const [sx2, sy2] = iso(x2, y2, z2);
-  return { x1: sx1, y1: sy1, x2: sx2, y2: sy2 };
-}
-
-/** A small isometric box (rooftop/ground plant), fading in per-system. */
-function IsoBox({
-  x,
+/** A small rooftop or ground plant box, fading in per-system. `y` is the
+ *  roofline (box drawn above it) for rooftop plant, or the ground line
+ *  (box drawn below it) for ground plant — decided by comparing against
+ *  ROOF_Y so callers just pass the real anchor line. */
+function PlantBox({
+  cx,
   y,
-  z,
   w,
-  d,
   h,
   active,
   color,
 }: {
-  x: number;
+  cx: number;
   y: number;
-  z: number;
   w: number;
-  d: number;
   h: number;
   active: boolean;
   color: string;
 }) {
-  const top = pts([
-    [x, y, z + h],
-    [x + w, y, z + h],
-    [x + w, y + d, z + h],
-    [x, y + d, z + h],
-  ]);
-  const left = pts([
-    [x, y, z],
-    [x + w, y, z],
-    [x + w, y, z + h],
-    [x, y, z + h],
-  ]);
-  const right = pts([
-    [x + w, y, z],
-    [x + w, y + d, z],
-    [x + w, y + d, z + h],
-    [x + w, y, z + h],
-  ]);
+  const onRoof = y <= ROOF_Y;
+  const top = onRoof ? y - h : y + 4;
   return (
-    <motion.g
+    <motion.rect
+      x={cx - w / 2}
+      y={top}
+      width={w}
+      height={h}
+      rx={2}
+      fill={color}
+      stroke="white"
+      strokeWidth={1}
       initial={false}
-      animate={{ opacity: active ? 1 : 0 }}
+      animate={{ opacity: active ? 0.92 : 0 }}
       transition={{ duration: 0.4 }}
-      style={{ color }}
-    >
-      <polygon points={top} fill="currentColor" opacity={0.85} stroke="white" strokeWidth={0.75} />
-      <polygon points={left} fill="currentColor" opacity={0.65} stroke="white" strokeWidth={0.75} />
-      <polygon points={right} fill="currentColor" opacity={0.5} stroke="white" strokeWidth={0.75} />
-    </motion.g>
+    />
   );
 }
 
-/** One discipline's vertical riser on a visible face, with short branch
- *  ticks reaching into the building interior at every floor. */
+/** One discipline's vertical riser, with short branch ticks reaching into
+ *  the building at every floor. A twin-line riser (supply + return), the
+ *  way a real coordination drawing shows a pipe/duct pair rather than a
+ *  single schematic line. */
 function Riser({
-  slug,
-  face,
-  pos,
+  x,
+  color,
   active,
-  floorMidZs,
-  branchTo,
+  floorMidYs,
   dashed,
+  topY = ROOF_Y,
 }: {
-  slug: string;
-  face: "left" | "right";
-  pos: number;
+  x: number;
+  color: string;
   active: boolean;
-  floorMidZs: number[];
-  branchTo: number;
+  floorMidYs: number[];
   dashed?: boolean;
+  topY?: number;
 }) {
-  const color = SYSTEM_COLOR[slug];
-  // left face: fixed y=0, x=pos, z varies. right face: fixed x=BW, y=pos, z varies.
-  const riserStart: [number, number, number] = face === "left" ? [pos, 0, 0] : [BW, pos, 0];
-  const riserEnd: [number, number, number] = face === "left" ? [pos, 0, FLOORS] : [BW, pos, FLOORS];
-  const [x1, y1] = iso(...riserStart);
-  const [x2, y2] = iso(...riserEnd);
-
-  const branchPoints = floorMidZs.map((z) => {
-    const from: [number, number, number] = face === "left" ? [pos, 0, z] : [BW, pos, z];
-    const to: [number, number, number] = face === "left" ? [pos, branchTo, z] : [BW - branchTo, pos, z];
-    return { from: iso(...from), to: iso(...to), z };
-  });
-
-  // One motion instance per riser (not one per branch tick) — with six
-  // risers each animating ~8 sub-elements independently, the diagram was
-  // running 50+ concurrent Framer springs during the autoplay sequence,
-  // which starved the main thread badly enough that unrelated animations
-  // elsewhere on the page (the headline swap) visibly stalled. A single
-  // opacity fade on the whole group, with the branches/cap rendered as
-  // plain (non-animated) SVG that simply mounts with it, reads almost as
-  // well and costs a fraction of the compositing work.
-  // A twin-line riser (supply + return), the way a real coordination
-  // drawing shows a pipe/duct pair rather than a single schematic line —
-  // reads as denser and more "real" at a glance, per the client's reference.
-  const offset = 3.2;
-
+  const offset = 3;
   return (
     <motion.g
       style={{ color }}
       initial={false}
       animate={{ opacity: active ? 1 : 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      filter="url(#riser-shadow)"
     >
-      <line x1={x1 - offset} y1={y1} x2={x2 - offset} y2={y2} stroke="currentColor" strokeWidth={2.75} strokeDasharray={dashed ? "4 4" : undefined} />
-      <line x1={x1 + offset} y1={y1} x2={x2 + offset} y2={y2} stroke="currentColor" strokeWidth={2.75} opacity={0.55} strokeDasharray={dashed ? "4 4" : undefined} />
-      {branchPoints.map(({ from, to, z }) => (
-        <g key={z}>
-          <line
-            x1={from[0] - offset}
-            y1={from[1]}
-            x2={to[0]}
-            y2={to[1]}
-            stroke="currentColor"
-            strokeWidth={2}
-            opacity={0.9}
-            strokeDasharray={dashed ? "3 3" : undefined}
-          />
-          <circle cx={from[0] - offset} cy={from[1]} r={2.5} fill="currentColor" />
+      <line x1={x - offset} y1={topY} x2={x - offset} y2={GROUND_Y} stroke="currentColor" strokeWidth={2.75} strokeDasharray={dashed ? "4 4" : undefined} />
+      <line x1={x + offset} y1={topY} x2={x + offset} y2={GROUND_Y} stroke="currentColor" strokeWidth={2.75} opacity={0.5} strokeDasharray={dashed ? "4 4" : undefined} />
+      {floorMidYs.map((y) => (
+        <g key={y}>
+          <line x1={x - offset - 16} y1={y} x2={x + offset + 16} y2={y} stroke="currentColor" strokeWidth={2} opacity={0.85} strokeDasharray={dashed ? "3 3" : undefined} />
+          <circle cx={x} cy={y} r={2.5} fill="currentColor" />
         </g>
       ))}
-      <circle cx={x2} cy={y2} r={4.5} fill="currentColor" stroke="white" strokeWidth={1} />
     </motion.g>
   );
 }
 
-/** BMS — thin convergence lines from a rooftop control node to every other
- *  system's riser top, drawn once all six systems (including BMS) are live. */
+/** BMS — thin convergence lines from a control node above the roofline to
+ *  every other system's riser top, drawn once all six systems are live. */
 function BmsConvergence({ reduceMotion }: { reduceMotion: boolean }) {
-  const node = iso(BW / 2, BD / 2, FLOORS + 0.15);
-  const targets: [number, number, number][] = [
-    [1, 0, FLOORS],
-    [2.5, 0, FLOORS],
-    [4, 0, FLOORS],
-    [BW, 0.7, FLOORS],
-    [BW, 1.5, FLOORS],
-    [BW, 2.4, FLOORS],
-  ];
-  // One fade for the whole convergence fan, not six staggered springs —
-  // see the note on Riser above.
+  const nodeX = (BX + BX + BW) / 2;
+  const nodeY = ROOF_Y - 42;
+  const targets = Object.entries(RISER_X).map(([slug, x]) => ({
+    x,
+    y: slug === "hvac" ? ROOF_Y - 6 : ROOF_Y,
+  }));
   return (
     <motion.g
       stroke="var(--color-steel)"
       strokeWidth={1}
       initial={false}
-      animate={{ opacity: 0.7 }}
+      animate={{ opacity: 0.6 }}
       transition={{ duration: reduceMotion ? 0 : 0.5 }}
     >
-      {targets.map((t, i) => {
-        const [tx, ty] = iso(...t);
-        return <line key={i} x1={node[0]} y1={node[1]} x2={tx} y2={ty} />;
-      })}
-      <circle cx={node[0]} cy={node[1]} r={5} fill="var(--color-ink)" />
+      {targets.map((t, i) => (
+        <line key={i} x1={nodeX} y1={nodeY} x2={t.x} y2={t.y} />
+      ))}
+      <circle cx={nodeX} cy={nodeY} r={5} fill="var(--color-ink)" stroke="white" strokeWidth={1} />
     </motion.g>
   );
 }

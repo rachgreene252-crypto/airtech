@@ -18,6 +18,11 @@ const LAST_FRAME = FRAME_SRC(FRAME_COUNT - 1);
  * screens' worth of scrolling, then the headline follows once it settles.
  * Every frame is preloaded before the scrub is wired up, so scrolling
  * never lands on a blank canvas.
+ *
+ * 2026-09-15 — the text panel below the canvas is light now (was a dark
+ * navy band), per explicit "no dark blue block anywhere" feedback. It sits
+ * on the same transparent/sitewide-background material as every other
+ * section instead of inverting to a photo-dark bookend.
  */
 export function CinematicHero() {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -197,17 +202,17 @@ export function CinematicHero() {
 function HeroTextPanel() {
   return (
     <section
-      className="relative bg-(--color-blue-deep) px-6 py-16 text-center sm:px-10 sm:py-20"
+      className="relative bg-site-texture px-6 py-14 text-center sm:px-10 sm:py-20"
       aria-label="Airtech Industries — keeping Nepal moving"
     >
       <div className="mx-auto flex max-w-3xl flex-col items-center">
-        <p className="font-mono text-label uppercase tracking-[0.24em] text-(--color-brand-blue-soft)">
+        <p className="font-mono text-label uppercase tracking-[0.24em] text-(--color-brand-blue)">
           Engineering behind the places that matter
         </p>
-        <h1 className="mt-7 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.01] tracking-[-0.025em] text-balance text-white">
+        <h1 className="mt-7 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.01] tracking-[-0.025em] text-balance text-(--color-ink)">
           Keeping Nepal moving.
         </h1>
-        <p className="mt-7 max-w-lg text-body-l leading-relaxed text-white/85">
+        <p className="mt-7 max-w-lg text-body-l leading-relaxed text-(--color-steel)">
           Integrated MEP and HVAC — from first drawing to commissioning, and
           the years of support that follow.
         </p>
@@ -217,14 +222,14 @@ function HeroTextPanel() {
           </ButtonLink>
           <Link
             href="/projects"
-            className="text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline transition-colors"
+            className="text-sm font-medium text-(--color-ink-soft) underline-offset-4 hover:text-(--color-brand-blue) hover:underline transition-colors"
           >
             Explore our work →
           </Link>
         </div>
 
-        <div className="mt-14 flex items-center gap-3 text-white/60">
-          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue-soft) animate-energy-pulse" />
+        <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
+          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse" />
           <span className="font-mono text-[0.72rem] uppercase tracking-[0.2em]">
             Reliability matters · Est. 2000 · Integrated MEP since 2013
           </span>
