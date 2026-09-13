@@ -228,7 +228,7 @@ export function SystemsReveal() {
           </AnimatePresence>
         </div>
 
-        <IsometricBuilding step={step} reduceMotion={!!reduceMotion} />
+        <IsometricBuilding step={step} total={total} reduceMotion={!!reduceMotion} />
       </div>
     </Section>
   );
@@ -260,9 +260,16 @@ function pts(points: [number, number, number][]) {
   return points.map(([x, y, z]) => iso(x, y, z).join(",")).join(" ");
 }
 
-function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion: boolean }) {
+function IsometricBuilding({
+  step,
+  total,
+  reduceMotion,
+}: {
+  step: number;
+  total: number;
+  reduceMotion: boolean;
+}) {
   const scanRef = useRef<SVGPolygonElement>(null);
-  const total = ZONES.length;
   const activeZone = step > 0 ? ZONES[step - 1] : null;
   const activeSlug = activeZone?.slug;
   const activeColor = activeSlug ? SYSTEM_COLOR[activeSlug] : undefined;
@@ -309,9 +316,25 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
   ]);
 
   return (
-    <div className="relative">
+    <div className="relative border border-(--color-line-strong) bg-(--color-paper) p-4 sm:p-6">
+      {/* Header row — the same mono-label + rule language used across the
+          rest of the site (PageHero, crop-frame captions), so this panel
+          reads as part of the same system as the stepper buttons beside it
+          instead of a separate floating widget. */}
+      <div className="mb-4 flex items-center justify-between border-b border-(--color-line) pb-3">
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
+          Coordination drawing
+        </p>
+        <p
+          className="font-mono text-[0.7rem] uppercase tracking-[0.16em] transition-colors"
+          style={{ color: activeColor ?? "var(--color-steel-soft)" }}
+        >
+          Sys {String(step).padStart(2, "0")}/{String(total).padStart(2, "0")}
+        </p>
+      </div>
+
       <svg
-        viewBox="0 0 660 600"
+        viewBox="90 216 480 436"
         className="h-auto w-full"
         role="img"
         aria-label={`Isometric building cutaway, showing ${step} of ${total} coordinated engineering systems routed through it`}
@@ -396,27 +419,41 @@ function IsometricBuilding({ step, reduceMotion }: { step: number; reduceMotion:
         {step > 5 && <BmsConvergence reduceMotion={reduceMotion} />}
       </svg>
 
-      {/* HUD readout — a live coordination-drawing-style callout naming
-          whatever system is currently active, coloured to match its riser. */}
-      <div className="pointer-events-none absolute right-0 top-0 hidden sm:block">
+      {/* Caption footer — replaces the earlier floating white HUD card
+          (which sat outside the diagram's own frame and read as a
+          disconnected widget). Now it's a fixed-height row inside the same
+          bordered panel as the drawing, so nothing jumps or floats loose
+          as the active system changes. */}
+      <div className="mt-4 flex min-h-[2.75rem] items-center border-t border-(--color-line) pt-3">
         <AnimatePresence mode="wait" initial={false}>
-          {activeZone && (
+          {activeZone ? (
             <motion.div
               key={activeZone.slug}
-              initial={reduceMotion ? false : { opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="border bg-white/90 px-3 py-2 shadow-sm backdrop-blur-sm"
-              style={{ borderColor: activeColor }}
+              className="flex items-center gap-3"
             >
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: activeColor }}>
-                Sys {String(step).padStart(2, "0")}/{String(total).padStart(2, "0")} · {activeZone.disciplineCode}
-              </p>
-              <p className="mt-0.5 font-display text-small font-semibold text-(--color-ink)">
+              <span aria-hidden="true" className="h-8 w-1 shrink-0" style={{ backgroundColor: activeColor }} />
+              <p className="font-display text-small font-semibold text-(--color-ink)">
                 {activeZone.name}
+                <span className="ml-2 font-mono text-[0.7rem] font-normal uppercase tracking-[0.1em] text-(--color-steel-soft)">
+                  {activeZone.disciplineCode}
+                </span>
               </p>
             </motion.div>
+          ) : (
+            <motion.p
+              key="idle"
+              initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-(--color-steel-soft)"
+            >
+              Full building shell — six systems, one team.
+            </motion.p>
           )}
         </AnimatePresence>
       </div>

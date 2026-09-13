@@ -353,64 +353,15 @@ body {
   outline-offset: 1px;
 }
 
-/* SystemShowcase / discipline motifs — plain CSS @keyframes so the
+/* Hero pulse dot (CinematicHero) — plain CSS @keyframes so the
    prefers-reduced-motion rule above (which zeroes all animation-duration)
-   disables every one automatically. */
-@keyframes airflow-drift {
-  0% { transform: translateX(0); opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { transform: translateX(160%); opacity: 0; }
-}
-.animate-airflow {
-  animation-name: airflow-drift;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
+   disables it automatically. */
 @keyframes energy-pulse {
   0%, 100% { opacity: 0.25; }
   50% { opacity: 1; }
 }
 .animate-energy-pulse {
   animation: energy-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes flow-drop {
-  0% { transform: translateY(0); opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { transform: translateY(420%); opacity: 0; }
-}
-.animate-flow-drop {
-  animation-name: flow-drop;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-}
-
-@keyframes detect-ping {
-  0%, 70%, 100% { opacity: 0.35; transform: scale(1); }
-  35% { opacity: 1; transform: scale(1.8); }
-}
-.animate-detect-ping {
-  animation: detect-ping 3.2s ease-in-out infinite;
-}
-
-@keyframes signal-travel {
-  0%, 100% { cx: 70%; cy: 30%; }
-  33% { cx: 40%; cy: 60%; }
-  66% { cx: 60%; cy: 80%; }
-}
-.animate-signal-travel {
-  animation: signal-travel 3.6s ease-in-out infinite;
-}
-
-@keyframes converge-pulse {
-  0%, 100% { opacity: 0.7; r: 6; }
-  50% { opacity: 1; r: 9; }
-}
-.animate-converge-pulse {
-  animation: converge-pulse 2.6s ease-in-out infinite;
 }
 
 /* TrustedBy marquee — seamless loop via a doubled track translated by
@@ -426,34 +377,3 @@ body {
   animation-play-state: paused;
 }
 
-@keyframes advisory-scan {
-  0% { transform: translateY(0); opacity: 0.4; }
-  50% { transform: translateY(100%); opacity: 1; }
-  100% { transform: translateY(0); opacity: 0.4; }
-}
-.animate-advisory-scan {
-  animation: advisory-scan 4s ease-in-out infinite;
-  transform-box: fill-box;
-}
-
-@keyframes engineer-crossfade {
-  0%, 20% { opacity: 1; }
-  25%, 100% { opacity: 0; }
-}
-.animate-engineer-crossfade {
-  animation-name: engineer-crossfade;
-  animation-duration: 8s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes gauge-fill {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
-}
-.animate-gauge-fill {
-  animation-name: gauge-fill;
-  animation-duration: 1.3s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  animation-fill-mode: forwards;
-}

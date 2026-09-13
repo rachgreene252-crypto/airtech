@@ -6,13 +6,13 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  // Sharp corners, not a pill — 2026-09-11, correcting the rounded-full
-  // shape that read as generic SaaS. A drafted rectangle (--radius-xs, the
-  // same 2px used on crop-frame photo panels elsewhere) fits the site's
-  // technical-drawing identity instead. Focus ring is a box-shadow, not
-  // `outline`, so it draws a clean concentric rectangle; a paper-coloured
-  // inner gap separates it from the fill on the solid variant.
-  "inline-flex items-center justify-center gap-2 rounded-[2px] font-medium transition-all duration-150 outline-none focus-visible:shadow-[0_0_0_2px_var(--color-paper),0_0_0_4px_var(--color-brand-blue)] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-px active:translate-y-0";
+  // Full pill, not the drafted-rectangle shape tried earlier — 2026-09-13,
+  // reversing that per direct client feedback ("make all buttons rounder
+  // and attractive"). A soft lift + shadow on hover gives it some presence
+  // instead of just a flat colour swap. Focus ring is a box-shadow, not
+  // `outline`, so it draws a clean concentric ring; a paper-coloured inner
+  // gap separates it from the fill on the solid variant.
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 ease-out outline-none focus-visible:shadow-[0_0_0_2px_var(--color-paper),0_0_0_4px_var(--color-brand-blue)] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0";
 
 const variants: Record<Variant, string> = {
   // --color-brand-blue is the primary UI blue (~6:1 on white — see
@@ -20,9 +20,10 @@ const variants: Record<Variant, string> = {
   // rather than brightening toward the literal logo blue
   // (--color-brand-blue-soft) — a pressed control should read as "pushed
   // in," not "lit up."
-  primary: "bg-(--color-brand-blue) text-white hover:bg-(--color-brand-blue-hover)",
+  primary:
+    "bg-(--color-brand-blue) text-white shadow-[0_1px_2px_rgba(15,23,32,0.12)] hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,119,170,0.55)]",
   secondary:
-    "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white",
+    "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white hover:shadow-[0_10px_24px_-8px_rgba(0,119,170,0.4)]",
   ghost: "text-(--color-brand-blue) hover:text-(--color-ink) underline underline-offset-4",
 };
 

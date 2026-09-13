@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { Route } from "next";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
-import { SystemMotif, SERVICE_MOTIFS } from "@/components/ui/SystemMotif";
 import { services, getServiceBySlug } from "@/content/services";
 import { industries, getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService } from "@/content/projects";
@@ -50,15 +49,6 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       <p className="mt-5 max-w-2xl text-body-l leading-relaxed text-(--color-steel)">
         {service.detailedDescription}
       </p>
-
-      {/* Discipline motif — one animated visual metaphor per discipline
-          (CSS keyframes, zeroed under prefers-reduced-motion). */}
-      <div className="relative mt-8 h-36 overflow-hidden border border-(--color-line-strong) bg-(--color-blue-deep) sm:h-44">
-        <SystemMotif motif={SERVICE_MOTIFS[service.slug] ?? "converge"} />
-        <span className="absolute bottom-3 left-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-white/55">
-          {service.disciplineCode}
-        </span>
-      </div>
 
       {/* Photography — real project stills where this discipline has a
           sourced hero image, so text-heavy discipline pages carry evidence,

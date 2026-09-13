@@ -4,7 +4,6 @@ import { cacheLife } from "next/cache";
 import { Container } from "@/components/ui/Container";
 import { footerNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
-import { HimalayanSkyline } from "@/components/ui/HimalayanSkyline";
 
 async function getCurrentYear() {
   "use cache";
@@ -17,21 +16,11 @@ async function getCurrentYear() {
  * (matching the hero and final CTA's photo-dark bookends) instead of a flat
  * plain-text list on white, with a clearer brand mark and a real top accent
  * line in Airtech blue.
- *
- * 2026-09-11 — carries the Himalayan skyline motif across the top edge.
- * The hero opens on a real Kathmandu Valley mountain photo; every page now
- * closes on the same silhouette, illustrated. That repetition is what turns
- * "a mountain motif we used once" into an actual signature — the thing that
- * marks this as an Airtech page rather than any premium engineering site.
  */
 export async function Footer() {
   const year = await getCurrentYear();
   return (
     <footer className="relative mt-auto overflow-hidden bg-(--color-blue-deep) text-white">
-      <HimalayanSkyline
-        className="pointer-events-none absolute inset-x-0 top-0 h-14 w-full text-(--color-brand-blue-soft) sm:h-20"
-        opacity={0.35}
-      />
       <div className="absolute inset-x-0 top-0 h-px bg-(--color-brand-blue-vivid)" />
       <Container className="pt-20 pb-16 lg:pt-24 lg:pb-20">
         <h2 className="sr-only">Site footer</h2>
@@ -56,7 +45,7 @@ export async function Footer() {
             <div className="mt-8">
               <Link
                 href="/contact/project-enquiry"
-                className="inline-flex items-center gap-2 rounded-[2px] bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-(--color-brand-blue)"
+                className="inline-flex items-center gap-2 rounded-full bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--color-brand-blue) hover:shadow-[0_10px_24px_-8px_rgba(0,153,218,0.6)]"
               >
                 Inquire for Services
                 <span aria-hidden="true">→</span>

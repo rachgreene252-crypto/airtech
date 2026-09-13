@@ -49,7 +49,7 @@ export function FinalCTA() {
           </ButtonLink>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-[2px] border border-white/35 px-7 py-3.5 text-base font-medium text-white transition-colors hover:border-white hover:bg-white/10"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/35 px-7 py-3.5 text-base font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white/10"
           >
             Contact Us
           </Link>

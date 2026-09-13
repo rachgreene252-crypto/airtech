@@ -1,6 +1,5 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { HimalayanSkyline } from "@/components/ui/HimalayanSkyline";
 
 /**
  * "Built for Nepal" — the four facts below are general, well-established
@@ -15,6 +14,9 @@ import { HimalayanSkyline } from "@/components/ui/HimalayanSkyline";
  * asymmetric editorial split instead — a fixed statement on the left, a
  * plain rule-separated list on the right (no boxes, no cards) so
  * hierarchy comes from typography and layout, not a repeated component.
+ * 2026-09-13: dropped the illustrated mountain-skyline motif from the top
+ * edge per direct client feedback ("i hate the hill design") — the section
+ * now carries the same idea with a plain accent rule instead of an icon.
  */
 const FACTS = [
   {
@@ -38,15 +40,12 @@ const FACTS = [
 export function BuiltForNepal() {
   return (
     <section className="relative overflow-hidden border-t border-(--color-line) bg-(--color-blue-deep) py-20 text-white sm:py-28">
-      <HimalayanSkyline
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 w-full text-(--color-brand-blue-soft) sm:h-32"
-        opacity={0.22}
-      />
       <Container className="relative">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-28">
-              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue-soft)">
+              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue-soft)">
+                <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue-soft)" />
                 Engineered for Nepal
               </p>
               <h2 className="mt-6 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.015em] text-balance">
