@@ -60,7 +60,10 @@ export default function HistoryPage() {
 
       {/* 25th-anniversary team photograph — real photography from the
           "AIRTECH RELIABILITY MATTERS" event, supplied directly for
-          publication (2026-09-09). */}
+          publication (2026-09-09). The source file is only 455x303 — capped
+          at max-w-lg rather than the section's usual max-w-4xl so it renders
+          near its native resolution instead of visibly upscaled, per "all
+          high quality images only." */}
       <Section tone="raised">
         <div className="mx-auto max-w-4xl text-center">
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
@@ -70,18 +73,18 @@ export default function HistoryPage() {
             One team, a quarter century of reliability.
           </h2>
         </div>
-        <div className="crop-frame relative mx-auto mt-10 aspect-[3/2] w-full max-w-4xl overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue)">
+        <div className="crop-frame relative mx-auto mt-10 aspect-[3/2] w-full max-w-lg overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue)">
           <span className="crop-tick-tl" />
           <span className="crop-tick-br" />
           <Image
             src="/images/team/team-25th-anniversary.jpg"
             alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
             fill
-            sizes="(min-width: 1024px) 896px, 100vw"
+            sizes="(min-width: 1024px) 512px, 100vw"
             className="object-cover"
           />
         </div>
-        <p className="mx-auto mt-4 max-w-4xl text-center text-small text-(--color-steel)">
+        <p className="mx-auto mt-4 max-w-lg text-center text-small text-(--color-steel)">
           The Airtech team at the company&rsquo;s 25th-anniversary, &ldquo;Reliability Matters&rdquo;
           celebration.
         </p>

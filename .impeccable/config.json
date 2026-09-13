@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "src/components/home/SystemsReveal.tsx"
+        ],
+        "createdAt": "2026-09-13T15:34:53.048Z",
+        "reason": "false positive: stroke-width on an SVG <line> is a paint property, not CSS box width/height/padding/margin — it doesn't trigger layout reflow the way this rule targets"
+      }
+    ]
+  }
+}

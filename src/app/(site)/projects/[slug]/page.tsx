@@ -20,6 +20,19 @@ import {
   getTestimonialForProject,
 } from "@/content";
 
+// Only two sourced project photos clear ~1200px native width (checked
+// directly against the files in public/images): everything else in
+// content/projects.ts sits at 400-900px, sharp enough for a small
+// thumbnail (the /projects grid, sector carousels) but visibly soft once
+// stretched full-bleed across a desktop viewport. Per "all high quality
+// images only," only these two get the full-bleed treatment below; every
+// other project falls back to the no-photo layout rather than a blown-up
+// low-res banner.
+const FULL_BLEED_SAFE = new Set([
+  "/images/projects/ncell-iconic-building.jpg",
+  "/images/landmarks/dusit-princess.jpg",
+]);
+
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -68,7 +81,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   return (
     <>
       <ProjectJsonLd project={project} industryName={industry?.name} />
-      {project.heroImage?.src ? (
+      {project.heroImage?.src && FULL_BLEED_SAFE.has(project.heroImage.src) ? (
         <section className="relative h-[62vh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)">
           <Image
             src={project.heroImage.src}
@@ -107,7 +120,17 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             />
           </Container>
           <Container className="pb-14">
-            <TechnicalFrame image={project.heroImage} label={project.name} aspect="aspect-[16/9]" priority />
+            {/* A sub-1200px photo stretched across this container's width
+                still upscales visibly on a wide desktop, so it doesn't get
+                a pass just because it's not the full-bleed banner above.
+                No image prop here at all falls through to TechnicalFrame's
+                honest placeholder. */}
+            <TechnicalFrame
+              image={project.heroImage && FULL_BLEED_SAFE.has(project.heroImage.src) ? project.heroImage : undefined}
+              label={project.name}
+              aspect="aspect-[16/9]"
+              priority
+            />
             <h1 className="mt-8 max-w-4xl font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
               {project.name}
             </h1>
