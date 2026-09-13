@@ -210,7 +210,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         </p>
         <div className="mt-6">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Inquire for Services
+            Enquire
           </ButtonLink>
         </div>
       </div>

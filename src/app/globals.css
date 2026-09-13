@@ -33,23 +33,20 @@
   --color-steel-soft: #7e8894;
   --color-line: #e4e8ec;
   --color-line-strong: #cbd2d9;
-  --color-blueprint: #4a6b82;
-  --color-blueprint-soft: #8fafc4;
 
-  /* Airtech blue — sampled directly from the logo (ASSETS/logofornavigation.png
-     -> rgb(0,153,218) / #0099DA) on 2026-09-10, after client feedback that
-     the site wasn't using "the Airtech blue from the logo." --color-brand-blue-vivid
-     is that exact logo blue — use it for large/decorative surfaces (fills,
-     icon chips, borders, big numerals) where WCAG's stricter small-text
-     contrast rules don't apply. --color-brand-blue is the same hue darkened
-     just enough to clear 4.5:1 on white — use it for anything that IS body
-     text: buttons, links, small mono labels. Same hue family throughout, so
+  /* Airtech blue — 2026-09-15, client-supplied exact brand hex (#0098B1),
+     replacing the earlier logo-sampled #0099DA. --color-brand-blue-vivid is
+     that exact hex — use it for large/decorative surfaces (fills, icon
+     chips, borders, big numerals) where WCAG's stricter small-text contrast
+     rules don't apply. --color-brand-blue is the same hue darkened just
+     enough to clear 4.5:1 on white — use it for anything that IS body text:
+     buttons, links, small mono labels. Same hue family throughout, so
      nothing reads as "a different blue," just a lightness step. */
-  --color-brand-blue-vivid: #0099da;
-  --color-brand-blue: #0077aa;
-  --color-brand-blue-hover: #005f87;
-  --color-brand-blue-soft: #5cc4ef;
-  --color-brand-blue-tint: #e6f6fc;
+  --color-brand-blue-vivid: #0098b1;
+  --color-brand-blue: #007a8e;
+  --color-brand-blue-hover: #006373;
+  --color-brand-blue-soft: #70d9eb;
+  --color-brand-blue-tint: #e7fafe;
   --color-blue-deep: #051d2b;
 
   /* Repointed, not renamed: existing --color-signal / --color-amber /
@@ -64,7 +61,6 @@
   --color-heritage: var(--color-brand-blue);
 
   --color-white: #ffffff;
-  --color-pale-blue: #eef4f9;
 
   /* Display face repointed to Fraunces again, 2026-09-11 — a deliberate
      correction, not a reflex reversal. The all-Geist pass (2026-09-10)
@@ -121,8 +117,6 @@
   --color-steel-soft: var(--color-steel-soft);
   --color-line: var(--color-line);
   --color-line-strong: var(--color-line-strong);
-  --color-blueprint: var(--color-blueprint);
-  --color-blueprint-soft: var(--color-blueprint-soft);
   --color-signal: var(--color-signal);
   --color-signal-soft: var(--color-signal-soft);
   --color-signal-tint: var(--color-signal-tint);
@@ -137,7 +131,6 @@
   --color-brand-blue-tint: var(--color-brand-blue-tint);
   --color-blue-deep: var(--color-blue-deep);
   --color-white: var(--color-white);
-  --color-pale-blue: var(--color-pale-blue);
 
   --font-display: var(--font-display);
   --font-editorial: var(--font-editorial);

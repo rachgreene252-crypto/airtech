@@ -58,7 +58,7 @@ export default function ServiceSupportPage() {
         </h2>
         <div className="mt-8">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Request Service
+            Enquire
           </ButtonLink>
         </div>
       </Section>

@@ -516,7 +516,7 @@ function StepSection({
           {isFinale && (
             <div className="mt-10">
               <ButtonLink href="/contact/project-enquiry" size="lg">
-                Inquire for Services
+                Enquire
               </ButtonLink>
             </div>
           )}

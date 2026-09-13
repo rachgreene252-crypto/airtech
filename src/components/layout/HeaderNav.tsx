@@ -154,7 +154,7 @@ function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void
         ))}
         <div className="mt-6">
           <ButtonLink href="/contact/project-enquiry" size="lg" className="w-full" onClick={onClose}>
-            Inquire for Services
+            Enquire
           </ButtonLink>
         </div>
       </nav>

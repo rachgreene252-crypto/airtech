@@ -50,7 +50,7 @@ export async function Footer() {
                 href="/contact/project-enquiry"
                 className="inline-flex items-center gap-2 rounded-full bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--color-brand-blue) hover:shadow-[0_10px_24px_-8px_rgba(0,153,218,0.6)]"
               >
-                Inquire for Services
+                Enquire
                 <span aria-hidden="true">→</span>
               </Link>
             </div>

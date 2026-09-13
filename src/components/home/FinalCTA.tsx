@@ -45,7 +45,7 @@ export function FinalCTA() {
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Inquire for Services
+            Enquire
           </ButtonLink>
           <Link
             href="/contact"

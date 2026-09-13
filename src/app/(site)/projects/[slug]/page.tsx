@@ -211,7 +211,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         </h2>
         <div className="mt-8">
           <ButtonLink href="/contact/project-enquiry" size="lg">
-            Inquire for Services
+            Enquire
           </ButtonLink>
         </div>
       </Section>

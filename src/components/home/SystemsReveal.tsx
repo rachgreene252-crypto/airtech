@@ -51,12 +51,24 @@ const ZONES = ZONE_SLUGS.map((slug) => getServiceBySlug(slug)).filter(
 // engineered material rather than crayon fills, paired with the glow filter
 // below for a premium lit-from-within quality on the active system.
 const SYSTEM_COLOR: Record<string, string> = {
-  hvac: "#0B7FB5",
+  hvac: "#0098B1",
   electrical: "#C98A2C",
   "plumbing-public-health": "#168F6E",
   "fire-protection": "#B23B34",
   "elv-security": "#6B54C4",
   "bms-systems-integration": "#5B6B7D",
+};
+
+// 2026-09-15 — the raw disciplineCode ("M", "E") read as indistinguishable
+// at a glance ("cannot differentiate between anything M, E, or P"). Short,
+// actual words instead of single-letter engineering shorthand.
+const STEPPER_LABEL: Record<string, string> = {
+  hvac: "HVAC",
+  electrical: "Electrical",
+  "plumbing-public-health": "Plumbing",
+  "fire-protection": "Fire",
+  "elv-security": "ELV",
+  "bms-systems-integration": "BMS",
 };
 
 export function SystemsReveal() {
@@ -172,10 +184,10 @@ export function SystemsReveal() {
                   >
                     <span
                       aria-hidden="true"
-                      className="h-2 w-2 rounded-full"
+                      className="h-2 w-2 shrink-0 rounded-full"
                       style={{ backgroundColor: step > i ? color : "var(--color-line-strong)" }}
                     />
-                    {zone.disciplineCode}
+                    {STEPPER_LABEL[zone.slug]}
                   </button>
                 </li>
               );

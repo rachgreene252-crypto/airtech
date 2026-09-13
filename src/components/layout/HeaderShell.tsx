@@ -42,7 +42,7 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
 
         <div className="hidden xl:block shrink-0">
           <ButtonLink href="/contact/project-enquiry" size="md">
-            Inquire for Services
+            Enquire
           </ButtonLink>
         </div>
       </Container>
