@@ -6,12 +6,12 @@ import { services } from "@/content/services";
 export const metadata: Metadata = {
   title: "Expertise",
   description:
-    "Airtech's engineering disciplines: HVAC, Electrical, Plumbing & Public Health, Fire Fighting & Fire Protection, ELV/Security, and BMS/Systems Integration — coordinated as one practice.",
+    "Airtech's engineering disciplines: HVAC, Electrical, Plumbing & Public Health, Fire Fighting & Fire Protection, ELV/Security, and BMS/Systems Integration, coordinated as one practice.",
 };
 
 const FACTS = [
   { value: "06", label: "Engineering disciplines, coordinated as one" },
-  { value: "01", label: "One practice — not a chain of sub-contractors" },
+  { value: "01", label: "One practice, not a chain of sub-contractors" },
   { value: "2000", label: "Delivering integrated MEP in Nepal since" },
 ];
 
@@ -31,7 +31,7 @@ export default function ExpertiseOverviewPage() {
       </h2>
       <p className="mt-5 max-w-2xl text-body-l leading-relaxed text-(--color-steel)">
         Each discipline below is designed, procured, installed and commissioned by
-        Airtech — not handed between trades. Select one to see its scope, the systems
+        Airtech, not handed between trades. Select one to see its scope, the systems
         it covers, and where it has been delivered.
       </p>
 

@@ -39,7 +39,7 @@ export default function ProjectsPage() {
           </h1>
           <p className="mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
             Selected work across hospitality, healthcare, banking, aviation, industry
-            and institutional buildings — delivered by one engineering team.
+            and institutional buildings, delivered by one engineering team.
           </p>
         </Container>
       </div>

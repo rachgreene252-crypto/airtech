@@ -18,7 +18,7 @@ export default function EngineeringLibraryPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Engineering Library" }]}
         eyebrow="Engineering library"
         heading="Technical documentation for consultants and specifiers."
-        description="Discipline capability decks, company documents and certifications — published as Airtech supplies the source files."
+        description="Discipline capability decks, company documents and certifications, published as Airtech supplies the source files."
       />
       <Section>
         {resources.length > 0 ? (

@@ -76,4 +76,4 @@ export const journeySteps: JourneyStep[] = [
 ];
 
 export const journeyIntro =
-  "Airtech is a single engineering partner across the whole project lifecycle — from the first conversation to long-term support.";
+  "Airtech is a single engineering partner across the whole project lifecycle, from the first conversation to long-term support.";

@@ -34,19 +34,22 @@
   --color-line: #e4e8ec;
   --color-line-strong: #cbd2d9;
 
-  /* Airtech blue — 2026-09-15, client-supplied exact brand hex (#0098B1),
-     replacing the earlier logo-sampled #0099DA. --color-brand-blue-vivid is
-     that exact hex — use it for large/decorative surfaces (fills, icon
-     chips, borders, big numerals) where WCAG's stricter small-text contrast
-     rules don't apply. --color-brand-blue is the same hue darkened just
-     enough to clear 4.5:1 on white — use it for anything that IS body text:
-     buttons, links, small mono labels. Same hue family throughout, so
-     nothing reads as "a different blue," just a lightness step. */
-  --color-brand-blue-vivid: #0098b1;
-  --color-brand-blue: #007a8e;
-  --color-brand-blue-hover: #006373;
-  --color-brand-blue-soft: #70d9eb;
-  --color-brand-blue-tint: #e7fafe;
+  /* Airtech blue — 2026-09-16, re-verified by sampling the actual logo file
+     (public/images/brand/airtech-logo.png) pixel by pixel: the overwhelming
+     dominant colour is #0099DA, not the #0098B1 tried in between. This is
+     the same hex the site used originally, restored after that detour.
+     --color-brand-blue-vivid is that exact logo hex — use it for
+     large/decorative surfaces (fills, icon chips, borders, big numerals)
+     where WCAG's stricter small-text contrast rules don't apply.
+     --color-brand-blue is the same hue darkened just enough to clear 4.5:1
+     on white — use it for anything that IS body text: buttons, links,
+     small mono labels. Same hue family throughout, so nothing reads as "a
+     different blue," just a lightness step. */
+  --color-brand-blue-vivid: #0099da;
+  --color-brand-blue: #0077aa;
+  --color-brand-blue-hover: #005f87;
+  --color-brand-blue-soft: #5cc4ef;
+  --color-brand-blue-tint: #e6f6fc;
   --color-blue-deep: #051d2b;
 
   /* Repointed, not renamed: existing --color-signal / --color-amber /

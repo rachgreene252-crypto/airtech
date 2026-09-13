@@ -139,7 +139,7 @@ export const industries: Industry[] = [
     ],
     technicalRequirements: [
       "Equipment compatible with generator (DG) power and local voltage conditions",
-      "VRF systems for high-end corporate buildings — long piping runs, multiple indoor units per outdoor unit and low sound pressure.",
+      "VRF systems for high-end corporate buildings, with long piping runs, multiple indoor units per outdoor unit and low sound pressure.",
       "Standby cooling capacity for server rooms",
       "Chiller plant for larger commercial cooling loads.",
     ],

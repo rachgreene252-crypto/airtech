@@ -41,7 +41,7 @@ export function TechnicalFrame({
             className="object-cover"
           />
         ) : (
-          <BluePlaceholder label={label ? `${label} — photography to follow` : undefined} />
+          <BluePlaceholder label={label ? `${label}: photography to follow` : undefined} />
         )}
       </div>
       {showCaption && (image?.caption || (label && image?.src)) && (

@@ -154,7 +154,7 @@ function CompactJourney() {
                           >
                             <span
                               aria-hidden="true"
-                              className="mt-[0.7em] h-px w-3 shrink-0 bg-(--color-brand-blue)"
+                              className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue)"
                             />
                             <span>{point}</span>
                           </li>
@@ -507,7 +507,7 @@ function StepSection({
           >
             {step.points.map((point) => (
               <li key={point} className="flex gap-3 text-small text-(--color-ink-soft)">
-                <span aria-hidden="true" className="mt-[0.7em] h-px w-3.5 shrink-0 bg-(--color-brand-blue)" />
+                <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue)" />
                 <span>{point}</span>
               </li>
             ))}

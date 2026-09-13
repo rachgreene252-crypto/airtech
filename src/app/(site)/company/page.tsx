@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const coreValues = [
   { title: "Integrity", body: "Taking responsibility for what we promise." },
   { title: "Technical excellence", body: "Through proper thinking, planning and implementation." },
-  { title: "Reliability", body: "Systems that keep running — and a team that stays accountable for them." },
+  { title: "Reliability", body: "Systems that keep running, and a team that stays accountable for them." },
   { title: "Flexibility", body: "Understanding what each client actually needs." },
   { title: "Responsiveness", body: "A receptive approach to customer needs." },
   { title: "Collaborative teamwork", body: "Open exchange of information and resources with our clients." },

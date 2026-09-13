@@ -29,7 +29,7 @@ export default function HowWeWorkPage() {
               One partner, the whole lifecycle.
             </h1>
             <p className="mx-auto mt-6 max-w-[44rem] text-lg text-(--color-steel) leading-relaxed">
-              Airtech is a single engineering partner across the whole project lifecycle — from the
+              Airtech is a single engineering partner across the whole project lifecycle, from the
               first conversation to long-term support.
             </p>
           </div>

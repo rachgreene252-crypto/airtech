@@ -27,7 +27,7 @@ export default function ExpertiseLayout({ children }: LayoutProps<"/expertise">)
           <p className="mt-6 max-w-[44rem] text-body-l text-(--color-steel) leading-relaxed">
             Airtech coordinates HVAC, electrical, plumbing &amp; public health, fire fighting &amp;
             fire protection, ELV and building-systems integration as a single engineering
-            practice — so responsibility for how systems work together never falls between
+            practice, so responsibility for how systems work together never falls between
             contractors.
           </p>
         </Container>

@@ -21,7 +21,7 @@ const milestones = [
   },
   {
     year: "2025",
-    title: "25 years — Reliability Matters",
+    title: "25 years: Reliability Matters",
     body: "Airtech marked 25 years in business with a company-wide anniversary celebration, reaffirming the reliability the brand was built on.",
   },
   {

@@ -39,7 +39,7 @@ export default function ServiceSupportPage() {
         <ul className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-x-14 gap-y-4 text-left sm:grid-cols-2">
           {coverage.map((item) => (
             <li key={item} className="flex gap-4 text-body leading-relaxed text-(--color-ink-soft)">
-              <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-(--color-brand-blue)" />
+              <span aria-hidden="true" className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue)" />
               {item}
             </li>
           ))}

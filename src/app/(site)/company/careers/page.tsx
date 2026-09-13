@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -11,14 +12,21 @@ export const metadata: Metadata = {
     "Careers at Airtech Industries: engineers and technicians working on hospitals, pharmaceutical facilities, hotels, telecom infrastructure and industrial sites across Nepal.",
 };
 
-// Architecturally separate from the engineering story (spec §10) — no
-// lifecycle/expertise/projects narrative here — but visually inside the
+// Architecturally separate from the engineering story (spec §10), no
+// lifecycle/expertise/projects narrative here, but visually inside the
 // same design system: same PageHero, SectionHeader, BluePlaceholder. No
 // stock "join our team" hero photo, no perks grid, no fabricated listings.
+// 2026-09-16: two real internal photos supplied directly (a product/technical
+// review meeting, a strategy session) replace the previous text-only
+// treatment for this section, per direct request to use them.
+const TEAM_PHOTOS = [
+  { src: "/images/team/team-showroom-meeting.jpg", alt: "Airtech's technical team reviewing product specifications" },
+  { src: "/images/team/team-strategy-meeting.jpg", alt: "Airtech's team in a strategy and coordination meeting" },
+] as const;
 const WHY_AIRTECH = [
   {
     title: "Work that's visible",
-    body: "Hospitals, pharmaceutical facilities, hotels, telecom infrastructure and industrial sites — engineering quality is directly visible in the result.",
+    body: "Hospitals, pharmaceutical facilities, hotels, telecom infrastructure and industrial sites: engineering quality is directly visible in the result.",
   },
   {
     title: "Integrated scope",
@@ -54,6 +62,19 @@ export default function CareersPage() {
             </div>
           ))}
         </div>
+
+        <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+          {TEAM_PHOTOS.map((photo) => (
+            <div
+              key={photo.src}
+              className="crop-frame relative aspect-[4/3] overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue)"
+            >
+              <span className="crop-tick-tl" />
+              <span className="crop-tick-br" />
+              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
+            </div>
+          ))}
+        </div>
       </Section>
 
       <Section tone="raised">
@@ -61,7 +82,7 @@ export default function CareersPage() {
         <div className="mt-10">
           <EmptyState
             title="No open positions listed right now"
-            description="If you're an engineer or technician interested in Airtech's work, send your CV and area of interest — we keep it on file for the next relevant opening."
+            description="If you're an engineer or technician interested in Airtech's work, send your CV and area of interest. We keep it on file for the next relevant opening."
           />
         </div>
       </Section>

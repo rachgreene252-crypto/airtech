@@ -64,7 +64,7 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
             Hotels and resorts across Nepal.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
-            Zone-specific HVAC, electrical, plumbing, fire fighting and ELV — delivered
+            Zone-specific HVAC, electrical, plumbing, fire fighting and ELV, delivered
             as one integrated scope for the country&apos;s leading hotel and resort brands.
           </p>
         </div>

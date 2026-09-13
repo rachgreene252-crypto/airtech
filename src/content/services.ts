@@ -65,7 +65,7 @@ export const services: Service[] = [
     category: "electrical",
     disciplineCode: "E",
     homeSummary:
-      "Internal and external electrification — HT/LT feeders and panels, transformers, lightning protection and earthing.",
+      "Internal and external electrification: HT/LT feeders and panels, transformers, lightning protection and earthing.",
     shortDescription:
       "Internal and external electrification: HT/LT feeders and panels, distribution boards, schematics, transformers, lightning protection and earthing.",
     detailedDescription:
@@ -109,7 +109,7 @@ export const services: Service[] = [
     shortDescription:
       "Internal and external plumbing and sanitary systems, domestic water supply, drainage, rainwater harvesting, and sewage and water treatment plants.",
     detailedDescription:
-      "Public Health Engineering at Airtech takes a whole-building approach across water efficiency, energy and pollution-related systems — from domestic water supply and drainage through to sewage treatment plants (STP), water treatment plants (WTP) and rainwater harvesting.",
+      "Public Health Engineering at Airtech takes a whole-building approach across water efficiency, energy and pollution-related systems, from domestic water supply and drainage through to sewage treatment plants (STP), water treatment plants (WTP) and rainwater harvesting.",
     capabilities: [
       "Internal and external plumbing/sanitary systems",
       "Domestic water supply systems",
@@ -182,15 +182,15 @@ export const services: Service[] = [
     category: "elv-security",
     disciplineCode: "ELV",
     homeSummary:
-      "Extra-low-voltage systems — data networking and telecommunication, security and surveillance, fire detection and alarm, guest-room management, IPTV and nurse call.",
+      "Extra-low-voltage systems: data networking and telecommunication, security and surveillance, fire detection and alarm, guest-room management, IPTV and nurse call.",
     shortDescription:
       "Extra-low-voltage systems: data networking and telecommunication, security and surveillance, intelligent fire detection and alarm, guest room management (GRMS), IPTV and nurse call.",
     detailedDescription:
-      "A dedicated team of electronics and electrical engineers, supervisors and technicians delivers comprehensive ELV solutions across three core areas — data networking, telecommunication and security systems — alongside intelligent fire detection and alarm, guest room management and audio-visual systems. The team is OEM-trained on national and international security, life-safety and communication platforms.",
+      "A dedicated team of electronics and electrical engineers, supervisors and technicians delivers comprehensive ELV solutions across three core areas (data networking, telecommunication and security systems), alongside intelligent fire detection and alarm, guest room management and audio-visual systems. The team is OEM-trained on national and international security, life-safety and communication platforms.",
     capabilities: [
       "Data networking and structured cabling",
       "Telecommunication and telephone systems",
-      "Security systems — access control and CCTV surveillance",
+      "Security systems: access control and CCTV surveillance",
       "Intelligent fire alarm systems",
       "Automatic smoke and heat detection",
       "Annunciation and repeater panels",
@@ -231,7 +231,7 @@ export const services: Service[] = [
     shortDescription:
       "Building Management Systems for real-time monitoring, control and integration of a building's mechanical, electrical, security and life-safety systems.",
     detailedDescription:
-      "Airtech's Building Management System (BMS) offering provides real-time monitoring of a building's day-to-day operation from a centralised control room — early detection of emerging issues, reduced field-supervision costs, reduced downtime, and interfacing between individual smart-building applications.",
+      "Airtech's Building Management System (BMS) offering provides real-time monitoring of a building's day-to-day operation from a centralised control room: early detection of emerging issues, reduced field-supervision costs, reduced downtime, and interfacing between individual smart-building applications.",
     capabilities: [
       "Enterprise systems integration",
       "Real-time monitoring and control",
