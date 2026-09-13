@@ -21,8 +21,14 @@
 :root {
   --color-ink: #14181d;
   --color-ink-soft: #3c4550;
-  --color-paper: #ffffff;
-  --color-paper-raised: #f4f7f9;
+  /* Retinted 2026-09-13 to match the sitewide background artwork's own pale
+     blue-white (sampled average ~#f2f7fc) — was pure #ffffff, which read as
+     a slightly whiter, disconnected patch once every opaque surface (cards,
+     the sticky nav, button focus gaps) sat on top of that image. --raised
+     was already almost this value, nudged the same direction for the same
+     reason. */
+  --color-paper: #f7fafd;
+  --color-paper-raised: #eef4fa;
   --color-steel: #586470;
   --color-steel-soft: #7e8894;
   --color-line: #e4e8ec;
@@ -180,6 +186,7 @@ html {
 }
 
 body {
+  position: relative;
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -187,6 +194,27 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Sitewide background artwork (client-supplied, 2026-09-13) — a fixed
+   `position: fixed` layer behind everything, not `background-attachment:
+   fixed` on body directly (unreliable on mobile Safari). Every light
+   ("paper" tone) Section is transparent (see .bg-site-texture below), so
+   this shows straight through across the whole site; "raised" sections
+   stay a near-identical pale tint (see --color-paper-raised) so the seam
+   between "showing the image" and "opaque band" is not visible. Dark
+   sections (Section tone="ink", hero text panel, footer) are deliberately
+   a different opaque material and sit on top unaffected. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/images/backgrounds/site-bg.webp");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  pointer-events: none;
 }
 
 /* Fraunces, back as the display face 2026-09-11: optical sizing on so
@@ -223,11 +251,12 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* Removed 2026-09-10 — client feedback: the site reads "dull," and this
-   sitewide blurred line-art veil (however faint) was a wash of grey behind
-   every single page. The reference direction is crisp white with real
-   photography and colour doing the work instead. `.bg-site-texture` stays
-   as a no-op hook so existing markup referencing it doesn't break. */
+/* Was removed 2026-09-10 (a blurred grey wash behind every page read as
+   "dull"), reinstated as a no-op on purpose: staying transparent is exactly
+   what makes the 2026-09-13 sitewide background artwork (see body::before
+   above) show through every "paper" tone Section instead of being hidden
+   behind an opaque fill. Keep this transparent — do not give it its own
+   background-color again — unless the sitewide image itself is removed. */
 .bg-site-texture {
   background-color: transparent;
 }

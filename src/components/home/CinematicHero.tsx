@@ -5,52 +5,46 @@ import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 
-const START_SRC = "/images/hero/sequence/reveal-start.webp";
-const END_SRC = "/images/hero/sequence/reveal-end.webp";
+const FRAME_COUNT = 240;
+const FRAME_SRC = (i: number) => `/images/hero/sequence/frame-${String(i).padStart(3, "0")}.webp`;
+const LAST_FRAME = FRAME_SRC(FRAME_COUNT - 1);
 
 /**
  * Section 01 — Hero.
  *
- * Rebuilt 2026-09-13 — replaces the static Ken Burns photo with the client's
- * own MEP logo-reveal artwork (ASSETS/hero-frames), scroll-driven: the
- * unbranded sketch dissolves into the fully-formed logo as the visitor
- * scrolls, then the headline follows.
- *
- * The full 240-frame source sequence was auditioned frame by frame first —
- * roughly the middle third of it (the logo assembling) contains visible
- * AI-generation artefacts (garbled interim lettering: "Mectriitial",
- * "lumbing"), legible enough that stepping through those frames on scroll
- * would read as a broken build, exactly the "no mistakes" the animation was
- * asked to avoid. Only the first frame (bare sketch, no logo) and the last
- * (logo fully correct and stable) are clean, so the reveal is a two-image
- * crossfade between those two rather than a frame-by-frame scrub — visually
- * simpler, but the only version of this asset with zero glitch frames.
+ * Rebuilt 2026-09-13 — the client's own MEP logo-reveal sequence
+ * (ASSETS/hero-frames, all 240 frames), scroll-scrubbed on a canvas: the
+ * visitor's scroll draws the reveal frame by frame across roughly two
+ * screens' worth of scrolling, then the headline follows once it settles.
+ * Every frame is preloaded before the scrub is wired up, so scrolling
+ * never lands on a blank canvas.
  */
 export function CinematicHero() {
   const panelRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textPanelRef = useRef<HTMLDivElement>(null);
-  const startImgRef = useRef<HTMLImageElement | null>(null);
-  const endImgRef = useRef<HTMLImageElement | null>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
+  const drawnIndexRef = useRef(-1);
   const [ready, setReady] = useState(false);
   const reduceMotion = useReducedMotion();
 
+  // Preload every frame up front. Reduced-motion visitors never need the
+  // sequence at all, so skip the download entirely for them.
   useEffect(() => {
     if (reduceMotion) return;
     let cancelled = false;
+    const images: HTMLImageElement[] = [];
     let loaded = 0;
-    const onOne = () => {
-      loaded += 1;
-      if (loaded === 2 && !cancelled) setReady(true);
-    };
-    const start = new Image();
-    start.src = START_SRC;
-    start.onload = onOne;
-    const end = new Image();
-    end.src = END_SRC;
-    end.onload = onOne;
-    startImgRef.current = start;
-    endImgRef.current = end;
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      img.src = FRAME_SRC(i);
+      img.onload = () => {
+        loaded += 1;
+        if (loaded === FRAME_COUNT && !cancelled) setReady(true);
+      };
+      images.push(img);
+    }
+    framesRef.current = images;
     return () => {
       cancelled = true;
     };
@@ -61,16 +55,19 @@ export function CinematicHero() {
     const panel = panelRef.current;
     const canvas = canvasRef.current;
     const textPanel = textPanelRef.current;
-    const start = startImgRef.current;
-    const end = endImgRef.current;
-    if (!panel || !canvas || !textPanel || !start || !end) return;
+    if (!panel || !canvas || !textPanel) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let progress = 0;
+    let currentIndex = 0;
 
-    function coverRect(img: HTMLImageElement, cw: number, ch: number) {
+    function drawFrame(index: number) {
+      if (!canvas || !ctx) return;
+      const img = framesRef.current[index];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      const cw = canvas.width;
+      const ch = canvas.height;
       const canvasRatio = cw / ch;
       const imgRatio = img.naturalWidth / img.naturalHeight;
       let sx = 0,
@@ -84,21 +81,9 @@ export function CinematicHero() {
         sh = sw / canvasRatio;
         sy = (img.naturalHeight - sh) / 2;
       }
-      return { sx, sy, sw, sh };
-    }
-
-    function draw() {
-      if (!canvas || !ctx || !start || !end) return;
-      const cw = canvas.width;
-      const ch = canvas.height;
       ctx.clearRect(0, 0, cw, ch);
-      const a = coverRect(start, cw, ch);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(start, a.sx, a.sy, a.sw, a.sh, 0, 0, cw, ch);
-      const b = coverRect(end, cw, ch);
-      ctx.globalAlpha = progress;
-      ctx.drawImage(end, b.sx, b.sy, b.sw, b.sh, 0, 0, cw, ch);
-      ctx.globalAlpha = 1;
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+      drawnIndexRef.current = index;
     }
 
     function sizeCanvas() {
@@ -106,7 +91,8 @@ export function CinematicHero() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(canvas.clientWidth * dpr);
       canvas.height = Math.round(canvas.clientHeight * dpr);
-      draw();
+      drawnIndexRef.current = -1;
+      drawFrame(currentIndex);
     }
 
     let cancelled = false;
@@ -121,22 +107,29 @@ export function CinematicHero() {
       gsap.registerPlugin(ScrollTrigger);
 
       sizeCanvas();
+      drawFrame(0);
 
       ctxGsap = gsap.context(() => {
         // `pin: true` (not a manually-sized sticky wrapper) so GSAP inserts
         // and sizes its own spacer — the text panel that follows in the DOM
         // is guaranteed to pick up exactly where the pin releases, with no
-        // gap or overlap to get wrong by hand.
+        // gap or overlap to get wrong by hand. Scroll distance is ~2 screen
+        // heights, so the full 240-frame reveal completes over roughly two
+        // scrolls, per spec.
         ScrollTrigger.create({
           trigger: panel,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * 1.1)}`,
+          end: () => `+=${Math.round(window.innerHeight * 2)}`,
           pin: true,
           scrub: true,
           anticipatePin: 1,
           onUpdate: (self) => {
-            progress = self.progress;
-            draw();
+            const index = Math.min(
+              FRAME_COUNT - 1,
+              Math.max(0, Math.round(self.progress * (FRAME_COUNT - 1)))
+            );
+            currentIndex = index;
+            if (index !== drawnIndexRef.current) drawFrame(index);
           },
         });
 
@@ -164,7 +157,7 @@ export function CinematicHero() {
       <div className="relative w-full">
         <div className="relative h-[56svh] min-h-[340px] w-full overflow-hidden bg-white sm:h-[62svh]">
           {/* eslint-disable-next-line @next/next/no-img-element -- static fallback, not part of next/image's responsive pipeline */}
-          <img src={END_SRC} alt="Airtech — integrated MEP engineering" className="h-full w-full object-cover" />
+          <img src={LAST_FRAME} alt="Airtech — integrated MEP engineering" className="h-full w-full object-cover" />
         </div>
         <HeroTextPanel />
       </div>
@@ -182,7 +175,7 @@ export function CinematicHero() {
             see permanently. */}
         {/* eslint-disable-next-line @next/next/no-img-element -- static fallback beneath the canvas */}
         <img
-          src={START_SRC}
+          src={FRAME_SRC(0)}
           alt="Airtech — integrated MEP engineering"
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
