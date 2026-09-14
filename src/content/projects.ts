@@ -418,11 +418,17 @@ export const projects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/landmarks/skyline-mall-birgunj.jpg", alt: "Skyline Mall, Birgunj" },
+    // heroImage removed 2026-09-14 — the only sourced file is a pre-
+    // construction 3D render (not a photo of the actual building) at
+    // 523x238, whose wide/short aspect crops badly into the site's 4:3
+    // card treatment. Per "all images used should be high quality," this
+    // now renders as the honest no-photo list row, same as every other
+    // project with no sourced photograph, rather than a soft, misleading
+    // render passed off as project photography.
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
-    featured: true,
+    featured: false,
     seo: {
       title: "Skyline Mall, Birgunj",
       description: "Skyline Mall, Birgunj. Featured in Airtech's project portfolio.",
