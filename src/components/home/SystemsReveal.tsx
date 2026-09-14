@@ -49,7 +49,7 @@ const ZONES = ZONE_SLUGS.map((slug) => getServiceBySlug(slug)).filter(
 // teal, ELV reads violet, BMS (the integration layer, not a physical
 // system) stays a neutral slate.
 const SYSTEM_COLOR: Record<string, string> = {
-  hvac: "#3fa6e7",
+  hvac: "#008ED1",
   electrical: "#C98A2C",
   "plumbing-public-health": "#168F6E",
   "fire-protection": "#B23B34",

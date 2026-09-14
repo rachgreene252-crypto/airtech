@@ -29,7 +29,7 @@ export default async function Image() {
             <rect width="32" height="32" fill="#161a1f" />
             <path
               d="M8 24 L16 7 L24 24 M11.5 17 H20.5"
-              stroke="#3fa6e7"
+              stroke="#008ED1"
               strokeWidth="2.4"
               fill="none"
               strokeLinejoin="round"

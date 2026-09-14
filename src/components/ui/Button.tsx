@@ -21,9 +21,9 @@ const variants: Record<Variant, string> = {
   // (--color-brand-blue-vivid) — a pressed control should read as "pushed
   // in," not "lit up."
   primary:
-    "bg-(--color-brand-blue) text-white shadow-[0_1px_2px_rgba(15,23,32,0.12)] hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(23,120,181,0.55)]",
+    "bg-(--color-brand-blue) text-white shadow-[0_1px_2px_rgba(15,23,32,0.12)] hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,124,183,0.55)]",
   secondary:
-    "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white hover:shadow-[0_10px_24px_-8px_rgba(23,120,181,0.4)]",
+    "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white hover:shadow-[0_10px_24px_-8px_rgba(0,124,183,0.4)]",
   ghost: "text-(--color-brand-blue) hover:text-(--color-ink) underline underline-offset-4",
 };
 

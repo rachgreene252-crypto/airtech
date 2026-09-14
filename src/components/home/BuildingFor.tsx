@@ -68,7 +68,7 @@ function SectorCard({ sector, index }: { sector: (typeof SECTORS)[number]; index
   return (
     <Link
       href={`/projects?industry=${sector.slug}` as Route}
-      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[4px] transition-shadow duration-300 hover:shadow-[0_20px_40px_-16px_rgba(63,166,231,0.35)] sm:w-[360px] lg:aspect-[4/3] lg:w-[420px]"
+      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[4px] transition-shadow duration-300 hover:shadow-[0_20px_40px_-16px_rgba(0,142,209,0.35)] sm:w-[360px] lg:aspect-[4/3] lg:w-[420px]"
     >
       {sector.photo ? (
         <Image

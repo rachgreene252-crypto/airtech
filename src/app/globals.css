@@ -34,25 +34,24 @@
   --color-line: #e4e8ec;
   --color-line-strong: #cbd2d9;
 
-  /* Airtech blue — 2026-09-14, switched to the client's own supplied
-     reference swatch (sampled directly from the screenshot they shared,
-     not the logo file): #3fa6e7. This supersedes the earlier #0099DA
-     logo-sampled value — the client pointed at this specific blue and
-     asked for it on all buttons and bold text, so it is now the source of
-     truth over the logo sample.
-     --color-brand-blue-vivid is that exact client-supplied hex — use it
-     for large/decorative surfaces (fills, icon chips, borders, big
-     numerals) where WCAG's stricter small-text contrast rules don't apply.
-     --color-brand-blue/-hover/-soft/-tint are the same hue and saturation
-     (203°, 78%), only the lightness shifted per use case, so nothing reads
-     as "a different blue" — brand-blue clears 4.5:1 on white for body-text
-     uses (buttons, links, small mono labels), -hover clears ~6:1 for hover
-     states, -soft/-tint are lighter tints for large fills and backgrounds. */
-  --color-brand-blue-vivid: #3fa6e7;
-  --color-brand-blue: #1778b5;
-  --color-brand-blue-hover: #13669a;
-  --color-brand-blue-soft: #95cbec;
-  --color-brand-blue-tint: #ecf4f8;
+  /* Airtech blue — 2026-09-14, corrected to the client's exact stated hex:
+     #008ED1 ("AIRTECH BLUE... use this exact color"), superseding the
+     #3fa6e7 screenshot-sampled guess from earlier the same day. This is
+     now the literal, explicit source of truth, not a sample.
+     --color-brand-blue-vivid is that exact hex — use it for
+     large/decorative surfaces (fills, icon chips, borders, big numerals)
+     where WCAG's stricter small-text contrast rules don't apply.
+     --color-brand-blue/-hover/-soft/-tint are the same hue and full
+     saturation (199°, 100%), only the lightness shifted per use case, so
+     nothing reads as "a different blue" — brand-blue clears 4.5:1 on white
+     for body-text uses (buttons, links, small mono labels), -hover clears
+     ~6:1 for hover states, -soft/-tint are lighter tints for large fills
+     and backgrounds. */
+  --color-brand-blue-vivid: #008ed1;
+  --color-brand-blue: #007cb7;
+  --color-brand-blue-hover: #006898;
+  --color-brand-blue-soft: #50bdf1;
+  --color-brand-blue-tint: #ebf5f9;
   --color-blue-deep: #051d2b;
 
   /* Repointed, not renamed: existing --color-signal / --color-amber /
@@ -277,12 +276,12 @@ body::before {
   z-index: -1;
   background-color: var(--color-paper-raised);
   background-image:
-    radial-gradient(60% 55% at 15% 0%, rgba(63, 166, 231, 0.09), transparent 60%),
-    radial-gradient(50% 50% at 100% 100%, rgba(63, 166, 231, 0.07), transparent 60%),
+    radial-gradient(60% 55% at 15% 0%, rgba(0, 142, 209, 0.09), transparent 60%),
+    radial-gradient(50% 50% at 100% 100%, rgba(0, 142, 209, 0.07), transparent 60%),
     repeating-linear-gradient(
       135deg,
-      rgba(63, 166, 231, 0.05) 0px,
-      rgba(63, 166, 231, 0.05) 1px,
+      rgba(0, 142, 209, 0.05) 0px,
+      rgba(0, 142, 209, 0.05) 1px,
       transparent 1px,
       transparent 64px
     );
