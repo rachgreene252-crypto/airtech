@@ -4,6 +4,7 @@ import { cacheLife } from "next/cache";
 import { Container } from "@/components/ui/Container";
 import { footerNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
+import { getCertificationStandards } from "@/content/certifications";
 
 async function getCurrentYear() {
   "use cache";
@@ -22,6 +23,7 @@ async function getCurrentYear() {
  */
 export async function Footer() {
   const year = await getCurrentYear();
+  const standards = getCertificationStandards();
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-(--color-line) bg-(--color-paper-raised) text-(--color-ink)">
       <div className="absolute inset-x-0 top-0 h-px bg-(--color-brand-blue-vivid)" />
@@ -79,7 +81,26 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-(--color-line) pt-8 text-xs text-(--color-steel-soft) sm:flex-row">
+        {standards.length > 0 && (
+          <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-(--color-line) pt-8">
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
+              Certified
+            </span>
+            <Link
+              href="/company/quality-certifications"
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 transition-opacity hover:opacity-70"
+            >
+              {standards.map((c) => (
+                <span key={c.id} className="flex items-center gap-1.5 font-mono text-[0.75rem] text-(--color-ink-soft)">
+                  <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue)" />
+                  {c.name}
+                </span>
+              ))}
+            </Link>
+          </div>
+        )}
+
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-(--color-line) pt-8 text-xs text-(--color-steel-soft) sm:flex-row">
           <p>
             © {year} {siteSettings.companyName}. Established {siteSettings.establishedYear}.
           </p>
