@@ -68,7 +68,12 @@ resolved or the user explicitly says to proceed without it.
 16. **Location-based project filtering** — not addressed in any source document; now technically
     supportable given city data exists for most projects. Wanted or not?
 17. **Admin role count/split** (`AIRTECH_SUPABASE_ARCHITECTURE.md` §6) — single admin vs. role
-    split. Not addressed anywhere; default recommendation is single role.
+    split. Not addressed anywhere; default recommendation is single role. The RLS mechanism this
+    depends on is no longer blocking either choice: `20260922000000_admin_rls_hardening.sql`
+    replaced every policy's bare `to authenticated using (true)` with a `public.admins` allow-list
+    check, so admin-ness is no longer inferred from "has a session at all" — the still-open part is
+    purely business (how many admins, whether a content-editor-vs-full-admin split is wanted), not
+    technical; a split just needs the `admins.role` check constraint extended, no RLS rewrite.
 18. **Admin-editable navigation** (`AIRTECH_SUPABASE_ARCHITECTURE.md` §2, `navigation` table) —
     build it or leave nav code-defined? Default recommendation is code-defined (avoid
     over-engineering per master brief §29).

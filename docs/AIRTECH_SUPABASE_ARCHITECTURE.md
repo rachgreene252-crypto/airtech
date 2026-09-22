@@ -198,6 +198,14 @@ provenance tracking given how much of this session's find was about mismatched p
   content-editor vs. full-admin) is wanted — not addressed in any source document. Default
   recommendation: single admin role at launch, matching "simple enough for a non-developer" from
   the master brief §29.
+- **RLS enforcement (2026-09-22, `20260922000000_admin_rls_hardening.sql`):** every "admin has full
+  access" policy checks a `public.admins` allow-list (via a `private.is_admin()` security-definer
+  helper), not "is this request authenticated at all." Earlier policies (`20260816162032_rls_policies.sql`,
+  `20260916000000_content_additions.sql`) used the latter — safe only under the "zero public
+  accounts, so authenticated == admin" assumption above, but a silent gap the moment that stops
+  holding. `public.admins` has no self-service write path; the first admin row is inserted directly
+  via the Supabase SQL editor or service-role connection. A future role split extends the table's
+  `role` check constraint, not the RLS policies themselves.
 
 ## 7. What stays exactly as-is from the Sanity implementation
 
