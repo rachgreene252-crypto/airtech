@@ -96,7 +96,7 @@ function CompactJourney() {
             <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               Client journey
             </p>
-            <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+            <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
               One partner, the whole lifecycle.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
@@ -140,7 +140,7 @@ function CompactJourney() {
                         <span>{String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
                         <span className="ml-3 inline-block">{active.subLabel}</span>
                       </p>
-                      <h3 className="mt-3 font-display text-display-m font-normal leading-[1.12] text-(--color-ink)">
+                      <h3 className="mt-3 font-display text-display-m font-semibold tracking-[-0.016em] leading-[1.12] text-(--color-ink)">
                         {active.sentence}
                       </h3>
                       <p className="mt-3 text-body leading-relaxed text-(--color-steel)">
@@ -344,6 +344,15 @@ function FullJourney() {
   const trackRef = useRef<HTMLDivElement>(null);
   const total = journeySteps.length;
 
+  // Rail entries were purely passive before (they lit up as you scrolled
+  // past, but clicking did nothing) — now the desktop rail is a real jump
+  // list: clicking a step scrolls its section into view.
+  const jumpToStep = useCallback((index: number) => {
+    document
+      .querySelector(`[data-step-index="${index}"]`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, []);
+
   // One scroll signal drives everything: the rail fill AND which step reads
   // as active, so they never drift apart. Progress runs 0 as the track's top
   // reaches the viewport centre to 1 as its bottom does.
@@ -362,9 +371,15 @@ function FullJourney() {
   const activeIndex = Math.min(total, Math.max(1, Math.ceil(p * total + 0.0001)));
 
   return (
-    <div className="relative border-t border-(--color-line) bg-(--color-white)">
+    // Was a hardcoded opaque bg-(--color-white) — the page above (the
+    // how-we-work hero) is bg-site-texture (transparent, the sitewide
+    // background artwork showing through), so this solid white block
+    // created a hard visible seam right at the boundary ("the sudden
+    // change from background look untidy," client feedback). Transparent
+    // now, same as every other light section on the site.
+    <div className="relative border-t border-(--color-line) bg-site-texture">
       {/* Mobile progress bar */}
-      <div className="sticky top-[72px] z-20 border-b border-(--color-line) bg-(--color-white)/95 backdrop-blur lg:hidden">
+      <div className="sticky top-[72px] z-20 border-b border-(--color-line) bg-(--color-paper)/95 backdrop-blur lg:hidden">
         <div className="h-0.5 w-full bg-(--color-line)">
           <div
             className="h-full origin-left bg-(--color-brand-blue) transition-transform duration-200 ease-out"
@@ -399,30 +414,37 @@ function FullJourney() {
                 const reached = activeIndex >= step.index;
                 return (
                   <li key={step.index} className="relative mb-7 last:mb-0">
-                    <span
-                      aria-hidden="true"
-                      className={`absolute -left-[1.4375rem] top-[0.45rem] h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
-                        reached ? "bg-(--color-brand-blue)" : "bg-(--color-line-strong)"
-                      }`}
-                    />
-                    <span
-                      className={`font-mono text-[12px] transition-colors duration-300 ${
-                        reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
-                      }`}
+                    <button
+                      type="button"
+                      onClick={() => jumpToStep(step.index)}
+                      aria-current={activeIndex === step.index ? "step" : undefined}
+                      className="group -ml-1 flex items-baseline gap-0 py-1 pl-1 text-left outline-none"
                     >
-                      {String(step.index).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={`mt-0.5 block font-sans text-small font-medium transition-colors duration-300 ${
-                        activeIndex === step.index
-                          ? "text-(--color-ink)"
-                          : reached
-                            ? "text-(--color-steel)"
-                            : "text-(--color-steel-soft)"
-                      }`}
-                    >
-                      {step.label}
-                    </span>
+                      <span
+                        aria-hidden="true"
+                        className={`absolute -left-[1.4375rem] top-[0.45rem] h-1.5 w-1.5 rounded-full transition-all duration-300 group-hover:scale-150 ${
+                          reached ? "bg-(--color-brand-blue)" : "bg-(--color-line-strong)"
+                        }`}
+                      />
+                      <span
+                        className={`font-mono text-[12px] transition-colors duration-300 ${
+                          reached ? "text-(--color-brand-blue)" : "text-(--color-steel-soft)"
+                        }`}
+                      >
+                        {String(step.index).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`ml-2 font-sans text-small font-medium transition-colors duration-300 group-hover:text-(--color-brand-blue) ${
+                          activeIndex === step.index
+                            ? "text-(--color-ink)"
+                            : reached
+                              ? "text-(--color-steel)"
+                              : "text-(--color-steel-soft)"
+                        }`}
+                      >
+                        {step.label}
+                      </span>
+                    </button>
                   </li>
                 );
               })}

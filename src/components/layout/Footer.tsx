@@ -4,7 +4,8 @@ import { cacheLife } from "next/cache";
 import { Container } from "@/components/ui/Container";
 import { footerNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
-import { getCertificationStandards } from "@/content/certifications";
+import { getCertifications } from "@/content/certifications";
+import { Reveal } from "@/components/ui/Reveal";
 
 async function getCurrentYear() {
   "use cache";
@@ -13,58 +14,68 @@ async function getCurrentYear() {
 }
 
 /**
- * Rebuilt 2026-09-15 — dropped the dark navy closing band (rebuilt
- * 2026-09-10 as a deliberate "photo-dark bookend" to match the old hero)
- * per explicit "no dark blue block anywhere" feedback. The footer is now
- * the same light material as the rest of the site — the sitewide
- * background artwork shows through here too (bg-site-texture), with a
- * raised tint and a brand-blue top rule doing the work of marking this as
- * a distinct closing section instead of an inverted colour block.
+ * Rebuilt 2026-09-16 — the previous version squeezed brand + all four nav
+ * groups into one lg:grid-cols-[1.1fr_2fr] row ("looks very crowded" per
+ * client feedback), which forced the Industries/Company columns (7 links
+ * each) into a cramped 2fr strip. Now three distinct rows instead of one
+ * dense block: a full-width brand row, a separating rule, then the four nav
+ * groups spread across the *entire* container width with real per-column
+ * breathing room. Still the same light material (bg-site-texture) — no
+ * dark closing band per the standing "no dark blue block anywhere" rule.
  */
 export async function Footer() {
   const year = await getCurrentYear();
-  const standards = getCertificationStandards();
+  // Only actually-confirmed certifications (a real signed letter supplied)
+  // show here — getCertifications() gates on status, unlike
+  // getCertificationStandards() which lists every standard regardless of
+  // whether Airtech has provided the document yet.
+  const standards = getCertifications();
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-(--color-line) bg-(--color-paper-raised) text-(--color-ink)">
       <div className="absolute inset-x-0 top-0 h-px bg-(--color-brand-blue-vivid)" />
       <Container className="pt-20 pb-16 lg:pt-24 lg:pb-20">
         <h2 className="sr-only">Site footer</h2>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr_2fr]">
+        <div className="flex flex-col gap-10 border-b border-(--color-line) pb-14 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="font-display text-3xl font-semibold tracking-[-0.01em] text-(--color-ink)">
+            <span className="font-display text-4xl font-semibold tracking-[-0.01em] text-(--color-ink)">
               {siteSettings.brandName}
             </span>
-            <p className="mt-3 font-mono text-[0.8rem] font-medium uppercase tracking-[0.16em] text-(--color-brand-blue)">
+            <p className="mt-3 text-label font-semibold uppercase tracking-[0.16em] text-(--color-brand-blue)">
               {siteSettings.tagline}
             </p>
-            <p className="mt-6 max-w-xs text-small text-(--color-steel) leading-relaxed">
-              {siteSettings.headOffice}
-            </p>
-            <a
-              href={`mailto:${siteSettings.primaryEmail}`}
-              className="mt-3 inline-block text-small font-medium text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
-            >
-              {siteSettings.primaryEmail}
-            </a>
-            <div className="mt-8">
-              <Link
-                href="/contact/project-enquiry"
-                className="inline-flex items-center gap-2 rounded-full bg-(--color-brand-blue) px-5 py-2.5 text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,142,209,0.6)]"
-              >
-                Enquire
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
-            {footerNav.map((group) => (
-              <div key={group.title}>
-                <h3 className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
+            <div>
+              <p className="max-w-[22rem] text-small text-(--color-steel) leading-relaxed">
+                {siteSettings.headOffice}
+              </p>
+              <a
+                href={`mailto:${siteSettings.primaryEmail}`}
+                className="mt-2 inline-block text-small font-medium text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
+              >
+                {siteSettings.primaryEmail}
+              </a>
+            </div>
+            <Link
+              href="/contact/project-enquiry"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,152,209,0.6)]"
+            >
+              Enquire
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 pt-14 sm:grid-cols-4 lg:gap-x-12">
+          {footerNav.map((group, i) => (
+            <Reveal key={group.title} delay={i * 0.06}>
+              <div>
+                <h3 className="text-label font-semibold uppercase tracking-[0.14em] text-(--color-brand-blue)">
                   {group.title}
                 </h3>
-                <ul className="mt-4 flex flex-col gap-2.5">
+                <ul className="mt-5 flex flex-col gap-3">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -77,13 +88,13 @@ export async function Footer() {
                   ))}
                 </ul>
               </div>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
 
         {standards.length > 0 && (
           <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-(--color-line) pt-8">
-            <span className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
+            <span className="text-label font-semibold uppercase tracking-[0.14em] text-(--color-steel-soft)">
               Certified
             </span>
             <Link
@@ -91,7 +102,7 @@ export async function Footer() {
               className="flex flex-wrap items-center gap-x-6 gap-y-2 transition-opacity hover:opacity-70"
             >
               {standards.map((c) => (
-                <span key={c.id} className="flex items-center gap-1.5 font-mono text-[0.75rem] text-(--color-ink-soft)">
+                <span key={c.id} className="flex items-center gap-1.5 font-mono text-[0.8rem] text-(--color-ink-soft)">
                   <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue)" />
                   {c.name}
                 </span>
@@ -102,7 +113,7 @@ export async function Footer() {
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-(--color-line) pt-8 text-xs text-(--color-steel-soft) sm:flex-row">
           <p>
-            © {year} {siteSettings.companyName}. Established {siteSettings.establishedYear}.
+            © {year} {siteSettings.companyName} Established {siteSettings.establishedYear}.
           </p>
           <p className="font-mono uppercase tracking-[0.14em]">Kathmandu, Nepal</p>
         </div>

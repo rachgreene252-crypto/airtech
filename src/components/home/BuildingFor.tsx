@@ -31,7 +31,10 @@ const SECTORS: {
     slug: "hospitality",
     label: "Hospitality",
     descriptor: "Hotels, resorts and luxury developments: Airtech's largest sector by volume of delivered work.",
-    photo: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa" },
+    photo: {
+      src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
+      alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
+    },
   },
   {
     slug: "healthcare",

@@ -39,7 +39,7 @@ export function ProjectFeatureRow({
       </p>
       <h3
         className={cn(
-          "mt-4 font-display text-display-m font-normal leading-[1.1] tracking-[-0.012em] text-balance",
+          "mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance",
           dark && "text-(--color-paper)"
         )}
       >

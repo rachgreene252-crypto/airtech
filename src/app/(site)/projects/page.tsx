@@ -26,18 +26,24 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <div className="pt-8 pb-14 sm:pb-16 lg:pb-20">
-        <Container className="flex flex-col items-center text-center">
+      <div className="relative overflow-hidden pt-8 pb-14 sm:pb-16 lg:pb-20">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[24rem] w-[34rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
+        />
+        <Container className="relative flex flex-col items-center text-center">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Projects" }]}
             className="[&_ol]:justify-center"
+            visuallyHidden
           />
-          <p className="mt-10 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Projects
           </p>
-          <h1 className="mt-5 max-w-[16ch] font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
+          <h1 className="mt-5 max-w-[16ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
             Buildings, systems, engineering.
           </h1>
+          <span aria-hidden="true" className="mt-5 h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
           <p className="mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
             Selected work across hospitality, healthcare, banking, aviation, industry
             and institutional buildings, delivered by one engineering team.

@@ -26,7 +26,7 @@ export const industries: Industry[] = [
     technicalRequirements: ["Zone-specific load design", "High energy efficiency", "Aesthetic integration with interior design"],
     airtechCapabilities: [
       "Zone-specific HVAC design across guest rooms, restaurants, lobbies, health clubs and banquet halls",
-      "Integrated electrical, plumbing and fire-protection delivery for hotel and resort projects",
+      "Integrated electrical, PHE, fire-protection and ELV delivery for hotel and resort projects",
     ],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
@@ -34,7 +34,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Hospitality HVAC & MEP Engineering",
       description:
-        "Zone-specific HVAC, electrical, plumbing and fire-protection engineering for hotels and resorts: from guest rooms to banquet halls.",
+        "Zone-specific HVAC, electrical, PHE, fire-protection and ELV engineering for hotels and resorts: from guest rooms to banquet halls.",
     },
     status: "client_confirmed",
   },
@@ -139,13 +139,13 @@ export const industries: Industry[] = [
     ],
     technicalRequirements: [
       "Equipment compatible with generator (DG) power and local voltage conditions",
-      "VRF systems for high-end corporate buildings, with long piping runs, multiple indoor units per outdoor unit and low sound pressure.",
+      "High-efficiency multi-zone air-conditioning for high-end corporate buildings, with long piping runs, multiple indoor units per outdoor unit and low sound pressure.",
       "Standby cooling capacity for server rooms",
       "Chiller plant for larger commercial cooling loads.",
     ],
     airtechCapabilities: [
       "HVAC systems selected for compatibility with DG power and site voltage conditions",
-      "VRF design for high-end corporate fit-outs; chiller plant for larger loads.",
+      "Multi-zone air-conditioning design for high-end corporate fit-outs; chiller plant for larger loads.",
       "Integrated electrical distribution for banks and corporate offices",
     ],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
@@ -154,7 +154,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Corporate & Commercial HVAC / MEP",
       description:
-        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, VRF design and server-room cooling.",
+        "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, multi-zone AC design and server-room cooling.",
     },
     status: "client_confirmed",
   },
@@ -264,16 +264,16 @@ export const industries: Industry[] = [
     slug: "education-institutional",
     name: "Education & Institutional",
     overview:
-      "Airtech's MEP capability extends to educational and institutional facilities, delivering the same integrated HVAC, electrical, plumbing and fire-protection systems used across its commercial and healthcare work.",
+      "Airtech's MEP capability extends to educational and institutional facilities, delivering the same integrated HVAC, electrical, PHE, fire-protection and ELV systems used across its commercial and healthcare work.",
     operationalChallenges: [],
     technicalRequirements: [],
-    airtechCapabilities: ["Integrated HVAC, electrical, plumbing and fire-protection delivery for educational and institutional buildings"],
+    airtechCapabilities: ["Integrated HVAC, electrical, PHE, fire-protection and ELV delivery for educational and institutional buildings"],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: ["nobel-college-health-education"],
     proofPoints: [],
     seo: {
       title: "Education & Institutional MEP",
-      description: "Integrated HVAC, electrical, plumbing and fire-protection engineering for schools, colleges and institutional facilities.",
+      description: "Integrated HVAC, electrical, PHE, fire-protection and ELV engineering for schools, colleges and institutional facilities.",
     },
     status: "source_only",
   },

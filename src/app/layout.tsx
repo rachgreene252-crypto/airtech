@@ -1,26 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Geist, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-// Fraunces — an editorial "old-style" serif with real thick/thin contrast
-// and an optical-size axis, so display headlines get the display cut, not a
-// scaled-up text cut. This replaces Oswald (condensed signage) to move the
-// brand from "industrial contractor" to "design-led engineering practice."
-// display: "swap" is safe here — Fraunces ships fallback-metric data, so
-// there's none of the condensed-width reflow that forced Oswald to
-// "optional" (and made cold loads render in Arial Narrow).
-const displayFont = Fraunces({
+// Archivo — a bold, confident grotesque, pushed heavy for headlines and
+// eyebrow labels. Replaces Fraunces (2026-09-16): the client rejected the
+// serif display face outright ("change all these fonts everywhere") after
+// two prior font passes. Archivo's variable weight axis gives real display
+// cuts at 700-800 without synthetic-bold clumsiness.
+const displayFont = Archivo({
   variable: "--font-display-face",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-// Geist — a clean, cool, low-contrast grotesque for body and UI. Neutral
-// enough to sit under Fraunces without competing, precise enough to read as
-// contemporary rather than corporate.
-const sansFont = Geist({
+// Inter — a neutral, highly legible grotesque for body and UI, chosen to sit
+// quietly under Archivo's heavier display cuts.
+const sansFont = Inter({
   variable: "--font-sans-face",
   subsets: ["latin"],
   display: "swap",
@@ -37,7 +33,7 @@ const monoFont = IBM_Plex_Mono({
 
 const siteTitle = "Airtech Industries | Engineering & Integrated MEP Partner, Nepal";
 const siteDescription =
-  "Airtech Industries is Nepal's engineering and integrated MEP partner: HVAC, electrical, plumbing, fire protection and building systems, from design through commissioning and lifecycle support.";
+  "Airtech Industries is Nepal's engineering and integrated MEP partner: HVAC, electrical, PHE, fire protection, ELV and building systems, from design through commissioning and lifecycle support.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(

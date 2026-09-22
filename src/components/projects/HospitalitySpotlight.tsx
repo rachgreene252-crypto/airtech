@@ -60,11 +60,11 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Hospitality
           </p>
-          <h2 className="mt-5 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+          <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
             Hotels and resorts across Nepal.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
-            Zone-specific HVAC, electrical, plumbing, fire fighting and ELV, delivered
+            Zone-specific HVAC, electrical, PHE, fire fighting and ELV, delivered
             as one integrated scope for the country&apos;s leading hotel and resort brands.
           </p>
         </div>

@@ -15,13 +15,13 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 ease-out outline-none focus-visible:shadow-[0_0_0_2px_var(--color-paper),0_0_0_4px_var(--color-brand-blue)] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0";
 
 const variants: Record<Variant, string> = {
-  // --color-brand-blue is the primary UI blue (~4.8:1 on white — see
-  // globals.css). A press/hover darkens toward --color-brand-blue-hover
-  // rather than brightening toward the client's literal reference blue
-  // (--color-brand-blue-vivid) — a pressed control should read as "pushed
-  // in," not "lit up."
+  // Primary fill is the exact client-specified Midea/Airtech blue
+  // (--color-brand-blue-vivid, #0098D1 as of 2026-09-16 — "use this for
+  // all the buttons etc"), not the darker WCAG-for-small-text shade. A
+  // press/hover still darkens toward --color-brand-blue-hover so a pressed
+  // control reads as "pushed in," not "lit up."
   primary:
-    "bg-(--color-brand-blue) text-white shadow-[0_1px_2px_rgba(15,23,32,0.12)] hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,124,183,0.55)]",
+    "bg-(--color-brand-blue-vivid) text-white shadow-[0_1px_2px_rgba(15,23,32,0.12)] hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,152,209,0.55)]",
   secondary:
     "border border-(--color-brand-blue) text-(--color-brand-blue) hover:bg-(--color-brand-blue) hover:text-white hover:shadow-[0_10px_24px_-8px_rgba(0,124,183,0.4)]",
   ghost: "text-(--color-brand-blue) hover:text-(--color-ink) underline underline-offset-4",

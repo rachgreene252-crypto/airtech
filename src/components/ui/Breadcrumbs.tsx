@@ -10,7 +10,19 @@ export interface Crumb {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.airtech.com.np";
 
-export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: string }) {
+export function Breadcrumbs({
+  items,
+  className,
+  visuallyHidden = false,
+}: {
+  items: Crumb[];
+  className?: string;
+  /** Keeps the BreadcrumbList JSON-LD (real SEO value) but drops the visible
+   * "Home / X" trail from page heroes — client feedback 2026-09-16 ("i dont
+   * want the 'Home/...'"), which read as clutter above an otherwise clean,
+   * attractive heading. */
+  visuallyHidden?: boolean;
+}) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -25,7 +37,7 @@ export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: 
   return (
     <nav
       aria-label="Breadcrumb"
-      className={cn("font-sans text-label text-(--color-steel)", className)}
+      className={cn("font-sans text-label text-(--color-steel)", visuallyHidden ? "sr-only" : "", className)}
     >
       <script
         type="application/ld+json"

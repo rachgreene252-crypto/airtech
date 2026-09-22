@@ -69,7 +69,7 @@ export default function HistoryPage() {
           <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             25 years
           </p>
-          <h2 className="mt-4 font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-(--color-ink) text-balance">
+          <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
             One team, a quarter century of reliability.
           </h2>
         </div>

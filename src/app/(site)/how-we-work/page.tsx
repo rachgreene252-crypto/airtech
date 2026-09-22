@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { Section } from "@/components/ui/Section";
-import { ButtonLink } from "@/components/ui/Button";
 import { ClientJourney } from "@/components/journey/ClientJourney";
 import { journeySteps } from "@/content/journey";
 
@@ -15,19 +13,25 @@ export const metadata: Metadata = {
 export default function HowWeWorkPage() {
   return (
     <>
-      <section className="border-b border-(--color-line) bg-site-texture pt-8 pb-14 sm:pt-12 sm:pb-16">
-        <Container>
+      <section className="relative overflow-hidden border-b border-(--color-line) bg-site-texture pt-8 pb-14 sm:pt-12 sm:pb-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[24rem] w-[34rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
+        />
+        <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
             <Breadcrumbs
               items={[{ label: "Home", href: "/" }, { label: "How We Work" }]}
               className="[&_ol]:justify-center"
+              visuallyHidden
             />
-            <p className="mt-9 font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
+            <p className="font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
               How we work
             </p>
             <h1 className="mt-4 font-display text-display-l font-semibold leading-[1.03] tracking-[-0.018em] text-balance">
               One partner, the whole lifecycle.
             </h1>
+            <span aria-hidden="true" className="mx-auto mt-5 block h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
             <p className="mx-auto mt-6 max-w-[44rem] text-lg text-(--color-steel) leading-relaxed">
               Airtech is a single engineering partner across the whole project lifecycle, from the
               first conversation to long-term support.
@@ -57,18 +61,13 @@ export default function HowWeWorkPage() {
         </Container>
       </section>
 
+      {/* ClientJourney's own finale step ("Support" — "We stay with you.")
+          already closes with its own Enquire CTA. A second "Ready to start
+          the conversation?" section used to follow immediately after it —
+          two closing CTAs back to back read as a mistake ("still looks very
+          weird," client feedback 2026-09-16) — removed rather than kept as
+          a duplicate. */}
       <ClientJourney variant="full" />
-
-      <Section className="text-center">
-        <h2 className="font-display text-display-m font-semibold max-w-2xl mx-auto text-balance">
-          Ready to start the conversation?
-        </h2>
-        <div className="mt-8">
-          <ButtonLink href="/contact/project-enquiry" size="lg">
-            Enquire
-          </ButtonLink>
-        </div>
-      </Section>
     </>
   );
 }

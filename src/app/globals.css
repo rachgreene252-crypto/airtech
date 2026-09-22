@@ -34,20 +34,23 @@
   --color-line: #e4e8ec;
   --color-line-strong: #cbd2d9;
 
-  /* Airtech blue — 2026-09-14, corrected to the client's exact stated hex:
-     #008ED1 ("AIRTECH BLUE... use this exact color"), superseding the
-     #3fa6e7 screenshot-sampled guess from earlier the same day. This is
-     now the literal, explicit source of truth, not a sample.
-     --color-brand-blue-vivid is that exact hex — use it for
-     large/decorative surfaces (fills, icon chips, borders, big numerals)
-     where WCAG's stricter small-text contrast rules don't apply.
-     --color-brand-blue/-hover/-soft/-tint are the same hue and full
-     saturation (199°, 100%), only the lightness shifted per use case, so
-     nothing reads as "a different blue" — brand-blue clears 4.5:1 on white
-     for body-text uses (buttons, links, small mono labels), -hover clears
-     ~6:1 for hover states, -soft/-tint are lighter tints for large fills
-     and backgrounds. */
-  --color-brand-blue-vivid: #008ed1;
+  /* Airtech blue — corrected again 2026-09-16 to #0098D1 ("this is the
+     midea blue colour... use this for all the buttons etc"), a client-
+     supplied swatch matching the same brand's official Midea-blue
+     reference, superseding the 2026-09-14 #008ED1 value. --color-brand-
+     blue-vivid is that exact hex — used for large/decorative surfaces
+     (fills, icon chips, borders, big numerals) AND, per this instruction,
+     every button/CTA fill (Button.tsx's `primary` variant), overriding the
+     WCAG small-text caution below for that one case on explicit client
+     direction — white button text on this fill is ~3.3:1, under the 4.5:1
+     small-text guideline but at/above the 3:1 large-text/UI-component
+     floor. --color-brand-blue/-hover/-soft/-tint are the same hue and full
+     saturation, only the lightness shifted per use case, so nothing reads
+     as "a different blue" — brand-blue still clears 4.5:1 on white for
+     actual small text uses (links, small mono labels), -hover clears ~6:1
+     for hover states, -soft/-tint are lighter tints for large fills and
+     backgrounds. */
+  --color-brand-blue-vivid: #0098d1;
   --color-brand-blue: #007cb7;
   --color-brand-blue-hover: #006898;
   --color-brand-blue-soft: #50bdf1;
@@ -67,39 +70,35 @@
 
   --color-white: #ffffff;
 
-  /* Display face repointed to Fraunces again, 2026-09-11 — a deliberate
-     correction, not a reflex reversal. The all-Geist pass (2026-09-10)
-     fixed "not luxurious" by going bold, but heavy Geist on every headline
-     is also the single grotesque-doing-everything look a design review
-     flagged as reading generic/AI-templated. The actual fix is a real
-     pairing: Fraunces (characterful, used with restraint — display only)
-     over Geist (body copy, UI, buttons, labels — unchanged). This is
-     heavier than Fraunces' first outing on this site (that pass ran light/
-     thin weights, which is what got called "not luxurious" the first
-     time) — optical sizing on, weights pushed to a confident middle
-     ground instead of either extreme. --font-editorial is now the inverse
-     escape hatch (Geist) for a spot that wants plain sans inside a
-     .font-display context. */
-  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
+  /* Display face repointed to Archivo, 2026-09-16 — the client rejected
+     Fraunces outright across multiple pages ("change all these fonts
+     everywhere," "these fonts need to be changed asap") after picking this
+     direction from a 4-way visual comparison ("Confident Corporate": bold
+     Archivo headlines/labels over an Inter body). No serif fallback stack
+     any more — Archivo is a grotesque, so the fallback chain stays sans.
+     --font-editorial keeps working as the plain-Inter escape hatch for a
+     spot inside a .font-display context that wants no display treatment. */
+  --font-display: var(--font-display-face), "Helvetica Neue", Arial, sans-serif;
   --font-editorial: var(--font-sans-face), system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-sans-face), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono-face), ui-monospace, "SFMono-Regular", monospace;
 
-  /* Type scale — editorial, with the mid-steps filled in (there was nothing
-     between the 72px hero and 18px body before). display-2xl is the homepage
-     hero H1 only; display-xl for page H1s; display-l for section H2s;
-     display-m for sub-section headings. Bumped another ~7% on 2026-09-09
-     (stacking on the earlier +8% pass) per client feedback that type still
-     read small on interior pages. */
-  --text-display-2xl: clamp(3.5rem, 1.82rem + 6.85vw, 7rem);
-  --text-display-xl: clamp(2.95rem, 1.82rem + 4.7vw, 4.8125rem);
-  --text-display-l: clamp(2.4rem, 1.6rem + 3.2vw, 3.625rem);
-  --text-display-m: clamp(1.75rem, 1.4rem + 1.6vw, 2.4rem);
-  --text-title: 1.625rem;
-  --text-body-l: 1.375rem;
-  --text-body: 1.275rem;
-  --text-small: 1.1rem;
-  --text-label: 0.9375rem;
+  /* Type scale — dialled back 2026-09-21 per direct feedback ("titles are
+     too big and pale") reversing part of the 2026-09-18 size bump: the
+     display-2xl max of 8rem/128px in particular read as oversized rather
+     than confident. display-2xl is the homepage hero H1 only; display-xl
+     for page H1s; display-l for section H2s; display-m for sub-section
+     headings. See the same date's heading-weight fix below (SectionHeader
+     etc.) for the "pale" half of that feedback. */
+  --text-display-2xl: clamp(3rem, 1.8rem + 5.6vw, 6rem);
+  --text-display-xl: clamp(2.5rem, 1.7rem + 3.6vw, 4.5rem);
+  --text-display-l: clamp(2rem, 1.5rem + 2.4vw, 3.25rem);
+  --text-display-m: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+  --text-title: 1.9rem;
+  --text-body-l: 1.55rem;
+  --text-body: 1.45rem;
+  --text-small: 1.25rem;
+  --text-label: 1.05rem;
 
   /* Motion — one easing, one duration ladder. Lenis handles smooth scroll;
      GSAP ScrollTrigger drives the three choreographed moments; everything
@@ -216,30 +215,28 @@ body::before {
   pointer-events: none;
 }
 
-/* Fraunces, back as the display face 2026-09-11: optical sizing on so
-   headlines get the true display cut (not a scaled-up text cut), weights
-   pushed to a confident middle ground — heavier than the site's first
-   Fraunces pass (which ran thin and got called "not luxurious"), lighter
-   than synthetic-bold serif (which reads clumsy). The compound selectors
+/* Archivo, the display face 2026-09-16: a heavy grotesque, not a serif —
+   no optical-sizing axis to switch on, so the win here is weight and
+   tracking instead. Tight negative letter-spacing keeps big Archivo
+   headlines from feeling loose at display sizes. The compound selectors
    below out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs
    0,1,0) so the ~70+ existing `font-display ... font-semibold` headings
    across the codebase pick up the right weight with no per-file edits. */
 .font-display {
-  font-optical-sizing: auto;
   font-synthesis-weight: none;
-  letter-spacing: -0.014em;
+  letter-spacing: -0.026em;
 }
 .font-display.font-bold {
-  font-weight: 620;
+  font-weight: 800;
 }
 .font-display.font-semibold {
-  font-weight: 560;
+  font-weight: 700;
 }
 .font-display.font-medium {
-  font-weight: 500;
+  font-weight: 600;
 }
 .font-display.font-normal {
-  font-weight: 440;
+  font-weight: 500;
 }
 
 /* Escape hatch to the previous editorial serif, for the handful of spots

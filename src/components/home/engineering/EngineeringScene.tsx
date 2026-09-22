@@ -16,8 +16,14 @@ import {
 } from "./layout";
 
 const BLUE = "#008ed1";
-const GRAPHITE = "#3c4550";
-const SILVER_LIGHT = "#c7ced4";
+// Recoloured 2026-09-16 — the default/dimmed palette was neutral graphite
+// and silver, which read as "just a grey technical drawing" (client:
+// "work on the airtech blue, take it from the logo"). Both are now
+// desaturated tints of the same brand-blue hue, so the whole diagram reads
+// as blue-branded even before a discipline is selected, not just at the
+// one active moment.
+const GRAPHITE = "#5b7d94";
+const SILVER_LIGHT = "#bcd4e3";
 
 export type Highlight = "all" | DisciplineSlug | "bms-systems-integration";
 
@@ -60,11 +66,39 @@ function Terminal({
     const size = BOX_SIZE[kind]!;
     const origin: Vec3 = [to[0] - size[0] / 2, to[1] - size[1], to[2] - size[2] / 2];
     const { top, front, side } = boxFaces(origin, size);
+    // A literal glyph on the front face — a fan for the AHU, a bolt for the
+    // panel, rack ticks for the ELV cabinet — so the box reads as that
+    // specific piece of equipment, not just "a box," the moment it's
+    // highlighted. Centred roughly on the projected front face.
+    const [fx, fy] = projectPt([to[0], to[1] - size[1] / 2, origin[2]]);
     return (
       <g style={{ opacity, transition: "opacity 0.4s ease" }}>
         <polygon points={side} fill={color} fillOpacity={0.16} stroke={color} strokeWidth={1} />
         <polygon points={front} fill={color} fillOpacity={0.1} stroke={color} strokeWidth={1} />
         <polygon points={top} fill={color} fillOpacity={0.22} stroke={color} strokeWidth={1} />
+        {kind === "ahu" && (
+          <g stroke={color} strokeWidth={1} fill="none" opacity={active ? 1 : 0.7}>
+            <circle cx={fx} cy={fy} r={5.5} />
+            {[0, 60, 120, 180, 240, 300].map((deg) => {
+              const rad = (deg * Math.PI) / 180;
+              return <line key={deg} x1={fx} y1={fy} x2={fx + Math.cos(rad) * 5} y2={fy + Math.sin(rad) * 5} />;
+            })}
+          </g>
+        )}
+        {kind === "panel" && (
+          <path
+            d={`M ${fx + 2} ${fy - 6} L ${fx - 3} ${fy + 1} L ${fx} ${fy + 1} L ${fx - 2} ${fy + 6} L ${fx + 3} ${fy - 1} L ${fx} ${fy - 1} Z`}
+            fill={color}
+            opacity={active ? 1 : 0.75}
+          />
+        )}
+        {kind === "rack" && (
+          <g stroke={color} strokeWidth={0.9} opacity={active ? 1 : 0.7}>
+            {[-3, 0, 3].map((dy2) => (
+              <line key={dy2} x1={fx - 4} y1={fy + dy2} x2={fx + 4} y2={fy + dy2} />
+            ))}
+          </g>
+        )}
       </g>
     );
   }
@@ -97,6 +131,12 @@ function Terminal({
           <rect x={px - 4} y={py - 4} width={8} height={8} fill="none" stroke={color} strokeWidth={1} transform={`rotate(45 ${px} ${py})`} />
         )}
         <circle cx={px} cy={py} r={r} fill={kind === "valve" ? color : "var(--color-paper)"} fillOpacity={kind === "valve" ? 0.85 : 1} stroke={color} strokeWidth={1.2} />
+        {kind === "valve" && (
+          <g stroke="var(--color-paper)" strokeWidth={1}>
+            <line x1={px - 2.1} y1={py} x2={px + 2.1} y2={py} />
+            <line x1={px} y1={py - 2.1} x2={px} y2={py + 2.1} />
+          </g>
+        )}
       </g>
     );
   }
@@ -110,6 +150,45 @@ function Terminal({
           <line key={dx} x1={px + dx} y1={py - 3} x2={px + dx} y2={py + 3} stroke={color} strokeWidth={0.8} />
         ))}
     </g>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* On-diagram equipment labels                                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Names the equipment next to the equipment, only for the one lane a
+ * visitor has selected. This is the direct fix for "a layman can't tell
+ * what this is" — the diagram previously explained itself only through an
+ * abstract shape plus a caption below the whole drawing; now the drawing
+ * labels itself. A paper-coloured text stroke (paint-order: stroke) knocks
+ * a legible cutout around each label without hand-authoring background
+ * rectangles per label.
+ */
+function Callout({ x, y, dx, dy, text, color }: { x: number; y: number; dy: number; dx: number; text: string; color: string }) {
+  const tx = x + dx;
+  const ty = y + dy;
+  return (
+    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
+      <line x1={x} y1={y} x2={tx - (dx > 0 ? 5 : -5)} y2={ty} stroke={color} strokeWidth={0.85} />
+      <circle cx={x} cy={y} r={1.6} fill={color} />
+      <text
+        x={tx}
+        y={ty}
+        textAnchor={dx > 0 ? "start" : "end"}
+        dominantBaseline="middle"
+        fontSize={10.5}
+        fontFamily="var(--font-sans)"
+        fontWeight={600}
+        stroke="var(--color-paper)"
+        strokeWidth={4}
+        paintOrder="stroke"
+        fill={color}
+      >
+        {text}
+      </text>
+    </motion.g>
   );
 }
 
@@ -188,6 +267,16 @@ function LaneGroup({
               }}
             />
             <Terminal branch={b} color={color} opacity={trunkOpacity} active={emphasized} />
+            {active && b.label && (
+              <Callout
+                x={projectPt(b.to)[0]}
+                y={projectPt(b.to)[1]}
+                dx={i % 2 === 0 ? 15 : -15}
+                dy={-14 - (i % 3) * 3}
+                text={b.label}
+                color={BLUE}
+              />
+            )}
           </g>
         );
       })}
@@ -228,7 +317,7 @@ function LaneGroup({
 function Structure() {
   return (
     <g opacity={0.95}>
-      <path d={pathFrom(SLAB_OUTLINE)} fill="var(--color-paper-raised)" fillOpacity={0.65} stroke={GRAPHITE} strokeWidth={1.4} />
+      <path d={pathFrom(SLAB_OUTLINE)} fill="var(--color-brand-blue-tint)" fillOpacity={0.8} stroke={GRAPHITE} strokeWidth={1.4} />
       <path d={pathFrom(FLOOR_OUTLINE)} fill="none" stroke={SILVER_LIGHT} strokeWidth={1} strokeDasharray="2 3" />
       {COLUMNS.map((c, i) => {
         const top: Vec3 = [c[0], BAY.height, c[2]];

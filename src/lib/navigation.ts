@@ -28,18 +28,12 @@ export const primaryNav: NavGroup[] = [
   { label: "Expertise", href: "/expertise" },
   { label: "Projects", href: "/projects" },
   { label: "Service & Support", href: "/service-support" },
-  {
-    label: "Company",
-    href: "/company",
-    children: [
-      { label: "About", href: "/company" },
-      { label: "History", href: "/company/history" },
-      { label: "Leadership", href: "/company/leadership" },
-      { label: "Quality & Certifications", href: "/company/quality-certifications" },
-      { label: "Engineering Library", href: "/engineering-library" },
-      { label: "Careers", href: "/company/careers" },
-    ],
-  },
+  // Was a dropdown (About/History/Leadership/Quality/Engineering
+  // Library/Careers) — client feedback 2026-09-16: "i dont want drop down
+  // in the Company page, make it Our Company." Now a plain link like
+  // Expertise; the sub-pages are still reachable from footerNav and from
+  // /company itself.
+  { label: "Our Company", href: "/company" },
 ];
 
 export const footerNav: { title: string; links: NavLink[] }[] = [

@@ -46,7 +46,7 @@ export default function LeadershipPage() {
                 </div>
               )}
               <div>
-                <h2 className="font-display text-display-m font-normal text-(--color-ink)">{person.name}</h2>
+                <h2 className="font-display text-display-m font-semibold tracking-[-0.016em] text-(--color-ink)">{person.name}</h2>
                 <p className="mt-2 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                   {person.role}
                 </p>

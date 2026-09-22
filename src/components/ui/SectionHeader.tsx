@@ -7,8 +7,11 @@ import { cn } from "@/lib/cn";
  * left-aligned header genuinely reads better (e.g. a row list beside it).
  *
  * The eyebrow reads like a coordination drawing's sheet reference
- * ("M — MECHANICAL", "04 — PROJECTS"); the heading is Fraunces at a light
- * display weight, leaning on size rather than boldness for hierarchy.
+ * ("M — MECHANICAL", "04 — PROJECTS"). The heading is semibold Archivo —
+ * a lighter weight read as "pale"/washed-out once the display face moved
+ * from the serif Fraunces (whose thick/thin contrast carried a light
+ * weight fine) to this grotesque, which needs real weight to read as a
+ * confident title at display size (fixed 2026-09-21).
  */
 export function SectionHeader({
   eyebrow,
@@ -43,7 +46,7 @@ export function SectionHeader({
           {eyebrow}
         </p>
       )}
-      <h2 className="font-display text-display-l font-normal leading-[1.08] tracking-[-0.012em] text-balance">
+      <h2 className="font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-balance">
         {heading}
       </h2>
       {description && (

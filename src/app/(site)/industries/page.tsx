@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 // banking, auditoriums) simply render without a thumbnail rather than a
 // stand-in image — same content-truth rule as everywhere else on the site.
 const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>> = {
-  hospitality: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa" },
+  hospitality: {
+    src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
+    alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
+  },
   healthcare: { src: "/images/projects/nepal-mediciti-hospital.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
   "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
   industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },

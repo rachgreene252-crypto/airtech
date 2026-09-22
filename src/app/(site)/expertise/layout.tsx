@@ -12,18 +12,24 @@ import { ExpertiseRail } from "@/components/expertise/ExpertiseRail";
 export default function ExpertiseLayout({ children }: LayoutProps<"/expertise">) {
   return (
     <>
-      <section className="border-b border-(--color-line) pt-8 pb-14 sm:pt-12 sm:pb-16">
-        <Container className="flex flex-col items-center text-center">
+      <section className="relative overflow-hidden border-b border-(--color-line) pt-8 pb-14 sm:pt-12 sm:pb-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[24rem] w-[34rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
+        />
+        <Container className="relative flex flex-col items-center text-center">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Expertise" }]}
             className="[&_ol]:justify-center"
+            visuallyHidden
           />
-          <p className="mt-9 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Engineering disciplines
           </p>
-          <h1 className="mt-5 max-w-[20ch] font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
+          <h1 className="mt-5 max-w-[20ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
             Every discipline a complex building needs, under one team.
           </h1>
+          <span aria-hidden="true" className="mt-5 h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
           <p className="mt-6 max-w-[44rem] text-body-l text-(--color-steel) leading-relaxed">
             Airtech coordinates HVAC, electrical, plumbing &amp; public health, fire fighting &amp;
             fire protection, ELV and building-systems integration as a single engineering

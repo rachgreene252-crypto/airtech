@@ -43,20 +43,18 @@ const ZONE_SLUGS = LANE_ORDER.map((s) => s) as unknown as (
 )[];
 const ALL_SLUGS = [...ZONE_SLUGS, "bms-systems-integration"] as const;
 
-const ZONES = ALL_SLUGS.map((slug) => getServiceBySlug(slug)).filter(
-  (s): s is NonNullable<ReturnType<typeof getServiceBySlug>> => Boolean(s)
-);
-
 const NAV_LABEL: Record<string, string> = {
   hvac: "HVAC",
   electrical: "Electrical",
-  "plumbing-public-health": "Plumbing",
+  "plumbing-public-health": "PHE",
   "fire-protection": "Fire",
   "elv-security": "ELV",
   "bms-systems-integration": "BMS",
 };
 
-const PROJECT_SLUGS = ["laxmi-motors-kd-plant", "nepal-mediciti-hospital", "tiger-palace-resort"] as const;
+// Notable projects, hospitality-led per direct instruction — these three
+// are representative work, not an exhaustive list of everything delivered.
+const PROJECT_SLUGS = ["hotel-barahi-kathmandu", "radisson-hotel-kathmandu", "holiday-inn-express"] as const;
 
 export function SystemsReveal() {
   const [stage, setStage] = useState(0); // 0 = structure only, 1..6 = disciplines cumulatively assembled
@@ -124,7 +122,7 @@ export function SystemsReveal() {
               One building. Every system, coordinated.
             </h2>
             <p className="mt-5 max-w-md text-body-l leading-relaxed text-(--color-steel)">
-              Airtech brings HVAC, electrical, plumbing, fire protection and ELV together
+              Airtech brings HVAC, electrical, PHE, fire protection and ELV together
               through one engineering and execution team, held to one coordinated
               schedule instead of six separate contractors&apos;. Select a system below to
               see how it runs.
@@ -177,9 +175,14 @@ export function SystemsReveal() {
                 <h3 className="font-display text-title font-semibold text-(--color-brand-blue)">
                   {activeService.name}
                 </h3>
-                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-small text-(--color-steel)">
+                <ul className="mt-3 flex flex-wrap gap-2">
                   {activeService.systems.map((s) => (
-                    <li key={s}>{s}</li>
+                    <li
+                      key={s}
+                      className="rounded-xs border border-(--color-brand-blue-soft)/50 bg-(--color-brand-blue-tint) px-3 py-1 text-xs font-medium text-(--color-brand-blue-hover)"
+                    >
+                      {s}
+                    </li>
                   ))}
                 </ul>
                 <Link
@@ -193,8 +196,12 @@ export function SystemsReveal() {
             )}
           </div>
 
-          <div className="relative border border-(--color-line-strong) bg-(--color-paper) p-4 sm:p-6">
-            <div className="mb-4 flex items-center justify-between border-b border-(--color-line) pb-3">
+          <div className="relative border border-(--color-brand-blue-soft)/40 bg-(--color-paper) p-4 sm:p-6">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-(--color-brand-blue-soft)/25 blur-[90px]"
+            />
+            <div className="relative mb-4 flex items-center justify-between border-b border-(--color-line) pb-3">
               <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
                 Coordination model — one structural bay
               </p>
@@ -214,11 +221,11 @@ export function SystemsReveal() {
 
         <Reveal>
           <div className="mt-20 flex flex-col items-center gap-3 border-t border-(--color-line) pt-12 text-center">
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
-              The system you just explored
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-brand-blue)">
+              Notable projects
             </p>
             <p className="font-display text-title font-normal text-(--color-ink)">
-              is the system Airtech engineers on real projects.
+              This coordination model, delivered on real buildings.
             </p>
           </div>
         </Reveal>

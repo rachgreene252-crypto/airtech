@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { NEPAL_PATH_SMOOTH } from "@/lib/geo";
 
 /**
  * "Built for Nepal" — the four facts below are general, well-established
@@ -52,9 +53,6 @@ const FACTS = [
 // national boundary, not another approximation. viewBox is 400x225 (the
 // traced shape's own bounding box, normalised); marker positions below are
 // checked to fall inside this exact polygon.
-const NEPAL_PATH =
-  "M15.4,38 L0,89 L22,105.6 L54.6,116.3 L60.5,128.8 L87.2,144.8 L127.6,155.5 L129.4,165.6 L152.5,168.5 L158.5,175.1 L165.6,168.5 L222,173.3 L223.7,189.9 L255.2,206.5 L276,204.2 L284.3,215.4 L312.2,213.6 L357.3,224.9 L395.8,217.8 L400,198.2 L391.1,181.6 L395.3,135.9 L378.6,132.3 L373.9,137.7 L346,139.5 L325.2,125.8 L313.4,132.3 L302.7,132.3 L299.7,123.4 L284.9,125.8 L276,111.6 L252.8,114.5 L251,98.5 L228.5,99.7 L205.3,84.3 L203,66.5 L191.1,60.5 L169.1,65.3 L157.3,47.5 L107.4,19.6 L99.7,3.6 L67.1,0 L64.1,14.2 L42.7,10.7 Z";
-
 export function BuiltForNepal() {
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -81,7 +79,7 @@ export function BuiltForNepal() {
                   fact, its marker pulses. */}
               <div className="relative mx-auto mt-10 aspect-[16/9] w-full max-w-md">
                 <svg viewBox="0 0 400 225" className="h-full w-full" role="img" aria-hidden="true">
-                  <path d={NEPAL_PATH} fill="var(--color-brand-blue-tint)" stroke="var(--color-brand-blue)" strokeWidth={2} strokeLinejoin="round" />
+                  <path d={NEPAL_PATH_SMOOTH} fill="var(--color-brand-blue-tint)" stroke="var(--color-brand-blue)" strokeWidth={2} strokeLinejoin="round" />
                   {FACTS.map((fact, i) => {
                     const x = (fact.marker.x / 100) * 400;
                     const y = (fact.marker.y / 100) * 225;

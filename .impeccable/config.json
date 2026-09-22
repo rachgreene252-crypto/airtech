@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-09-13T15:34:53.048Z",
         "reason": "false positive: stroke-width on an SVG <line> is a paint property, not CSS box width/height/padding/margin — it doesn't trigger layout reflow the way this rule targets"
+      },
+      {
+        "rule": "layout-transition",
+        "value": "stroke-width",
+        "files": [
+          "src/components/home/engineering/EngineeringScene.tsx"
+        ],
+        "createdAt": "2026-09-16T08:26:15.370Z",
+        "reason": "false positive: SVG stroke-width presentation property (paint-only), not CSS box width/height/margin/padding — doesn't cause document layout reflow"
       }
     ]
   }

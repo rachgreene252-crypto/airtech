@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             />
           </Container>
           <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
-            <h1 className="max-w-4xl font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance text-(--color-paper)">
+            <h1 className="max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance text-(--color-paper)">
               {project.name}
             </h1>
           </Container>
@@ -131,7 +131,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               aspect="aspect-[16/9]"
               priority
             />
-            <h1 className="mt-8 max-w-4xl font-display text-display-xl font-normal leading-[1.05] tracking-[-0.014em] text-balance">
+            <h1 className="mt-8 max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
               {project.name}
             </h1>
           </Container>

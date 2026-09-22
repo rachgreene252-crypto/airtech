@@ -43,7 +43,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         Discipline <span className="text-(--color-steel-soft)">/ {service.disciplineCode}</span>
       </p>
-      <h2 className="mt-4 font-display text-display-m font-normal leading-[1.1] tracking-[-0.012em] text-balance">
+      <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance">
         {service.name}
       </h2>
       <p className="mt-5 max-w-2xl text-body-l leading-relaxed text-(--color-steel)">
@@ -148,9 +148,14 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {/* Sectors */}
       {sectors.length > 0 && (
         <section className="mt-12">
-          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
-            Where it&apos;s deployed
-          </h3>
+          <div className="flex items-baseline justify-between gap-4">
+            <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+              Where it&apos;s deployed
+            </h3>
+            <p className="text-[0.7rem] uppercase tracking-[0.08em] text-(--color-steel-soft)">
+              Common across every discipline
+            </p>
+          </div>
           <ul className="mt-4 border-t border-(--color-line)">
             {sectors.map((sector) => (
               <li key={sector.slug}>
