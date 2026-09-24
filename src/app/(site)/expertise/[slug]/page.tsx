@@ -40,7 +40,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
 
   return (
     <article>
-      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         Discipline <span className="text-(--color-steel-soft)">/ {service.disciplineCode}</span>
       </p>
       <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance">
@@ -57,7 +57,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
           stand-in image. */}
       {photoProjects.length > 0 && (
         <section className="mt-12">
-          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          <h3 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
             Delivered on site
           </h3>
           <div
@@ -93,7 +93,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
                     {project.name}
                   </span>
                   {project.location && (
-                    <span className="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-white/70">
+                    <span className="font-mono text-[0.8125rem] uppercase tracking-[0.1em] text-white/70">
                       {project.location}
                     </span>
                   )}
@@ -108,7 +108,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
           list; each carries a numbered mark and a hairline frame so a
           fact-dense discipline page still reads as designed, not texty. */}
       <section className="mt-14">
-        <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <h3 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           What Airtech delivers
         </h3>
         <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -117,7 +117,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
               key={c}
               className="flex items-start gap-4 border border-(--color-line) bg-(--color-paper) px-5 py-4 transition-colors hover:border-(--color-brand-blue-soft)"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) font-mono text-[0.7rem] font-medium text-(--color-brand-blue)">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) font-mono text-[0.8125rem] font-medium text-(--color-brand-blue)">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="pt-0.5 text-body leading-relaxed text-(--color-ink-soft)">{c}</span>
@@ -129,7 +129,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {/* Systems within the discipline */}
       {service.subServices.length > 0 && (
         <section className="mt-12">
-          <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          <h3 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
             Systems within this discipline
           </h3>
           <ul className="mt-4 flex flex-wrap gap-2">
@@ -149,7 +149,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {sectors.length > 0 && (
         <section className="mt-12">
           <div className="flex items-baseline justify-between gap-4">
-            <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            <h3 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
               Where it&apos;s deployed
             </h3>
             <p className="text-[0.7rem] uppercase tracking-[0.08em] text-(--color-steel-soft)">
@@ -181,7 +181,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
 
       {/* Related projects */}
       <section className="mt-12">
-        <h3 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <h3 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
           Where this discipline has been delivered
         </h3>
         {relatedProjects.length > 0 ? (
@@ -195,7 +195,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
                   <span className="font-display text-body font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
                     {project.name}
                   </span>
-                  <span className="shrink-0 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+                  <span className="shrink-0 font-mono text-[0.8125rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
                     {getIndustryBySlug(project.industrySlug)?.name}
                   </span>
                 </Link>

@@ -36,7 +36,7 @@ export default function ProjectsPage() {
             className="[&_ol]:justify-center"
             visuallyHidden
           />
-          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Projects
           </p>
           <h1 className="mt-5 max-w-[16ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
@@ -55,7 +55,7 @@ export default function ProjectsPage() {
           <>
             <HospitalitySpotlight projects={getProjectsByIndustry("hospitality")} />
             <Container className="pt-14 sm:pt-16 lg:pt-20">
-              <p className="mb-8 text-center font-mono text-[0.75rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
+              <p className="mb-8 text-center font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
                 The rest of the portfolio
               </p>
               <ProjectsExplorer
@@ -75,18 +75,44 @@ export default function ProjectsPage() {
 
       <Container className="py-16 sm:py-20 lg:py-24">
         <SectionHeader eyebrow="Browse by industry" heading="Explore by sector." />
-        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-8 text-left sm:grid-cols-3 lg:grid-cols-5">
-          {industries.map((industry) => (
-            <Link
-              key={industry.slug}
-              href={`/projects?industry=${industry.slug}` as Route}
-              className="group block border-t border-(--color-line) pt-4"
-            >
-              <h3 className="font-display text-body-l font-normal leading-snug text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
-                {industry.name}
-              </h3>
-            </Link>
-          ))}
+        {/* Redesigned 2026-09-24 ("looks really bad") — a bare text grid
+            became tile cards: index, sector name, live project count and a
+            hover arrow, so each sector reads as a clickable destination. */}
+        <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
+          {industries.map((industry, i) => {
+            const count = getProjectsByIndustry(industry.slug).length;
+            return (
+              <Link
+                key={industry.slug}
+                href={`/projects?industry=${industry.slug}` as Route}
+                className="group relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-[6px] border border-(--color-line) bg-(--color-paper-raised) p-5 transition-all duration-300 hover:-translate-y-1 hover:border-(--color-brand-blue-vivid) hover:shadow-[0_18px_40px_-20px_rgba(0,124,183,0.45)]"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-(--color-brand-blue-vivid) transition-transform duration-300 group-hover:scale-x-100"
+                />
+                <span className="flex items-center justify-between font-mono text-[0.8125rem] tracking-[0.14em] text-(--color-steel-soft)">
+                  {String(i + 1).padStart(2, "0")}
+                  <span
+                    aria-hidden="true"
+                    className="flex h-7 w-7 items-center justify-center rounded-full border border-(--color-line) text-(--color-ink) transition-all duration-300 group-hover:border-(--color-brand-blue-vivid) group-hover:bg-(--color-brand-blue-vivid) group-hover:text-white"
+                  >
+                    &rarr;
+                  </span>
+                </span>
+                <span>
+                  <h3 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-(--color-ink) text-balance transition-colors group-hover:text-(--color-brand-blue)">
+                    {industry.name}
+                  </h3>
+                  {count > 0 && (
+                    <span className="mt-1.5 block text-small text-(--color-steel)">
+                      {count} {count === 1 ? "project" : "projects"}
+                    </span>
+                  )}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </Container>
 

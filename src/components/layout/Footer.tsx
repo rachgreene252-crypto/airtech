@@ -7,6 +7,7 @@ import { footerNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
 import { getCertifications } from "@/content/certifications";
 import { Reveal } from "@/components/ui/Reveal";
+import { FooterCta } from "@/components/layout/FooterCta";
 
 async function getCurrentYear() {
   "use cache";
@@ -34,42 +35,43 @@ export async function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-(--color-line) bg-(--color-paper-raised) text-(--color-ink)">
       <div className="absolute inset-x-0 top-0 h-px bg-(--color-brand-blue-vivid)" />
-      <Container className="pt-20 pb-16 lg:pt-24 lg:pb-20">
+      <Container className="pt-16 pb-16 lg:pt-20 lg:pb-20">
         <h2 className="sr-only">Site footer</h2>
 
-        <div className="flex flex-col gap-10 border-b border-(--color-line) pb-14 lg:flex-row lg:items-end lg:justify-between">
+        {/* Redesigned 2026-09-24 ("looks really bad ... make it modern"):
+            the loose logo / address / pill row became a CTA card up top
+            and a structured brand row beneath it, with labelled contact
+            blocks instead of a floating address. Still light — no dark
+            band, per the standing rule. */}
+        <FooterCta />
+
+        <div className="grid grid-cols-1 gap-10 border-b border-(--color-line) pb-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] lg:items-start">
           <div>
             <Image
               src="/images/brand/airtech-logo.png"
               alt={siteSettings.companyName}
               width={640}
               height={109}
-              className="h-10 w-auto sm:h-12"
+              className="h-9 w-auto sm:h-10"
             />
             <p className="mt-4 text-label font-semibold uppercase tracking-[0.16em] text-(--color-brand-blue)">
               {siteSettings.tagline}
             </p>
           </div>
-
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
-            <div>
-              <p className="max-w-[22rem] text-small text-(--color-steel) leading-relaxed">
-                {siteSettings.headOffice}
-              </p>
-              <a
-                href={`mailto:${siteSettings.primaryEmail}`}
-                className="mt-2 inline-block text-small font-medium text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
-              >
-                {siteSettings.primaryEmail}
-              </a>
-            </div>
-            <Link
-              href="/contact/project-enquiry"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-(--color-brand-blue-vivid) px-5 py-2.5 text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--color-brand-blue-hover) hover:shadow-[0_10px_24px_-8px_rgba(0,152,209,0.6)]"
+          <div>
+            <p className="text-label font-semibold uppercase tracking-[0.14em] text-(--color-steel-soft)">Head office</p>
+            <p className="mt-3 max-w-[18rem] text-small leading-relaxed text-(--color-ink-soft)">
+              {siteSettings.headOffice}
+            </p>
+          </div>
+          <div>
+            <p className="text-label font-semibold uppercase tracking-[0.14em] text-(--color-steel-soft)">Email</p>
+            <a
+              href={`mailto:${siteSettings.primaryEmail}`}
+              className="mt-3 inline-block text-small font-medium text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
             >
-              Enquire
-              <span aria-hidden="true">→</span>
-            </Link>
+              {siteSettings.primaryEmail}
+            </a>
           </div>
         </div>
 
@@ -80,7 +82,7 @@ export async function Footer() {
                 <h3 className="text-label font-semibold uppercase tracking-[0.14em] text-(--color-brand-blue)">
                   {group.title}
                 </h3>
-                <ul className="mt-5 flex flex-col gap-3">
+                <ul className="mt-5 flex flex-col gap-3 leading-snug">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <Link

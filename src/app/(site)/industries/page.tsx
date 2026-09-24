@@ -79,7 +79,7 @@ export default function IndustriesPage() {
                   )}
                 </div>
                 <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
-                  <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em]">
+                  <span className="font-mono text-[0.8125rem] uppercase tracking-[0.14em]">
                     View projects
                   </span>
                   <span

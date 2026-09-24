@@ -89,11 +89,11 @@ function CompactJourney() {
   }
 
   return (
-    <section className="border-t border-(--color-line) py-12 sm:py-14 lg:py-16">
+    <section className="py-14 sm:py-16 lg:py-20">
       <Container>
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               Client journey
             </p>
             <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
@@ -119,7 +119,7 @@ function CompactJourney() {
               <div className="relative min-h-[17rem] p-7 text-left sm:min-h-[14rem] sm:p-10">
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute right-4 top-3 select-none font-display text-[4rem] font-semibold leading-none text-(--color-brand-blue)/[0.06] sm:right-6 sm:top-4 sm:text-[7rem]"
+                  className="pointer-events-none absolute right-4 top-3 hidden select-none font-display text-[4rem] sm:block font-semibold leading-none text-(--color-brand-blue)/[0.06] sm:right-6 sm:top-4 sm:text-[7rem]"
                 >
                   {String(active.index).padStart(2, "0")}
                 </span>
@@ -136,11 +136,11 @@ function CompactJourney() {
                       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <p className="max-w-[calc(100%-3rem)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                      <p className="max-w-[calc(100%-3rem)] font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                         <span>{String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
                         <span className="ml-3 inline-block">{active.subLabel}</span>
                       </p>
-                      <h3 className="mt-3 font-display text-display-m font-semibold tracking-[-0.016em] leading-[1.12] text-(--color-ink)">
+                      <h3 className="mt-3 font-display text-display-m font-semibold tracking-[-0.016em] leading-[1.12] text-(--color-ink) sm:pr-28">
                         {active.sentence}
                       </h3>
                       <p className="mt-3 text-body leading-relaxed text-(--color-steel)">
@@ -177,7 +177,7 @@ function CompactJourney() {
               >
                 <span aria-hidden="true">&larr;</span>
               </button>
-              <p className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-(--color-steel)">
+              <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-(--color-steel)">
                 Step {activeIndex} of {total}
               </p>
               <button
@@ -400,7 +400,7 @@ function FullJourney() {
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
-            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               The lifecycle
             </p>
             <ol className="relative mt-6 pl-6">
@@ -500,7 +500,7 @@ function StepSection({
       <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
         <div>
           <p
-            className={`flex items-baseline gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) ${
+            className={`flex items-baseline gap-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) ${
               isFinale ? "justify-center" : ""
             }`}
           >

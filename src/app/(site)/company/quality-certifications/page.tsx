@@ -60,12 +60,12 @@ export default function QualityCertificationsPage() {
                         href={c.documentUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) hover:underline"
+                        className="shrink-0 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) hover:underline"
                       >
                         View certificate letter →
                       </a>
                     ) : (
-                      <span className="shrink-0 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+                      <span className="shrink-0 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
                         Letter available on request
                       </span>
                     )}

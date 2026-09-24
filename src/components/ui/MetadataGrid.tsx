@@ -47,7 +47,7 @@ export function MetadataGrid({ items }: { items: MetadataItem[] }) {
         >
           <FieldIcon label={item.label} />
           <div className="min-w-0">
-            <dt className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            <dt className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
               {item.label}
             </dt>
             <dd className="mt-1.5 text-body-l leading-snug text-(--color-ink)">{item.value}</dd>

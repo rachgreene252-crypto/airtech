@@ -115,7 +115,7 @@ export function SystemsReveal() {
       <Section tone="raised" border={false} className="overflow-hidden bg-soft-glow">
         <div ref={sectionRef} className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
           <div>
-            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
               What Airtech does
             </p>
             <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.015em] text-(--color-ink) text-balance">
@@ -131,12 +131,12 @@ export function SystemsReveal() {
             {/* Discipline navigation — technical, not a SaaS tab bar: plain
                 mono labels in hairline boxes, the same language as the
                 stepper this replaced. */}
-            <div className="mt-10 flex flex-wrap gap-2" role="group" aria-label="Select a system to highlight">
+            <div className="mt-10 flex flex-wrap gap-1.5" role="group" aria-label="Select a system to highlight">
               <button
                 type="button"
                 onClick={() => selectDiscipline("all")}
                 aria-pressed={highlight === "all"}
-                className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
+                className={`min-h-11 px-2.5 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                   highlight === "all"
                     ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                     : "border-(--color-line-strong) text-(--color-steel-soft) hover:border-(--color-steel)"
@@ -152,7 +152,7 @@ export function SystemsReveal() {
                     type="button"
                     onClick={() => selectDiscipline(slug as Highlight)}
                     aria-pressed={isActive}
-                    className={`min-h-11 px-3 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
+                    className={`min-h-11 px-2.5 py-2 font-mono text-[12px] tracking-[0.1em] uppercase border transition-colors ${
                       isActive
                         ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                         : "border-(--color-line-strong) text-(--color-steel-soft) hover:border-(--color-steel)"
@@ -202,10 +202,10 @@ export function SystemsReveal() {
               className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-(--color-brand-blue-soft)/25 blur-[90px]"
             />
             <div className="relative mb-4 flex items-center justify-between border-b border-(--color-line) pb-3">
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
+              <p className="font-mono text-[0.8125rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">
                 Coordination model — one structural bay
               </p>
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.8125rem] uppercase tracking-[0.16em] text-(--color-brand-blue)">
                 {String(Math.min(stage, total)).padStart(2, "0")}/{String(total).padStart(2, "0")}
               </p>
             </div>
@@ -221,7 +221,7 @@ export function SystemsReveal() {
 
         <Reveal>
           <div className="mt-20 flex flex-col items-center gap-3 border-t border-(--color-line) pt-12 text-center">
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.8125rem] uppercase tracking-[0.16em] text-(--color-brand-blue)">
               Notable projects
             </p>
             <p className="font-display text-title font-normal text-(--color-ink)">

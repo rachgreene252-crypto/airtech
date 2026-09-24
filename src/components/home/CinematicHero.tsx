@@ -59,7 +59,7 @@ function HeroTextPanel() {
     >
       <div className="mx-auto flex max-w-3xl flex-col items-center">
         <Reveal delay={0}>
-          <p className="font-mono text-label uppercase tracking-[0.24em] text-(--color-brand-blue)">
+          <p className="font-mono text-label uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Engineering behind the places that matter
           </p>
         </Reveal>
@@ -91,7 +91,7 @@ function HeroTextPanel() {
         <Reveal delay={0.48}>
           <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
             <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse" />
-            <span className="font-mono text-[0.72rem] uppercase tracking-[0.2em]">
+            <span className="font-mono text-[0.8125rem] uppercase tracking-[0.14em]">
               Reliability matters · Est. 2000 · Integrated MEP since 2013
             </span>
           </div>

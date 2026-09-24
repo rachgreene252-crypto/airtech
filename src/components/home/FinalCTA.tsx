@@ -15,9 +15,9 @@ import { ButtonLink } from "@/components/ui/Button";
  */
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden border-t border-(--color-line) bg-site-texture py-28 sm:py-36">
+    <section className="relative overflow-hidden bg-site-texture py-20 sm:py-28">
       <div className="relative mx-auto max-w-2xl px-6 text-center">
-        <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+        <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
           Let&apos;s talk
           <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />

@@ -23,7 +23,7 @@ export default function ExpertiseLayout({ children }: LayoutProps<"/expertise">)
             className="[&_ol]:justify-center"
             visuallyHidden
           />
-          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             Engineering disciplines
           </p>
           <h1 className="mt-5 max-w-[20ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">

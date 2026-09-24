@@ -48,7 +48,7 @@ export default function HistoryPage() {
           {milestones.map((m) => (
             <li key={m.year} className="relative">
               <span className="absolute -left-[2.55rem] top-1.5 h-2 w-2 rounded-full bg-(--color-brand-blue)" />
-              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
                 {m.year}
               </p>
               <h2 className="mt-2 font-display text-title font-normal text-(--color-ink)">{m.title}</h2>
@@ -66,7 +66,7 @@ export default function HistoryPage() {
           high quality images only." */}
       <Section tone="raised">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             25 years
           </p>
           <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">

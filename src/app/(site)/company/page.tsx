@@ -167,7 +167,7 @@ export default function CompanyPage() {
             />
             <div className="absolute inset-x-0 bottom-0 p-5">
               <p className="font-display text-title font-semibold text-white">Manoj Bhansali</p>
-              <p className="mt-0.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-white/70">
+              <p className="mt-0.5 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-white/70">
                 Managing Director
               </p>
             </div>

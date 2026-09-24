@@ -98,7 +98,10 @@
   --text-body-l: 1.55rem;
   --text-body: 1.45rem;
   --text-small: 1.25rem;
-  --text-label: 1.05rem;
+  /* 2026-09-24 polish: body copy at these sizes read loose at Tailwind's
+     1.625 "relaxed"; 1.55 keeps it airy but set, not floating. */
+  --leading-relaxed: 1.55;
+  --text-label: 0.8125rem;
 
   /* Motion — one easing, one duration ladder. Lenis handles smooth scroll;
      GSAP ScrollTrigger drives the three choreographed moments; everything
@@ -188,7 +191,7 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: var(--text-body);
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -360,6 +363,7 @@ body::before {
    drawn one so it reads as part of the design, not a browser default. */
 .select-field {
   appearance: none;
+  max-width: 100%;
   background-color: var(--color-paper);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%231a5a9e' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;

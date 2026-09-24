@@ -82,7 +82,7 @@ function DisciplineIcon({ category }: { category: ServiceCategory }) {
 export default function ExpertiseOverviewPage() {
   return (
     <div>
-      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
         Overview
       </p>
       <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance">

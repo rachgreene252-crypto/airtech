@@ -112,7 +112,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
   return (
     <div ref={formTopRef} className="scroll-mt-28">
-      <ol className="mb-10 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.75rem] uppercase tracking-[0.12em]">
+      <ol className="mb-10 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.8125rem] uppercase tracking-[0.12em]">
         {STEPS.map((label, i) => (
           <li
             key={label}
@@ -350,7 +350,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
                   <button
                     type="button"
                     onClick={() => removeFile(i)}
-                    className="shrink-0 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) hover:underline"
+                    className="shrink-0 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) hover:underline"
                   >
                     Remove
                   </button>
@@ -377,7 +377,7 @@ export function EnquiryForm({ industries }: { industries: Industry[] }) {
 
       {step === 4 && (
         <div className="border-t border-(--color-line) pt-10 text-center">
-          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">Enquiry received</p>
+          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">Enquiry received</p>
           <h2 className="mt-4 font-display text-3xl font-semibold">
             Thanks, {form.name.split(" ")[0] || "there"}.
           </h2>

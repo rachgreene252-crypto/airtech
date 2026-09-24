@@ -32,7 +32,7 @@ const STATS = [
 
 export function ProofBar() {
   return (
-    <section className="border-t border-(--color-line) bg-(--color-paper-raised) py-16 sm:py-20">
+    <section className="bg-(--color-paper-raised) py-16 sm:py-20">
       <Container>
         <Reveal>
           <div className="mx-auto grid max-w-3xl grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-y-0">

@@ -112,7 +112,7 @@ export function ProjectsExplorer({
 
       {rest.length > 0 && (
         <div className="mt-16 sm:mt-20">
-          <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <h2 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
             {featured.length > 0 ? "Also in our portfolio" : "Portfolio"}
           </h2>
           <div className="mt-4 divide-y divide-(--color-line)">
