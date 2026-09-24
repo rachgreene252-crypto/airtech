@@ -15,8 +15,14 @@ import { Reveal } from "@/components/ui/Reveal";
  * fact belongs to the systems section right below it, not a number bar),
  * moved this section to sit directly under the hero, and switched the
  * numerals to mono, big and bold, a deliberately different register from
- * the Fraunces serif headings everywhere else, so a stat reads as data,
- * not as another headline.
+ * the display headings everywhere else, so a stat reads as data, not as
+ * another headline.
+ *
+ * 2026-09-25 — reverted the numerals specifically (not the rest of the
+ * mono-for-data-values convention) from font-mono back to font-display:
+ * IBM Plex Mono's default zero has a centred dot (standard monospace
+ * disambiguation from capital O), which reads fine in small code-style
+ * contexts but looked like a pair of eyes at 56-64px ("2000", "2013").
  */
 const STATS = [
   { value: 25, suffix: "+", label: "Years of engineering experience" },
@@ -70,7 +76,7 @@ function StatNumber({ value, suffix, delay }: { value: number; suffix: string; d
   return (
     <p
       ref={ref}
-      className="font-mono text-[3rem] font-bold leading-none tracking-[-0.03em] text-(--color-ink) sm:text-[3.5rem]"
+      className="font-display text-[3rem] font-bold leading-none tracking-[-0.03em] text-(--color-ink) sm:text-[3.5rem]"
     >
       {display}
       {suffix}

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
@@ -94,16 +93,6 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
-          <Container className="relative z-10 pt-8">
-            <Breadcrumbs
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Projects", href: "/projects" },
-                { label: project.name },
-              ]}
-              className="text-(--color-paper)/70 [&_a]:text-(--color-paper)/70 [&_a:hover]:text-(--color-paper)"
-            />
-          </Container>
           <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
             <h1 className="max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance text-(--color-paper)">
               {project.name}
@@ -112,16 +101,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         </section>
       ) : (
         <section className="border-b border-(--color-line)">
-          <Container className="pt-8 pb-10">
-            <Breadcrumbs
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Projects", href: "/projects" },
-                { label: project.name },
-              ]}
-            />
-          </Container>
-          <Container className="pb-14">
+          <Container className="pt-10 pb-14">
             {/* A sub-1200px photo stretched across this container's width
                 still upscales visibly on a wide desktop, so it doesn't get
                 a pass just because it's not the full-bleed banner above.
