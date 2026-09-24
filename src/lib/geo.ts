@@ -1,30 +1,33 @@
 /**
- * Nepal outline data, shared by every map on the site (ProjectsMap,
- * BuiltForNepal) so there is exactly one traced source of the national
- * boundary, not two copies that can drift apart.
+ * Nepal outline data, shared by every map on the site (currently
+ * BuiltForNepal) so there is exactly one source of the national boundary,
+ * not copies that can drift apart.
  *
- * The point list itself is the real client-supplied outline traced via
- * OpenCV contour extraction (see BuiltForNepal.tsx's original note) —
- * unchanged. `NEPAL_PATH` renders it as the straight-line polygon that
- * trace produced; `NEPAL_PATH_SMOOTH` runs the same points through a
- * closed Catmull-Rom spline (converted to cubic Beziers) so the render is
- * a smooth curve through the real vertices instead of a jagged low-poly
- * outline ("the outline should be intricate," 2026-09-16 feedback) —
- * interpolation of the real trace, not invented geography.
+ * Replaced 2026-09-24 — the previous point list (an OpenCV contour trace of
+ * a client-supplied reference image) still read as "very inaccurate" after
+ * an earlier fix attempt; tracing a low-resolution reference photo had
+ * compounded whatever distortion was already in that image. This version is
+ * projected directly from Nepal's real national boundary coordinates
+ * (simplified public geographic border data, EPSG:4326 lon/lat), not traced
+ * from any image: `project()` below maps
+ * lon ∈ [80.088425, 88.174804] and lat ∈ [26.397898, 30.422717] — Nepal's
+ * actual bounding box — onto the 400×225 viewBox with 8px padding, y flipped
+ * since latitude increases north but SVG y increases downward. `NEPAL_PATH`
+ * is the straight-line polygon through those real vertices; `NEPAL_PATH_SMOOTH`
+ * runs the same points through a closed Catmull-Rom spline so it reads as a
+ * flowing curve rather than a low-poly silhouette ("the outline should be
+ * intricate," 2026-09-16 feedback) — interpolation of real vertices, not
+ * invented geography.
  */
 
 export type Point = [number, number];
 
 export const NEPAL_POINTS: Point[] = [
-  [15.4, 38], [0, 89], [22, 105.6], [54.6, 116.3], [60.5, 128.8], [87.2, 144.8],
-  [127.6, 155.5], [129.4, 165.6], [152.5, 168.5], [158.5, 175.1], [165.6, 168.5],
-  [222, 173.3], [223.7, 189.9], [255.2, 206.5], [276, 204.2], [284.3, 215.4],
-  [312.2, 213.6], [357.3, 224.9], [395.8, 217.8], [400, 198.2], [391.1, 181.6],
-  [395.3, 135.9], [378.6, 132.3], [373.9, 137.7], [346, 139.5], [325.2, 125.8],
-  [313.4, 132.3], [302.7, 132.3], [299.7, 123.4], [284.9, 125.8], [276, 111.6],
-  [252.8, 114.5], [251, 98.5], [228.5, 99.7], [205.3, 84.3], [203, 66.5],
-  [191.1, 60.5], [169.1, 65.3], [157.3, 47.5], [107.4, 19.6], [99.7, 3.6],
-  [67.1, 0], [64.1, 14.2], [42.7, 10.7],
+  [389.4, 140.2], [385.7, 162.6], [392, 195.6], [386.6, 216.1], [347, 217],
+  [289.9, 204.9], [253.2, 200], [225.8, 173.5], [160.7, 166.8], [98.8, 137.7],
+  [54, 112.2], [8, 92.6], [26.4, 44], [56.6, 20.4], [76.3, 8], [114.3, 24],
+  [162.3, 57.8], [189, 65.2], [204.9, 90.2], [241.8, 100.4], [280.3, 123.2],
+  [334.1, 135.1],
 ];
 
 export const NEPAL_PATH =

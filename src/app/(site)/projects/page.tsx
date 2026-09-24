@@ -9,7 +9,6 @@ import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { ProjectsView } from "@/components/projects/ProjectsView";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { HospitalitySpotlight } from "@/components/projects/HospitalitySpotlight";
-import { ProjectsMap } from "@/components/projects/ProjectsMap";
 import { projects, getProjectsByIndustry } from "@/content/projects";
 import { industries } from "@/content/industries";
 
@@ -50,8 +49,6 @@ export default function ProjectsPage() {
           </p>
         </Container>
       </div>
-
-      <ProjectsMap />
 
       <Suspense
         fallback={

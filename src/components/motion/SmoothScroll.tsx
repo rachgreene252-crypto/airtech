@@ -29,6 +29,11 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
     window.scrollTo(0, 0);
+    // The new route's content mounts with a different real height than
+    // whatever Lenis last measured on the previous page — resize before the
+    // visitor scrolls, not after autoResize's debounce catches up.
+    const id = window.setTimeout(() => lenisRef.current?.lenis?.resize(), 50);
+    return () => window.clearTimeout(id);
   }, [pathname]);
 
   useEffect(() => {
@@ -56,9 +61,32 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       gsap.ticker.add(raf);
       gsap.ticker.lagSmoothing(0);
 
+      // Lenis's own autoResize (a ResizeObserver on documentElement) and
+      // ScrollTrigger's cached trigger positions can both go stale when a
+      // page's real height only settles after mount — a late image without
+      // reserved space, a GSAP-driven section that changes height as it
+      // builds, a font swap nudging line count. Symptom: scroll physically
+      // stops short of the real bottom of the page ("can't scroll past
+      // this"), because Lenis is still bounding movement to an earlier,
+      // shorter measurement. Force both back in sync at the moments most
+      // likely to have invalidated them, rather than trusting each
+      // library's own debounce to always catch it.
+      const resync = () => {
+        lenisRef.current?.lenis?.resize();
+        ScrollTrigger.refresh();
+      };
+      window.addEventListener("load", resync);
+      const resizeObserver = new ResizeObserver(resync);
+      resizeObserver.observe(document.documentElement);
+      // Fonts swapping in after first paint (display: swap) can also change
+      // line count/height without a corresponding element resize.
+      document.fonts?.ready?.then(resync).catch(() => {});
+
       cleanup = () => {
         lenisRef.current?.lenis?.off("scroll", onScroll);
         gsap.ticker.remove(raf);
+        window.removeEventListener("load", resync);
+        resizeObserver.disconnect();
       };
     })();
 

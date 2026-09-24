@@ -36,7 +36,7 @@ const FACTS = [
   {
     label: "Altitude & air density",
     body: "Elevation across Nepal's hills and mountains changes how air-conditioning and ventilation equipment actually performs. Selection accounts for it from the outset.",
-    marker: { x: 50, y: 28.9 },
+    marker: { x: 50, y: 40 },
   },
   {
     label: "Dense historic fabric",
@@ -45,14 +45,11 @@ const FACTS = [
   },
 ] as const;
 
-// 2026-09-16 — the earlier freehand blob ("it is wrong") is replaced with a
-// real trace of Nepal's actual outline: the client supplied a reference
-// outline image, which was run through an OpenCV contour extraction
-// (threshold, fill, findContours, approxPolyDP) rather than hand-drawn
-// again, so this is a geometrically accurate simplification of the real
-// national boundary, not another approximation. viewBox is 400x225 (the
-// traced shape's own bounding box, normalised); marker positions below are
-// checked to fall inside this exact polygon.
+// 2026-09-24 — replaced again ("the map here is still very inaccurate"):
+// see src/lib/geo.ts for why the OpenCV-traced version this superseded was
+// still wrong, and where the current point data actually comes from. viewBox
+// is 400x225; marker positions below are verified (point-in-polygon) to
+// fall inside the current outline, not just visually close.
 export function BuiltForNepal() {
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();

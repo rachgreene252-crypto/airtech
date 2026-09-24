@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { cacheLife } from "next/cache";
@@ -38,10 +39,14 @@ export async function Footer() {
 
         <div className="flex flex-col gap-10 border-b border-(--color-line) pb-14 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="font-display text-4xl font-semibold tracking-[-0.01em] text-(--color-ink)">
-              {siteSettings.brandName}
-            </span>
-            <p className="mt-3 text-label font-semibold uppercase tracking-[0.16em] text-(--color-brand-blue)">
+            <Image
+              src="/images/brand/airtech-logo.png"
+              alt={siteSettings.companyName}
+              width={640}
+              height={109}
+              className="h-10 w-auto sm:h-12"
+            />
+            <p className="mt-4 text-label font-semibold uppercase tracking-[0.16em] text-(--color-brand-blue)">
               {siteSettings.tagline}
             </p>
           </div>

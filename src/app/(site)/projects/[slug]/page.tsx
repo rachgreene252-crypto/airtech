@@ -20,18 +20,18 @@ import {
   getTestimonialForProject,
 } from "@/content";
 
-// Only two sourced project photos clear ~1200px native width (checked
-// directly against the files in public/images): everything else in
-// content/projects.ts sits at 400-900px, sharp enough for a small
-// thumbnail (the /projects grid, sector carousels) but visibly soft once
-// stretched full-bleed across a desktop viewport. Per "all high quality
-// images only," only these two get the full-bleed treatment below; every
-// other project falls back to the no-photo layout rather than a blown-up
-// low-res banner.
-const FULL_BLEED_SAFE = new Set([
-  "/images/projects/ncell-iconic-building.jpg",
-  "/images/landmarks/dusit-princess.jpg",
-]);
+// A sub-1200px photo stretched full-bleed across a desktop viewport visibly
+// upscales — the same "all high quality images only" rule as everywhere
+// else on the site. Originally a hardcoded set of two known-good paths;
+// replaced 2026-09-24 with a real width check against `heroImage.width` (see
+// content/types.ts's SanityImageRef) once most of the portfolio actually had
+// large-enough source photography and a fixed allowlist meant every new
+// photo needed a second manual edit here just to have its hero render at
+// all — exactly the "why doesn't the hero show" gap that made project pages
+// read as broken. Every heroImage/gallery entry with a real photo should
+// carry its true pixel width; entries without one simply never qualify,
+// which is the same safe default the old Set gave by omission.
+const FULL_BLEED_MIN_WIDTH = 1200;
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -78,10 +78,12 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
     { label: "Outcome", body: project.outcome },
   ].filter((s): s is { label: string; body: string } => Boolean(s.body));
 
+  const heroIsFullBleedSafe = (project.heroImage?.width ?? 0) >= FULL_BLEED_MIN_WIDTH;
+
   return (
     <>
       <ProjectJsonLd project={project} industryName={industry?.name} />
-      {project.heroImage?.src && FULL_BLEED_SAFE.has(project.heroImage.src) ? (
+      {project.heroImage?.src && heroIsFullBleedSafe ? (
         <section className="relative h-[62vh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)">
           <Image
             src={project.heroImage.src}
@@ -126,7 +128,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 No image prop here at all falls through to TechnicalFrame's
                 honest placeholder. */}
             <TechnicalFrame
-              image={project.heroImage && FULL_BLEED_SAFE.has(project.heroImage.src) ? project.heroImage : undefined}
+              image={project.heroImage}
               label={project.name}
               aspect="aspect-[16/9]"
               priority
@@ -139,6 +141,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section border={false} className="pt-0 pb-12 sm:pb-14">
+        <p className="mb-6 font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          Project overview
+        </p>
         <MetadataGrid
           items={[
             { label: "Client", value: project.clientDisplayApproved ? (project.client ?? "") : "" },
@@ -169,8 +174,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 <Link
                   key={s.slug}
                   href={`/expertise/${s.slug}`}
-                  className="border border-(--color-line-strong) px-4 py-2 text-small text-(--color-ink-soft) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
+                  className="group inline-flex items-center gap-2 rounded-full bg-(--color-brand-blue-tint) px-4 py-2 text-small font-medium text-(--color-brand-blue) transition-colors hover:bg-(--color-brand-blue-vivid) hover:text-white"
                 >
+                  <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" />
                   {s.name}
                 </Link>
               ))}
@@ -181,11 +187,19 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
 
       {storySections.map((section, i) => (
         <Section key={section.label} tone={i % 2 === 0 ? "raised" : "paper"}>
-          <div className="max-w-3xl">
-            <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
-              {section.label}
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
+          <div className="flex max-w-3xl gap-6">
+            <span
+              aria-hidden="true"
+              className="font-mono text-sm font-semibold text-(--color-brand-blue-soft)"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                {section.label}
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
+            </div>
           </div>
         </Section>
       ))}
@@ -193,11 +207,23 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {project.gallery.length > 0 && (
         <Section tone="raised">
           <SectionHeader eyebrow="Gallery" heading="On site." />
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {project.gallery.map((img, i) => (
-              <TechnicalFrame key={i} image={img} aspect="aspect-[4/3]" />
-            ))}
-          </div>
+          {project.gallery.length === 1 ? (
+            <div className="mt-10">
+              <TechnicalFrame image={project.gallery[0]} aspect="aspect-[16/9]" />
+            </div>
+          ) : (
+            // Asymmetric editorial layout, not a uniform grid of equal cells —
+            // the lead photo runs large, the rest sit beside/below it. Reads
+            // as art-directed even when there are only two images.
+            <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <TechnicalFrame image={project.gallery[0]} aspect="aspect-[4/3] lg:aspect-square" className="lg:row-span-2" />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1">
+                {project.gallery.slice(1).map((img, i) => (
+                  <TechnicalFrame key={i} image={img} aspect="aspect-[4/3]" />
+                ))}
+              </div>
+            </div>
+          )}
         </Section>
       )}
 
