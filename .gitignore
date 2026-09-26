@@ -46,3 +46,7 @@ next-env.d.ts
 
 # Word lock files
 ~$*.docx
+
+# Local QA screenshots and raw source video frames (not served by the site)
+.playwright-mcp/
+ASSETS/hero-frames/

@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
  * left-aligned header genuinely reads better (e.g. a row list beside it).
  *
  * The eyebrow reads like a coordination drawing's sheet reference
- * ("M — MECHANICAL", "04 — PROJECTS"). The heading is semibold Archivo —
+ * ("M — MECHANICAL", "04 — PROJECTS"). The heading is semibold Inter Tight (Archivo until 2026-09-26) —
  * a lighter weight read as "pale"/washed-out once the display face moved
  * from the serif Fraunces (whose thick/thin contrast carried a light
  * weight fine) to this grotesque, which needs real weight to read as a

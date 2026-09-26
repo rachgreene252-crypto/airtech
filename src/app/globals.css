@@ -70,7 +70,8 @@
 
   --color-white: #ffffff;
 
-  /* Display face repointed to Archivo, 2026-09-16 — the client rejected
+  /* Display face: Inter Tight since 2026-09-26 (see layout.tsx). History:
+     repointed to Archivo 2026-09-16 — the client rejected
      Fraunces outright across multiple pages ("change all these fonts
      everywhere," "these fonts need to be changed asap") after picking this
      direction from a 4-way visual comparison ("Confident Corporate": bold
@@ -218,16 +219,15 @@ body::before {
   pointer-events: none;
 }
 
-/* Archivo, the display face 2026-09-16: a heavy grotesque, not a serif —
-   no optical-sizing axis to switch on, so the win here is weight and
-   tracking instead. Tight negative letter-spacing keeps big Archivo
-   headlines from feeling loose at display sizes. The compound selectors
+/* Inter Tight, the display face since 2026-09-26 (Archivo before it). It
+   is already tightly spaced by design, so only a light negative tracking
+   here — Archivo's -0.026em made it look cramped. The compound selectors
    below out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs
    0,1,0) so the ~70+ existing `font-display ... font-semibold` headings
    across the codebase pick up the right weight with no per-file edits. */
 .font-display {
   font-synthesis-weight: none;
-  letter-spacing: -0.026em;
+  letter-spacing: -0.012em;
 }
 .font-display.font-bold {
   font-weight: 800;

@@ -1,21 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Inter_Tight, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-// Archivo — a bold, confident grotesque, pushed heavy for headlines and
-// eyebrow labels. Replaces Fraunces (2026-09-16): the client rejected the
-// serif display face outright ("change all these fonts everywhere") after
-// two prior font passes. Archivo's variable weight axis gives real display
-// cuts at 700-800 without synthetic-bold clumsiness.
-const displayFont = Archivo({
+// Inter Tight — headings. Chosen 2026-09-26 from a four-way side-by-side
+// (Archivo / Geist / Manrope / Inter Tight) rendered on the live site;
+// replaces Archivo (which replaced Fraunces 2026-09-16). Inter Tight is
+// Inter's display cut, so headings and body now read as one family.
+const displayFont = Inter_Tight({
   variable: "--font-display-face",
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-// Inter — a neutral, highly legible grotesque for body and UI, chosen to sit
-// quietly under Archivo's heavier display cuts.
+// Inter — a neutral, highly legible grotesque for body and UI, the text
+// companion to Inter Tight's display cuts.
 const sansFont = Inter({
   variable: "--font-sans-face",
   subsets: ["latin"],
