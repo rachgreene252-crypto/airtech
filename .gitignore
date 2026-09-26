@@ -50,3 +50,6 @@ next-env.d.ts
 # Local QA screenshots and raw source video frames (not served by the site)
 .playwright-mcp/
 ASSETS/hero-frames/
+# Third-party skill repos cloned locally (public upstreams)
+bencium-claude-code-design-skill/
+skills/
