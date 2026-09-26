@@ -25,14 +25,18 @@ export default function HowWeWorkPage() {
               className="[&_ol]:justify-center"
               visuallyHidden
             />
-            <p className="font-sans text-label font-medium tracking-[0.01em] text-(--color-brand-blue)">
-              How we work
-            </p>
-            <h1 className="mt-4 font-display text-display-l font-semibold leading-[1.03] tracking-[-0.018em] text-balance">
+            <div className="flex items-center justify-center gap-3">
+              <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
+              <p className="font-mono text-label font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                How we work
+              </p>
+              <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
+            </div>
+            <h1 className="mt-6 font-display text-display-xl font-semibold leading-[1.04] tracking-[-0.018em] text-balance">
               One partner, the whole lifecycle.
             </h1>
             <span aria-hidden="true" className="mx-auto mt-5 block h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
-            <p className="mx-auto mt-6 max-w-[44rem] text-lg text-(--color-steel) leading-relaxed">
+            <p className="mx-auto mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
               Airtech is a single engineering partner across the whole project lifecycle, from the
               first conversation to long-term support.
             </p>

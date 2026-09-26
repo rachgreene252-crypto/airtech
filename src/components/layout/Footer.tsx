@@ -7,7 +7,6 @@ import { footerNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";
 import { getCertifications } from "@/content/certifications";
 import { Reveal } from "@/components/ui/Reveal";
-import { FooterCta } from "@/components/layout/FooterCta";
 
 async function getCurrentYear() {
   "use cache";
@@ -43,8 +42,6 @@ export async function Footer() {
             and a structured brand row beneath it, with labelled contact
             blocks instead of a floating address. Still light — no dark
             band, per the standing rule. */}
-        <FooterCta />
-
         <div className="grid grid-cols-1 gap-10 border-b border-(--color-line) pb-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] lg:items-start">
           <div>
             <Image

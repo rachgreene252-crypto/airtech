@@ -29,7 +29,7 @@ export function TechnicalFrame({
   showCaption?: boolean;
 }) {
   return (
-    <figure className={cn("crop-frame text-(--color-ink)", className)}>
+    <figure className={cn("crop-frame text-(--color-brand-blue)", className)}>
       <div className={cn("relative w-full overflow-hidden bg-(--color-ink)", aspect)}>
         {image?.src ? (
           <Image

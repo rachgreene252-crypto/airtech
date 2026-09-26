@@ -43,7 +43,7 @@ export function MetadataGrid({ items }: { items: MetadataItem[] }) {
       {visible.map((item) => (
         <div
           key={item.label}
-          className="flex items-start gap-4 border border-(--color-line) bg-(--color-paper) p-5 transition-colors hover:border-(--color-brand-blue-soft)"
+          className="flex items-start gap-4 border border-(--color-line) bg-(--color-paper) p-5"
         >
           <FieldIcon label={item.label} />
           <div className="min-w-0">

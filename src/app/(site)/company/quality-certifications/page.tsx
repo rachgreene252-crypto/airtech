@@ -38,6 +38,7 @@ export default function QualityCertificationsPage() {
           </div>
           <div>
             <SectionHeader
+              align="left"
               eyebrow="Certifications"
               heading="ISO management-system certification."
             />

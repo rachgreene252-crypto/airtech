@@ -211,7 +211,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
 
       <div className="mt-14 border-t border-(--color-line) pt-10">
         <p className="font-display text-title font-normal text-balance">
-          Planning a project that needs {service.name.toLowerCase()}?
+          Planning a project that needs {service.name}?
         </p>
         <div className="mt-6">
           <ButtonLink href="/contact/project-enquiry" size="lg">

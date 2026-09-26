@@ -3,12 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { Route } from "next";
 import type { NavGroup } from "@/lib/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
+// Current section: exact match, or any page nested under the item's route.
+function isActive(pathname: string, href?: string) {
+  if (!href || href === "/") return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function HeaderNav({ items }: { items: NavGroup[] }) {
+  const pathname = usePathname();
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
@@ -48,7 +56,11 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
             ) : (
               <Link
                 href={item.href as Route}
-                className="block px-3.5 py-2 text-sm font-medium text-(--color-ink) hover:text-(--color-brand-blue) transition-colors"
+                aria-current={isActive(pathname, item.href) ? "page" : undefined}
+                className={cn(
+                  "block px-3.5 py-2 text-sm font-medium transition-colors hover:text-(--color-brand-blue)",
+                  isActive(pathname, item.href) ? "text-(--color-brand-blue)" : "text-(--color-ink)"
+                )}
               >
                 {item.label}
               </Link>
@@ -94,6 +106,7 @@ export function HeaderNav({ items }: { items: NavGroup[] }) {
 }
 
 function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void }) {
+  const pathname = usePathname();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
@@ -146,7 +159,12 @@ function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void
                 )}
               </>
             ) : (
-              <Link href={item.href as Route} onClick={onClose} className="block py-3.5 text-lg font-medium">
+              <Link
+                href={item.href as Route}
+                onClick={onClose}
+                aria-current={isActive(pathname, item.href) ? "page" : undefined}
+                className={cn("block py-3.5 text-lg font-medium", isActive(pathname, item.href) && "text-(--color-brand-blue)")}
+              >
                 {item.label}
               </Link>
             )}

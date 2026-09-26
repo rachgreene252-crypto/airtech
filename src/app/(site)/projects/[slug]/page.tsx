@@ -120,7 +120,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         </section>
       )}
 
-      <Section border={false} className="pt-0 pb-12 sm:pb-14">
+      <Section border={false} className="pt-10 pb-12 sm:pb-14">
         <p className="mb-6 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           Project overview
         </p>
