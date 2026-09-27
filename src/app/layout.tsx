@@ -1,32 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Schibsted_Grotesk, Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-// Inter Tight — headings. Chosen 2026-09-26 from a four-way side-by-side
-// (Archivo / Geist / Manrope / Inter Tight) rendered on the live site;
-// replaces Archivo (which replaced Fraunces 2026-09-16). Inter Tight is
-// Inter's display cut, so headings and body now read as one family.
-const displayFont = Inter_Tight({
+// Type system matched to the Air Experts / Midea site (2026-09-27, user
+// request "see its UI and fonts and copy it in"): Schibsted Grotesk for
+// headlines, Geist for body/UI, IBM Plex Mono for labels and numerals.
+// Replaces Inter Tight + Inter.
+const displayFont = Schibsted_Grotesk({
   variable: "--font-display-face",
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-// Inter — a neutral, highly legible grotesque for body and UI, the text
-// companion to Inter Tight's display cuts.
-const sansFont = Inter({
+const sansFont = Geist({
   variable: "--font-sans-face",
   subsets: ["latin"],
   display: "swap",
 });
 
-// IBM Plex Mono stays — reserved for genuine machine data (discipline codes,
-// drawing references, spec values), never prose eyebrows.
 const monoFont = IBM_Plex_Mono({
   variable: "--font-mono-face",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 

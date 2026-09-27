@@ -32,15 +32,15 @@ const STATS = [
 
 export function ProofBar() {
   return (
-    <section className="bg-(--color-paper-raised) py-16 sm:py-20">
+    <section className="bg-band py-12 sm:py-16">
       <Container>
         <Reveal>
-          <div className="mx-auto grid max-w-3xl grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-y-0">
+          <div className="mx-auto grid max-w-3xl grid-cols-3">
             {STATS.map((stat, i) => (
-              <div key={stat.label} className="px-3 text-center sm:px-6 sm:border-l sm:first:border-l-0 sm:border-(--color-line-strong)">
+              <div key={stat.label} className="border-l border-(--color-line-strong) px-2 text-center first:border-l-0 sm:px-6">
                 <StatNumber value={stat.value} suffix={stat.suffix} delay={i * 0.12} />
-                <span aria-hidden="true" className="mx-auto mt-4 block h-1 w-8 rounded-full bg-(--color-brand-blue-vivid)" />
-                <p className="mx-auto mt-4 max-w-[14rem] text-small leading-relaxed text-(--color-steel)">
+                <span aria-hidden="true" className="mx-auto mt-3 block h-0.5 w-6 rounded-full bg-(--color-brand-blue-vivid) sm:mt-4 sm:h-1 sm:w-8" />
+                <p className="mx-auto mt-3 max-w-[14rem] text-xs leading-snug sm:mt-4 sm:text-small sm:leading-relaxed text-(--color-steel)">
                   {stat.label}
                 </p>
               </div>
@@ -76,7 +76,7 @@ function StatNumber({ value, suffix, delay }: { value: number; suffix: string; d
   return (
     <p
       ref={ref}
-      className="font-display text-[3rem] font-bold leading-none tracking-[-0.03em] text-(--color-ink) sm:text-[3.5rem]"
+      className="font-display text-[2rem] font-semibold leading-none tracking-[-0.03em] tabular-nums text-(--color-ink) sm:text-[3.25rem]"
     >
       {display}
       {suffix}

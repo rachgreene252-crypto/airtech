@@ -36,7 +36,7 @@ export default function ProjectsPage() {
             className="[&_ol]:justify-center"
             visuallyHidden
           />
-          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
             Projects
           </p>
           <h1 className="mt-5 max-w-[16ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
@@ -55,7 +55,7 @@ export default function ProjectsPage() {
           <>
             <HospitalitySpotlight projects={getProjectsByIndustry("hospitality")} />
             <Container className="pt-14 sm:pt-16 lg:pt-20">
-              <p className="mb-8 text-center font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
+              <p className="mb-8 text-center font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-(--color-steel-soft)">
                 The rest of the portfolio
               </p>
               <ProjectsExplorer
@@ -91,7 +91,7 @@ export default function ProjectsPage() {
                   aria-hidden="true"
                   className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-(--color-brand-blue-vivid) transition-transform duration-300 group-hover:scale-x-100"
                 />
-                <span className="flex items-center justify-between font-mono text-[0.8125rem] tracking-[0.14em] text-(--color-steel-soft)">
+                <span className="flex items-center justify-between font-mono text-[0.6875rem] tracking-[0.22em] text-(--color-steel-soft)">
                   {String(i + 1).padStart(2, "0")}
                   <span
                     aria-hidden="true"

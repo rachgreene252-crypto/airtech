@@ -101,7 +101,7 @@ export default function CompanyPage() {
                     About Airtech
                   </p>
                 </div>
-                <h1 className="mt-6 max-w-[18ch] font-display text-display-xl font-semibold leading-[1.04] tracking-[-0.018em] text-balance">
+                <h1 className="mt-6 max-w-[20ch] font-display text-display-l font-semibold leading-[1.04] tracking-[-0.018em] text-balance">
                   An engineering company built around one idea:{" "}
                   <span className="text-(--color-brand-blue)">reliability matters</span>.
                 </h1>
@@ -167,7 +167,7 @@ export default function CompanyPage() {
             />
             <div className="absolute inset-x-0 bottom-0 p-5">
               <p className="font-display text-title font-semibold text-white">Manoj Bhansali</p>
-              <p className="mt-0.5 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-white/70">
+              <p className="mt-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-white/70">
                 Managing Director
               </p>
             </div>
@@ -221,16 +221,22 @@ export default function CompanyPage() {
             <Reveal key={p.href} delay={i * 0.05}>
               <Link
                 href={p.href}
-                className="group relative flex flex-col gap-1.5 overflow-hidden border-b border-(--color-line) py-6 pl-5 transition-colors hover:bg-(--color-paper-raised) sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                className="group relative grid grid-cols-1 gap-1 overflow-hidden border-b border-(--color-line) py-5 pl-5 pr-2 transition-colors hover:bg-(--color-paper-raised) sm:grid-cols-[16rem_1fr_auto] sm:items-baseline sm:gap-8"
               >
                 <span
                   aria-hidden="true"
                   className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-(--color-brand-blue) transition-transform duration-300 group-hover:scale-y-100"
                 />
-                <h3 className="font-display text-2xl font-semibold leading-tight group-hover:text-(--color-brand-blue) transition-colors">
+                <h3 className="font-display text-title font-semibold leading-tight group-hover:text-(--color-brand-blue) transition-colors">
                   {p.label}
                 </h3>
-                <p className="text-sm text-(--color-steel) sm:max-w-md sm:text-right">{p.description}</p>
+                <p className="text-sm text-(--color-steel)">{p.description}</p>
+                <span
+                  aria-hidden="true"
+                  className="hidden text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1 sm:block"
+                >
+                  &rarr;
+                </span>
               </Link>
             </Reveal>
           ))}

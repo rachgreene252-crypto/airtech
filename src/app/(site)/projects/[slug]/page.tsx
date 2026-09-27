@@ -132,7 +132,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section border={false} className="pt-10 pb-12 sm:pb-14">
-        <p className="mb-6 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        <p className="mb-6 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           Project overview
         </p>
         <MetadataGrid
@@ -157,7 +157,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         />
         {relatedServices.length > 0 && (
           <div className="mt-10 border-t border-(--color-line) pt-8">
-            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
               Systems Airtech delivered
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
@@ -186,7 +186,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               {String(i + 1).padStart(2, "0")}
             </span>
             <div>
-              <h2 className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                 {section.label}
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
@@ -243,7 +243,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section tone="raised" className="text-center">
-        <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           {industry ? `Planning a ${industry.name.toLowerCase()} project?` : "Have a project in planning?"}
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance text-(--color-ink)">

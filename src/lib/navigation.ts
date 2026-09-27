@@ -1,5 +1,4 @@
 import { services } from "@/content/services";
-import { industries } from "@/content/industries";
 
 // Industries is deliberately not a top-level primaryNav entry: Projects owns
 // industry classification (browse via /projects?industry=<slug>) so a visitor
@@ -36,34 +35,33 @@ export const primaryNav: NavGroup[] = [
   { label: "Our Company", href: "/company" },
 ];
 
+// Trimmed 2026-09-27 ("too big of a footer ... more concise and formal"):
+// four columns became three and the Industries column was dropped (it
+// duplicated the /projects sector filter, several of whose sectors have no
+// published projects yet).
 export const footerNav: { title: string; links: NavLink[] }[] = [
   {
     title: "Expertise",
     links: services.map((s) => ({ label: s.name, href: `/expertise/${s.slug}` })),
   },
   {
-    title: "Industries",
-    links: industries.slice(0, 7).map((i) => ({ label: i.name, href: `/projects?industry=${i.slug}` })),
-  },
-  {
     title: "Company",
     links: [
-      { label: "About", href: "/company" },
+      { label: "About Airtech", href: "/company" },
       { label: "History", href: "/company/history" },
       { label: "Leadership", href: "/company/leadership" },
       { label: "Quality & Certifications", href: "/company/quality-certifications" },
-      { label: "Engineering Library", href: "/engineering-library" },
       { label: "Careers", href: "/company/careers" },
-      { label: "How We Work", href: "/how-we-work" },
     ],
   },
   {
-    title: "Get in touch",
+    title: "Work with us",
     links: [
-      { label: "Contact", href: "/contact" },
-      { label: "Inquire for Services", href: "/contact/project-enquiry" },
-      { label: "Service & AMC", href: "/service-support" },
       { label: "Projects", href: "/projects" },
+      { label: "How We Work", href: "/how-we-work" },
+      { label: "Service & AMC", href: "/service-support" },
+      { label: "Engineering Library", href: "/engineering-library" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];

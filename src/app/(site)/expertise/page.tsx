@@ -66,8 +66,8 @@ const DISCIPLINE_ICONS: Record<ServiceCategory, ReactNode> = {
 
 function DisciplineIcon({ category }: { category: ServiceCategory }) {
   return (
-    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) text-(--color-brand-blue) transition-colors group-hover:bg-(--color-brand-blue) group-hover:text-white">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) text-(--color-brand-blue) transition-colors group-hover:bg-(--color-brand-blue) group-hover:text-white">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
         {DISCIPLINE_ICONS[category]}
       </svg>
     </span>
@@ -82,7 +82,7 @@ function DisciplineIcon({ category }: { category: ServiceCategory }) {
 export default function ExpertiseOverviewPage() {
   return (
     <div>
-      <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
         Overview
       </p>
       <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance">
@@ -98,7 +98,7 @@ export default function ExpertiseOverviewPage() {
         {FACTS.map((fact) => (
           <div key={fact.value} className="border-b border-(--color-line) py-6 sm:border-b-0 sm:border-r sm:pr-6 sm:last:border-r-0">
             <dt className="sr-only">{fact.label}</dt>
-            <dd className="font-display text-4xl font-bold text-(--color-brand-blue)">{fact.value}</dd>
+            <dd className="font-display text-3xl font-semibold tabular-nums text-(--color-brand-blue)">{fact.value}</dd>
             <dd className="mt-2 max-w-[16rem] text-small leading-relaxed text-(--color-steel)">
               {fact.label}
             </dd>

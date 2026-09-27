@@ -21,7 +21,7 @@ export function Section({
 }) {
   const toneClasses = {
     paper: "bg-site-texture text-(--color-ink)",
-    raised: "bg-(--color-paper-raised) text-(--color-ink)",
+    raised: "bg-band text-(--color-ink)",
   }[tone];
 
   return (

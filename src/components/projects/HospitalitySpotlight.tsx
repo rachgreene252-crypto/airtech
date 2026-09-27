@@ -37,7 +37,7 @@ function HotelCard({
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-(--color-ink)/5" />
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-        <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
           Hospitality
         </p>
         <h3 className="mt-2 font-display text-2xl font-normal text-white">{project.name}</h3>
@@ -60,10 +60,10 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
   const withoutPhoto = projects.filter((p) => !p.heroImage?.src);
 
   return (
-    <section className="border-y border-(--color-line) bg-(--color-paper-raised) py-14 sm:py-16 lg:py-20">
+    <section className="border-t border-(--color-line) bg-band py-14 sm:py-16 lg:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
             Hospitality
           </p>
           <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">

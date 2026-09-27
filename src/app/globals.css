@@ -91,18 +91,20 @@
      for page H1s; display-l for section H2s; display-m for sub-section
      headings. See the same date's heading-weight fix below (SectionHeader
      etc.) for the "pale" half of that feedback. */
-  --text-display-2xl: clamp(3rem, 1.8rem + 5.6vw, 6rem);
-  --text-display-xl: clamp(2.5rem, 1.7rem + 3.6vw, 4.5rem);
-  --text-display-l: clamp(2rem, 1.5rem + 2.4vw, 3.25rem);
-  --text-display-m: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
-  --text-title: 1.9rem;
-  --text-body-l: 1.55rem;
-  --text-body: 1.45rem;
-  --text-small: 1.25rem;
-  /* 2026-09-24 polish: body copy at these sizes read loose at Tailwind's
-     1.625 "relaxed"; 1.55 keeps it airy but set, not floating. */
-  --leading-relaxed: 1.55;
-  --text-label: 0.8125rem;
+  /* 2026-09-27: rebased on the Air Experts / Midea site's scale ("all the
+     fonts look too big"). Body was 1.45rem (~23px) after the +8% bump; it
+     is now a standard 16px body / 18px lead / 14px small, with headings
+     in the 30–72px band the Midea site uses. */
+  --text-display-2xl: clamp(2.75rem, 1.9rem + 3.4vw, 4.5rem);
+  --text-display-xl: clamp(2.25rem, 1.7rem + 2.2vw, 3.5rem);
+  --text-display-l: clamp(1.875rem, 1.5rem + 1.5vw, 2.75rem);
+  --text-display-m: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+  --text-title: 1.25rem;
+  --text-body-l: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --leading-relaxed: 1.6;
+  --text-label: 0.75rem;
 
   /* Motion — one easing, one duration ladder. Lenis handles smooth scroll;
      GSAP ScrollTrigger drives the three choreographed moments; everything
@@ -219,24 +221,24 @@ body::before {
   pointer-events: none;
 }
 
-/* Inter Tight, the display face since 2026-09-26 (Archivo before it). It
-   is already tightly spaced by design, so only a light negative tracking
-   here — Archivo's -0.026em made it look cramped. The compound selectors
+/* Schibsted Grotesk, the display face since 2026-09-27 (matching the Air
+   Experts / Midea site; Inter Tight before it). tracking-tight (-0.025em)
+   as on that site. The compound selectors
    below out-specify Tailwind's own .font-bold / .font-semibold (0,2,0 vs
    0,1,0) so the ~70+ existing `font-display ... font-semibold` headings
    across the codebase pick up the right weight with no per-file edits. */
 .font-display {
   font-synthesis-weight: none;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.025em;
 }
 .font-display.font-bold {
-  font-weight: 800;
-}
-.font-display.font-semibold {
   font-weight: 700;
 }
-.font-display.font-medium {
+.font-display.font-semibold {
   font-weight: 600;
+}
+.font-display.font-medium {
+  font-weight: 500;
 }
 .font-display.font-normal {
   font-weight: 500;
@@ -260,6 +262,15 @@ body::before {
   background-color: transparent;
 }
 
+/* 2026-09-27 ("the page doesn't look in sync in the background"): the
+   alternating pale bands used to be an opaque --color-paper-raised fill,
+   which cut the fixed sitewide artwork off at a hard line under every
+   hero. A translucent tint of the same colour keeps the band visible as a
+   rhythm change while the artwork continues behind it. */
+.bg-band {
+  background-color: color-mix(in srgb, var(--color-paper-raised) 55%, transparent);
+}
+
 /* Soft glow background — 2026-09-10, per the client's reference (a faint
    radial blue wash + thin diagonal hairlines behind light sections, not a
    flat grey haze like the texture removed above). Opt-in per section, not
@@ -274,17 +285,13 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-color: var(--color-paper-raised);
+  /* Translucent since 2026-09-27 so the sitewide artwork runs continuously
+     from the hero into the sections below it (was an opaque fill plus
+     diagonal hairlines that no other section had). */
+  background-color: color-mix(in srgb, var(--color-paper-raised) 45%, transparent);
   background-image:
-    radial-gradient(60% 55% at 15% 0%, rgba(0, 142, 209, 0.09), transparent 60%),
-    radial-gradient(50% 50% at 100% 100%, rgba(0, 142, 209, 0.07), transparent 60%),
-    repeating-linear-gradient(
-      135deg,
-      rgba(0, 142, 209, 0.05) 0px,
-      rgba(0, 142, 209, 0.05) 1px,
-      transparent 1px,
-      transparent 64px
-    );
+    radial-gradient(60% 55% at 15% 0%, rgba(0, 142, 209, 0.07), transparent 60%),
+    radial-gradient(50% 50% at 100% 100%, rgba(0, 142, 209, 0.05), transparent 60%);
   pointer-events: none;
 }
 

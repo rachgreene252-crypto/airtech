@@ -25,7 +25,7 @@ export function PageHero({
   meta?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-soft-glow border-b border-(--color-line) pt-10 pb-20 sm:pt-16 sm:pb-28">
+    <section className="relative overflow-hidden bg-soft-glow border-b border-(--color-line) pt-10 pb-16 sm:pt-16 sm:pb-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[36rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
@@ -35,7 +35,7 @@ export function PageHero({
         {eyebrow && (
           <div className="flex items-center gap-3">
             <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-            <p className="font-mono text-label font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               {eyebrow}
             </p>
             <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />

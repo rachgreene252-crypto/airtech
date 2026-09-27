@@ -86,13 +86,13 @@ function SectorCard({ sector, index }: { sector: (typeof SECTORS)[number]; index
       )}
       {/* Soft top scrim so the index stays legible on bright skies. */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-(--color-ink)/45 to-transparent" />
-      <span className="absolute left-5 top-5 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-white/90">
+      <span className="absolute left-5 top-5 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-white/90">
         {String(index + 1).padStart(2, "0")}
       </span>
       <div className="absolute inset-x-0 bottom-0">
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-transparent" />
         <div className="relative p-6 pt-16">
-          <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-white/80">
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-white/80">
             Sector
           </p>
           <h3 className="mt-2 font-display text-2xl font-semibold text-white">{sector.label}</h3>
@@ -137,7 +137,7 @@ export function BuildingFor() {
         <Reveal>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-xl">
-              <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                 Sectors
               </p>
               <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.015em] text-(--color-ink) text-balance">

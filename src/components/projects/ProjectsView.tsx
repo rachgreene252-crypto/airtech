@@ -38,7 +38,7 @@ export function ProjectsView({
       {!filtered && spotlight}
       <Container className="pt-14 sm:pt-16 lg:pt-20">
         {!filtered && (
-          <p className="mb-8 text-center font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
+          <p className="mb-8 text-center font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-(--color-steel-soft)">
             The rest of the portfolio
           </p>
         )}

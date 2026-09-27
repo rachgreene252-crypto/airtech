@@ -30,7 +30,7 @@ export function ExpertiseRail() {
       <div className="lg:hidden">
         <label
           htmlFor="discipline-select"
-          className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)"
+          className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)"
         >
           Discipline
         </label>
@@ -50,7 +50,7 @@ export function ExpertiseRail() {
 
       {/* Desktop */}
       <div className="hidden lg:block">
-        <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-steel-soft)">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
           Disciplines
         </p>
         <ul className="mt-4 flex flex-col">
@@ -62,18 +62,18 @@ export function ExpertiseRail() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-baseline gap-3 border-l-2 py-3 pl-4 text-body transition-colors",
+                    "flex items-baseline gap-3 border-l-2 py-2.5 pl-4 text-[0.9375rem] transition-colors",
                     active
                       ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                       : "border-(--color-line) text-(--color-steel) hover:border-(--color-line-strong) hover:text-(--color-ink)"
                   )}
                 >
                   {i > 0 && (
-                    <span className="font-mono text-[0.8125rem] text-(--color-steel-soft)">
+                    <span className="font-mono text-[0.6875rem] text-(--color-steel-soft)">
                       {String(i).padStart(2, "0")}
                     </span>
                   )}
-                  <span className="font-display font-medium leading-tight">{item.label}</span>
+                  <span className="font-medium leading-snug">{item.label}</span>
                 </Link>
               </li>
             );

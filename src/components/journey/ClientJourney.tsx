@@ -93,7 +93,7 @@ function CompactJourney() {
       <Container>
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               Client journey
             </p>
             <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
@@ -136,7 +136,7 @@ function CompactJourney() {
                       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <p className="max-w-[calc(100%-3rem)] font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+                      <p className="max-w-[calc(100%-3rem)] font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                         <span>{String(active.index).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
                         <span className="ml-3 inline-block">{active.subLabel}</span>
                       </p>
@@ -177,7 +177,7 @@ function CompactJourney() {
               >
                 <span aria-hidden="true">&larr;</span>
               </button>
-              <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-(--color-steel)">
+              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-(--color-steel)">
                 Step {activeIndex} of {total}
               </p>
               <button
@@ -400,7 +400,7 @@ function FullJourney() {
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
-            <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               The lifecycle
             </p>
             <ol className="relative mt-6 pl-6">
@@ -485,7 +485,7 @@ function StepSection({
       data-step-index={step.index}
       className={`relative overflow-hidden ${
         isFinale
-          ? "border-t border-(--color-line) bg-(--color-paper-raised) px-6 py-16 text-(--color-ink) sm:px-12 sm:py-20"
+          ? "border-t border-(--color-line) bg-band px-6 py-16 text-(--color-ink) sm:px-12 sm:py-20"
           : "py-12 sm:py-16"
       }`}
     >
@@ -500,7 +500,7 @@ function StepSection({
       <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
         <div>
           <p
-            className={`flex items-baseline gap-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue) ${
+            className={`flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue) ${
               isFinale ? "justify-center" : ""
             }`}
           >
