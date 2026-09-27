@@ -25,7 +25,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-(--color-ink)/5 transition-opacity duration-300 group-hover:from-(--color-ink)" />
+          <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/60 to-(--color-ink)/5 transition-opacity duration-300 group-hover:from-(--color-ink)" />
         </>
       ) : (
         // Shared BluePlaceholder fallback — same treatment as TechnicalFrame
@@ -36,14 +36,14 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center p-6 text-center">
-        <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft)">
+        <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-(--color-brand-blue-soft) [text-shadow:0_1px_8px_rgba(5,29,43,0.6)]">
           {industryName ?? project.projectType}
         </p>
         <h3 className="mt-2 font-display text-xl sm:text-2xl font-semibold leading-tight text-(--color-paper)">
           {project.name}
         </h3>
         {project.location && <p className="mt-1 text-sm text-(--color-paper)/75">{project.location}</p>}
-        <span className="mt-4 inline-flex translate-y-2 items-center gap-1.5 rounded-full border border-white/35 bg-white/10 px-4 py-1.5 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <span className="inline-flex max-h-0 translate-y-2 items-center gap-1.5 overflow-hidden rounded-full border border-white/35 bg-white/10 px-4 text-xs font-medium text-(--color-paper) opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:mt-4 group-hover:max-h-10 group-hover:translate-y-0 group-hover:py-1.5 group-hover:opacity-100 group-focus-visible:mt-4 group-focus-visible:max-h-10 group-focus-visible:py-1.5 group-focus-visible:opacity-100">
           View project
           <span aria-hidden="true">→</span>
         </span>

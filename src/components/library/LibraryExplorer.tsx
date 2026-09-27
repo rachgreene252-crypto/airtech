@@ -52,10 +52,10 @@ export function LibraryExplorer({ resources }: { resources: Resource[] }) {
         {filtered.map((resource) => (
           <div key={resource.slug} className="group flex flex-col">
             <div className="relative aspect-[4/3] overflow-hidden">
-              <BluePlaceholder label={resource.fileUrl ? undefined : "Document coming soon"} />
+              <BluePlaceholder label={resource.fileUrl ? undefined : "PDF in preparation"} />
             </div>
             <Label tone="muted" className="mt-4">
-              {KIND_LABELS[resource.kind]}
+              {resource.fileUrl ? KIND_LABELS[resource.kind] : "Available on request"}
             </Label>
             <h3 className="mt-1 font-display text-xl font-semibold text-(--color-ink)">{resource.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-(--color-steel)">{resource.summary}</p>

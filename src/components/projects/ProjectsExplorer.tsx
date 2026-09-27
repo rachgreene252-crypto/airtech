@@ -6,6 +6,7 @@ import type { Route } from "next";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectListRow } from "./ProjectListRow";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ButtonLink } from "@/components/ui/Button";
 import type { Project, Industry } from "@/content/types";
 
 /**
@@ -76,7 +77,7 @@ export function ProjectsExplorer({
             </option>
           ))}
         </select>
-        {activeName && (
+        {activeName && inIndustry.length > 0 && (
           <p className="text-small text-(--color-steel)">
             Showing {inIndustry.length} {activeName} project{inIndustry.length === 1 ? "" : "s"} ·{" "}
             <button
@@ -93,9 +94,19 @@ export function ProjectsExplorer({
       {featured.length === 0 && rest.length === 0 && (
         <div className="mt-16 text-center">
           <EmptyState
-            title="No projects in this industry yet"
-            description="Try another industry or clear the filter."
+            title={activeName ? `${activeName} case studies on request` : "No projects in this industry yet"}
+            description="Detailed case studies for this sector aren't published yet. Tell us about your project and we'll share relevant references."
           />
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+            <ButtonLink href="/contact/project-enquiry">Inquire for Services</ButtonLink>
+            <button
+              type="button"
+              onClick={() => setIndustry("")}
+              className="text-sm font-medium text-(--color-brand-blue) hover:underline"
+            >
+              View all projects
+            </button>
+          </div>
         </div>
       )}
 

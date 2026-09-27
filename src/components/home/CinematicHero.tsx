@@ -90,8 +90,8 @@ function HeroTextPanel() {
 
         <Reveal delay={0.48}>
           <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
-            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse" />
-            <span className="font-mono text-[0.8125rem] uppercase tracking-[0.14em]">
+            <span aria-hidden="true" className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse sm:block" />
+            <span className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-balance">
               Reliability matters · Est. 2000 · Integrated MEP since 2013
             </span>
           </div>

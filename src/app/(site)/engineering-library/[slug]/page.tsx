@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { resources, getResourceBySlug, RESOURCE_KIND_LABELS } from "@/content/resources";
 
 // Every library entry is a known, finite content record — prerender all of
@@ -41,9 +42,23 @@ export default async function EngineeringLibraryDetailPage({
         description={resource.summary}
       />
       <Section>
-        <div className="max-w-2xl text-(--color-ink) leading-relaxed">
-          {resource.body ?? "Content coming soon."}
-        </div>
+        {resource.body ? (
+          <div className="max-w-2xl text-(--color-ink) leading-relaxed">{resource.body}</div>
+        ) : (
+          <div className="max-w-2xl">
+            <EmptyState
+              align="left"
+              title="Available on request"
+              description="The published PDF is being prepared. Consultants and specifiers can request the current version from the engineering team."
+            />
+            <a
+              href={`mailto:info@airtech.com.np?subject=${encodeURIComponent(`Document request: ${resource.title}`)}`}
+              className="mt-6 inline-flex items-center gap-1.5 text-small font-medium text-(--color-brand-blue) hover:underline"
+            >
+              Request by email <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        )}
       </Section>
     </>
   );

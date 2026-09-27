@@ -267,7 +267,9 @@ function LaneGroup({
               }}
             />
             <Terminal branch={b} color={color} opacity={trunkOpacity} active={emphasized} />
-            {active && b.label && (
+            {/* Label only the first of each repeated terminal type — three
+                "Isolation valve" callouts collided on the drawing. */}
+            {active && b.label && lane.branches.findIndex((o) => o.label === b.label) === i && (
               <Callout
                 x={projectPt(b.to)[0]}
                 y={projectPt(b.to)[1]}

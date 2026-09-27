@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const FACTS = [
   { value: "06", label: "Engineering disciplines, coordinated as one" },
   { value: "01", label: "One practice, not a chain of sub-contractors" },
-  { value: "2000", label: "Delivering integrated MEP in Nepal since" },
+  { value: "2000", label: "Engineering buildings in Nepal since" },
 ];
 
 // One meaning-specific icon per discipline — the fix for a "boring and

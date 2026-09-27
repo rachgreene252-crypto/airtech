@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Vendored reference material, not app source.
     "taste/**",
     ".claude/**",
+    "skills/**",
+    "bencium-claude-code-design-skill/**",
   ]),
 ]);
 

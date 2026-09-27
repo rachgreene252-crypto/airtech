@@ -107,12 +107,23 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 a pass just because it's not the full-bleed banner above.
                 No image prop here at all falls through to TechnicalFrame's
                 honest placeholder. */}
-            <TechnicalFrame
-              image={project.heroImage}
-              label={project.name}
-              aspect="aspect-[16/9]"
-              priority
-            />
+            {/* Cap the frame at ~1.6x the photo's native width so a small
+                source (e.g. 468px) isn't stretched across the full 1200px+
+                container. */}
+            <div
+              style={
+                project.heroImage?.width
+                  ? { maxWidth: `${Math.round(project.heroImage.width * 1.6)}px` }
+                  : undefined
+              }
+            >
+              <TechnicalFrame
+                image={project.heroImage}
+                label={project.name}
+                aspect="aspect-[16/9]"
+                priority
+              />
+            </div>
             <h1 className="mt-8 max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
               {project.name}
             </h1>

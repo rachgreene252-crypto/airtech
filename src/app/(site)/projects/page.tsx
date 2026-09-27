@@ -104,11 +104,9 @@ export default function ProjectsPage() {
                   <h3 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-(--color-ink) text-balance transition-colors group-hover:text-(--color-brand-blue)">
                     {industry.name}
                   </h3>
-                  {count > 0 && (
-                    <span className="mt-1.5 block text-small text-(--color-steel)">
-                      {count} {count === 1 ? "project" : "projects"}
-                    </span>
-                  )}
+                  <span className="mt-1.5 block text-small text-(--color-steel)">
+                    {count > 0 ? `${count} ${count === 1 ? "project" : "projects"}` : "On request"}
+                  </span>
                 </span>
               </Link>
             );
