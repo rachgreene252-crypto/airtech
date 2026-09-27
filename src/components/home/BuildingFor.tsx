@@ -40,7 +40,7 @@ const SECTORS: {
     slug: "healthcare",
     label: "Healthcare",
     descriptor: "Hospitals, medical centres and critical environments.",
-    photo: { src: "/images/projects/nepal-mediciti-hospital.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
+    photo: { src: "/images/projects/nepal-mediciti.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
   },
   {
     slug: "corporate-commercial",
@@ -52,7 +52,7 @@ const SECTORS: {
     slug: "telecom-data-centres",
     label: "Mission Critical",
     descriptor: "Telecom, data centres and critical infrastructure.",
-    photo: { src: "/images/projects/ncell-iconic-building.jpg", alt: "Ncell Iconic Building, Kathmandu" },
+    photo: { src: "/images/projects/ncell-corporate-office.jpg", alt: "Ncell Iconic Building, Kathmandu" },
   },
   {
     slug: "industrial",

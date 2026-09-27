@@ -22,10 +22,10 @@ const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>>
     src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
     alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
   },
-  healthcare: { src: "/images/projects/nepal-mediciti-hospital.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
+  healthcare: { src: "/images/projects/nepal-mediciti.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
   "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
   industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
-  "telecom-data-centres": { src: "/images/projects/ncell-iconic-building.jpg", alt: "Ncell Iconic Building, Kathmandu" },
+  "telecom-data-centres": { src: "/images/projects/ncell-corporate-office.jpg", alt: "Ncell Iconic Building, Kathmandu" },
   "embassies-ingos": { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu" },
 };
 
