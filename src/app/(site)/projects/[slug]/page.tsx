@@ -77,7 +77,19 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
     { label: "Outcome", body: project.outcome },
   ].filter((s): s is { label: string; body: string } => Boolean(s.body));
 
-  const heroIsFullBleedSafe = (project.heroImage?.width ?? 0) >= FULL_BLEED_MIN_WIDTH;
+  // Full-bleed only for genuinely wide photos (2026-09-28: "a lot of the
+  // images are being cut off"). The ~62vh banner is about 2.3:1 on desktop,
+  // so a 4:3 or portrait photo lost most of its subject there. Anything
+  // narrower than 16:10 renders framed at its own aspect ratio instead.
+  const heroW = project.heroImage?.width ?? 0;
+  const heroH = project.heroImage?.height ?? 0;
+  const heroRatio = heroW && heroH ? heroW / heroH : 0;
+  const heroIsFullBleedSafe = heroW >= FULL_BLEED_MIN_WIDTH && heroRatio >= 1.6;
+  // Framed hero: natural aspect (no crop). Portrait photos are width-capped
+  // so they don't run several screens tall.
+  const frameMaxWidth = heroW
+    ? Math.min(Math.round(heroW * 1.6), heroRatio && heroRatio < 1 ? 620 : Infinity)
+    : undefined;
 
   return (
     <>
@@ -90,7 +102,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
           {project.heroImage.credit && (
@@ -113,17 +125,12 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             {/* Cap the frame at ~1.6x the photo's native width so a small
                 source (e.g. 468px) isn't stretched across the full 1200px+
                 container. */}
-            <div
-              style={
-                project.heroImage?.width
-                  ? { maxWidth: `${Math.round(project.heroImage.width * 1.6)}px` }
-                  : undefined
-              }
-            >
+            <div style={frameMaxWidth && Number.isFinite(frameMaxWidth) ? { maxWidth: `${frameMaxWidth}px` } : undefined}>
               <TechnicalFrame
                 image={project.heroImage}
                 label={project.name}
-                aspect="aspect-[16/9]"
+                aspect={heroRatio ? "" : "aspect-[16/9]"}
+                aspectRatio={heroRatio || undefined}
                 priority
               />
             </div>

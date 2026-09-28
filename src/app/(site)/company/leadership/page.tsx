@@ -34,7 +34,7 @@ export default function LeadershipPage() {
                     alt={person.photo.alt}
                     fill
                     sizes="128px"
-                    className="object-cover"
+                    className="object-cover object-top"
                   />
                 </div>
               ) : (

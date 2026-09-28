@@ -71,7 +71,7 @@ export default function CareersPage() {
             >
               <span className="crop-tick-tl" />
               <span className="crop-tick-br" />
-              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
+              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover object-top" />
             </div>
           ))}
         </div>

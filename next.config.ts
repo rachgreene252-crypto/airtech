@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/resources", destination: "/engineering-library", permanent: true },
       { source: "/resources/:slug*", destination: "/engineering-library/:slug*", permanent: true },
+      // Merged 2026-09-28: same resort was listed twice (client filename
+      // "The Terraces Resort & Spa, Lalitpur").
+      { source: "/projects/the-terraces-resort-spa", destination: "/projects/the-terrace-resort-lalitpur", permanent: true },
     ];
   },
 };

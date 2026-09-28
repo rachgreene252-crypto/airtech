@@ -101,7 +101,7 @@ export default function CompanyPage() {
                   alt="The Airtech leadership team in a strategy meeting at the Kathmandu office"
                   fill
                   sizes="(min-width: 1024px) 32vw, 90vw"
-                  className="object-cover"
+                  className="object-cover object-top"
                   priority
                 />
               </div>
@@ -124,7 +124,7 @@ export default function CompanyPage() {
               alt="Manoj Bhansali, Managing Director of Airtech Industries"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover grayscale-[10%]"
+              className="object-cover object-top grayscale-[10%]"
             />
             <div
               aria-hidden="true"

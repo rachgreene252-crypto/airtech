@@ -14,6 +14,7 @@ export function TechnicalFrame({
   image,
   label,
   aspect = "aspect-[4/3]",
+  aspectRatio,
   className,
   priority,
   sizes = "100vw",
@@ -22,6 +23,8 @@ export function TechnicalFrame({
   image?: SanityImageRef;
   label?: string;
   aspect?: string;
+  /** Exact width/height ratio; overrides `aspect` so the photo shows uncropped. */
+  aspectRatio?: number;
   className?: string;
   priority?: boolean;
   sizes?: string;
@@ -30,7 +33,10 @@ export function TechnicalFrame({
 }) {
   return (
     <figure className={cn("crop-frame text-(--color-brand-blue)", className)}>
-      <div className={cn("relative w-full overflow-hidden bg-(--color-ink)", aspect)}>
+      <div
+        className={cn("relative w-full overflow-hidden bg-(--color-ink)", aspect)}
+        style={aspectRatio ? { aspectRatio: String(aspectRatio) } : undefined}
+      >
         {image?.src ? (
           <Image
             src={image.src}
@@ -38,7 +44,7 @@ export function TechnicalFrame({
             fill
             priority={priority}
             sizes={sizes}
-            className="object-cover"
+            className="object-cover object-top"
           />
         ) : (
           <BluePlaceholder label={label ? `${label}: photography to follow` : undefined} />

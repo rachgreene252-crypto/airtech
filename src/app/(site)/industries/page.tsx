@@ -61,7 +61,7 @@ export default function IndustriesPage() {
                       alt={photo.alt}
                       fill
                       sizes="160px"
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
                     />
                   </div>
                 )}

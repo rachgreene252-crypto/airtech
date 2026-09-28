@@ -28,14 +28,9 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     heroImage: {
       src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
-      alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
-    },
+      alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night", width: 1024, height: 576 },
     gallery: [
-      {
-        src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
-        alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
-      },
-      { src: "/images/landmarks/hotel-barahi-kathmandu-facade.jpg", alt: "Hotel Barahi Kathmandu, street facade" },
+      { src: "/images/landmarks/hotel-barahi-kathmandu-facade.jpg", alt: "Hotel Barahi Kathmandu, street facade", width: 863, height: 575 },
     ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["hyatt-place-kathmandu", "radisson-hotel-kathmandu"],
@@ -95,9 +90,7 @@ export const projects: Project[] = [
       width: 2000,
       height: 1125,
     },
-    gallery: [
-      { src: "/images/landmarks/hyatt-regency-kathmandu.jpg", alt: "Hyatt Regency Kathmandu, at dusk", width: 2000, height: 1125 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["hyatt-place-kathmandu", "dusit-princess"],
     featured: true,
@@ -125,9 +118,7 @@ export const projects: Project[] = [
       width: 2400,
       height: 1600,
     },
-    gallery: [
-      { src: "/images/landmarks/aloft-kathmandu-thamel.jpg", alt: "Aloft Kathmandu Thamel", width: 2400, height: 1600 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["hotel-barahi-kathmandu", "holiday-inn-express"],
     featured: true,
@@ -162,7 +153,6 @@ export const projects: Project[] = [
       height: 1080,
     },
     gallery: [
-      { src: "/images/landmarks/shinta-mani-mustang.jpg", alt: "Shinta Mani Mustang", width: 1920, height: 1080 },
       { src: "/images/projects/shinta-mani-mustang-2.jpg", alt: "Shinta Mani Mustang, stone guest wings", width: 1536, height: 865 },
       { src: "/images/projects/shinta-mani-mustang-3.jpg", alt: "Shinta Mani Mustang against the Himalaya", width: 1366, height: 768 },
     ],
@@ -222,28 +212,30 @@ export const projects: Project[] = [
     status: "source_only",
   },
   {
-    // Distinct from "The Terraces Resort & Spa" above (different name spelling
-    // and a different location supplied) — kept as a separate entry rather
-    // than merged, since nothing confirms they're the same property.
+    // Merged 2026-09-28 with a duplicate "The Terraces Resort & Spa" entry:
+    // the client's own photo is filed as "The Terraces Resort & Spa,
+    // Lalitpur", confirming one property. Old slug redirects here.
     slug: "the-terrace-resort-lalitpur",
-    name: "The Terrace Resort",
-    client: "The Terrace Resort",
+    name: "The Terraces Resort & Spa",
+    client: "The Terraces Resort & Spa",
     clientDisplayApproved: true,
     location: "Lalitpur",
     industrySlug: "hospitality",
-    projectType: "Resort",
+    projectType: "Resort & spa",
     projectStatus: "provisional",
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/landmarks/the-terrace-resort-lalitpur.jpg", alt: "The Terrace Resort, Lalitpur" },
-    gallery: [{ src: "/images/landmarks/the-terrace-resort-lalitpur.jpg", alt: "The Terrace Resort, Lalitpur" }],
+    heroImage: { src: "/images/projects/the-terraces-resort-spa.jpg", alt: "The Terraces Resort & Spa, Lalitpur", width: 1360, height: 1020 },
+    gallery: [
+      { src: "/images/landmarks/the-terrace-resort-lalitpur.jpg", alt: "The Terraces Resort & Spa, pool terrace", width: 1024, height: 768 },
+    ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["tiger-palace-resort", "chandragiri-hills-resort"],
     featured: true,
     seo: {
-      title: "The Terrace Resort, Lalitpur",
-      description: "The Terrace Resort, Lalitpur. Featured in Airtech's project portfolio.",
+      title: "The Terraces Resort & Spa, Lalitpur",
+      description: "The Terraces Resort & Spa, Lalitpur. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -310,9 +302,7 @@ export const projects: Project[] = [
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
     heroImage: { src: "/images/landmarks/dusit-princess.jpg", alt: "Dusit Princess, Kathmandu", width: 2400, height: 1088 },
-    gallery: [
-      { src: "/images/landmarks/dusit-princess-terrace.jpg", alt: "Dusit Princess, Kathmandu — rooftop terrace", width: 1600, height: 1066 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["tiger-palace-resort", "hyatt-place-kathmandu"],
     featured: true,
@@ -415,29 +405,6 @@ export const projects: Project[] = [
     seo: {
       title: "Hotel Hilton, Naxal",
       description: "Hotel Hilton, Naxal, Kathmandu. Featured in Airtech's project portfolio.",
-    },
-    status: "source_only",
-  },
-  {
-    slug: "the-terraces-resort-spa",
-    name: "The Terraces Resort & Spa",
-    client: "The Terraces Resort & Spa",
-    clientDisplayApproved: true,
-    location: "Kathmandu",
-    industrySlug: "hospitality",
-    projectType: "Resort & spa",
-    projectStatus: "provisional",
-    airtechRole: "Featured in Airtech's project portfolio.",
-    servicesDelivered: [],
-    serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/the-terraces-resort-spa.jpg", alt: "The Terraces Resort & Spa, Lalitpur", width: 1360, height: 1020 },
-    gallery: [],
-    relatedServiceSlugs: ["hvac"],
-    relatedProjectSlugs: [],
-    featured: false,
-    seo: {
-      title: "The Terraces Resort & Spa, Kathmandu",
-      description: "The Terraces Resort & Spa, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -594,7 +561,6 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     heroImage: { src: "/images/projects/norvic-international-hospital.jpg", alt: "Norvic International Hospital, Kathmandu", width: 1024, height: 706 },
     gallery: [
-      { src: "/images/projects/norvic-international-hospital.jpg", alt: "Norvic International Hospital, Kathmandu", width: 1024, height: 706 },
       { src: "/images/projects/norvic-international-hospital-2.jpg", alt: "Norvic International Hospital main entrance at night", width: 2400, height: 1350, credit: "Photo: सरोज_कुमार_ढकाल / CC BY-SA 3.0, via Wikimedia Commons" },
     ],
     relatedServiceSlugs: ["hvac"],
@@ -624,9 +590,7 @@ export const projects: Project[] = [
       width: 2000,
       height: 1333,
     },
-    gallery: [
-      { src: "/images/projects/grande-international-hospital.jpg", alt: "Grande International Hospital, Kathmandu", width: 2000, height: 1333 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["frontline-hospital"],
     featured: false,
@@ -654,9 +618,7 @@ export const projects: Project[] = [
       width: 2400,
       height: 1597,
     },
-    gallery: [
-      { src: "/images/projects/frontline-hospital.jpg", alt: "Frontline Hospital, Kathmandu", width: 2400, height: 1597 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["grande-international-hospital"],
     featured: false,
@@ -680,11 +642,8 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     heroImage: {
       src: "/images/projects/universal-college-medical-sciences.jpg",
-      alt: "Universal College of Medical Sciences, Bhairahawa",
-    },
-    gallery: [
-      { src: "/images/projects/universal-college-medical-sciences.jpg", alt: "Universal College of Medical Sciences, Bhairahawa" },
-    ],
+      alt: "Universal College of Medical Sciences, Bhairahawa", width: 1200, height: 436 },
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["chitwan-medical-college"],
     featured: true,
@@ -708,7 +667,7 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     heroImage: { src: "/images/projects/chitwan-medical-college.jpg", alt: "Chitwan Medical College Teaching Hospital, Bharatpur", width: 2400, height: 1391 },
     gallery: [
-      { src: "/images/projects/chitwan-medical-college.jpg", alt: "Chitwan Medical College Teaching Hospital, Bharatpur", width: 2400, height: 1391 },
+      { src: "/images/projects/chitwan-medical-college-2.jpg", alt: "Chitwan Medical College campus and teaching hospital", width: 768, height: 512 },
     ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["universal-college-medical-sciences", "global-college"],
@@ -737,9 +696,7 @@ export const projects: Project[] = [
       width: 2400,
       height: 1597,
     },
-    gallery: [
-      { src: "/images/projects/global-college.jpg", alt: "Global College International, Kathmandu", width: 2400, height: 1597 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["chitwan-medical-college", "universal-college-medical-sciences"],
     featured: false,
@@ -774,9 +731,7 @@ export const projects: Project[] = [
       width: 1597,
       height: 2400,
     },
-    gallery: [
-      { src: "/images/projects/marwadi-parishad.jpg", alt: "Marwadi Parishad, Kathmandu", width: 1597, height: 2400 },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["shanker-group-corporate-office"],
     featured: false,
@@ -804,14 +759,7 @@ export const projects: Project[] = [
       width: 2000,
       height: 1335,
     },
-    gallery: [
-      {
-        src: "/images/landmarks/shanker-group-corporate-office.jpg",
-        alt: "Shanker Group Corporate Office (Jagdamba Building), Tangal, Kathmandu",
-        width: 2000,
-        height: 1335,
-      },
-    ],
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
     featured: false,
@@ -834,7 +782,7 @@ export const projects: Project[] = [
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
     // AIPL PROFILE - 2026.pptx, slide 8 — "CAAN Office Building, Kathmandu".
-    heroImage: { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
+    heroImage: { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu", width: 872, height: 654 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["new-airport-commercial-office-parking"],
@@ -859,8 +807,8 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     // AIPL PROFILE - 2026.pptx, slide 8 — "Laxmi Motors KD Plant, Parasi"; reconciled with the
     // existing "Laxmi Motor Corporation" client record per docs/AIRTECH_CONTENT_AUDIT.md §2d.
-    heroImage: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
-    gallery: [{ src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" }],
+    heroImage: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi", width: 1200, height: 686 },
+    gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
     featured: true,
@@ -1007,7 +955,7 @@ export const projects: Project[] = [
     airtechRole: "HVAC: design, supply, installation, testing and commissioning for the new Visa Consular Building.",
     servicesDelivered: ["HVAC"],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu" },
+    heroImage: { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu", width: 401, height: 632 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["jica-nepal-office"],

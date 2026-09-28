@@ -72,7 +72,7 @@ export function ProjectFeatureRow({
             alt={project.heroImage.alt}
             fill
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-transparent" />
           <div className="relative z-10 flex h-full max-w-xl flex-col justify-end p-8 sm:p-12">{meta}</div>
@@ -95,7 +95,7 @@ export function ProjectFeatureRow({
           alt={project.heroImage.alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover"
+          className="object-cover object-top"
         />
       </div>
       <div className={reversed ? "lg:order-1" : ""}>{meta}</div>
