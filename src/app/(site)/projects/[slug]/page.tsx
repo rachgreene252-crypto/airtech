@@ -8,7 +8,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
-import { ProjectListRow } from "@/components/projects/ProjectListRow";
+import { ProjectCard } from "@/components/projects/ProjectCard";
 import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import {
   projects,
@@ -234,9 +234,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {relatedProjects.length > 0 && (
         <Section>
           <SectionHeader eyebrow="More work" heading="Related projects." />
-          <div className="mt-10 border-t border-(--color-line)">
-            {relatedProjects.map((p) => (
-              <ProjectListRow key={p.slug} project={p} industryName={getIndustryBySlug(p.industrySlug)?.name} />
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {relatedProjects.slice(0, 6).map((p) => (
+              <ProjectCard key={p.slug} project={p} industryName={getIndustryBySlug(p.industrySlug)?.name} />
             ))}
           </div>
         </Section>

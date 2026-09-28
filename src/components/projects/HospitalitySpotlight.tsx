@@ -3,13 +3,14 @@ import Link from "next/link";
 import type { Route } from "next";
 import { Container } from "@/components/ui/Container";
 import type { Project } from "@/content/types";
+import { ProjectCard } from "./ProjectCard";
 
 /**
  * Image-led spotlight for Airtech's hotel / resort work — the strongest,
  * most visually prominent part of the Projects experience (client brief,
- * hospitality-focus pass). Projects with an approved photo lead as large
- * cards; the rest follow as a clean index. Uses existing project data only;
- * BluePlaceholder stands in where no approved photo exists.
+ * hospitality-focus pass). One large lead card, then every other hotel as a
+ * card block (2026-09-28: "all projects should come as blocks ... not as a
+ * list"). ProjectCard's BluePlaceholder stands in where no photo exists.
  */
 function HotelCard({
   project,
@@ -58,6 +59,8 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
     .filter((p) => p.heroImage?.src)
     .sort((a, b) => Number(b.slug === LEAD_SLUG) - Number(a.slug === LEAD_SLUG));
   const withoutPhoto = projects.filter((p) => !p.heroImage?.src);
+  // Photographed hotels first, then the rest — all as cards.
+  const [lead, ...others] = [...withPhoto, ...withoutPhoto];
 
   return (
     <section className="border-t border-(--color-line) bg-band py-14 sm:py-16 lg:py-20">
@@ -76,37 +79,15 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
         </div>
 
         <div className="mt-12 space-y-6">
-          {withPhoto[0] && (
-            <HotelCard project={withPhoto[0]} aspect="aspect-[16/10] sm:aspect-[21/9]" priority />
-          )}
-          {withPhoto.length > 1 && (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {withPhoto.slice(1, 4).map((project) => (
-                <HotelCard key={project.slug} project={project} aspect="aspect-[4/3]" />
+          {lead && <HotelCard project={lead} aspect="aspect-[16/10] sm:aspect-[21/9]" priority />}
+          {others.length > 0 && (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {others.map((project) => (
+                <ProjectCard key={project.slug} project={project} industryName="Hospitality" />
               ))}
             </div>
           )}
         </div>
-
-        {withoutPhoto.length > 0 && (
-          <ul className="mx-auto mt-12 max-w-3xl border-t border-(--color-line)">
-            {withoutPhoto.map((project) => (
-              <li key={project.slug}>
-                <Link
-                  href={`/projects/${project.slug}` as Route}
-                  className="group flex items-baseline justify-between gap-4 border-b border-(--color-line) py-4 transition-colors hover:bg-(--color-paper)"
-                >
-                  <span className="font-display text-body-l font-normal text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
-                    {project.name}
-                  </span>
-                  {project.location && (
-                    <span className="shrink-0 text-small text-(--color-steel)">{project.location}</span>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
 
         <div className="mt-10 text-center">
           <Link

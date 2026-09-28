@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import type { Route } from "next";
 import { ProjectCard } from "./ProjectCard";
-import { ProjectListRow } from "./ProjectListRow";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ButtonLink } from "@/components/ui/Button";
 import type { Project, Industry } from "@/content/types";
@@ -110,29 +109,14 @@ export function ProjectsExplorer({
         </div>
       )}
 
-      {featured.length > 0 && (
+      {inIndustry.length > 0 && (
         <div className="mt-10">
-          <h2 className="sr-only">Featured projects</h2>
+          <h2 className="sr-only">Projects</h2>
+          {/* One continuous card grid, featured projects first (2026-09-28:
+              every project as a block, no separate text list). */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3 lg:gap-8">
-            {featured.map((project) => (
+            {[...featured, ...rest].map((project) => (
               <ProjectCard key={project.slug} project={project} industryName={industryNameFor(project)} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {rest.length > 0 && (
-        <div className="mt-16 sm:mt-20">
-          <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-            {featured.length > 0 ? "Also in our portfolio" : "Portfolio"}
-          </h2>
-          <div className="mt-4 divide-y divide-(--color-line)">
-            {rest.map((project) => (
-              <ProjectListRow
-                key={project.slug}
-                project={project}
-                industryName={industryNameFor(project)}
-              />
             ))}
           </div>
         </div>

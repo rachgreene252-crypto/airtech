@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
@@ -26,37 +25,13 @@ export const metadata: Metadata = {
 // Small hand-drawn line icons, one per value — each picked to mean the
 // word next to it (a pulse for "reliability," a shield for "integrity"),
 // not a decorative stand-in.
-const valueIcons = {
-  integrity: (
-    <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" strokeLinejoin="round" />
-  ),
-  excellence: (
-    <>
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4" />
-    </>
-  ),
-  reliability: <path d="M3 12h4l2-6 3 12 2-6h7" strokeLinejoin="round" />,
-  flexibility: (
-    <path d="M8 4L4 8l4 4M16 20l4-4-4-4M4 8h11a4 4 0 010 8" strokeLinejoin="round" />
-  ),
-  responsiveness: <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" strokeLinejoin="round" />,
-  teamwork: (
-    <>
-      <circle cx="8.5" cy="9" r="3" />
-      <circle cx="16" cy="10.5" r="2.5" />
-      <path d="M2.5 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M14.5 20c0-2.4 1.9-4.5 4.5-4.5s5 2.1 5 4.5" />
-    </>
-  ),
-} as const;
-
 const coreValues = [
-  { title: "Integrity", body: "Taking responsibility for what we promise.", icon: valueIcons.integrity },
-  { title: "Technical excellence", body: "Through proper thinking, planning and implementation.", icon: valueIcons.excellence },
-  { title: "Reliability", body: "Systems that keep running, and a team that stays accountable for them.", icon: valueIcons.reliability },
-  { title: "Flexibility", body: "Understanding what each client actually needs.", icon: valueIcons.flexibility },
-  { title: "Responsiveness", body: "A receptive approach to customer needs.", icon: valueIcons.responsiveness },
-  { title: "Collaborative teamwork", body: "Open exchange of information and resources with our clients.", icon: valueIcons.teamwork },
+  { title: "Integrity", body: "Taking responsibility for what we promise." },
+  { title: "Technical excellence", body: "Through proper thinking, planning and implementation." },
+  { title: "Reliability", body: "Systems that keep running, and a team that stays accountable for them." },
+  { title: "Flexibility", body: "Understanding what each client actually needs." },
+  { title: "Responsiveness", body: "A receptive approach to customer needs." },
+  { title: "Collaborative teamwork", body: "Open exchange of information and resources with our clients." },
 ];
 
 const quickStats = [
@@ -64,16 +39,6 @@ const quickStats = [
   { value: "25+ yrs", label: "In operation" },
   { value: `${services.length}`, label: "Engineering disciplines" },
 ];
-
-function ValueIcon({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) text-(--color-brand-blue)">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-        {children}
-      </svg>
-    </span>
-  );
-}
 
 export default function CompanyPage() {
   return (
@@ -194,23 +159,38 @@ export default function CompanyPage() {
         </div>
       </Section>
 
-      {/* Core values — was a plain centred header over a flat 3-col text
-          list (no visual anchor per item, hence "boring"). Each value now
-          gets a meaning-specific icon and its own bordered, hover-lit card
-          so the grid reads as six distinct ideas, not one paragraph split
-          six ways. */}
+      {/* Core values — rebuilt 2026-09-28 ("looks very AI made"): the
+          icon-in-a-circle cards with hover lift were the generic template
+          pattern. Now an editorial two-column layout: heading on the left,
+          six numbered values on hairlines on the right. */}
       <Section tone="raised">
-        <SectionHeader align="left" eyebrow="What we value" heading="Our core values." />
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {coreValues.map((d, i) => (
-            <Reveal key={d.title} delay={i * 0.06}>
-              <div className="group h-full rounded-sm border border-(--color-line) bg-(--color-paper) p-6 transition-all duration-300 hover:-translate-y-1 hover:border-(--color-brand-blue-soft) hover:shadow-[0_16px_36px_-20px_rgba(0,142,209,0.45)]">
-                <ValueIcon>{d.icon}</ValueIcon>
-                <h3 className="mt-5 font-display text-xl font-semibold">{d.title}</h3>
-                <p className="mt-2 text-sm text-(--color-steel) leading-relaxed">{d.body}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+          <div>
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+              What we value
+            </p>
+            <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.08] text-balance text-(--color-ink)">
+              Our core values.
+            </h2>
+            <p className="mt-5 max-w-sm text-body leading-relaxed text-(--color-steel)">
+              Six commitments that shape how Airtech engineers, installs and supports every system.
+            </p>
+          </div>
+          <ol className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
+            {coreValues.map((d, i) => (
+              <li key={d.title} className="border-t border-(--color-line-strong)">
+                <Reveal delay={i * 0.05} className="flex gap-5 py-6">
+                  <span className="pt-1 font-mono text-[0.6875rem] font-medium tracking-[0.14em] text-(--color-brand-blue)">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-title font-semibold leading-snug text-(--color-ink)">{d.title}</h3>
+                    <p className="mt-1.5 text-small leading-relaxed text-(--color-steel)">{d.body}</p>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
         </div>
       </Section>
 
