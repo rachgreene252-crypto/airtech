@@ -696,7 +696,9 @@ export const projects: Project[] = [
       width: 2400,
       height: 1597,
     },
-    gallery: [],
+    gallery: [
+      { src: "/images/projects/global-college-2.jpg", alt: "Global College International, front entrance", width: 1600, height: 2405 },
+    ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["chitwan-medical-college", "universal-college-medical-sciences"],
     featured: false,
