@@ -26,6 +26,8 @@ export interface SanityImageRef {
   width?: number;
   height?: number;
   caption?: string;
+  /** Required attribution for licensed third-party photos (e.g. Wikimedia Commons CC BY-SA). */
+  credit?: string;
 }
 
 export type ServiceCategory =
