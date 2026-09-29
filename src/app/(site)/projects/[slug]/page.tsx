@@ -96,14 +96,19 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
     <>
       <ProjectJsonLd project={project} industryName={industry?.name} />
       {project.heroImage?.src && heroIsFullBleedSafe ? (
-        <section className="relative h-[62vh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)">
+        <section
+          className="relative max-h-[80svh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)"
+          // Banner takes the photo's own proportions so a curated crop (e.g.
+          // Radisson, 2026-09-29) shows in full instead of a fixed 62vh slice.
+          style={{ aspectRatio: String(heroRatio.toFixed(3)) }}
+        >
           <Image
             src={project.heroImage.src}
             alt={project.heroImage.alt}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-top"
+            className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
           {project.heroImage.credit && (

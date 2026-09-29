@@ -44,7 +44,7 @@ export function TechnicalFrame({
             fill
             priority={priority}
             sizes={sizes}
-            className="object-cover object-top"
+            className="object-cover object-center"
           />
         ) : (
           <BluePlaceholder label={label ? `${label}: photography to follow` : undefined} />

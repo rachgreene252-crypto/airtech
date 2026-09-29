@@ -82,7 +82,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
                   alt={project.heroImage!.alt}
                   fill
                   sizes="(min-width: 640px) 33vw, 100vw"
-                  className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                 />
                 <span
                   aria-hidden="true"

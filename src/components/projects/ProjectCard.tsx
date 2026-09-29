@@ -23,7 +23,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
             alt={project.heroImage.alt}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+            className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/60 to-(--color-ink)/5 transition-opacity duration-300 group-hover:from-(--color-ink)" />
         </>

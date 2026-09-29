@@ -33,7 +33,7 @@ export default function QualityCertificationsPage() {
               alt="Airtech's Managing Director reviewing project documentation"
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover object-top"
+              className="object-cover object-center"
             />
           </div>
           <div>

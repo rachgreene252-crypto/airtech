@@ -79,7 +79,7 @@ function SectorCard({ sector, index }: { sector: (typeof SECTORS)[number]; index
           alt={sector.photo.alt}
           fill
           sizes="(min-width: 1024px) 420px, (min-width: 640px) 360px, 78vw"
-          className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
       ) : (
         <BluePlaceholder />

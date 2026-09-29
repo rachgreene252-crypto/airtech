@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
  * client's installation photography (VRF plant, cassettes, ductwork) is
  * the strongest proof of engineering on the site, so every photo opens
  * large: click/Enter to open, ←/→ or swipe to move, Esc or the backdrop
- * to close. Thumbnails keep the top of the photo when cropped.
+ * to close. Thumbnails crop from the centre.
  */
 function Thumb({
 image,
@@ -41,7 +41,7 @@ className?: string;
         alt={image.alt}
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+        className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
       />
       <span
         aria-hidden="true"

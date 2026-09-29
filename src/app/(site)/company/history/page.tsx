@@ -81,7 +81,7 @@ export default function HistoryPage() {
             alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
             fill
             sizes="(min-width: 1024px) 512px, 100vw"
-            className="object-cover object-top"
+            className="object-cover object-center"
           />
         </div>
         <p className="mx-auto mt-4 max-w-lg text-center text-small text-(--color-steel)">

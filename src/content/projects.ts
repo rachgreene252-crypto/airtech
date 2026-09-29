@@ -177,7 +177,7 @@ export const projects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/radisson-hotel-kathmandu.jpg", alt: "Radisson Hotel Kathmandu, Lazimpat", width: 2400, height: 1800, credit: "Photo: Sgroey / CC BY-SA 4.0, via Wikimedia Commons" },
+    heroImage: { src: "/images/projects/radisson-hotel-kathmandu.jpg", alt: "Radisson Hotel Kathmandu, Lazimpat", width: 2400, height: 1176, credit: "Photo: Sgroey / CC BY-SA 4.0, via Wikimedia Commons" },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["the-soaltee"],
