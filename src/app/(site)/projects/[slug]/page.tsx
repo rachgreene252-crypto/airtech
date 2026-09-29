@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import {
   projects,
@@ -125,7 +126,17 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             {/* Cap the frame at ~1.6x the photo's native width so a small
                 source (e.g. 468px) isn't stretched across the full 1200px+
                 container. */}
-            <div style={frameMaxWidth && Number.isFinite(frameMaxWidth) ? { maxWidth: `${frameMaxWidth}px` } : undefined}>
+            {/* Width is capped both by resolution (frameMaxWidth) and so the
+                framed photo never exceeds ~75% of the viewport height. */}
+            <div
+              style={
+                heroRatio
+                  ? {
+                      maxWidth: `min(${frameMaxWidth && Number.isFinite(frameMaxWidth) ? `${frameMaxWidth}px` : "100%"}, calc(75svh * ${heroRatio.toFixed(3)}))`,
+                    }
+                  : undefined
+              }
+            >
               <TechnicalFrame
                 image={project.heroImage}
                 label={project.name}
@@ -208,23 +219,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {project.gallery.length > 0 && (
         <Section tone="raised">
           <SectionHeader eyebrow="Gallery" heading="On site." />
-          {project.gallery.length === 1 ? (
-            <div className="mt-10">
-              <TechnicalFrame image={project.gallery[0]} aspect="aspect-[16/9]" />
-            </div>
-          ) : (
-            // Asymmetric editorial layout, not a uniform grid of equal cells —
-            // the lead photo runs large, the rest sit beside/below it. Reads
-            // as art-directed even when there are only two images.
-            <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <TechnicalFrame image={project.gallery[0]} aspect="aspect-[4/3] lg:aspect-square" className="lg:row-span-2" />
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1">
-                {project.gallery.slice(1).map((img, i) => (
-                  <TechnicalFrame key={i} image={img} aspect="aspect-[4/3]" />
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="mt-10">
+            <ProjectGallery images={project.gallery} projectName={project.name} />
+          </div>
         </Section>
       )}
 
@@ -254,7 +251,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
 
       <Section tone="raised" className="text-center">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-          {industry ? `Planning a ${industry.name.toLowerCase()} project?` : "Have a project in planning?"}
+          Planning a similar project?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance text-(--color-ink)">
           Inquire for services from our engineering team.

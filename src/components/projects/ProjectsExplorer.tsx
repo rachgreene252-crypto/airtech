@@ -6,6 +6,7 @@ import type { Route } from "next";
 import { ProjectCard } from "./ProjectCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ButtonLink } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 import type { Project, Industry } from "@/content/types";
 
 /**
@@ -22,8 +23,11 @@ export function ProjectsExplorer({
   industries,
   initialIndustry = "",
   urlSync = false,
+  allProjects,
 }: {
   projects: Project[];
+  /** Full portfolio, for chip counts — `projects` omits hospitality on the unfiltered view. */
+  allProjects?: Project[];
   industries: Industry[];
   initialIndustry?: string;
   urlSync?: boolean;
@@ -59,23 +63,50 @@ export function ProjectsExplorer({
   }
 
   const activeName = industries.find((i) => i.slug === industryFilter)?.name;
+  const countSource = allProjects ?? projects;
+  const chips = useMemo(
+    () =>
+      industries
+        .map((i) => ({ slug: i.slug, name: i.name, count: countSource.filter((p) => p.industrySlug === i.slug).length }))
+        .filter((c) => c.count > 0 || c.slug === industryFilter),
+    [industries, countSource, industryFilter]
+  );
 
   return (
     <div>
       <div className="flex flex-col items-center gap-3">
-        <select
-          value={industryFilter}
-          onChange={(e) => setIndustry(e.target.value)}
+        {/* Chips replaced the <select> 2026-09-29: sectors and their live
+            counts are visible at a glance and one tap filters. Sectors
+            with no published work get no chip (no dead-end filter); the
+            "Explore by sector" tiles below still list them. */}
+        <div
+          role="group"
           aria-label="Filter projects by industry"
-          className="select-field"
+          className="-mx-5 flex w-[calc(100%+2.5rem)] gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:w-auto sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
         >
-          <option value="">All industries</option>
-          {industries.map((i) => (
-            <option key={i.slug} value={i.slug}>
-              {i.name}
-            </option>
-          ))}
-        </select>
+          {[{ slug: "", name: "All", count: countSource.length }, ...chips].map((chip) => {
+            const active = industryFilter === chip.slug;
+            return (
+              <button
+                key={chip.slug || "all"}
+                type="button"
+                onClick={() => setIndustry(chip.slug)}
+                aria-pressed={active}
+                className={cn(
+                  "inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  active
+                    ? "border-(--color-brand-blue-vivid) bg-(--color-brand-blue-vivid) text-white"
+                    : "border-(--color-line-strong) bg-(--color-paper) text-(--color-ink-soft) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
+                )}
+              >
+                {chip.name}
+                <span className={cn("font-mono text-[0.6875rem] tabular-nums", active ? "text-white/80" : "text-(--color-steel-soft)")}>
+                  {chip.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
         {activeName && inIndustry.length > 0 && (
           <p className="text-small text-(--color-steel)">
             Showing {inIndustry.length} {activeName} project{inIndustry.length === 1 ? "" : "s"} ·{" "}

@@ -45,6 +45,7 @@ export function ProjectsView({
         <ProjectsExplorer
           key={industry}
           projects={explorerProjects}
+          allProjects={projects}
           industries={industries}
           initialIndustry={industry}
           urlSync

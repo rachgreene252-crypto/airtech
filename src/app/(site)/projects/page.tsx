@@ -60,6 +60,7 @@ export default function ProjectsPage() {
               </p>
               <ProjectsExplorer
                 projects={projects.filter((p) => p.industrySlug !== "hospitality")}
+                allProjects={projects}
                 industries={industries}
               />
             </Container>
