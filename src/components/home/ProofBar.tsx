@@ -56,7 +56,21 @@ function StatNumber({ value, suffix, delay }: { value: number; suffix: string; d
   const ref = useRef<HTMLParagraphElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(reduceMotion ? value : 0);
+  // Render the real figure on the server and first client paint: seeding
+  // from the motion preference made SSR (always 0) and a reduced-motion
+  // client (the value) disagree — React hydration error #418 — and left a
+  // "0" for crawlers and no-JS visitors. With motion allowed, the effect
+  // below re-arms the count-up from 0.
+  const [display, setDisplay] = useState(value);
+
+  // Arm the count-up while the stat is still just off-screen, so the reset
+  // to 0 is never seen.
+  const near = useInView(ref, { once: true, margin: "300px" });
+  useEffect(() => {
+    if (!near || reduceMotion) return;
+    const id = requestAnimationFrame(() => setDisplay(0));
+    return () => cancelAnimationFrame(id);
+  }, [near, reduceMotion]);
 
   useEffect(() => {
     if (!inView || reduceMotion) return;

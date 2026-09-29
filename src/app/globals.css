@@ -182,6 +182,33 @@
   }
 }
 
+/* Building model (src/components/engineering) — the only two looping
+   animations it uses: a flow pulse along a live system, and the AMC
+   service ring. Both are stopped by the reduced-motion block above. */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -44;
+  }
+}
+.flow-dash {
+  animation: flow-dash 1.4s linear infinite;
+}
+@keyframes service-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.service-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: service-ring 2.4s ease-out infinite;
+}
+
 html {
   /* No scroll-behavior here: Lenis owns smooth scroll. The reduced-motion
      block above restores native smooth scrolling when Lenis is off. */

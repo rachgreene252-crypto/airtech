@@ -19,7 +19,7 @@ export interface JourneyStep {
 export const journeySteps: JourneyStep[] = [
   {
     index: 1,
-    label: "Understand",
+    label: "Brief",
     sentence: "Every project begins with a conversation.",
     subLabel: "Discovery & brief",
     description: "We understand your building, requirements, timelines and challenges.",
@@ -28,7 +28,7 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     index: 2,
-    label: "Engineer",
+    label: "Engineering",
     sentence: "We engineer the solution.",
     subLabel: "Design & technical planning",
     description: "Our team translates requirements into practical, efficient MEP solutions.",
@@ -37,7 +37,7 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     index: 3,
-    label: "Procure",
+    label: "Procurement",
     sentence: "We source and supply.",
     subLabel: "Procurement & logistics",
     description:
@@ -47,7 +47,7 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     index: 4,
-    label: "Execute",
+    label: "Installation",
     sentence: "We bring it to site.",
     subLabel: "Installation & execution",
     description:
@@ -57,7 +57,7 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     index: 5,
-    label: "Test & Commission",
+    label: "Commissioning",
     sentence: "We test. We commission.",
     subLabel: "Performance & handover",
     description: "We don't simply install a system. We ensure it performs as designed.",
@@ -66,11 +66,12 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     index: 6,
-    label: "Support",
+    label: "AMC",
     sentence: "We stay with you.",
-    subLabel: "After-sales & long-term support",
+    subLabel: "After-sales, maintenance & AMC",
     description: "Because our relationship doesn't end when the project is handed over.",
-    points: ["After-sales", "Maintenance", "AMC", "Technical support"],
+    // Master Source of Truth §5, "Service & Technical Support".
+    points: ["After-sales service", "Annual Maintenance Contracts", "Rapid response & spares", "Technical support"],
     visual: "support",
   },
 ];

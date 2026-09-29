@@ -65,13 +65,13 @@ export default function HowWeWorkPage() {
         </Container>
       </section>
 
-      {/* ClientJourney's own finale step ("Support" — "We stay with you.")
+      {/* ClientJourney's own finale step ("AMC" — "We stay with you.")
           already closes with its own Enquire CTA. A second "Ready to start
           the conversation?" section used to follow immediately after it —
           two closing CTAs back to back read as a mistake ("still looks very
           weird," client feedback 2026-09-16) — removed rather than kept as
           a duplicate. */}
-      <ClientJourney variant="full" />
+      <ClientJourney />
     </>
   );
 }

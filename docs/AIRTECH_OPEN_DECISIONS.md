@@ -86,3 +86,23 @@ resolved or the user explicitly says to proceed without it.
 21. **Service/AMC contact path** — should an existing-client service request use a different,
     faster path than the new-project progressive enquiry flow (`AIRTECH_USER_FLOWS.md` Flow 6)?
     Not addressed anywhere.
+
+## D. Homepage signature sections (2026-09-29)
+
+Raised while building 01 The Building / 02 Project Radar / 03 The Airtech Method.
+Nothing below was filled in with invented data; each is left visibly incomplete.
+
+22. **Project locations for MIT College, Golyan Tower, Club NOVA, Kavya Resort** — no
+    location in any source, so the Project Radar does not plot them (it says "4 further
+    projects have no published location yet").
+23. **Site-level coordinates** — the radar plots at city level only (sources give city or
+    district, never an address). Confirm whether Airtech wants/permits building-level pins.
+24. **Per-project scope** — most entries still read "Featured in Airtech's project
+    portfolio" and list HVAC only. The radar and case studies will show real scope the
+    moment it is supplied per project (questionnaire 6.4 already asks for this).
+25. **Healthcare client cities** — hollow rings on the radar are cities from the profile
+    deck's hospital client list (slides 13-14), shown as clients, not case studies. Confirm
+    they may be shown, and whether any should become full projects.
+26. **Building drawing** — the axonometric is a *typical* building (labelled "not to scale"),
+    not any Airtech project. If Airtech has a real project whose services layout could be
+    shown instead, that would be stronger proof.

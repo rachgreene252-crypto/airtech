@@ -19,11 +19,11 @@ export function FinalCTA() {
       <div className="relative mx-auto max-w-2xl px-6 text-center">
         <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
           <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-          Let&apos;s talk
+          04 · Your project
           <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
         </span>
-        <h2 className="mt-6 font-display text-5xl sm:text-6xl font-semibold text-balance text-(--color-ink)">
-          Ready to build what&apos;s next?
+        <h2 className="mt-6 font-display text-display-l font-semibold text-balance text-(--color-ink)">
+          Let&apos;s engineer your project.
         </h2>
         <p className="mt-6 text-body-l text-(--color-steel) max-w-lg mx-auto">
           Tell us what you&apos;re building and we&apos;ll respond within one business day.
