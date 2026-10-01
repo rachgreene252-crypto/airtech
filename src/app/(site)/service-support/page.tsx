@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
+import { PhotoStrip } from "@/components/ui/PhotoStrip";
 
 export const metadata: Metadata = {
   title: "Service & Support",
@@ -18,6 +19,14 @@ const coverage = [
   "Hot water and hydro-pneumatic system service",
   "Access control and CCTV maintenance",
   "General technical support and troubleshooting",
+];
+
+// The plant an AMC actually covers — client site photography from
+// published projects, not stock.
+const supportedPlant = [
+  { src: "/images/projects/golyan-tower-5.jpg", alt: "Rooftop air-conditioning plant and ductwork at Golyan Tower", caption: "Rooftop plant · Golyan Tower", href: "/projects/golyan-tower" },
+  { src: "/images/projects/marwadi-parishad-3.jpg", alt: "Outdoor air-conditioning unit on the roof of Marwadi Parishad", caption: "Outdoor unit · Marwadi Parishad", href: "/projects/marwadi-parishad" },
+  { src: "/images/projects/mit-college-4.jpg", alt: "Ceiling cassette unit and cable tray at MIT College", caption: "Indoor units · MIT College", href: "/projects/mit-college" },
 ];
 
 // Real, sourced fact (Master Source of Truth) — used as a technical strip
@@ -47,6 +56,11 @@ export default function ServiceSupportPage() {
         <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
           Engineers trained at manufacturer centres · {trainingLocations.join(" · ")}
         </p>
+
+        <p className="mb-8 mt-16 text-center font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+          The plant we keep running
+        </p>
+        <PhotoStrip photos={supportedPlant} />
       </Section>
 
       <Section tone="raised" className="text-center">

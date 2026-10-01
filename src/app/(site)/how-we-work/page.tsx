@@ -3,6 +3,15 @@ import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ClientJourney } from "@/components/journey/ClientJourney";
 import { journeySteps } from "@/content/journey";
+import { PhotoStrip } from "@/components/ui/PhotoStrip";
+
+// Three moments of one lifecycle, from client site photography: services
+// going in, plant commissioned on the roof, the finished space in use.
+const lifecyclePhotos = [
+  { src: "/images/projects/club-nova-5.jpg", alt: "Air-handling unit and ductwork being installed above the ceiling at Club NOVA", caption: "01 · Installation · Club NOVA", href: "/projects/club-nova" },
+  { src: "/images/projects/mit-college-2.jpg", alt: "Commissioned outdoor units on the roof of MIT College", caption: "02 · Commissioned plant · MIT College", href: "/projects/mit-college" },
+  { src: "/images/projects/jai-nepal-cinema-4.jpg", alt: "The finished, air-conditioned lobby at Jai Nepal Cinema", caption: "03 · In operation · Jai Nepal Cinema", href: "/projects/jai-nepal-cinema" },
+];
 
 export const metadata: Metadata = {
   title: "How We Work",
@@ -62,6 +71,8 @@ export default function HowWeWorkPage() {
               </li>
             ))}
           </ol>
+
+          <PhotoStrip photos={lifecyclePhotos} className="mx-auto mt-14 max-w-5xl" />
         </Container>
       </section>
 

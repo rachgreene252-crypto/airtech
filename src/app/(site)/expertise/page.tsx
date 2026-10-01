@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -93,6 +94,21 @@ export default function ExpertiseOverviewPage() {
         Airtech, not handed between trades. Select one to see its scope, the systems
         it covers, and where it has been delivered.
       </p>
+
+      <figure className="mt-10">
+        <div className="relative aspect-[16/8] overflow-hidden border border-(--color-line)">
+          <Image
+            src="/images/projects/mit-college-3.jpg"
+            alt="Ceiling cassettes, cable trays and lighting in a classroom at MIT College"
+            fill
+            sizes="(min-width: 1024px) 720px, 100vw"
+            className="object-cover object-center"
+          />
+        </div>
+        <figcaption className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel)">
+          Air-conditioning, cable trays and lighting · MIT College
+        </figcaption>
+      </figure>
 
       <dl className="mt-10 grid grid-cols-1 border-t border-(--color-line) sm:grid-cols-3">
         {FACTS.map((fact) => (

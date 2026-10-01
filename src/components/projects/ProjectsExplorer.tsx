@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import type { Project, Industry } from "@/content/types";
+import { getClientsByIndustry } from "@/content/clients";
 
 /**
  * Featured projects lead as a card grid; the rest of the portfolio follows
@@ -125,7 +126,11 @@ export function ProjectsExplorer({
         <div className="mt-16 text-center">
           <EmptyState
             title={activeName ? `${activeName} case studies on request` : "No projects in this industry yet"}
-            description="Detailed case studies for this sector aren't published yet. Tell us about your project and we'll share relevant references."
+            description={
+              getClientsByIndustry(industryFilter).length > 0
+                ? `Detailed case studies for this sector aren't published yet, but the client register below lists the ${getClientsByIndustry(industryFilter).length} organisations we've worked with. Tell us about your project and we'll share relevant references.`
+                : "Detailed case studies for this sector aren't published yet. Tell us about your project and we'll share relevant references."
+            }
           />
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <ButtonLink href="/contact/project-enquiry">Inquire for Services</ButtonLink>

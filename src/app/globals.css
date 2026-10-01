@@ -434,7 +434,7 @@ body::before {
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee-scroll 70s linear infinite;
+  animation: marquee-scroll 120s linear infinite;
 }
 .animate-marquee:hover {
   animation-play-state: paused;

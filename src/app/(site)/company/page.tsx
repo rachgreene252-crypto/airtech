@@ -137,24 +137,48 @@ export default function CompanyPage() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-12">
-            <div>
-              <SectionHeader align="left" eyebrow="Mission" heading="Our mission." />
-              <p className="mt-6 text-body-l text-(--color-steel) leading-relaxed">
-                To deliver engineered, innovative and customised technology solutions through integrity,
-                technical excellence, reliability, flexibility, responsiveness and collaborative
-                teamwork. We are committed to understanding our customers&rsquo; needs, applying our
-                expertise to every challenge, and continuously improving the way we serve.
+          {/* 2026-10-01: the client shortened both statements and asked for
+              the design around them to be "slightly more striking" — each
+              is now set as a display-size statement (not body copy under a
+              heading), the mission's four value words picked out in blue,
+              the vision as a pull quote behind an oversized quote mark. Text verbatim from
+              source-material/CLIENT_LIST_AND_MISSION_2026-10-01.md. */}
+          <div className="flex flex-col justify-center gap-14 lg:gap-20">
+            <Reveal>
+              <p className="flex items-center gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+                <span className="tabular-nums">01</span>
+                <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue)" />
+                Our mission
               </p>
-            </div>
-            <div>
-              <SectionHeader align="left" eyebrow="Vision" heading="Built on customer focus." />
-              <p className="mt-6 text-body-l text-(--color-steel) leading-relaxed">
-                Airtech&apos;s corporate vision is &ldquo;Customer for Life.&rdquo; Customer loyalty is
-                earned by listening, anticipating requirements and working to create value, with growth,
-                longevity and financial success following naturally from that focus.
+              <p className="mt-6 font-display text-display-m font-semibold leading-[1.18] tracking-[-0.014em] text-balance text-(--color-ink)">
+                Airtech delivers complete, engineered and customised technology solutions that exceed
+                expectations, building a reputation for{" "}
+                <span className="text-(--color-brand-blue)">integrity</span>,{" "}
+                <span className="text-(--color-brand-blue)">reliability</span>,{" "}
+                <span className="text-(--color-brand-blue)">responsiveness</span> and{" "}
+                <span className="text-(--color-brand-blue)">teamwork</span>.
               </p>
-            </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="flex items-center gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+                <span className="tabular-nums">02</span>
+                <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue)" />
+                Our vision
+              </p>
+              <blockquote className="relative mt-6">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-10 right-0 select-none font-display text-[9rem] leading-none text-(--color-brand-blue-vivid)/15"
+                >
+                  &rdquo;
+                </span>
+                <p className="relative font-display text-display-m font-semibold leading-[1.18] tracking-[-0.014em] text-balance text-(--color-ink)">
+                  &ldquo;To be our customers&rsquo;{" "}
+                  <span className="text-(--color-brand-blue)">partner for life</span>, earning their
+                  loyalty by listening, anticipating and creating value.&rdquo;
+                </p>
+              </blockquote>
+            </Reveal>
           </div>
         </div>
       </Section>

@@ -106,3 +106,17 @@ Nothing below was filled in with invented data; each is left visibly incomplete.
 26. **Building drawing** — the axonometric is a *typical* building (labelled "not to scale"),
     not any Airtech project. If Airtech has a real project whose services layout could be
     shown instead, that would be stronger proof.
+
+## E. Client changelist re-check (2026-10-01)
+
+Source: `source-material/CLIENT_LIST_AND_MISSION_2026-10-01.md`.
+
+27. **Huawei** — the earlier exclusion (questionnaire) is superseded for *naming*: the client's own
+    lists name Huawei, so it now appears in the client register and in Electrical ("Data-centre
+    electrical works, including the Huawei NT data centre"). Still no Huawei photo, logo or case
+    study. Confirm with the client that naming is fine.
+28. **Client register spellings** — a few names were normalised to the organisations' own
+    spelling (Machhapuchchhre Bank, Mahalaxmi Bikas Bank, LI-BIRD, CIWEC, BP Koirala Institute of
+    Health Sciences). "WFO" and "World Claim" are kept verbatim but look like typos (WFP?) — confirm.
+29. **Banks & Corporate split** — the client's single list is split across the site's
+    banking-financial and corporate-commercial sectors (banks + insurers vs. the rest).

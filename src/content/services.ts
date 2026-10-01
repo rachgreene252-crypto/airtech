@@ -74,6 +74,7 @@ export const services: Service[] = [
       "Execution of HT and LT feeders and cables",
       "Execution of HT and LT panels, distribution boards",
       "Cabling and wiring works",
+      "Data-centre electrical works, including the Huawei NT data centre",
       "Preparation of schematic and working drawings",
       "Complete installation of internal and external equipment",
       "Lightning protection and complete earthing systems",
@@ -89,8 +90,8 @@ export const services: Service[] = [
       "Intelligent and external lighting",
     ],
     systems: ["HT/LT panels", "Distribution boards", "Transformers", "ACB/VCB panels"],
-    applications: ["Hotels and resorts", "Hospitals", "Malls", "Industries", "Institutional buildings"],
-    relatedIndustrySlugs: ["hospitality", "healthcare", "industrial", "corporate-commercial"],
+    applications: ["Hotels and resorts", "Hospitals", "Malls", "Industries", "Data centres", "Institutional buildings"],
+    relatedIndustrySlugs: ["hospitality", "healthcare", "industrial", "corporate-commercial", "telecom-data-centres"],
     relatedProjectSlugs: [],
     seo: {
       title: "Electrical Engineering & Installation",

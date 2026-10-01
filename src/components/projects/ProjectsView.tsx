@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { ProjectsExplorer } from "./ProjectsExplorer";
+import { ClientRegister } from "./ClientRegister";
 import type { Project, Industry } from "@/content/types";
 
 /**
@@ -50,6 +51,9 @@ export function ProjectsView({
           initialIndustry={industry}
           urlSync
         />
+        <div className="mt-16 sm:mt-20">
+          <ClientRegister key={industry} initialSector={industry} />
+        </div>
       </Container>
     </>
   );

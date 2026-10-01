@@ -8,7 +8,7 @@ import { Container } from "@/components/ui/Container";
  * directions; both pause on hover so a visitor can read a mark; the global
  * prefers-reduced-motion rule stops them entirely.
  *
- * Huawei is deliberately excluded (as in src/content/projects.ts). No count
+ * No Huawei mark is shown (no logo supplied; see src/content/projects.ts). No count
  * claim is made. Per-logo publication permission is still an open item
  * (docs/AIRTECH_OPEN_DECISIONS.md B5).
  */
@@ -23,27 +23,48 @@ const ROW_A = [
   { file: "prabhu-bank.webp", name: "Prabhu Bank" },
   { file: "siddhartha-bank.webp", name: "Siddhartha Bank" },
   { file: "sanima-bank.webp", name: "Sanima Bank" },
+  { file: "laxmi-sunrise-bank.webp", name: "Laxmi Sunrise Bank" },
   { file: "citizens-bank.webp", name: "Citizens Bank" },
   { file: "bank-of-kathmandu.webp", name: "Bank of Kathmandu" },
   { file: "prime-commercial-bank.webp", name: "Prime Commercial Bank" },
   { file: "agricultural-development-bank.webp", name: "Agricultural Development Bank" },
+  { file: "ncell.png", name: "Ncell" },
+  { file: "nepal-telecom.png", name: "Nepal Telecom" },
+  { file: "united-telecom-utl.png", name: "United Telecom Limited" },
+  { file: "data-hub.png", name: "Data Hub" },
+  { file: "cloud-himalaya.png", name: "Cloud Himalaya" },
+  { file: "ohm-data-center.png", name: "OHM Data Center" },
+  { file: "us-embassy-nepal.png", name: "US Embassy, Nepal" },
+  { file: "british-embassy-kathmandu.png", name: "British Embassy, Kathmandu" },
+  { file: "embassy-of-switzerland.png", name: "Embassy of Switzerland" },
+  { file: "saudi-arabia-embassy.png", name: "Embassy of Saudi Arabia" },
+  { file: "russian-embassy.png", name: "Russian Embassy" },
 ];
 
 const ROW_B = [
-  { file: "ncell.png", name: "Ncell" },
-  { file: "nepal-telecom.png", name: "Nepal Telecom" },
   { file: "quest-pharmaceuticals.webp", name: "Quest Pharmaceuticals" },
   { file: "ohm-pharma.webp", name: "Ohm Pharma" },
   { file: "alive-pharmaceutical.webp", name: "Alive Pharmaceutical" },
   { file: "time-pharmaceuticals.webp", name: "Time Pharmaceuticals" },
   { file: "vijayadeep-laboratories.webp", name: "Vijayadeep Laboratories" },
-  { file: "us-embassy-nepal.png", name: "US Embassy, Nepal" },
-  { file: "british-embassy-kathmandu.png", name: "British Embassy, Kathmandu" },
-  { file: "embassy-of-switzerland.png", name: "Embassy of Switzerland" },
+  { file: "magnus.webp", name: "Magnus Pharmaceuticals" },
+  { file: "simca.webp", name: "Simca Lab" },
+  { file: "florid.webp", name: "Florid Laboratories" },
+  { file: "panas.webp", name: "Panas Pharmaceuticals" },
+  { file: "arya-pharmalab.webp", name: "Arya Pharma Lab" },
+  { file: "djpl.webp", name: "Deurali-Janta Pharmaceuticals" },
+  { file: "npl.webp", name: "Nepal Pharmaceuticals Lab" },
+  { file: "k-lab.webp", name: "K-Lab" },
   { file: "jica.png", name: "JICA" },
   { file: "giz.png", name: "GIZ" },
+  { file: "plan-international.png", name: "Plan International" },
+  { file: "big-cinemas.png", name: "Big Cinemas" },
+  { file: "f-cube-cinemas.png", name: "F Cube Cinema" },
+  { file: "jai-nepal-qfx.png", name: "QFX Cinemas" },
   { file: "rato-bangala-school.png", name: "Rato Bangala School" },
   { file: "lincoln-school.png", name: "Lincoln School" },
+  { file: "st-marys-school.png", name: "St. Mary's School" },
+  { file: "dav-school.png", name: "DAV School" },
 ];
 
 function Marquee({

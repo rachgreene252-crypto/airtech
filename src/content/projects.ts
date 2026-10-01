@@ -11,7 +11,10 @@ import type { Project } from "./types";
  * than fabricated prose. Huawei Technologies Nepal is deliberately excluded
  * despite appearing in the brochure photo grid — the client questionnaire
  * (the higher-authority, more recent source) states Huawei should not be
- * photographed/publicised. See docs/OPEN_DECISIONS.md #4–#5.
+ * photographed/publicised. See docs/OPEN_DECISIONS.md #4–#5. (2026-10-01:
+ * the client's own changelist now names Huawei — in the client register,
+ * src/content/clients.ts, and the Electrical "Huawei NT data centre" line —
+ * so it is named, but still not photographed or written up as a case study.)
  */
 export const projects: Project[] = [
   {

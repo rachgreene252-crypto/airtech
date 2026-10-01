@@ -9,8 +9,10 @@ import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { ProjectsView } from "@/components/projects/ProjectsView";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { HospitalitySpotlight } from "@/components/projects/HospitalitySpotlight";
+import { ClientRegister } from "@/components/projects/ClientRegister";
 import { projects, getProjectsByIndustry } from "@/content/projects";
 import { industries } from "@/content/industries";
+import { getClientsByIndustry } from "@/content/clients";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -63,6 +65,9 @@ export default function ProjectsPage() {
                 allProjects={projects}
                 industries={industries}
               />
+              <div className="mt-16 sm:mt-20">
+                <ClientRegister />
+              </div>
             </Container>
           </>
         }
@@ -82,6 +87,7 @@ export default function ProjectsPage() {
         <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
           {industries.map((industry, i) => {
             const count = getProjectsByIndustry(industry.slug).length;
+            const clients = getClientsByIndustry(industry.slug).length;
             return (
               <Link
                 key={industry.slug}
@@ -106,7 +112,12 @@ export default function ProjectsPage() {
                     {industry.name}
                   </h3>
                   <span className="mt-1.5 block text-small text-(--color-steel)">
-                    {count > 0 ? `${count} ${count === 1 ? "project" : "projects"}` : "On request"}
+                    {[
+                      count > 0 && `${count} ${count === 1 ? "project" : "projects"}`,
+                      clients > 0 && `${clients} clients`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "On request"}
                   </span>
                 </span>
               </Link>

@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-09-16T08:26:15.370Z",
         "reason": "false positive: SVG stroke-width presentation property (paint-only), not CSS box width/height/margin/padding — doesn't cause document layout reflow"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/components/projects/ClientRegister.tsx"
+        ],
+        "createdAt": "2026-10-01T16:46:27.924Z",
+        "reason": "Claude: src is a template literal over real files in public/images/clients, only rendered when c.logo is set"
       }
     ]
   }
