@@ -31,8 +31,8 @@ export default function ExpertiseLayout({ children }: LayoutProps<"/expertise">)
           </h1>
           <span aria-hidden="true" className="mt-5 h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
           <p className="mt-6 max-w-[44rem] text-body-l text-(--color-steel) leading-relaxed">
-            Airtech coordinates HVAC, electrical, plumbing &amp; public health, fire fighting &amp;
-            fire protection, ELV and building-systems integration as a single engineering
+            Airtech coordinates HVAC, electrical, public health engineering (PHE), fire fighting &amp;
+            fire protection, extra low-voltage (ELV) and building-systems integration as a single engineering
             practice, so responsibility for how systems work together never falls between
             contractors.
           </p>

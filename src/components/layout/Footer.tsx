@@ -51,6 +51,14 @@ export async function Footer() {
               >
                 {siteSettings.primaryEmail}
               </a>
+              <br />
+              <span>Careers: </span>
+              <a
+                href={`mailto:${siteSettings.careersEmail}`}
+                className="text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
+              >
+                {siteSettings.careersEmail}
+              </a>
             </address>
           </div>
 

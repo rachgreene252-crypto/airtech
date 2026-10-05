@@ -11,4 +11,5 @@ export const siteSettings: SiteSettings = {
   establishedYear: "2000",
   headOffice: "1st Floor, Sharada Complex, Panchyan Marg, Thapathali, Kathmandu, Nepal",
   primaryEmail: "info@airtech.com.np",
+  careersEmail: "hr@airtech.com.np",
 };

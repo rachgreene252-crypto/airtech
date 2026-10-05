@@ -48,9 +48,9 @@ function HotelCard({
   );
 }
 
-// The large lead card (client request 2026-09-24: Hyatt Regency leads,
-// Barahi moves into the smaller row beneath it).
-const LEAD_SLUG = "hyatt-regency-kathmandu";
+// The large lead card. 2026-10-05 client: Hotel Yak & Yeti is now the
+// first photo (supersedes the 2026-09-24 "Hyatt Regency leads" request).
+const LEAD_SLUG = "hotel-yak-and-yeti";
 
 export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
   if (projects.length === 0) return null;

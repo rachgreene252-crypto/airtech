@@ -150,7 +150,7 @@ export const SYSTEMS: SystemGeometry[] = [
     ),
     terminals: FLOOR_BASES.flatMap((y) => [3.2, 5.2, 7.2].map((x) => project([x, y + 2.2, 1.4]))),
     equipment: [
-      { id: "chiller-1", label: "Chiller / VRF outdoor units", origin: [0.6, 12, 0.6], size: [1.8, 0.9, 1.4] },
+      { id: "chiller-1", label: "Chiller / outdoor units", origin: [0.6, 12, 0.6], size: [1.8, 0.9, 1.4] },
       { id: "chiller-2", label: "", origin: [2.8, 12, 0.6], size: [1.8, 0.9, 1.4] },
       { id: "ahu", label: "Air handling unit", origin: [0.4, 0, 0.5], size: [1.9, 1.3, 1.3] },
     ],

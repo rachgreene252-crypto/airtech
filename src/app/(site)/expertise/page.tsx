@@ -10,7 +10,7 @@ import { Reveal } from "@/components/ui/Reveal";
 export const metadata: Metadata = {
   title: "Expertise",
   description:
-    "Airtech's engineering disciplines: HVAC, Electrical, Plumbing & Public Health, Fire Fighting & Fire Protection, ELV/Security, and BMS/Systems Integration, coordinated as one practice.",
+    "Airtech's engineering disciplines: HVAC, Electrical, Public Health Engineering (PHE), Fire Fighting & Fire Protection, Extra Low-Voltage (ELV), and BMS/Systems Integration, coordinated as one practice.",
 };
 
 const FACTS = [

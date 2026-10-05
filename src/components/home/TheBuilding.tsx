@@ -156,7 +156,7 @@ export function TheBuilding() {
               <div className="relative h-[21rem] px-3 pt-4 sm:h-[30rem] lg:h-[36rem] lg:px-6 lg:pt-6">
                 <BuildingModel
                   className="h-full w-full"
-                  title="Axonometric drawing of a typical building showing where Airtech's six systems run: HVAC, electrical, plumbing and public health, fire protection, ELV and BMS"
+                  title="Axonometric drawing of a typical building showing where Airtech's six systems run: HVAC, electrical, public health engineering (PHE), fire protection, ELV and BMS"
                   highlight={focus}
                   exploded={exploded}
                   onHover={exploded ? setPreview : undefined}

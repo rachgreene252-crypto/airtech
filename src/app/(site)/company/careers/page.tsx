@@ -91,8 +91,8 @@ export default function CareersPage() {
         <SectionHeader eyebrow="How to apply" heading="Send us your CV." />
         <p className="mx-auto mt-6 max-w-xl text-center text-body-l leading-relaxed text-(--color-steel)">
           Email your CV and area of interest to{" "}
-          <a href={`mailto:${siteSettings.primaryEmail}`} className="text-(--color-brand-blue) hover:underline">
-            {siteSettings.primaryEmail}
+          <a href={`mailto:${siteSettings.careersEmail}?subject=${encodeURIComponent("Job application")}`} className="font-medium text-(--color-brand-blue) hover:underline">
+            {siteSettings.careersEmail}
           </a>
           .
         </p>

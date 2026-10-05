@@ -17,6 +17,33 @@ import type { Project } from "./types";
  * so it is named, but still not photographed or written up as a case study.)
  */
 export const projects: Project[] = [
+  // 2026-10-05 client: Yak & Yeti leads the portfolio ("can be the first
+  // photo"); its new heritage-wing photo (Drive, 2026-09-30) is the hero.
+  {
+    slug: "hotel-yak-and-yeti",
+    name: "Hotel Yak & Yeti",
+    client: "Hotel Yak & Yeti",
+    clientDisplayApproved: true,
+    location: "Kathmandu",
+    industrySlug: "hospitality",
+    projectType: "Hotel",
+    projectStatus: "provisional",
+    airtechRole: "Featured in Airtech's project portfolio.",
+    servicesDelivered: [],
+    serviceSlugsDelivered: ["hvac"],
+    heroImage: { src: "/images/projects/hotel-yak-and-yeti-heritage.jpg", alt: "Hotel Yak & Yeti, Kathmandu: the heritage palace wing", width: 678, height: 452 },
+    gallery: [
+      { src: "/images/projects/hotel-yak-and-yeti.jpg", alt: "Hotel Yak & Yeti, Kathmandu: the hotel wing and garden", width: 1024, height: 575 },
+    ],
+    relatedServiceSlugs: ["hvac"],
+    relatedProjectSlugs: [],
+    featured: true,
+    seo: {
+      title: "Hotel Yak & Yeti, Kathmandu",
+      description: "Hotel Yak & Yeti, Kathmandu. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
   {
     slug: "hotel-barahi-kathmandu",
     name: "Hotel Barahi Kathmandu",
@@ -367,29 +394,6 @@ export const projects: Project[] = [
     status: "source_only",
   },
   {
-    slug: "hotel-yak-and-yeti",
-    name: "Hotel Yak & Yeti",
-    client: "Hotel Yak & Yeti",
-    clientDisplayApproved: true,
-    location: "Kathmandu",
-    industrySlug: "hospitality",
-    projectType: "Hotel",
-    projectStatus: "provisional",
-    airtechRole: "Featured in Airtech's project portfolio.",
-    servicesDelivered: [],
-    serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/hotel-yak-and-yeti.jpg", alt: "Hotel Yak & Yeti, Kathmandu", width: 1024, height: 575 },
-    gallery: [],
-    relatedServiceSlugs: ["hvac"],
-    relatedProjectSlugs: [],
-    featured: false,
-    seo: {
-      title: "Hotel Yak & Yeti, Kathmandu",
-      description: "Hotel Yak & Yeti, Kathmandu. Featured in Airtech's project portfolio.",
-    },
-    status: "source_only",
-  },
-  {
     slug: "hotel-hilton-naxal",
     name: "Hotel Hilton",
     client: "Hotel Hilton",
@@ -431,6 +435,33 @@ export const projects: Project[] = [
     seo: {
       title: "Nepali Ghar Hotel, Kathmandu",
       description: "Nepali Ghar Hotel, Kathmandu. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
+    // Added 2026-10-05 from the client's Drive photo "Met Life in the
+    // Plaza". The client asked that it be named exactly this way: MetLife's
+    // space in The Plaza building, not The Plaza as a whole. Scope beyond
+    // the name is not supplied.
+    slug: "metlife-the-plaza",
+    name: "MetLife in The Plaza",
+    client: "MetLife",
+    clientDisplayApproved: true,
+    location: "Kathmandu",
+    industrySlug: "corporate-commercial",
+    projectType: "Corporate office",
+    projectStatus: "provisional",
+    airtechRole: "MetLife's offices in The Plaza building. Featured in Airtech's project portfolio.",
+    servicesDelivered: [],
+    serviceSlugsDelivered: ["hvac"],
+    heroImage: { src: "/images/projects/metlife-the-plaza.jpg", alt: "The Plaza, Kathmandu, home of MetLife's offices", width: 900, height: 669 },
+    gallery: [],
+    relatedServiceSlugs: ["hvac"],
+    relatedProjectSlugs: ["ncell-corporate-office"],
+    featured: true,
+    seo: {
+      title: "MetLife in The Plaza, Kathmandu",
+      description: "MetLife's offices in The Plaza, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -738,7 +769,7 @@ export const projects: Project[] = [
     },
     gallery: [
       { src: "/images/projects/marwadi-parishad-2.jpg", alt: "Marwadi Parishad from the street corner", width: 2400, height: 3607 },
-      { src: "/images/projects/marwadi-parishad-3.jpg", alt: "Rooftop VRF outdoor unit at Marwadi Parishad", width: 2400, height: 1597 },
+      { src: "/images/projects/marwadi-parishad-3.jpg", alt: "Rooftop air-conditioning outdoor unit at Marwadi Parishad", width: 2400, height: 1597 },
     ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["shanker-group-corporate-office"],
@@ -994,7 +1025,7 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     heroImage: { src: "/images/projects/mit-college.jpg", alt: "MIT College building", width: 2400, height: 3608 },
     gallery: [
-      { src: "/images/projects/mit-college-2.jpg", alt: "Rooftop VRF outdoor units at MIT College", width: 2400, height: 1597 },
+      { src: "/images/projects/mit-college-2.jpg", alt: "Rooftop air-conditioning outdoor units at MIT College", width: 2400, height: 1597 },
       { src: "/images/projects/mit-college-3.jpg", alt: "Classroom with ceiling cassette units and exposed ducting", width: 2400, height: 1597 },
       { src: "/images/projects/mit-college-4.jpg", alt: "Ceiling cassette and refrigerant piping detail", width: 2400, height: 1597 },
       { src: "/images/projects/mit-college-5.jpg", alt: "Office floor with ducted air distribution", width: 2400, height: 1597 },
@@ -1024,7 +1055,7 @@ export const projects: Project[] = [
       { src: "/images/projects/golyan-tower-2.jpg", alt: "Golyan Tower reception with ceiling cassette units", width: 2400, height: 1597 },
       { src: "/images/projects/golyan-tower-3.jpg", alt: "Golyan Tower multipurpose hall", width: 2400, height: 1597 },
       { src: "/images/projects/golyan-tower-4.jpg", alt: "Golyan Tower lounge and corridor", width: 2400, height: 1597 },
-      { src: "/images/projects/golyan-tower-5.jpg", alt: "Rooftop VRF plant at Golyan Tower", width: 2400, height: 1597 },
+      { src: "/images/projects/golyan-tower-5.jpg", alt: "Rooftop air-conditioning plant at Golyan Tower", width: 2400, height: 1597 },
     ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
@@ -1052,7 +1083,7 @@ export const projects: Project[] = [
       { src: "/images/projects/jai-nepal-cinema-2.jpg", alt: "Jai Nepal Cinema lobby", width: 2400, height: 1597 },
       { src: "/images/projects/jai-nepal-cinema-3.jpg", alt: "Platinum screen foyer with cassette units", width: 2400, height: 1597 },
       { src: "/images/projects/jai-nepal-cinema-4.jpg", alt: "Concessions area", width: 2400, height: 1597 },
-      { src: "/images/projects/jai-nepal-cinema-5.jpg", alt: "VRF outdoor units in the plant area", width: 1597, height: 2400 },
+      { src: "/images/projects/jai-nepal-cinema-5.jpg", alt: "Air-conditioning outdoor units in the plant area", width: 1597, height: 2400 },
     ],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],

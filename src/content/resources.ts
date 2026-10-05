@@ -42,11 +42,11 @@ export const resources: Resource[] = [
   },
   {
     slug: "plumbing-public-health-capability-deck",
-    title: "Plumbing & Public Health capability deck",
+    title: "Public Health Engineering (PHE) capability deck",
     kind: "download",
     summary: "Airtech's plumbing, sanitary and water/sewage treatment capability.",
     seo: {
-      title: "Plumbing & Public Health Capability Deck",
+      title: "Public Health Engineering (PHE) Capability Deck",
       description: "Airtech's plumbing and public health engineering capability, for consultants and specifiers.",
     },
     status: "source_only",
@@ -64,11 +64,11 @@ export const resources: Resource[] = [
   },
   {
     slug: "elv-security-capability-deck",
-    title: "ELV / Security / IT capability deck",
+    title: "Extra Low-Voltage (ELV) capability deck",
     kind: "download",
     summary: "Airtech's extra-low-voltage, access control, CCTV and networking capability.",
     seo: {
-      title: "ELV / Security / IT Capability Deck",
+      title: "Extra Low-Voltage (ELV) Capability Deck",
       description: "Airtech's ELV, security and IT systems capability, for consultants and specifiers.",
     },
     status: "source_only",

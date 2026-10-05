@@ -33,7 +33,7 @@ export function WhyAirtech({
       label: "One team, every system",
       figure: "6",
       caption: "engineering disciplines under one roof",
-      body: "HVAC, electrical, plumbing, fire protection, ELV and BMS, designed, installed and commissioned by one accountable team.",
+      body: "HVAC, electrical, PHE, fire protection, ELV and BMS, designed, installed and commissioned by one accountable team.",
     },
     {
       label: "Chosen by global brands",

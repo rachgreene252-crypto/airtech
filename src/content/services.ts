@@ -17,11 +17,11 @@ export const services: Service[] = [
     shortDescription:
       "Design, equipment selection, procurement, installation, testing and commissioning of air-conditioning and ventilation systems, from single-room comfort cooling to large commercial chiller plant and specialised process cooling.",
     detailedDescription:
-      "Airtech's HVAC capability spans the full delivery chain: system design and equipment selection, supply and procurement, installation, and testing and commissioning. The practice covers chillers, commercial air-conditioning, industrial and process cooling, ventilation, precision air-conditioning for telecom and data-centre environments, and energy-efficient HVAC solutions, extending from small-capacity room air-conditioning to large commercial chiller plant and specialised applications such as pharmaceutical and healthcare environments.",
+      "Airtech's HVAC capability spans the full delivery chain: system design and equipment selection, procurement and delivery, installation, and testing and commissioning. The practice covers chillers, commercial air-conditioning, industrial and process cooling, ventilation, precision air-conditioning for telecom and data-centre environments, and energy-efficient HVAC solutions, extending from small-capacity room air-conditioning to large commercial chiller plant and specialised applications such as pharmaceutical and healthcare environments.",
     capabilities: [
       "HVAC system design",
       "Equipment selection",
-      "Supply and procurement",
+      "Procurement and delivery",
       "Installation",
       "Testing and commissioning",
       "After-sales service and maintenance",
@@ -102,7 +102,7 @@ export const services: Service[] = [
   },
   {
     slug: "plumbing-public-health",
-    name: "Plumbing & Public Health",
+    name: "Public Health Engineering (PHE)",
     category: "plumbing-public-health",
     disciplineCode: "PHE",
     homeSummary:
@@ -135,7 +135,7 @@ export const services: Service[] = [
     relatedIndustrySlugs: ["hospitality", "healthcare", "industrial"],
     relatedProjectSlugs: [],
     seo: {
-      title: "Plumbing & Public Health Engineering",
+      title: "Public Health Engineering (PHE)",
       description:
         "Internal and external plumbing, sanitary works, domestic water supply, drainage, sewage/water treatment plants and rainwater harvesting.",
     },
@@ -179,7 +179,7 @@ export const services: Service[] = [
   },
   {
     slug: "elv-security",
-    name: "ELV / Security / IT",
+    name: "Extra Low-Voltage (ELV)",
     category: "elv-security",
     disciplineCode: "ELV",
     homeSummary:
@@ -216,7 +216,7 @@ export const services: Service[] = [
     relatedIndustrySlugs: ["hospitality", "healthcare", "corporate-commercial", "education-institutional"],
     relatedProjectSlugs: [],
     seo: {
-      title: "ELV, Security & IT Systems",
+      title: "Extra Low-Voltage (ELV) Systems: Security & IT",
       description:
         "Data networking and telecommunication, security and surveillance, intelligent fire detection and alarm, guest room management (GRMS), IPTV and nurse call systems delivered by a dedicated ELV engineering team.",
     },

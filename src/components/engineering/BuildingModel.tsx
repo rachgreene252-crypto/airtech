@@ -37,9 +37,9 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export const SYSTEM_SHORT: Record<SystemSlug, string> = {
   hvac: "HVAC",
   electrical: "Electrical",
-  "plumbing-public-health": "Plumbing & PHE",
+  "plumbing-public-health": "PHE",
   "fire-protection": "Fire protection",
-  "elv-security": "ELV / Security",
+  "elv-security": "ELV",
   "bms-systems-integration": "BMS",
 };
 

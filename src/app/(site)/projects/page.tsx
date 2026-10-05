@@ -10,6 +10,7 @@ import { ProjectsView } from "@/components/projects/ProjectsView";
 import { ProjectsExplorer } from "@/components/projects/ProjectsExplorer";
 import { HospitalitySpotlight } from "@/components/projects/HospitalitySpotlight";
 import { ClientRegister } from "@/components/projects/ClientRegister";
+import { ProjectIndex } from "@/components/projects/ProjectIndex";
 import { projects, getProjectsByIndustry } from "@/content/projects";
 import { industries } from "@/content/industries";
 import { getClientsByIndustry } from "@/content/clients";
@@ -78,6 +79,8 @@ export default function ProjectsPage() {
           industries={industries}
         />
       </Suspense>
+
+      <ProjectIndex projects={projects} industries={industries} />
 
       <Container className="py-16 sm:py-20 lg:py-24">
         <SectionHeader eyebrow="Browse by industry" heading="Explore by sector." />

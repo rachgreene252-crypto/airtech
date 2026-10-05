@@ -3,9 +3,9 @@ import { z } from "zod";
 export const intentOptions = [
   { value: "hvac", label: "HVAC" },
   { value: "electrical", label: "Electrical" },
-  { value: "plumbing", label: "Plumbing & Public Health" },
+  { value: "plumbing", label: "Public Health Engineering (PHE)" },
   { value: "fire", label: "Fire Fighting & Fire Protection" },
-  { value: "elv", label: "ELV / Security / IT" },
+  { value: "elv", label: "Extra Low-Voltage (ELV)" },
   { value: "bms", label: "BMS / Systems Integration" },
   { value: "full-mep", label: "Full MEP / integrated delivery" },
   { value: "amc-service", label: "AMC / Service & Support" },

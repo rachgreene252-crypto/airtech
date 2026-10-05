@@ -186,6 +186,7 @@ export interface SiteSettings {
   establishedYear: string;
   headOffice: string;
   primaryEmail: string;
+  careersEmail: string;
   /** Deliberately optional — see docs/OPEN_DECISIONS.md #1 (phone number conflict, unresolved). */
   phone?: string;
   whatsapp?: string;
