@@ -40,7 +40,10 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
 
         <HeaderNav items={primaryNav} />
 
-        <div className="hidden xl:block shrink-0">
+        <div className="hidden xl:flex shrink-0 items-center gap-2.5">
+          <ButtonLink href="/company/careers" variant="secondary" size="md">
+            Careers
+          </ButtonLink>
           <ButtonLink href="/contact/project-enquiry" size="md">
             Enquire
           </ButtonLink>

@@ -994,7 +994,8 @@ export const projects: Project[] = [
     airtechRole: "HVAC: design, supply, installation, testing and commissioning for the new Visa Consular Building.",
     servicesDelivered: ["HVAC"],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu", width: 401, height: 632 },
+    // No building photograph supplied; the reference-letter scan that sat
+    // here read as a broken hero. Placeholder until a real photo arrives.
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["jica-nepal-office"],

@@ -440,3 +440,14 @@ body::before {
   animation-play-state: paused;
 }
 
+
+/* The Building: per-system auto-advance timer bar. */
+@keyframes building-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+.building-progress {
+  animation-name: building-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}

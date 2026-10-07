@@ -6,6 +6,8 @@ import type { Route } from "next";
 import { services } from "@/content/services";
 import type { ServiceCategory } from "@/content/types";
 import { Reveal } from "@/components/ui/Reveal";
+import { SYSTEM_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
+
 
 export const metadata: Metadata = {
   title: "Expertise",
@@ -19,11 +21,8 @@ const FACTS = [
   { value: "2000", label: "Engineering buildings in Nepal since" },
 ];
 
-// One meaning-specific icon per discipline — the fix for a "boring and
-// simple" flat list: each row now has a real visual anchor, not just a
-// number. Blue throughout (not per-discipline colour), matching the
-// standing "Airtech blue is the only strong accent" rule set on the
-// homepage systems diagram.
+// One meaning-specific icon per discipline, drawn in that system's colour
+// (the same coding as the homepage building drawing).
 const DISCIPLINE_ICONS: Record<ServiceCategory, ReactNode> = {
   hvac: (
     <>
@@ -66,9 +65,13 @@ const DISCIPLINE_ICONS: Record<ServiceCategory, ReactNode> = {
 };
 
 function DisciplineIcon({ category }: { category: ServiceCategory }) {
+  const color = SYSTEM_COLOR[category as SystemSlug];
   return (
-    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--color-brand-blue-tint) text-(--color-brand-blue) transition-colors group-hover:bg-(--color-brand-blue) group-hover:text-white">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+    <span
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+      style={{ background: `color-mix(in srgb, ${color} 14%, white)`, color }}
+    >
+      <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
         {DISCIPLINE_ICONS[category]}
       </svg>
     </span>
@@ -122,37 +125,48 @@ export default function ExpertiseOverviewPage() {
         ))}
       </dl>
 
-      <ul className="mt-12 border-t border-(--color-line)">
-        {services.map((service, i) => (
-          <Reveal key={service.slug} delay={i * 0.05}>
-            <li>
-              <Link
-                href={`/expertise/${service.slug}` as Route}
-                className="group relative flex items-center gap-5 overflow-hidden border-b border-(--color-line) py-5 pl-4 transition-colors hover:bg-(--color-paper-raised)"
-              >
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-(--color-brand-blue) transition-transform duration-300 group-hover:scale-y-100"
-                />
-                <DisciplineIcon category={service.category} />
-                <span className="flex-1">
-                  <span className="font-display text-title font-semibold text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
-                    {service.name}
-                  </span>
-                  <span className="mt-1 block text-small leading-relaxed text-(--color-steel)">
-                    {service.homeSummary}
-                  </span>
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="text-(--color-brand-blue) transition-transform duration-300 group-hover:translate-x-1"
+      {/* 2026-10-07 ("I don't love the expertise section"): the flat list
+          became colour-coded discipline tiles, each system in the same
+          colour it has in the homepage building drawing. */}
+      <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {services.map((service, i) => {
+          const color = SYSTEM_COLOR[service.category as SystemSlug];
+          return (
+            <li key={service.slug}>
+              <Reveal delay={i * 0.05} className="h-full">
+                <Link
+                  href={`/expertise/${service.slug}` as Route}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-[6px] border border-(--color-line) bg-(--color-paper) p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_44px_-30px_rgba(5,29,43,0.5)]"
                 >
-                  →
-                </span>
-              </Link>
+                  <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 origin-left scale-x-[0.18] transition-transform duration-500 group-hover:scale-x-100" style={{ background: color }} />
+                  <span className="flex items-center justify-between">
+                    <DisciplineIcon category={service.category} />
+                    <span className="font-mono text-[0.6875rem] tracking-[0.18em] text-(--color-steel-soft)">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </span>
+                  <span className="mt-5 font-display text-title font-semibold text-(--color-ink)">{service.name}</span>
+                  <span className="mt-2 block text-small leading-relaxed text-(--color-steel)">{service.homeSummary}</span>
+                  <span className="mt-4 flex flex-wrap gap-1.5">
+                    {service.subServices.slice(0, 3).map((sub) => (
+                      <span
+                        key={sub}
+                        className="rounded-full px-2.5 py-1 text-[0.75rem] font-medium"
+                        style={{ background: `color-mix(in srgb, ${color} 10%, white)`, color: `color-mix(in srgb, ${color} 70%, black)` }}
+                      >
+                        {sub}
+                      </span>
+                    ))}
+                  </span>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold" style={{ color: `color-mix(in srgb, ${color} 75%, black)` }}>
+                    Explore {SYSTEM_SHORT[service.category as SystemSlug]}
+                    <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                  </span>
+                </Link>
+              </Reveal>
             </li>
-          </Reveal>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );

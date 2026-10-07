@@ -26,7 +26,6 @@ const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>>
   "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
   industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
   "telecom-data-centres": { src: "/images/projects/ncell-corporate-office.jpg", alt: "Ncell Iconic Building, Kathmandu" },
-  "embassies-ingos": { src: "/images/recognition/british-embassy-kathmandu.jpg", alt: "British Embassy, Kathmandu" },
 };
 
 // A sector atlas, not a grid of boxes: large typographic rows, each carrying

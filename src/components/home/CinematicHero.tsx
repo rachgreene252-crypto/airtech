@@ -1,6 +1,20 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
+import type { Route } from "next";
 import { Reveal } from "@/components/ui/Reveal";
+import { SYSTEM_COLOR } from "@/components/engineering/model";
+
+// 2026-10-07 client: the first thing after the video should say what
+// Airtech does. The service line is now the headline; "Keeping Nepal
+// moving" drops to the meta line, and the six disciplines sit right under it.
+const DISCIPLINES = [
+  { label: "HVAC", href: "/expertise/hvac", color: SYSTEM_COLOR.hvac },
+  { label: "Electrical", href: "/expertise/electrical", color: SYSTEM_COLOR.electrical },
+  { label: "PHE", href: "/expertise/plumbing-public-health", color: SYSTEM_COLOR["plumbing-public-health"] },
+  { label: "Fire Protection", href: "/expertise/fire-protection", color: SYSTEM_COLOR["fire-protection"] },
+  { label: "ELV", href: "/expertise/elv-security", color: SYSTEM_COLOR["elv-security"] },
+  { label: "BMS", href: "/expertise/bms-systems-integration", color: SYSTEM_COLOR["bms-systems-integration"] },
+];
 
 /**
  * Section 01, Hero.
@@ -55,24 +69,40 @@ function HeroTextPanel() {
   return (
     <section
       className="relative bg-site-texture px-6 py-14 text-center sm:px-10 sm:py-20"
-      aria-label="Airtech Industries: keeping Nepal moving"
+      aria-label="Airtech Industries: integrated MEP and HVAC engineering"
     >
       <div className="mx-auto flex max-w-3xl flex-col items-center">
         <Reveal delay={0}>
           <p className="font-mono text-label uppercase tracking-[0.14em] text-(--color-brand-blue)">
-            Engineering behind the places that matter
+            Integrated MEP &amp; HVAC engineering · Nepal · Since 2000
           </p>
         </Reveal>
         <Reveal delay={0.12}>
-          <h1 className="mt-7 max-w-[15ch] font-display text-display-2xl font-semibold leading-[1.01] tracking-[-0.025em] text-balance text-(--color-ink)">
-            Keeping Nepal moving.
+          <h1 className="mt-7 max-w-[22ch] font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.025em] text-balance text-(--color-ink) lg:text-[3.75rem]">
+            Integrated MEP and HVAC, from first drawing to{" "}
+            <span className="text-(--color-brand-blue)">commissioning</span>.
           </h1>
         </Reveal>
         <Reveal delay={0.24}>
-          <p className="mt-7 max-w-lg text-body-l leading-relaxed text-(--color-steel)">
-            Integrated MEP and HVAC, from first drawing to commissioning, and
-            the years of support that follow.
+          <p className="mt-7 max-w-xl text-body-l leading-relaxed text-(--color-steel)">
+            And the years of support that follow. Six building systems designed, installed and
+            maintained by one accountable engineering team.
           </p>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <ul className="mt-8 flex max-w-2xl flex-wrap justify-center gap-2" aria-label="Engineering disciplines">
+            {DISCIPLINES.map((d) => (
+              <li key={d.href}>
+                <Link
+                  href={d.href as Route}
+                  className="inline-flex items-center gap-2 rounded-full border border-(--color-line-strong) bg-(--color-paper)/80 px-3.5 py-1.5 text-sm font-medium text-(--color-ink) transition-colors hover:border-(--color-brand-blue-vivid) hover:text-(--color-brand-blue)"
+                >
+                  <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ background: d.color }} />
+                  {d.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Reveal>
         <Reveal delay={0.36}>
           <div className="mt-11 flex flex-wrap items-center justify-center gap-7">
@@ -92,7 +122,7 @@ function HeroTextPanel() {
           <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
             <span aria-hidden="true" className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse sm:block" />
             <span className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-balance">
-              Reliability matters · Est. 2000 · Integrated MEP since 2013
+              Keeping Nepal moving · Reliability matters · Est. 2000
             </span>
           </div>
         </Reveal>

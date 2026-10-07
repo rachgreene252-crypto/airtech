@@ -88,14 +88,32 @@ export default function CareersPage() {
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="How to apply" heading="Send us your CV." />
-        <p className="mx-auto mt-6 max-w-xl text-center text-body-l leading-relaxed text-(--color-steel)">
-          Email your CV and area of interest to{" "}
-          <a href={`mailto:${siteSettings.careersEmail}?subject=${encodeURIComponent("Job application")}`} className="font-medium text-(--color-brand-blue) hover:underline">
-            {siteSettings.careersEmail}
-          </a>
-          .
-        </p>
+        <div className="relative isolate overflow-hidden rounded-[6px] bg-(--color-brand-blue) px-8 py-12 text-white sm:px-12 sm:py-14">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 opacity-[0.12] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]"
+          />
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div>
+              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-white/75">How to apply</p>
+              <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] text-balance">Send us your CV.</h2>
+              <p className="mt-4 max-w-lg text-body leading-relaxed text-white/85">
+                Email your CV and the discipline you&apos;d like to work in (HVAC, electrical, PHE,
+                fire, ELV or BMS) to{" "}
+                <a href={`mailto:${siteSettings.careersEmail}`} className="font-semibold text-white underline underline-offset-4">
+                  {siteSettings.careersEmail}
+                </a>
+                .
+              </p>
+            </div>
+            <a
+              href={`mailto:${siteSettings.careersEmail}?subject=${encodeURIComponent("Job application")}`}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-semibold text-(--color-brand-blue) transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.45)]"
+            >
+              Email {siteSettings.careersEmail} <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
       </Section>
     </>
   );

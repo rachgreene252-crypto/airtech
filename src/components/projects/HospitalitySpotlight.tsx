@@ -16,17 +16,21 @@ function HotelCard({
   project,
   aspect,
   priority,
+  diptych,
 }: {
   project: Project;
   aspect: string;
   priority?: boolean;
+  /** Lead card: hero + first gallery photo side by side, so neither is stretched. */
+  diptych?: boolean;
 }) {
+  const second = diptych ? project.gallery[0] : undefined;
   return (
     <Link
       href={`/projects/${project.slug}` as Route}
       className={`group relative block overflow-hidden rounded-[4px] ${aspect}`}
     >
-      {project.heroImage?.src && (
+      {project.heroImage?.src && !second && (
         <Image
           src={project.heroImage.src}
           alt={project.heroImage.alt}
@@ -35,6 +39,22 @@ function HotelCard({
           sizes="(min-width: 640px) 50vw, 100vw"
           className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
+      )}
+      {project.heroImage?.src && second && (
+        <div className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2">
+          {[project.heroImage, second].map((img, i) => (
+            <div key={img.src} className={`relative overflow-hidden ${i === 1 ? "hidden sm:block" : ""}`}>
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                priority={priority}
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+              />
+            </div>
+          ))}
+        </div>
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/45 to-(--color-ink)/5" />
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
@@ -79,7 +99,7 @@ export function HospitalitySpotlight({ projects }: { projects: Project[] }) {
         </div>
 
         <div className="mt-12 space-y-6">
-          {lead && <HotelCard project={lead} aspect="aspect-[16/10] sm:aspect-[21/9]" priority />}
+          {lead && <HotelCard project={lead} aspect="aspect-[16/10] sm:aspect-[21/9]" priority diptych={lead.gallery.length > 0} />}
           {others.length > 0 && (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {others.map((project) => (

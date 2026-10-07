@@ -304,3 +304,26 @@ export const STAGING: Record<string, Vec3> = {
   bms: [13.2, 0, 7.8],
   stp: [10.2, 0, 7.6],
 };
+
+/**
+ * Per-system colour coding (client request, 2026-09-10): fire = red,
+ * HVAC = the Airtech blue, electrical = amber, water = teal, ELV = violet,
+ * BMS = green. Used wherever the six systems are shown side by side.
+ */
+export const SYSTEM_COLOR: Record<SystemSlug, string> = {
+  hvac: "#0099DA",
+  electrical: "#E59A0B",
+  "plumbing-public-health": "#0FA3A0",
+  "fire-protection": "#E2463B",
+  "elv-security": "#7B5CD6",
+  "bms-systems-integration": "#2FA85A",
+};
+
+export const SYSTEM_SHORT: Record<SystemSlug, string> = {
+  hvac: "HVAC",
+  electrical: "Electrical",
+  "plumbing-public-health": "PHE",
+  "fire-protection": "Fire protection",
+  "elv-security": "ELV",
+  "bms-systems-integration": "BMS",
+};

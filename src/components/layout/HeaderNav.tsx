@@ -170,9 +170,12 @@ function MobileMenu({ items, onClose }: { items: NavGroup[]; onClose: () => void
             )}
           </div>
         ))}
-        <div className="mt-6">
+        <div className="mt-6 flex flex-col gap-3">
           <ButtonLink href="/contact/project-enquiry" size="lg" className="w-full" onClick={onClose}>
             Enquire
+          </ButtonLink>
+          <ButtonLink href="/company/careers" variant="secondary" size="lg" className="w-full" onClick={onClose}>
+            Careers
           </ButtonLink>
         </div>
       </nav>

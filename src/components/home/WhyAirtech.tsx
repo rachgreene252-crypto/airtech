@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { clientCount, getClientsByIndustry } from "@/content/clients";
 
 /**
  * "Why Airtech" — replaced "Built for Nepal" 2026-09-24. Rebuilt
@@ -43,15 +44,17 @@ export function WhyAirtech({
     },
     {
       label: "Where failure isn't an option",
-      figure: `${healthcareCount}`,
+      figure: `${Math.max(healthcareCount, getClientsByIndustry("healthcare").length)}`,
       caption: "hospitals & medical institutions served",
       body: "Hospitals, the Parliament Building and the British Embassy: critical environments where systems must run around the clock.",
     },
     {
-      label: "25 years of expertise",
-      figure: "25+",
-      caption: "years of engineering since 2000",
-      body: "Seismic zones, monsoon humidity and high altitude: engineered for some of the most demanding conditions anywhere.",
+      // 2026-10-07: was "25+ years", which now sits directly above in the
+      // proof bar; the client register count says something new instead.
+      label: "Trusted across every sector",
+      figure: `${Math.floor(clientCount / 10) * 10}+`,
+      caption: "organisations in our client register",
+      body: "Banks, pharmaceutical plants, embassies, telecoms, factories and schools across Nepal, listed by sector on the projects page.",
     },
   ];
 

@@ -99,7 +99,11 @@ export function ProjectGallery({ images, projectName }: { images: SanityImageRef
   return (
     <>
       {count === 1 ? (
-        <Thumb image={lead} index={0} count={count} onOpen={openAt} className="aspect-[16/9]" />
+        // A lone photo is never stretched past its own pixel width (several
+        // supplied gallery photos are 770–1020px wide); it centres instead.
+        <div className="mx-auto w-full" style={lead.width ? { maxWidth: lead.width } : undefined}>
+          <Thumb image={lead} index={0} count={count} onOpen={openAt} className="aspect-[16/9]" />
+        </div>
       ) : rest.length === 4 ? (
         // 1 + 4: lead fills a 2×2 block beside a 2×2 of thumbnails — no gaps.
         <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
@@ -131,7 +135,7 @@ export function ProjectGallery({ images, projectName }: { images: SanityImageRef
           </div>
         </div>
       )}
-      <p className="mt-4 text-small text-(--color-steel)">
+      <p className={`mt-4 text-small text-(--color-steel) ${count === 1 ? "text-center" : ""}`}>
         {count} {count === 1 ? "photo" : "photos"} · select to enlarge
       </p>
 

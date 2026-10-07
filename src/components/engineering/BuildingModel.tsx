@@ -16,6 +16,8 @@ import {
   SLABS,
   STAGING,
   SYSTEMS,
+  SYSTEM_COLOR,
+  SYSTEM_SHORT,
   VIEW_ASSEMBLED,
   VIEW_EXPLODED,
   box,
@@ -24,6 +26,8 @@ import {
   type SystemGeometry,
   type SystemSlug,
 } from "./model";
+
+export { SYSTEM_SHORT };
 
 export type Phase = "brief" | "engineering" | "procurement" | "installation" | "commissioning" | "amc";
 
@@ -34,14 +38,6 @@ const LINE = "var(--color-line-strong)";
 const PAPER = "var(--color-paper)";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export const SYSTEM_SHORT: Record<SystemSlug, string> = {
-  hvac: "HVAC",
-  electrical: "Electrical",
-  "plumbing-public-health": "PHE",
-  "fire-protection": "Fire protection",
-  "elv-security": "ELV",
-  "bms-systems-integration": "BMS",
-};
 
 /**
  * Renders the shared building model. State, not choreography, drives it:
@@ -57,6 +53,7 @@ export function BuildingModel({
   onSelect,
   className,
   title,
+  colorCoded = false,
 }: {
   highlight?: SystemSlug | null;
   exploded?: boolean;
@@ -66,6 +63,8 @@ export function BuildingModel({
   onSelect?: (slug: SystemSlug) => void;
   className?: string;
   title: string;
+  /** Draw each system in its own colour (The Building); the Method keeps one blue. */
+  colorCoded?: boolean;
 }) {
   const reduce = useReducedMotion();
   const t = (d = 0.55, delay = 0) => (reduce ? { duration: 0 } : { duration: d, delay, ease: EASE });
@@ -140,6 +139,7 @@ export function BuildingModel({
           live={live}
           phase={phase}
           showLabels={highlight === sys.slug && !exploded}
+          color={colorCoded && !phase ? SYSTEM_COLOR[sys.slug] : undefined}
           reduce={!!reduce}
           t={t}
           onHover={onHover}
@@ -184,6 +184,7 @@ export function BuildingModel({
             index={String(i + 1).padStart(2, "0")}
             label={SYSTEM_SHORT[s.slug]}
             active={highlight === s.slug}
+            color={colorCoded ? SYSTEM_COLOR[s.slug] : undefined}
             onClick={onSelect ? () => onSelect(s.slug) : undefined}
           />
         ))}
@@ -218,7 +219,9 @@ function SystemLayer({
   t,
   onHover,
   onSelect,
+  color,
 }: {
+  color?: string;
   sys: SystemGeometry;
   index: number;
   state: LayerState;
@@ -233,9 +236,9 @@ function SystemLayer({
   onSelect?: (slug: SystemSlug) => void;
 }) {
   const active = state === "active";
-  const opacity = state === "hidden" ? 0 : state === "muted" ? 0.1 : active ? 1 : phase ? 0.7 : 0.62;
+  const opacity = state === "hidden" ? 0 : state === "muted" ? 0.1 : active ? 1 : phase ? 0.7 : color ? 0.85 : 0.62;
   const design = phase === "engineering" || phase === "procurement";
-  const stroke = active || phase === "engineering" ? "var(--color-brand-blue-vivid)" : "var(--color-ink-soft)";
+  const stroke = color ?? (active || phase === "engineering" ? "var(--color-brand-blue-vivid)" : "var(--color-ink-soft)");
   const dash = design ? "5 4" : sys.dashed ? "2 3" : undefined;
   const offset = exploded ? EXPLODE_STEP * (index + 1) : 0;
   const width = active ? 2.1 : 1.4;
@@ -295,6 +298,7 @@ function SystemLayer({
           key={eq.id}
           eq={eq}
           stroke={stroke}
+          accent={color}
           active={active}
           outline={phase === "engineering"}
           staged={phase === "procurement" || phase === "engineering" ? phase === "procurement" : false}
@@ -319,7 +323,9 @@ function EquipmentBox({
   showLabel,
   reduce,
   t,
+  accent,
 }: {
+  accent?: string;
   eq: Equipment;
   stroke: string;
   active: boolean;
@@ -342,7 +348,9 @@ function EquipmentBox({
     dx = bx - ax;
     dy = by - ay;
   }
-  const fill = outline ? "none" : active ? "var(--color-brand-blue-tint)" : "var(--color-paper)";
+  const tint = accent ? `color-mix(in srgb, ${accent} 16%, white)` : "var(--color-brand-blue-tint)";
+  const shade = accent ? `color-mix(in srgb, ${accent} 38%, white)` : "var(--color-brand-blue-soft)";
+  const fill = outline ? "none" : active ? tint : "var(--color-paper)";
   const dash = outline ? "3 3" : undefined;
   return (
     <motion.g initial={false} animate={{ x: dx, y: dy }} transition={t(0.9)}>
@@ -350,7 +358,7 @@ function EquipmentBox({
       <path d={b.left} fill={fill} stroke={stroke} strokeWidth={1} strokeDasharray={dash} />
       <path
         d={b.right}
-        fill={outline ? "none" : active ? "var(--color-brand-blue-soft)" : "var(--color-paper-raised)"}
+        fill={outline ? "none" : active ? shade : accent ? tint : "var(--color-paper-raised)"}
         fillOpacity={active ? 0.45 : 1}
         stroke={stroke}
         strokeWidth={1}
@@ -364,7 +372,7 @@ function EquipmentBox({
           <path
             d={`M${b.topCentre[0]},${b.topCentre[1]} l14,-14 h6`}
             fill="none"
-            stroke={BLUE}
+            stroke={accent ?? BLUE}
             strokeWidth={0.8}
           />
           <text
@@ -392,7 +400,9 @@ function LayerTitle({
   label,
   active,
   onClick,
+  color,
 }: {
+  color?: string;
   x: number;
   index: string;
   label: string;
@@ -401,7 +411,7 @@ function LayerTitle({
 }) {
   return (
     <g onClick={onClick} style={{ cursor: onClick ? "pointer" : undefined }}>
-      <line x1={x - 44} x2={x + 44} y1={EXPLODED_LABEL_Y - 18} y2={EXPLODED_LABEL_Y - 18} stroke={active ? BLUE : STEEL} strokeWidth={active ? 2.4 : 1} />
+      <line x1={x - 44} x2={x + 44} y1={EXPLODED_LABEL_Y - 18} y2={EXPLODED_LABEL_Y - 18} stroke={color ?? (active ? BLUE : STEEL)} strokeWidth={active ? 2.4 : color ? 1.6 : 1} />
       <text x={x} y={EXPLODED_LABEL_Y + 2} textAnchor="middle" fontSize={15} fontFamily="var(--font-mono)" letterSpacing="0.12em" fill={active ? BLUE : STEEL}>
         {index}
       </text>

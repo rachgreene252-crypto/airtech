@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
-import { Section } from "@/components/ui/Section";
+import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "History",
@@ -31,6 +32,11 @@ const milestones = [
   },
 ];
 
+const MILESTONE_PHOTOS: Record<string, { src: string; alt: string }> = {
+  "2025": { src: "/images/team/anniversary-stage.jpg", alt: "Airtech's leadership on stage at the 25th-anniversary celebration" },
+  Today: { src: "/images/team/team-strategy-meeting.jpg", alt: "The Airtech leadership team in a strategy meeting" },
+};
+
 export default function HistoryPage() {
   return (
     <>
@@ -43,52 +49,59 @@ export default function HistoryPage() {
         eyebrow="Since 2000"
         heading="From HVAC specialist to integrated engineering partner."
       />
-      <Section>
-        <ol className="mx-auto max-w-xl space-y-11 border-l border-(--color-line-strong) pl-8">
-          {milestones.map((m) => (
-            <li key={m.year} className="relative">
-              <span className="absolute -left-[2.55rem] top-1.5 h-2 w-2 rounded-full bg-(--color-brand-blue)" />
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-                {m.year}
-              </p>
-              <h2 className="mt-2 font-display text-title font-normal text-(--color-ink)">{m.title}</h2>
-              <p className="mt-2.5 text-body leading-relaxed text-(--color-steel)">{m.body}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
+      {/* Rebuilt 2026-10-07: each milestone is a full row with an oversized
+          year, and the anniversary is shown in the client's own 1600px
+          event photographs (AIPL PROFILE - 2026.pptx) instead of the 455px
+          crop used before. */}
+      <section className="py-16 sm:py-20 lg:py-24">
+        <Container>
+          <ol className="relative">
+            {milestones.map((m, i) => {
+              const photo = MILESTONE_PHOTOS[m.year];
+              return (
+                <li key={m.year} className="grid grid-cols-1 gap-6 border-t border-(--color-line) py-12 first:border-t-0 first:pt-0 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-16">
+                  <Reveal>
+                    <p className="font-display text-[4.5rem] leading-[0.9] font-semibold tracking-[-0.04em] text-(--color-brand-blue) sm:text-[6rem] lg:text-[7.5rem]">
+                      {m.year}
+                    </p>
+                    <p className="mt-4 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-(--color-steel-soft)">
+                      Milestone {String(i + 1).padStart(2, "0")} / {String(milestones.length).padStart(2, "0")}
+                    </p>
+                  </Reveal>
+                  <Reveal delay={0.1}>
+                    <h2 className="font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-(--color-ink)">{m.title}</h2>
+                    <p className="mt-4 max-w-xl text-body-l leading-relaxed text-(--color-steel)">{m.body}</p>
+                    {photo && (
+                      <div className="relative mt-8 aspect-[16/10] overflow-hidden rounded-[6px]">
+                        <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
+                      </div>
+                    )}
+                  </Reveal>
+                </li>
+              );
+            })}
+          </ol>
+        </Container>
+      </section>
 
-      {/* 25th-anniversary team photograph — real photography from the
-          "AIRTECH RELIABILITY MATTERS" event, supplied directly for
-          publication (2026-09-09). The source file is only 455x303 — capped
-          at max-w-lg rather than the section's usual max-w-4xl so it renders
-          near its native resolution instead of visibly upscaled, per "all
-          high quality images only." */}
-      <Section tone="raised">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+      <section className="relative isolate overflow-hidden bg-(--color-blue-deep) text-white">
+        <Image
+          src="/images/team/anniversary-team.jpg"
+          alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
+          fill
+          sizes="100vw"
+          className="-z-10 object-cover object-[center_65%]"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/50 to-transparent" />
+        <Container className="flex min-h-[30rem] flex-col justify-end py-14 sm:min-h-[36rem] sm:py-16">
+          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
             25 years
           </p>
-          <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">
+          <h2 className="mt-4 max-w-[20ch] font-display text-display-l font-semibold leading-[1.06] text-balance">
             One team, a quarter century of reliability.
           </h2>
-        </div>
-        <div className="crop-frame relative mx-auto mt-10 aspect-[3/2] w-full max-w-lg overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue)">
-          <span className="crop-tick-tl" />
-          <span className="crop-tick-br" />
-          <Image
-            src="/images/team/team-25th-anniversary.jpg"
-            alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
-            fill
-            sizes="(min-width: 1024px) 512px, 100vw"
-            className="object-cover object-center"
-          />
-        </div>
-        <p className="mx-auto mt-4 max-w-lg text-center text-small text-(--color-steel)">
-          The Airtech team at the company&rsquo;s 25th-anniversary, &ldquo;Reliability Matters&rdquo;
-          celebration.
-        </p>
-      </Section>
+        </Container>
+      </section>
     </>
   );
 }
