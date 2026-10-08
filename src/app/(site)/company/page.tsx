@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -144,11 +144,11 @@ export default function CompanyPage() {
             <Reveal delay={0.1}>
               <div className="grid grid-cols-5 gap-3 sm:gap-4">
                 <div className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-[6px]">
-                  <Image src="/images/team/team-strategy-meeting.jpg" alt="Airtech's leadership team in a strategy meeting" fill sizes="(min-width: 1024px) 30vw, 60vw" className="object-cover object-center" />
+                  <Image src="/images/team/team-strategy-meeting.jpg" alt="Airtech's leadership team in a strategy meeting" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
                 </div>
                 <div className="col-span-2 flex flex-col gap-3 sm:gap-4">
                   <div className="relative aspect-square overflow-hidden rounded-[6px]">
-                    <Image src="/images/team/founder-at-work.jpg" alt="Manoj Bhansali, Managing Director, at his desk" fill sizes="(min-width: 1024px) 20vw, 40vw" className="object-cover object-center" />
+                    <Image src="/images/team/founder-at-work.jpg" alt="Manoj Bhansali, Managing Director, at his desk" fill sizes="(min-width: 1024px) 30vw, 60vw" className="object-cover object-center" />
                   </div>
                   <div className="relative flex-1 overflow-hidden rounded-[6px] bg-(--color-brand-blue) p-5 text-white">
                     <p className="font-display text-[2.75rem] leading-none font-bold tracking-[-0.04em]">25+</p>
@@ -203,7 +203,7 @@ export default function CompanyPage() {
                     src="/images/team/founder-manoj-bhansali.jpg"
                     alt="Manoj Bhansali, Managing Director of Airtech Industries"
                     fill
-                    sizes="(min-width: 1024px) 34vw, 100vw"
+                    sizes="(min-width: 1024px) 64vw, 190vw"
                     className="object-cover object-[62%_center]"
                   />
                 </div>
@@ -311,7 +311,7 @@ export default function CompanyPage() {
                 src="/images/team/anniversary-hall.jpg"
                 alt=""
                 fill
-                sizes="100vw"
+                sizes="(max-width: 767px) 250vw, 100vw"
                 className="-z-10 object-cover object-center opacity-30"
               />
               <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-(--color-blue-deep) via-(--color-blue-deep)/85 to-(--color-blue-deep)/40" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { useScrollGsap } from "@/components/motion/useScrollGsap";
 
 const PHOTOS = [

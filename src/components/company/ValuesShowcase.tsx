@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
 
@@ -87,7 +87,7 @@ export function ValuesShowcase({ values }: { values: Value[] }) {
                 exit={reduce ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-                <Image src={v.image.src} alt={v.image.alt} fill sizes="34vw" className="object-cover object-center" />
+                <Image src={v.image.src} alt={v.image.alt} fill sizes="64vw" className="object-cover object-center" />
               </motion.div>
             </AnimatePresence>
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/30 to-transparent" />

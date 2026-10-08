@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import type { Route } from "next";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";

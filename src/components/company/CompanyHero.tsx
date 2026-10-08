@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import type { Route } from "next";
 import { Container } from "@/components/ui/Container";
@@ -53,7 +53,7 @@ export function CompanyHero({ stats, careersHref }: { stats: HeroStat[]; careers
             alt="The Airtech team gathered for the company's 25th anniversary"
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 767px) 250vw, 100vw"
             className="object-cover object-[center_60%]"
           />
         </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -107,7 +107,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             alt={project.heroImage.alt}
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 767px) 220vw, 100vw"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
@@ -132,8 +132,11 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 source (e.g. 468px) isn't stretched across the full 1200px+
                 container. */}
             {/* Width is capped both by resolution (frameMaxWidth) and so the
-                framed photo never exceeds ~75% of the viewport height. */}
+                framed photo never exceeds ~75% of the viewport height.
+                Centred (2026-10-08) so a capped photo doesn't leave a dead
+                band down the right-hand side. */}
             <div
+              className="mx-auto"
               style={
                 heroRatio
                   ? {

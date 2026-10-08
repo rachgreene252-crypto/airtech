@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import { primaryNav } from "@/lib/navigation";
 import { siteSettings } from "@/content/site-settings";

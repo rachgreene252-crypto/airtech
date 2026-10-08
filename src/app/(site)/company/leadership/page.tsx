@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -110,7 +110,7 @@ export default function LeadershipPage() {
           src="/images/team/anniversary-team.jpg"
           alt="The Airtech team at the company's 25th anniversary"
           fill
-          sizes="100vw"
+          sizes="(max-width: 767px) 250vw, 100vw"
           className="-z-10 object-cover object-[center_65%]"
         />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/55 to-(--color-blue-deep)/10" />

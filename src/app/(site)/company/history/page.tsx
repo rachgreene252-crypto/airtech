@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -89,7 +89,7 @@ export default function HistoryPage() {
           src="/images/team/anniversary-team.jpg"
           alt="The Airtech Industries team gathered for the company's 25th-anniversary, Reliability Matters, celebration"
           fill
-          sizes="100vw"
+          sizes="(max-width: 767px) 250vw, 100vw"
           className="-z-10 object-cover object-[center_65%]"
         />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/50 to-transparent" />

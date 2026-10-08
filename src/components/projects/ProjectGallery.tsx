@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { SanityImageRef } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -40,7 +40,7 @@ className?: string;
         src={image.src}
         alt={image.alt}
         fill
-        sizes="(min-width: 1024px) 50vw, 100vw"
+        sizes="(min-width: 1024px) 90vw, 120vw"
         className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
       />
       <span

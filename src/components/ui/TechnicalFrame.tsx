@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import { cn } from "@/lib/cn";
 import type { SanityImageRef } from "@/content/types";
 import { BluePlaceholder } from "@/components/ui/BluePlaceholder";

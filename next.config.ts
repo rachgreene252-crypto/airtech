@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
+    // 90 is the site default (src/components/ui/Image.tsx); 75 stays allowed
+    // for anything still calling next/image directly.
+    qualities: [75, 90],
+    // Photographs are cached for a year once optimised.
+    minimumCacheTTL: 31536000,
   },
   typedRoutes: true,
   async redirects() {

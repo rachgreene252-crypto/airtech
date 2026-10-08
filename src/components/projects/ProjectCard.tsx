@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Image";
 import Link from "next/link";
 import type { Project } from "@/content/types";
 import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
@@ -22,7 +22,7 @@ export function ProjectCard({ project, industryName }: { project: Project; indus
             src={project.heroImage.src}
             alt={project.heroImage.alt}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 45vw, (min-width: 640px) 70vw, 150vw"
             className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/60 to-(--color-ink)/5 transition-opacity duration-300 group-hover:from-(--color-ink)" />
