@@ -8,6 +8,8 @@ import { services, getServiceBySlug } from "@/content/services";
 import { industries, getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService } from "@/content/projects";
 
+const SIGNATURE_HOTELS = ["hyatt-regency-kathmandu", "fairfield-by-marriott-thamel", "the-soaltee"];
+
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
@@ -31,7 +33,12 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const relatedProjects = getProjectsByService(service.slug).slice(0, 6);
+  // 2026-10-12 client: "I want to be able to see Hyatt Regency, Marriott and
+  // Soaltee here" — those three lead every discipline they were part of
+  // (all three were HVAC and MEP), then the rest of the portfolio.
+  const all = getProjectsByService(service.slug);
+  const lead = SIGNATURE_HOTELS.map((s) => all.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const relatedProjects = [...lead, ...all.filter((p) => !SIGNATURE_HOTELS.includes(p.slug))].slice(0, 6);
   const photoProjects = relatedProjects.filter((p) => p.heroImage).slice(0, 3);
   // "Where it's deployed" is common across every discipline — Airtech runs
   // all six as one integrated scope on every project, so the sector list is

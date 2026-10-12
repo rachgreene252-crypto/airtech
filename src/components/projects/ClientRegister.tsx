@@ -54,7 +54,7 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
           </h2>
         </div>
         <p className="max-w-xl text-body leading-relaxed text-(--color-steel)">
-          Hospitals, pharmaceutical plants, banks, embassies, factories and broadcast studios
+          Hotels, hospitals, pharmaceutical plants, banks, embassies, factories and broadcast studios
           across Nepal. Pick a sector, or search for a name.
         </p>
       </div>
@@ -116,6 +116,12 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
       </div>
 
       <div role="tabpanel" aria-live="polite" className="mt-10">
+        {!results && group.scope && (
+          <p className="mb-6 text-small text-(--color-steel)">
+            Scope across {group.label.toLowerCase()}:{" "}
+            <span className="font-medium text-(--color-ink)">{group.scope}</span>
+          </p>
+        )}
         {results && (
           <p className="mb-6 text-small text-(--color-steel)">
             {results.length} {results.length === 1 ? "match" : "matches"} for &ldquo;{query.trim()}&rdquo;
@@ -181,6 +187,18 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
                     </span>
                   )}
                 </span>
+                {c.scope && (
+                  <span
+                    className={cn(
+                      "shrink-0 self-center rounded-full px-2.5 py-0.5 font-mono text-[0.625rem] font-medium uppercase tracking-[0.1em]",
+                      c.scope === "HVAC"
+                        ? "bg-(--color-brand-blue-tint) text-(--color-brand-blue)"
+                        : "bg-(--color-brand-blue) text-white"
+                    )}
+                  >
+                    {c.scope}
+                  </span>
+                )}
               </motion.li>
             ))}
           </motion.ol>

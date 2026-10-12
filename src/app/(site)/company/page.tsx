@@ -8,7 +8,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { CompanyHero } from "@/components/company/CompanyHero";
 import { ScrollWords } from "@/components/company/ScrollWords";
-import { HorizontalTimeline, type Milestone } from "@/components/company/HorizontalTimeline";
 import { ValuesShowcase, type Value } from "@/components/company/ValuesShowcase";
 import { AnniversaryParallax } from "@/components/company/AnniversaryParallax";
 import { services } from "@/content/services";
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
  * /company, rebuilt again 2026-10-07 ("still very boring and simple"): the
  * page is now a scroll-driven story rather than a stack of static blocks —
  * a "25" that opens onto the whole team, statements that light up word by
- * word, a pinned sideways timeline, a big interactive values index and a
+ * word, a big interactive values index and a
  * parallax anniversary gallery.
  *
  * Every fact is sourced: description and milestones from the Master Source
@@ -44,30 +43,6 @@ const stats = [
   { value: `${Math.floor(clientCount / 10) * 10}+`, label: "Clients across Nepal" },
 ];
 
-const milestones: Milestone[] = [
-  {
-    year: "2000",
-    title: "Founded as an HVAC specialist",
-    body: "Airtech is established in Kathmandu with a focus on heating, ventilation and air-conditioning engineering.",
-  },
-  {
-    year: "2013",
-    title: "The MEP division",
-    body: "Airtech expands beyond HVAC into integrated mechanical, electrical, PHE and ELV engineering.",
-  },
-  {
-    year: "2025",
-    title: "25 years: Reliability Matters",
-    body: "A company-wide anniversary celebration marks a quarter-century in business.",
-    image: { src: "/images/team/anniversary-stage.jpg", alt: "The Airtech team on stage at the 25th-anniversary celebration" },
-  },
-  {
-    year: "Today",
-    title: "One integrated engineering partner",
-    body: "HVAC, electrical, PHE, fire protection, ELV and BMS, delivered by one team from design to after-sales support.",
-    image: { src: "/images/team/team-strategy-meeting.jpg", alt: "The Airtech leadership team in a strategy meeting" },
-  },
-];
 
 const coreValues: Value[] = [
   { title: "Integrity", body: "Taking responsibility for what we promise.", image: { src: "/images/team/founder-manoj-bhansali.jpg", alt: "Manoj Bhansali, Managing Director" } },
@@ -161,11 +136,6 @@ export default function CompanyPage() {
         </Container>
       </section>
 
-      {/* 3 — 25 years, sideways */}
-      <div className="border-t border-(--color-line)">
-        <HorizontalTimeline milestones={milestones} />
-      </div>
-
       {/* 4 — Mission: a full-width blue statement band that lights up. */}
       <section className="relative isolate overflow-hidden bg-(--color-brand-blue) py-24 text-white sm:py-28 lg:py-36">
         <div
@@ -242,7 +212,7 @@ export default function CompanyPage() {
           <div className="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
             <div>
               <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">What we value</p>
-              <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] text-balance text-(--color-ink)">Six commitments, every system.</h2>
+              <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] text-balance text-(--color-ink)">Our core values.</h2>
             </div>
             <p className="max-w-md text-body leading-relaxed text-(--color-steel) lg:justify-self-end">
               Point at a value to see it. These shape how Airtech engineers, installs and supports

@@ -23,17 +23,42 @@ export interface Client {
   name: string;
   city?: string;
   logo?: string;
+  /** Airtech's scope for this client, as the client's works list states it. */
+  scope?: string;
 }
 
 export interface ClientGroup {
   industrySlug: IndustrySlug;
   label: string;
+  /** Scope the client's list gives the whole sector, e.g. "(HVAC)". */
+  scope?: string;
   clients: Client[];
 }
 
 const c = (name: string, city?: string, logo?: string): Client => ({ name, city, logo });
 
-export const clientGroups: ClientGroup[] = [
+const groups: ClientGroup[] = [
+  {
+    // 2026-10-12 works list: "HOSPITALITY (HVAC and MEP)". Hospitality leads,
+    // as it does everywhere else on the site.
+    industrySlug: "hospitality",
+    label: "Hospitality",
+    scope: "HVAC & MEP",
+    clients: [
+      c("Hotel Yak & Yeti", "Kathmandu"),
+      c("Hotel Barahi", "Kathmandu"),
+      c("Hyatt Centric", "Kathmandu"),
+      c("Hyatt Regency", "Kathmandu"),
+      c("Aloft Kathmandu Thamel", "Kathmandu"),
+      c("Holiday Inn Express", "Kathmandu"),
+      c("Tiger Palace Resort", "Bhairahawa"),
+      c("Chandragiri Hills Resort", "Kathmandu"),
+      c("Fairfield by Marriott", "Kathmandu"),
+      c("The Soaltee", "Kathmandu"),
+      c("Nepali Ghar Hotel", "Kathmandu"),
+      c("Hilton Hotel", "Kathmandu"),
+    ],
+  },
   {
     industrySlug: "healthcare",
     label: "Hospitals",
@@ -82,6 +107,7 @@ export const clientGroups: ClientGroup[] = [
   {
     industrySlug: "pharmaceuticals",
     label: "Pharma & labs",
+    scope: "HVAC",
     clients: [
       c("Alive Pharmaceuticals", "Biratnagar", "alive-pharmaceutical.webp"),
       c("Apex Pharmaceuticals", "Birgunj"),
@@ -185,6 +211,7 @@ export const clientGroups: ClientGroup[] = [
   {
     industrySlug: "telecom-data-centres",
     label: "Telecom & data centres",
+    scope: "HVAC",
     clients: [
       c("Huawei Technologies Nepal"),
       c("Ncell", undefined, "ncell.png"),
@@ -199,6 +226,7 @@ export const clientGroups: ClientGroup[] = [
   {
     industrySlug: "industrial",
     label: "Industries",
+    scope: "HVAC",
     clients: [
       c("Agro Thai Foods", "Kathmandu"),
       c("Asian Thai Food", "Biratnagar"),
@@ -229,6 +257,7 @@ export const clientGroups: ClientGroup[] = [
   {
     industrySlug: "auditoriums-studios",
     label: "Auditoriums & studios",
+    scope: "HVAC",
     clients: [
       c("Avenues Television"),
       c("Big Cinemas", undefined, "big-cinemas.png"),
@@ -254,6 +283,7 @@ export const clientGroups: ClientGroup[] = [
   {
     industrySlug: "embassies-ingos",
     label: "Embassies & INGOs",
+    scope: "HVAC",
     clients: [
       c("American Embassy", undefined, "us-embassy-nepal.png"),
       c("British Embassy", undefined, "british-embassy-kathmandu.png"),
@@ -283,6 +313,43 @@ export const clientGroups: ClientGroup[] = [
     ],
   },
 ];
+
+/*
+ * Per-client scope from the 2026-10-12 works list
+ * (source-material/CLIENT_WORKS_LIST_2026-10-12.md). Where the client gave
+ * a scope for a whole sector it sits on the group instead. Clients the list
+ * gives no scope for are left without one.
+ */
+const SCOPE: Record<string, string> = {
+  // Hospitals
+  "Blue Cross Hospital": "HVAC", "BP Koirala Institute of Health Sciences": "HVAC", "Butwal Hospital": "HVAC",
+  "Charak Memorial Hospital": "HVAC", "Chirayu Hospital": "HVAC", "Chitwan Medical College": "HVAC", "CIWEC Clinic": "HVAC",
+  "Devdaha Medical College": "HVAC", "Dhulikhel Hospital": "HVAC", "Gandaki Medical College": "HVAC", "Grande City Clinic": "HVAC",
+  "Grande International Hospital": "HVAC", "Helios Hospital": "MEP", "Kathmandu Medical College": "HVAC", "KIST Medical College": "HVAC",
+  "Lahan Eye Hospital": "HVAC", "Lumbini Medical College": "HVAC", "Manmohan Cardio Vascular and Teaching Hospital": "HVAC",
+  "Mechi Eye Hospital": "HVAC", "Narayani Vayodha Hospital": "HVAC", "National City Hospital": "HVAC",
+  "National Trauma Center, Bir Hospital": "HVAC", "Nepal Mediciti Hospital": "MEP", "Nepal Orthopaedic Hospital": "HVAC",
+  "Nepalese Army Institute of Health Sciences": "HVAC", "Nepalgunj Medical College": "HVAC", "Neuro Hospital, Bansbari": "HVAC",
+  "Norvic International Hospital": "HVAC", "Om Hospital": "HVAC", "Patan Hospital": "HVAC", "Sagarmatha Eye Hospital": "HVAC",
+  "Universal College of Medical Sciences": "HVAC", "Vayodha Hospital": "MEP",
+  // Banks, insurers & corporate
+  "Agni Incorporated": "HVAC", "Alliance Insurance Company": "HVAC", "Butwal Power Company": "HVAC", "Cedar Gate": "MEP",
+  "Central Business Park": "HVAC", "Everest Bank": "HVAC", "Everest Insurance": "HVAC", "Ghorahi Cement": "HVAC",
+  "Global College": "HVAC", "Global IME Bank": "HVAC", "Golyan Group": "MEP", "Hama Steels": "HVAC", "Himalayan Bank": "HVAC",
+  "Himalayan Everest Insurance": "HVAC", "Himalayan Reinsurance": "HVAC", "IME Group": "HVAC", "Kantipur Publications": "HVAC",
+  "Kavya School": "HVAC", "Kumari Bank": "HVAC", "Laxmi Sunrise Bank": "Electrical & HVAC", "Lumbini General Insurance": "HVAC",
+  "Machhapuchchhre Bank": "HVAC", "Metro Park": "HVAC", "Nabil Bank": "HVAC", "National Life Insurance": "HVAC",
+  "Nepal Investment Mega Bank": "HVAC", "Nepal SBI Bank": "HVAC", "Nimbus": "HVAC", "NMB Bank": "HVAC", "Prabhu Bank": "HVAC",
+  "Prime Commercial Bank": "HVAC", "Prime Life Insurance": "HVAC", "Regency Watch": "HVAC", "Sanigad Hydro": "HVAC",
+  "Sanima Bank": "HVAC", "Siddhartha Bank": "HVAC", "Sino Sagarmatha Hydro Power Company": "HVAC", "Sipradi Trading": "MEP",
+  "Standard Chartered Bank": "HVAC", "Sujal Group, Corporate Office": "HVAC", "Tele Talk": "HVAC",
+  "United Distributors Nepal": "HVAC", "Verisk Information Technologies": "HVAC", "Web Search": "HVAC",
+};
+
+export const clientGroups: ClientGroup[] = groups.map((g) => ({
+  ...g,
+  clients: g.clients.map((cl) => ({ ...cl, scope: cl.scope ?? SCOPE[cl.name] ?? g.scope })),
+}));
 
 export function getClientsByIndustry(slug: string) {
   return clientGroups.find((g) => g.industrySlug === slug)?.clients ?? [];
