@@ -14,7 +14,8 @@ const PHOTOS = [
 /**
  * The 25th anniversary (2026-10-07): a giant outlined "RELIABILITY MATTERS"
  * line runs across the section while the client's event photographs drift
- * at different speeds as the visitor scrolls.
+ * at different speeds as the visitor scrolls. 2026-10-29: on white, not the
+ * dark navy block (client: no dark blue blocks).
  */
 export function AnniversaryParallax() {
   const ref = useRef<HTMLElement>(null);
@@ -32,12 +33,11 @@ export function AnniversaryParallax() {
   });
 
   return (
-    <section ref={ref} className="relative isolate overflow-hidden bg-(--color-blue-deep) py-20 text-white sm:py-28">
-      <div aria-hidden="true" className="absolute -bottom-40 -left-40 -z-10 h-[34rem] w-[34rem] rounded-full bg-(--color-brand-blue)/35 blur-[120px]" />
+    <section ref={ref} className="relative isolate overflow-hidden border-t border-(--color-line) bg-white py-20 text-(--color-ink) sm:py-28">
       <p
         data-line
         aria-hidden="true"
-        className="pointer-events-none whitespace-nowrap font-display text-[16vw] leading-none font-bold tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.5px_rgba(80,189,241,0.45)]"
+        className="pointer-events-none whitespace-nowrap font-display text-[16vw] leading-none font-bold tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.5px_rgba(0,142,209,0.28)]"
       >
         Reliability matters · Reliability matters
       </p>
@@ -45,10 +45,10 @@ export function AnniversaryParallax() {
       <div className="mx-auto mt-6 w-full max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
           <div>
-            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">2000 — 2025</p>
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">2000 — 2025</p>
             <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] text-balance">25 years of legacy, built together.</h2>
           </div>
-          <p className="max-w-md text-body-l leading-relaxed text-white/75 lg:justify-self-end">
+          <p className="max-w-md text-body-l leading-relaxed text-(--color-steel) lg:justify-self-end">
             In 2025 the whole Airtech team came together to mark a quarter-century under the banner the
             company was built on.
           </p>
@@ -57,7 +57,7 @@ export function AnniversaryParallax() {
         <div className="mt-14 grid grid-cols-12 gap-4 sm:gap-6">
           {PHOTOS.map((p) => (
             <div key={p.src} className={p.cls}>
-              <div data-speed={p.speed} className="relative h-full w-full overflow-hidden rounded-[6px] will-change-transform">
+              <div data-speed={p.speed} className="relative h-full w-full overflow-hidden rounded-[3px] will-change-transform">
                 <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
               </div>
             </div>

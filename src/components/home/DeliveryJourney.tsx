@@ -26,42 +26,50 @@ import { cn } from "@/lib/cn";
  */
 const STAGES = [
   {
-    title: "Understanding the project",
+    title: "Requirements",
     photo: { src: "/images/team/team-showroom-meeting.jpg", alt: "Airtech engineers in a project meeting, air-conditioning units on the wall behind them" },
     caption: "Project meeting · Airtech",
   },
   {
-    title: "Engineering and system design",
+    title: "Design & Engineering",
     photo: { src: "/images/team/team-strategy-meeting.jpg", alt: "Airtech's engineering team reviewing a project schedule on screen" },
     caption: "Engineering review · Airtech",
   },
   {
-    title: "Equipment selection and procurement",
+    title: "Procurement",
     photo: { src: "/images/projects/jai-nepal-cinema-5.jpg", alt: "VRF outdoor units set on steel stands in the plant area at Jai Nepal Cinema" },
     caption: "VRF outdoor units · Jai Nepal Cinema",
     href: "/projects/jai-nepal-cinema",
   },
   {
-    title: "Coordinated installation",
+    title: "Installation",
     photo: { src: "/images/projects/club-nova-5.jpg", alt: "An indoor unit and insulated ductwork installed above the ceiling at Club NOVA" },
     caption: "Indoor unit and ductwork · Club NOVA",
     href: "/projects/club-nova",
   },
   {
-    title: "Testing and commissioning",
-    photo: { src: "/images/projects/golyan-tower-5.jpg", alt: "Rooftop outdoor units and red fire-fighting pipework at Golyan Tower" },
-    caption: "Rooftop plant and fire pipework · Golyan Tower",
-    href: "/projects/golyan-tower",
+    // Client-supplied site photograph (Drive "Photos to add", 2026-10-29,
+    // filed as "Installation"); the project isn't named, so neither is it here.
+    title: "Testing & Commissioning",
+    photo: { src: "/images/process/fire-pump-room.jpg", alt: "A finished fire-fighting pump room: sprinkler and hydrant pumps, a diesel fire pump, valves and gauges" },
+    caption: "Fire-fighting pump room · Airtech site",
   },
   {
-    title: "After-sales support and maintenance",
+    title: "After-Sales Maintenance",
     photo: { src: "/images/projects/jai-nepal-cinema-2.jpg", alt: "Visitors in the air-conditioned lobby of Jai Nepal Cinema" },
     caption: "In daily operation · Jai Nepal Cinema",
     href: "/projects/jai-nepal-cinema",
   },
 ] as const;
 
-export function DeliveryJourney() {
+export function DeliveryJourney({
+  eyebrow = "02 · How we deliver",
+  onOwnPage = false,
+}: {
+  eyebrow?: string;
+  /** On /how-we-work itself: no link back to the page you're on. */
+  onOwnPage?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLElement | null)[]>([]);
 
@@ -91,7 +99,7 @@ export function DeliveryJourney() {
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
-              02 · How we deliver
+              {eyebrow}
             </p>
             <h2
               id="delivery-heading"
@@ -225,12 +233,14 @@ export function DeliveryJourney() {
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-(--color-line) pt-8 lg:mt-0">
-          <Link
-            href="/how-we-work"
-            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-(--color-brand-blue) hover:underline"
-          >
-            The full delivery process <span aria-hidden="true">&rarr;</span>
-          </Link>
+          {!onOwnPage && (
+            <Link
+              href="/how-we-work"
+              className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-(--color-brand-blue) hover:underline"
+            >
+              The full delivery process <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
           <Link
             href="/service-support"
             className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-(--color-ink-soft) hover:text-(--color-brand-blue)"

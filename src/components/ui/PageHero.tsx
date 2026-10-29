@@ -3,13 +3,12 @@ import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import type { ReactNode } from "react";
 
 /**
- * Standard interior-page hero. Rebuilt 2026-09-16: the breadcrumb trail
- * ("Home / X") above the heading read as clutter on an otherwise clean
- * opener (client: "i dont want the 'Home/...'") — it's now sr-only (the
- * BreadcrumbList JSON-LD, real SEO value, is unaffected). The heading also
- * got a real visual anchor instead of sitting as plain dark text over the
- * soft-glow wash ("looks very pale... make it a little interesting"): an
- * ambient blue glow behind it plus a short vivid-blue accent rule beneath.
+ * Standard interior-page header. 2026-10-29: one editorial header for every
+ * interior page, the same as /projects: eyebrow and a large left-aligned
+ * headline, the description in a narrower column beside it, closed by a
+ * hairline. The centred layout, ambient blue glow and accent rule are gone
+ * (the redesign brief asks for no decorative gradients). Breadcrumbs stay
+ * screen-reader-only (client, 2026-09-16), so the JSON-LD trail is kept.
  */
 export function PageHero({
   breadcrumbs,
@@ -25,31 +24,24 @@ export function PageHero({
   meta?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-soft-glow border-b border-(--color-line) pt-10 pb-16 sm:pt-16 sm:pb-20">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[36rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
-      />
-      <Container className="relative flex flex-col items-center text-center">
+    <section className="pt-8 pb-2 sm:pt-12">
+      <Container>
         <Breadcrumbs items={breadcrumbs} visuallyHidden />
-        {eyebrow && (
-          <div className="flex items-center gap-3">
-            <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-              {eyebrow}
-            </p>
-            <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
+        <div className="grid gap-6 border-b border-(--color-line-strong) pb-10 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-14">
+          <div className="lg:col-span-8">
+            {eyebrow && (
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
+                {eyebrow}
+              </p>
+            )}
+            <h1 className="mt-5 max-w-[20ch] font-display text-display-2xl font-semibold leading-[1.02] tracking-[-0.026em] text-balance text-(--color-ink)">
+              {heading}
+            </h1>
           </div>
-        )}
-        <h1 className="mt-6 max-w-[19ch] font-display text-display-xl font-semibold leading-[1.04] tracking-[-0.018em] text-balance">
-          {heading}
-        </h1>
-        <span aria-hidden="true" className="mt-5 h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
-        {description && (
-          <p className="mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
-            {description}
-          </p>
-        )}
+          {description && (
+            <p className="max-w-md text-body-l leading-relaxed text-(--color-steel) lg:col-span-4">{description}</p>
+          )}
+        </div>
         {meta && <div className="mt-10">{meta}</div>}
       </Container>
     </section>

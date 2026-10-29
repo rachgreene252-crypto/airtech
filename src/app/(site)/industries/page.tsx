@@ -1,100 +1,10 @@
-import type { Metadata } from "next";
-import Image from "@/components/ui/Image";
-import Link from "next/link";
-import { PageHero } from "@/components/ui/PageHero";
-import { Reveal } from "@/components/ui/Reveal";
-import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
-import { industries } from "@/content/industries";
-import type { IndustrySlug } from "@/content/types";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Industries",
-  description:
-    "Sectors Airtech engineers for: healthcare, hospitality, pharmaceuticals, industrial, corporate, telecom/data centres, banking, auditoriums, embassies/INGOs and education.",
-};
-
-// Real, already-sourced project/recognition photography, matched to the
-// sector it was actually shot in. Sectors with no sourced photo (pharma,
-// banking, auditoriums) simply render without a thumbnail rather than a
-// stand-in image — same content-truth rule as everywhere else on the site.
-const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>> = {
-  hospitality: {
-    src: "/images/landmarks/hotel-barahi-kathmandu.jpg",
-    alt: "Hotel Barahi Kathmandu — rooftop pool and terrace at night",
-  },
-  healthcare: { src: "/images/projects/nepal-mediciti.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
-  "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
-  industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Hyundai KD Plant, Parasi" },
-  "telecom-data-centres": { src: "/images/projects/ncell-corporate-office.jpg", alt: "Ncell Iconic Building, Kathmandu" },
-};
-
-// A sector atlas, not a grid of boxes: large typographic rows, each carrying
-// the industry's real operational-challenge line as its own specification
-// text — same editorial index pattern as /expertise and /projects.
+/**
+ * 2026-10-29: sectors are browsed in one place, the industry explorer on
+ * /projects (each /industries/[slug] already lands there pre-filtered).
+ * This index used to be a second, parallel sector directory.
+ */
 export default function IndustriesPage() {
-  return (
-    <>
-      <PageHero
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Industries" }]}
-        eyebrow="Sectors"
-        heading="Designed around what each sector actually needs."
-        description="Healthcare, pharmaceuticals, hospitality, industrial and telecom environments each carry distinct operational demands. Airtech designs to the requirement, not a generic template."
-      />
-      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
-        {industries.map((industry, i) => {
-          const photo = industryPhoto[industry.slug];
-          return (
-            <Reveal key={industry.slug} delay={i * 0.03}>
-              <Link
-                href={`/projects?industry=${industry.slug}`}
-                className={`group grid gap-5 border-t border-(--color-line) py-10 transition-colors hover:bg-(--color-paper-raised) sm:items-center sm:gap-8 sm:py-12 ${
-                  photo ? "sm:grid-cols-[160px_1fr_auto]" : "sm:grid-cols-[1fr_auto]"
-                }`}
-              >
-                {photo && (
-                  <div className="crop-frame relative hidden aspect-[4/3] w-full overflow-hidden border border-(--color-line-strong) text-(--color-brand-blue) sm:block">
-                    <span className="crop-tick-tl" />
-                    <span className="crop-tick-br" />
-                    <Image
-                      src={photo.src}
-                      alt={photo.alt}
-                      fill
-                      sizes="160px"
-                      className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                <div>
-                  <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[0.98] group-hover:text-(--color-signal) transition-colors text-balance">
-                    {industry.name}
-                  </h2>
-                  <p className="mt-3 max-w-2xl text-sm sm:text-base text-(--color-steel) leading-relaxed">
-                    {industry.overview}
-                  </p>
-                  {industry.operationalChallenges.length > 0 && (
-                    <p className="mt-4 font-sans text-label text-(--color-steel)">
-                      {industry.operationalChallenges[0]}
-                    </p>
-                  )}
-                </div>
-                <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
-                  <span className="font-mono text-[0.75rem] uppercase tracking-[0.22em]">
-                    View projects
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="text-2xl transition-transform group-hover:translate-x-1.5"
-                  >
-                    →
-                  </span>
-                </span>
-              </Link>
-            </Reveal>
-          );
-        })}
-      </div>
-      <div className="lg:hidden h-[68px]" aria-hidden="true" />
-      <StickyEnquiryBar />
-    </>
-  );
+  redirect("/projects#explore");
 }

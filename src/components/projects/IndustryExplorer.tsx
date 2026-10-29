@@ -9,23 +9,39 @@ import { cn } from "@/lib/cn";
 import type { Industry, Project } from "@/content/types";
 import type { Client } from "@/content/clients";
 import { ProjectTile } from "./ProjectTile";
+import { IndustrySelect, type IndustryOption } from "./IndustrySelect";
+import { hasTileImage } from "@/content/image-quality";
 
 const INITIAL = 6;
 
-// Mosaic rhythm inside the right-hand column: a wide lead, then pairs, then
-// a wide closer — varied proportions without a ragged grid.
+// Mosaic rhythm: a large lead (two columns, two rows on desktop) with two
+// tiles stacked beside it, then rows of three.
 function tileShape(i: number, total: number) {
-  if (i === 0) return "sm:col-span-2 aspect-[4/3] sm:aspect-[2/1]";
-  if (total > 4 && i === total - 1 && (total - 1) % 2 === 1) return "sm:col-span-2 aspect-[4/3] sm:aspect-[5/2]";
-  return "aspect-[4/3]";
+  const last = i === total - 1;
+  if (i === 0) {
+    return total === 1
+      ? "aspect-[4/3] sm:col-span-2 sm:aspect-[2/1] lg:col-span-3 lg:row-span-2 lg:aspect-auto"
+      : "aspect-[4/3] sm:col-span-2 sm:aspect-[2/1] lg:col-span-2 lg:row-span-2 lg:aspect-auto";
+  }
+  const cls = ["aspect-[4/3] lg:aspect-auto"];
+  // Only one tile beside the lead: let it take the lead's full height.
+  if (total === 2) cls.push("lg:row-span-2");
+  // The last tile fills whatever its row leaves free, so no row ends ragged.
+  if (last && (total - 1) % 2 === 1) cls.push("sm:col-span-2 sm:aspect-[2/1]");
+  if (last && total > 3) {
+    const rem = (total - 3) % 3;
+    if (rem === 1) cls.push("lg:col-span-3");
+    if (rem === 2) cls.push("lg:col-span-2");
+  }
+  return cls.join(" ");
 }
 
 /**
  * Industry explorer (2026-10-29 redesign; replaces the chip row above a
  * long card grid, and the "Explore by sector" tile wall). Modelled on the
  * structured discovery of Arup's and Foster + Partners' project indexes,
- * adapted: a sector index you read like a contents page on the left, the
- * selected sector's work as an image mosaic on the right. Switching sector
+ * adapted: an industry dropdown (the client's request) with previous / next
+ * steppers, pinned while scrolling, over a full-width image mosaic. Switching sector
  * swaps the mosaic in place (no navigation) and keeps `?industry=` in the
  * URL so sector links from elsewhere on the site land pre-selected.
  *
@@ -82,21 +98,32 @@ export function IndustryExplorer({
     const params = new URLSearchParams(window.location.search);
     params.set("industry", slug);
     window.history.replaceState(null, "", `${window.location.pathname}?${params}${window.location.hash}`);
-    // On small screens the selector sits above the results; bring them up.
-    if (window.matchMedia("(max-width: 1023px)").matches) {
-      const top = panelRef.current?.getBoundingClientRect().top ?? 0;
-      if (top > window.innerHeight * 0.6 || top < 0) {
-        panelRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-      }
-    }
+    // If the visitor had scrolled deep into a long sector, bring the new
+    // one's first row back into view under the pinned bar.
+    const top = panelRef.current?.getBoundingClientRect().top ?? 0;
+    if (top < 0) panelRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   }
+
+  function step(dir: number) {
+    const i = industries.findIndex((ind) => ind.slug === sector);
+    choose(industries[(i + dir + industries.length) % industries.length].slug);
+  }
+
+  const options = useMemo<IndustryOption[]>(
+    () =>
+      industries.map((ind) => {
+        const lead = projects.find((p) => p.industrySlug === ind.slug && hasTileImage(p));
+        return { slug: ind.slug, name: ind.name, thumb: lead?.heroImage && { src: lead.heroImage.src } };
+      }),
+    [industries, projects]
+  );
 
   const industry = industries.find((i) => i.slug === sector) ?? industries[0];
   const inSector = useMemo(() => {
     const list = projects.filter((p) => p.industrySlug === sector);
     // Photographed work first, so the mosaic opens on images; projects
     // already featured above the explorer go to the back of the queue.
-    const rank = (p: Project) => (p.heroImage?.src ? 0 : 2) + (pushBack.includes(p.slug) ? 1 : 0);
+    const rank = (p: Project) => (hasTileImage(p) ? 0 : 2) + (pushBack.includes(p.slug) ? 1 : 0);
     return [...list].sort((a, b) => rank(a) - rank(b));
   }, [projects, sector, pushBack]);
   const visible = expanded ? inSector : inSector.slice(0, INITIAL);
@@ -128,53 +155,35 @@ export function IndustryExplorer({
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-14 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14 xl:grid-cols-[19rem_minmax(0,1fr)]">
-          {/* Sector index */}
-          <nav aria-label="Industries" className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-            <ul className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:mx-0 lg:block lg:overflow-visible lg:px-0 lg:pb-0">
-              {industries.map((ind) => {
-                const on = ind.slug === sector;
-                return (
-                  <li key={ind.slug} className="shrink-0 lg:border-b lg:border-(--color-line) lg:first:border-t">
-                    <button
-                      type="button"
-                      onClick={() => choose(ind.slug)}
-                      aria-pressed={on}
-                      aria-controls="explore-panel"
-                      className={cn(
-                        "group relative flex min-h-11 w-full items-center gap-3 whitespace-nowrap rounded-full border px-4 text-left text-[0.9375rem] font-medium transition-colors duration-300",
-                        "lg:min-h-0 lg:whitespace-normal lg:rounded-none lg:border-0 lg:px-0 lg:py-3.5 lg:pl-5 lg:text-[1.0625rem]",
-                        on
-                          ? "border-(--color-brand-blue-vivid) bg-(--color-brand-blue-vivid) text-white lg:bg-transparent lg:text-(--color-ink)"
-                          : "border-(--color-line-strong) bg-(--color-paper) text-(--color-ink-soft) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue) lg:bg-transparent lg:text-(--color-steel)"
-                      )}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={cn(
-                          "absolute inset-y-2 left-0 hidden w-[3px] origin-center rounded-full bg-(--color-brand-blue-vivid) transition-transform duration-300 lg:block",
-                          on ? "scale-y-100" : "scale-y-0 group-hover:scale-y-50"
-                        )}
-                      />
-                      <span className="flex-1">{ind.name}</span>
-                      <span
-                        aria-hidden="true"
-                        className={cn(
-                          "hidden text-(--color-brand-blue) transition-all duration-300 lg:inline",
-                          on ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-60"
-                        )}
-                      >
-                        &rarr;
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        {/* Control bar: the industry dropdown plus previous / next, pinned
+            under the header while the visitor scrolls the results. */}
+        <div className="sticky top-[4.5rem] z-20 -mx-5 mt-10 border-y border-(--color-line-strong) bg-(--color-paper-raised)/95 px-5 py-4 backdrop-blur-sm sm:-mx-8 sm:px-8 lg:mx-0 lg:mt-14 lg:px-0">
+          <div className="flex items-end justify-between gap-4">
+            <IndustrySelect options={options} value={sector} onChange={choose} />
+            <div className="flex shrink-0 gap-2 pb-1">
+              {[
+                { label: "Previous industry", dir: -1, d: "M10 3.5L5.5 8 10 12.5" },
+                { label: "Next industry", dir: 1, d: "M6 3.5L10.5 8 6 12.5" },
+              ].map((b) => (
+                <button
+                  key={b.label}
+                  type="button"
+                  aria-label={b.label}
+                  onClick={() => step(b.dir)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line-strong) bg-(--color-paper) text-(--color-ink) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={b.d} />
+                  </svg>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
+        <div className="mt-8">
           {/* Selected sector */}
-          <div ref={panelRef} id="explore-panel" aria-live="polite" className="min-w-0 scroll-mt-24">
+          <div ref={panelRef} id="explore-panel" aria-live="polite" className="min-w-0 scroll-mt-48">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={sector}
@@ -183,18 +192,12 @@ export function IndustryExplorer({
                 exit={reduce ? undefined : { opacity: 0, y: -8 }}
                 transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="border-b border-(--color-line-strong) pb-6">
-                  <div>
-                    <h3 className="font-display text-display-m font-semibold leading-tight tracking-[-0.012em] text-(--color-ink)">
-                      {industry.name}
-                    </h3>
-                    <p className="mt-2 max-w-3xl text-body leading-relaxed text-(--color-steel)">{industry.overview}</p>
-                  </div>
-                </div>
+                <h3 className="sr-only">{industry.name}</h3>
+                <p className="max-w-3xl text-body-l leading-relaxed text-(--color-steel)">{industry.overview}</p>
 
                 {inSector.length > 0 ? (
                   <>
-                    <motion.ul layout={!reduce} className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                    <motion.ul layout={!reduce} className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:auto-rows-[15rem] xl:auto-rows-[17rem]">
                       {visible.map((project, i) => (
                         <motion.li
                           key={project.slug}
@@ -208,7 +211,7 @@ export function IndustryExplorer({
                             project={project}
                             industryName={industry.name.split(/[,&]/)[0].trim()}
                             size={i === 0 ? "lg" : "md"}
-                            sizes={i === 0 ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"}
+                            sizes={i === 0 ? "(min-width: 1024px) 64vw, 100vw" : "(min-width: 1024px) 32vw, (min-width: 640px) 50vw, 100vw"}
                             className="absolute inset-0"
                           />
                         </motion.li>

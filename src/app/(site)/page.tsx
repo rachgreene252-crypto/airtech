@@ -6,7 +6,7 @@ import { ProjectRadar } from "@/components/home/ProjectRadar";
 import { Credibility } from "@/components/home/Credibility";
 import { TrustedBy } from "@/components/home/TrustedBy";
 import { FinalCTA } from "@/components/home/FinalCTA";
-import { projects } from "@/content/projects";
+import { projects, hasTileImage } from "@/content/projects";
 import { industries } from "@/content/industries";
 import { getClientsByIndustry } from "@/content/clients";
 
@@ -17,7 +17,7 @@ const LEAD: Record<string, string> = { hospitality: "hotel-yak-and-yeti" };
 
 function sectorPreviews(): SectorPreview[] {
   return industries.map((industry) => {
-    const inSector = projects.filter((p) => p.industrySlug === industry.slug && p.heroImage?.src);
+    const inSector = projects.filter((p) => p.industrySlug === industry.slug && hasTileImage(p));
     const lead =
       inSector.find((p) => p.slug === LEAD[industry.slug]) ?? inSector.find((p) => p.featured) ?? inSector[0];
     return {

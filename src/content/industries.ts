@@ -126,8 +126,10 @@ export const industries: Industry[] = [
     status: "client_confirmed",
   },
   {
+    // 2026-10-29: split per the client's sector list into Corporate Offices
+    // (this slug, kept so existing links work) and Commercial Buildings.
     slug: "corporate-commercial",
-    name: "Corporate & Commercial",
+    name: "Corporate Offices",
     overview:
       "Airtech is associated with Nepal's leading commercial banks, financial institutions and corporate offices, designing for optimum performance, energy efficiency and the aesthetic expectations of architects and interior designers.",
     operationalChallenges: [
@@ -155,6 +157,32 @@ export const industries: Industry[] = [
       title: "Corporate & Commercial HVAC / MEP",
       description:
         "HVAC, electrical and BMS engineering for banks, financial institutions and corporate offices: DG-compatible systems, multi-zone AC design and server-room cooling.",
+    },
+    status: "client_confirmed",
+  },
+  {
+    slug: "banking-financial",
+    name: "Banks & Financial Institutions",
+    overview:
+      "Airtech is associated with Nepal's leading commercial banks and financial institutions, delivering HVAC and electrical systems built for daily operation, customer-facing service areas and site power conditions.",
+    operationalChallenges: [
+      "Daily operating hours demand consistently energy-efficient systems",
+      "Customer service areas require fast air circulation and stable temperature control",
+      "Site power conditions and generator compatibility must be accounted for in equipment selection",
+    ],
+    technicalRequirements: [
+      "Equipment selected for compatibility with available power and DG backup",
+      "Aesthetic integration with architect and interior-designer expectations",
+    ],
+    airtechCapabilities: [
+      "HVAC and electrical systems for bank branches and financial-institution offices",
+    ],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
+    relatedProjectSlugs: [],
+    proofPoints: [],
+    seo: {
+      title: "Banking & Financial Institution HVAC / Electrical",
+      description: "HVAC and electrical engineering for bank branches and financial institutions across Nepal.",
     },
     status: "client_confirmed",
   },
@@ -189,30 +217,50 @@ export const industries: Industry[] = [
     status: "client_confirmed",
   },
   {
-    slug: "banking-financial",
-    name: "Banks & Financial Institutions",
+    // 2026-10-29: towers, malls and mixed-use buildings, split out of
+    // Corporate & Commercial. Copy restates the corporate entry's sourced
+    // technical points at building scale; nothing new is claimed.
+    slug: "commercial-buildings",
+    name: "Commercial Buildings",
     overview:
-      "Airtech is associated with Nepal's leading commercial banks and financial institutions, delivering HVAC and electrical systems built for daily operation, customer-facing service areas and site power conditions.",
+      "Commercial towers, malls and mixed-use buildings carry the same demands as corporate offices at the scale of a whole building: energy-efficient multi-zone air-conditioning, chiller plant for larger cooling loads, and equipment that runs correctly on generator power.",
     operationalChallenges: [
-      "Daily operating hours demand consistently energy-efficient systems",
-      "Customer service areas require fast air circulation and stable temperature control",
-      "Site power conditions and generator compatibility must be accounted for in equipment selection",
+      "Air-conditioning systems typically run every working day, so energy efficiency is essential.",
+      "Many AC units run on generator (DG) power during outages and must be selected to operate correctly on DG supply",
     ],
     technicalRequirements: [
-      "Equipment selected for compatibility with available power and DG backup",
-      "Aesthetic integration with architect and interior-designer expectations",
+      "Equipment compatible with generator (DG) power and local voltage conditions",
+      "Chiller plant for larger commercial cooling loads.",
     ],
     airtechCapabilities: [
-      "HVAC and electrical systems for bank branches and financial-institution offices",
+      "HVAC systems selected for compatibility with DG power and site voltage conditions",
+      "Multi-zone air-conditioning design; chiller plant for larger loads.",
     ],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
     relatedProjectSlugs: [],
     proofPoints: [],
     seo: {
-      title: "Banking & Financial Institution HVAC / Electrical",
-      description: "HVAC and electrical engineering for bank branches and financial institutions across Nepal.",
+      title: "Commercial Buildings HVAC / MEP",
+      description: "HVAC and MEP engineering for commercial towers, malls and mixed-use buildings in Nepal.",
     },
-    status: "client_confirmed",
+    status: "source_only",
+  },
+  {
+    slug: "education-institutional",
+    name: "Educational & Institutional Facilities",
+    overview:
+      "Airtech's MEP capability extends to educational and institutional facilities, delivering the same integrated HVAC, electrical, PHE, fire-protection and ELV systems used across its commercial and healthcare work.",
+    operationalChallenges: [],
+    technicalRequirements: [],
+    airtechCapabilities: ["Integrated HVAC, electrical, PHE, fire-protection and ELV delivery for educational and institutional buildings"],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
+    relatedProjectSlugs: ["nobel-college-health-education"],
+    proofPoints: [],
+    seo: {
+      title: "Education & Institutional MEP",
+      description: "Integrated HVAC, electrical, PHE, fire-protection and ELV engineering for schools, colleges and institutional facilities.",
+    },
+    status: "source_only",
   },
   {
     slug: "auditoriums-studios",
@@ -245,7 +293,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "embassies-ingos",
-    name: "Embassies & INGOs",
+    name: "Embassies & International Organisations",
     overview:
       "Airtech has provided heating, ventilation and air-conditioning services to a number of embassies, INGOs and foreign offices operating in Nepal.",
     operationalChallenges: [],
@@ -259,24 +307,7 @@ export const industries: Industry[] = [
       description: "HVAC services for embassies, INGOs and foreign offices operating in Nepal.",
     },
     status: "source_only",
-  },
-  {
-    slug: "education-institutional",
-    name: "Education & Institutional",
-    overview:
-      "Airtech's MEP capability extends to educational and institutional facilities, delivering the same integrated HVAC, electrical, PHE, fire-protection and ELV systems used across its commercial and healthcare work.",
-    operationalChallenges: [],
-    technicalRequirements: [],
-    airtechCapabilities: ["Integrated HVAC, electrical, PHE, fire-protection and ELV delivery for educational and institutional buildings"],
-    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection", "elv-security"],
-    relatedProjectSlugs: ["nobel-college-health-education"],
-    proofPoints: [],
-    seo: {
-      title: "Education & Institutional MEP",
-      description: "Integrated HVAC, electrical, PHE, fire-protection and ELV engineering for schools, colleges and institutional facilities.",
-    },
-    status: "source_only",
-  },
+  }
 ];
 
 export function getIndustries() {

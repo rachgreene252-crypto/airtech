@@ -143,9 +143,20 @@ implemented as stated; these are the points that still need the client's confirm
 33. **Withdrawn projects** — Aloft Kathmandu Thamel and Marwadi Parishad are marked
     `do_not_publish` (records kept, off every page, URLs redirect). Aloft is also out of the
     client register. Confirm whether Aloft should stay in the internal works list only.
-34. **Corporate Offices vs Commercial Buildings** — the brief lists them as two sectors; the data
-    has one (`corporate-commercial`). Not split, because several records (Golyan Tower, Skyline Mall,
-    CAAN, Parliament) would need a classification no source gives. Confirm a split and its members.
+34. **Corporate Offices vs Commercial Buildings** — now split, per the client's sector list.
+    Corporate Offices (slug `corporate-commercial`, kept for old links): MetLife in The Plaza,
+    Sipradi, Shanker Group, HGI, CAAN Office Building, Cedar Gate. Commercial Buildings
+    (`commercial-buildings`): Golyan Tower, Skyline Mall, New Airport Commercial Office & Parking,
+    Central Business Park. Parliament Building moved to Educational & Institutional Facilities
+    (a seat of government, neither an office nor a commercial building). Classification is by
+    building type from each record's name/photos; confirm, especially Golyan Tower and CAAN.
 35. **"Soaltee Crowne Plaza"** — the brief uses this name; every source calls the project
     "The Soaltee" (Soaltee Hotel Limited reference letter). Kept as "The Soaltee" pending
     confirmation.
+36. **New Drive photos (2026-10-29, "Photos to add")** — Cedar Gate, Central Business Park and
+    Jagdamba Steels are now projects (names and scope from the works list; no locations claimed
+    except Jagdamba, Birgunj). The Jagdamba image was cropped to remove a burned-in video caption.
+    Central Business Park was 660px and is 2x-resampled. "Installation" (a fire-fighting pump room,
+    project unnamed) illustrates Testing & Commissioning in How We Deliver. **Ramada Hotel** is in
+    no written source and its photo is 275px wide, so it appears only as an index thumbnail and on
+    its own page; please supply a larger photo, its location and Airtech's scope.

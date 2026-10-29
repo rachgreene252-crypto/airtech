@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/content/services";
-import { industries } from "@/content/industries";
 import { projects } from "@/content/projects";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.airtech.com.np";
@@ -9,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/expertise",
-    "/industries",
     "/projects",
     "/service-support",
     "/company",
@@ -31,10 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  const industryRoutes = industries.map((i) => ({
-    url: `${siteUrl}/industries/${i.slug}`,
-    lastModified: new Date(),
-  }));
+  // /industries and /industries/[slug] redirect into the project explorer
+  // (/projects?industry=…), so they aren't listed.
 
   const projectRoutes = projects.map((p) => ({
     url: `${siteUrl}/projects/${p.slug}`,
@@ -46,5 +42,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // decks — they resolve on demand but aren't indexable content yet, so they
   // stay out of the sitemap. Add them back once the list links to them.
 
-  return [...staticRoutes, ...serviceRoutes, ...industryRoutes, ...projectRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...projectRoutes];
 }

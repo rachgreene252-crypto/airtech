@@ -1,88 +1,29 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui/Container";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ClientJourney } from "@/components/journey/ClientJourney";
-import { journeySteps } from "@/content/journey";
-import { PhotoStrip } from "@/components/ui/PhotoStrip";
-
-// Three moments of one lifecycle, from client site photography: services
-// going in, plant commissioned on the roof, the finished space in use.
-const lifecyclePhotos = [
-  { src: "/images/projects/club-nova-5.jpg", alt: "Air-handling unit and ductwork being installed above the ceiling at Club NOVA", caption: "01 · Installation · Club NOVA", href: "/projects/club-nova" },
-  { src: "/images/projects/mit-college-2.jpg", alt: "Commissioned outdoor units on the roof of MIT College", caption: "02 · Commissioned plant · MIT College", href: "/projects/mit-college" },
-  { src: "/images/projects/jai-nepal-cinema-4.jpg", alt: "The finished, air-conditioned lobby at Jai Nepal Cinema", caption: "03 · In operation · Jai Nepal Cinema", href: "/projects/jai-nepal-cinema" },
-];
+import { PageHero } from "@/components/ui/PageHero";
+import { DeliveryJourney } from "@/components/home/DeliveryJourney";
+import { FinalCTA } from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
   title: "How We Work",
   description:
-    "Airtech's project lifecycle: from the first conversation through engineering, procurement, execution, testing and commissioning, to long-term support.",
+    "Airtech's project lifecycle: requirements, design and engineering, procurement, installation, testing and commissioning, and after-sales maintenance.",
 };
 
+// 2026-10-29: the page is now the same photo-led delivery narrative as the
+// homepage (src/components/home/DeliveryJourney.tsx), so the process is
+// told one way across the site. The old ClientJourney and its photo strip
+// were retired with it.
 export default function HowWeWorkPage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-(--color-line) bg-site-texture pt-8 pb-14 sm:pt-12 sm:pb-16">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-0 h-[24rem] w-[34rem] -translate-x-1/2 rounded-full bg-(--color-brand-blue-soft)/20 blur-[110px]"
-        />
-        <Container className="relative">
-          <div className="mx-auto max-w-3xl text-center">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "How We Work" }]}
-              className="[&_ol]:justify-center"
-              visuallyHidden
-            />
-            <div className="flex items-center justify-center gap-3">
-              <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-              <p className="font-mono text-label font-medium uppercase tracking-[0.14em] text-(--color-brand-blue)">
-                How we work
-              </p>
-              <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-            </div>
-            <h1 className="mt-6 font-display text-display-xl font-semibold leading-[1.04] tracking-[-0.018em] text-balance">
-              One partner, the whole lifecycle.
-            </h1>
-            <span aria-hidden="true" className="mx-auto mt-5 block h-1 w-16 rounded-full bg-(--color-brand-blue-vivid)" />
-            <p className="mx-auto mt-6 max-w-[42rem] text-body-l text-(--color-steel) leading-relaxed">
-              Airtech is a single engineering partner across the whole project lifecycle, from the
-              first conversation to long-term support.
-            </p>
-          </div>
-
-          {/* All six stages, visible at a glance before the scroll narrative. */}
-          <ol className="mx-auto mt-12 flex max-w-4xl flex-wrap items-center justify-center gap-x-3 gap-y-3">
-            {journeySteps.map((step, i) => (
-              <li key={step.index} className="flex items-center gap-3">
-                <span className="flex items-baseline gap-2">
-                  <span className="font-mono text-[12px] text-(--color-brand-blue)">
-                    {String(step.index).padStart(2, "0")}
-                  </span>
-                  <span className="font-display text-sm font-semibold text-(--color-ink)">
-                    {step.label}
-                  </span>
-                </span>
-                {i < journeySteps.length - 1 && (
-                  <span aria-hidden="true" className="text-(--color-line-strong)">
-                    /
-                  </span>
-                )}
-              </li>
-            ))}
-          </ol>
-
-          <PhotoStrip photos={lifecyclePhotos} className="mx-auto mt-14 max-w-5xl" />
-        </Container>
-      </section>
-
-      {/* ClientJourney's own finale step ("AMC" — "We stay with you.")
-          already closes with its own Enquire CTA. A second "Ready to start
-          the conversation?" section used to follow immediately after it —
-          two closing CTAs back to back read as a mistake ("still looks very
-          weird," client feedback 2026-09-16) — removed rather than kept as
-          a duplicate. */}
-      <ClientJourney />
+      <PageHero
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "How We Work" }]}
+        eyebrow="How we work"
+        heading="One partner, the whole lifecycle."
+        description="Airtech is a single engineering partner across the whole project lifecycle, from the first conversation to long-term support."
+      />
+      <DeliveryJourney eyebrow="The delivery process" onOwnPage />
+      <FinalCTA />
     </>
   );
 }

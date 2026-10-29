@@ -65,6 +65,7 @@ export type IndustrySlug =
   | "pharmaceuticals"
   | "industrial"
   | "corporate-commercial"
+  | "commercial-buildings"
   | "telecom-data-centres"
   | "banking-financial"
   | "auditoriums-studios"

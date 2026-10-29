@@ -114,16 +114,16 @@ export default function CompanyPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="grid grid-cols-5 gap-3 sm:gap-4">
-                <div className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-[6px]">
+                <div className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-[3px]">
                   <Image src="/images/team/team-strategy-meeting.jpg" alt="Airtech's leadership team in a strategy meeting" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
                 </div>
                 <div className="col-span-2 flex flex-col gap-3 sm:gap-4">
-                  <div className="relative aspect-square overflow-hidden rounded-[6px]">
+                  <div className="relative aspect-square overflow-hidden rounded-[3px]">
                     <Image src="/images/team/founder-at-work.jpg" alt="Manoj Bhansali, Managing Director, at his desk" fill sizes="(min-width: 1024px) 30vw, 60vw" className="object-cover object-center" />
                   </div>
-                  <div className="relative flex-1 overflow-hidden rounded-[6px] bg-(--color-brand-blue) p-5 text-white">
-                    <p className="font-display text-[2.75rem] leading-none font-bold tracking-[-0.04em]">25+</p>
-                    <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-white/75">Years of engineering in Nepal</p>
+                  <div className="relative flex flex-1 flex-col justify-end overflow-hidden rounded-[3px] border border-(--color-line-strong) bg-white p-5">
+                    <p className="font-display text-[2.75rem] leading-none font-bold tracking-[-0.04em] text-(--color-brand-blue-vivid)">25+</p>
+                    <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-[0.16em] text-(--color-steel)">Years of engineering in Nepal</p>
                   </div>
                 </div>
               </div>
@@ -132,29 +132,27 @@ export default function CompanyPage() {
         </Container>
       </section>
 
-      {/* 4 — Mission: a full-width blue statement band that lights up. */}
-      <section className="relative isolate overflow-hidden bg-(--color-brand-blue) py-24 text-white sm:py-28 lg:py-36">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 opacity-[0.12] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:56px_56px]"
-        />
-        <div aria-hidden="true" className="absolute -top-32 -right-32 -z-10 h-[28rem] w-[28rem] rounded-full bg-(--color-brand-blue-soft)/40 blur-[110px]" />
+      {/* 4 — Mission. 2026-10-29: was a flat blue band with a grid and a
+          glow; now an editorial statement on white, the label in its own
+          column, the words lighting up as they scroll. */}
+      <section className="border-t border-(--color-line) bg-white py-24 sm:py-28 lg:py-36">
         <Container>
-          <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-white/75">
-            <span className="tabular-nums">01</span>
-            <span aria-hidden="true" className="h-px w-8 bg-white/60" />
-            Our mission
-          </p>
-          <ScrollWords
-            dimOpacity={0.28}
-            className="mt-8 max-w-[32ch] font-display text-[1.875rem] leading-[1.15] font-semibold tracking-[-0.022em] sm:text-[2.5rem] lg:text-[3.5rem]"
-            parts={[
-              "Airtech delivers complete, engineered and customised technology solutions that exceed expectations, building a reputation for",
-              { text: "integrity, reliability, responsiveness", className: "underline decoration-white/50 decoration-2 underline-offset-[8px]" },
-              "and",
-              { text: "teamwork.", className: "underline decoration-white/50 decoration-2 underline-offset-[8px]" },
-            ]}
-          />
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue) lg:col-span-3 lg:items-start lg:pt-4">
+              <span className="tabular-nums">01</span>
+              <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue) lg:mt-2" />
+              Our mission
+            </p>
+            <ScrollWords
+              className="max-w-[30ch] font-display text-[1.875rem] leading-[1.15] font-semibold tracking-[-0.022em] text-(--color-ink) sm:text-[2.5rem] lg:col-span-9 lg:text-[3.25rem]"
+              parts={[
+                "Airtech delivers complete, engineered and customised technology solutions that exceed expectations, building a reputation for",
+                { text: "integrity, reliability, responsiveness", className: "text-(--color-brand-blue)" },
+                "and",
+                { text: "teamwork.", className: "text-(--color-brand-blue)" },
+              ]}
+            />
+          </div>
         </Container>
       </section>
 
@@ -164,7 +162,7 @@ export default function CompanyPage() {
           <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
             <Reveal>
               <figure className="relative">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[3px]">
                   <Image
                     src="/images/team/founder-manoj-bhansali.jpg"
                     alt="Manoj Bhansali, Managing Director of Airtech Industries"
@@ -239,27 +237,24 @@ export default function CompanyPage() {
                 <Reveal delay={i * 0.06} className="h-full">
                   <Link
                     href={p.href as Route}
-                    className="group flex h-full flex-col overflow-hidden rounded-[6px] border border-(--color-line) bg-(--color-paper) transition-all duration-300 hover:-translate-y-1 hover:border-(--color-brand-blue-vivid) hover:shadow-[0_24px_48px_-30px_rgba(0,124,183,0.55)]"
+                    className="group relative block aspect-[4/3] overflow-hidden rounded-[3px] bg-(--color-blue-deep) text-white"
                   >
-                    <span className="relative block aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={p.image.src}
-                        alt={p.image.alt}
-                        fill
-                        sizes="(min-width: 768px) 33vw, 100vw"
-                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                      />
-                    </span>
-                    <span className="flex flex-1 items-start justify-between gap-4 p-6">
+                    <Image
+                      src={p.image.src}
+                      alt=""
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.045] motion-reduce:transition-none"
+                    />
+                    <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-(--color-blue-deep)/90 via-(--color-blue-deep)/25 to-transparent" />
+                    <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
                       <span>
-                        <span className="block font-display text-title font-semibold text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">
-                          {p.label}
-                        </span>
-                        <span className="mt-1.5 block text-small leading-relaxed text-(--color-steel)">{p.description}</span>
+                        <span className="block font-display text-[1.375rem] font-semibold leading-tight">{p.label}</span>
+                        <span className="mt-1 block text-small leading-relaxed text-white/80">{p.description}</span>
                       </span>
                       <span
                         aria-hidden="true"
-                        className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-(--color-line) text-(--color-ink) transition-all group-hover:border-(--color-brand-blue-vivid) group-hover:bg-(--color-brand-blue-vivid) group-hover:text-white"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/40 transition-colors group-hover:border-(--color-brand-blue-vivid) group-hover:bg-(--color-brand-blue-vivid)"
                       >
                         &rarr;
                       </span>
@@ -270,41 +265,41 @@ export default function CompanyPage() {
             ))}
           </ul>
 
-          {/* Careers panel */}
+          {/* Careers panel. 2026-10-29: light photo-and-text split instead of
+              a dark photo wash. */}
           <Reveal>
-            <div className="relative isolate mt-8 overflow-hidden rounded-[6px] bg-(--color-blue-deep) text-white">
-              <Image
-                src="/images/team/anniversary-hall.jpg"
-                alt=""
-                fill
-                sizes="(max-width: 767px) 250vw, 100vw"
-                className="-z-10 object-cover object-center opacity-30"
-              />
-              <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-(--color-blue-deep) via-(--color-blue-deep)/85 to-(--color-blue-deep)/40" />
-              <div className="grid grid-cols-1 gap-8 p-8 sm:p-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:p-14">
-                <div>
-                  <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
-                    Careers
-                  </p>
-                  <h2 className="mt-4 max-w-[22ch] font-display text-display-m font-semibold leading-[1.1] text-balance">
-                    Engineer the buildings Nepal runs on.
-                  </h2>
-                  <p className="mt-4 max-w-lg text-body leading-relaxed text-white/75">
-                    Engineers and technicians who want hospitals, hotels and data centres on their
-                    record. Send your CV to{" "}
-                    <a href={`mailto:${siteSettings.careersEmail}`} className="font-medium text-white underline underline-offset-4 hover:text-(--color-brand-blue-soft)">
-                      {siteSettings.careersEmail}
-                    </a>
-                    .
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-3">
+            <div className="mt-8 grid overflow-hidden rounded-[3px] border border-(--color-line) bg-(--color-paper-raised) lg:grid-cols-2">
+              <div className="relative aspect-[16/10] lg:aspect-auto">
+                <Image
+                  src="/images/team/anniversary-hall.jpg"
+                  alt="The Airtech team gathered in the anniversary hall"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover object-center"
+                />
+              </div>
+              <div className="p-8 sm:p-12 lg:p-14">
+                <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
+                  Careers
+                </p>
+                <h2 className="mt-4 max-w-[22ch] font-display text-display-m font-semibold leading-[1.1] text-balance text-(--color-ink)">
+                  Engineer the buildings Nepal runs on.
+                </h2>
+                <p className="mt-4 max-w-lg text-body leading-relaxed text-(--color-steel)">
+                  Engineers and technicians who want hospitals, hotels and data centres on their
+                  record. Send your CV to{" "}
+                  <a href={`mailto:${siteSettings.careersEmail}`} className="font-medium text-(--color-brand-blue) underline underline-offset-4">
+                    {siteSettings.careersEmail}
+                  </a>
+                  .
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
                   <ButtonLink href="/company/careers" size="lg">
                     View careers
                   </ButtonLink>
                   <a
                     href={`mailto:${siteSettings.careersEmail}?subject=${encodeURIComponent("Job application")}`}
-                    className="inline-flex items-center rounded-full border border-white/40 px-7 py-3.5 text-base font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-(--color-ink)"
+                    className="inline-flex min-h-11 items-center rounded-full border border-(--color-line-strong) px-7 py-3.5 text-base font-medium text-(--color-ink) transition-all duration-200 hover:-translate-y-0.5 hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
                   >
                     Email your CV
                   </a>

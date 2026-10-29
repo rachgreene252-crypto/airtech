@@ -4,6 +4,7 @@ import Image from "@/components/ui/Image";
 import { BluePlaceholder } from "@/components/ui/BluePlaceholder";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/content/types";
+import { hasTileImage } from "@/content/image-quality";
 
 /**
  * The portfolio's one image unit (2026-10-29 redesign): photograph, name,
@@ -39,9 +40,9 @@ export function ProjectTile({
         className
       )}
     >
-      {project.heroImage?.src ? (
+      {hasTileImage(project) ? (
         <Image
-          src={project.heroImage.src}
+          src={project.heroImage!.src}
           alt=""
           fill
           priority={priority}

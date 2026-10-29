@@ -8,7 +8,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { TechnicalFrame } from "@/components/ui/TechnicalFrame";
 import { MetadataGrid } from "@/components/ui/MetadataGrid";
-import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectTile } from "@/components/projects/ProjectTile";
+import type { Route } from "next";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import {
@@ -68,6 +69,15 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   // placeholder for airtechRole — that's the honest "scope not yet
   // documented" state, but it adds nothing as a metadata value, so it's
   // omitted rather than shown. Real scope lines still display.
+  // Previous / next within the same sector, in portfolio order, so a
+  // visitor can walk a sector without going back to the explorer.
+  const siblings = projects.filter((p) => p.industrySlug === project.industrySlug);
+  const at = siblings.findIndex((p) => p.slug === project.slug);
+  const prev = siblings.length > 2 ? siblings[(at - 1 + siblings.length) % siblings.length] : undefined;
+  const next = siblings.length > 1 ? siblings[(at + 1) % siblings.length] : undefined;
+  const sectorHref = `/projects?industry=${project.industrySlug}#explore` as Route;
+  const kicker = [industry?.name, project.location].filter(Boolean).join(" · ");
+
   const specificRole = /featured in airtech/i.test(project.airtechRole) ? "" : project.airtechRole;
 
   const storySections = [
@@ -95,6 +105,21 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   return (
     <>
       <ProjectJsonLd project={project} industryName={industry?.name} />
+      <nav aria-label="Portfolio" className="border-b border-(--color-line)">
+        <Container className="flex min-h-12 items-center gap-2 text-sm">
+          <Link href="/projects" className="inline-flex min-h-11 items-center gap-1.5 font-medium text-(--color-ink-soft) hover:text-(--color-brand-blue)">
+            <span aria-hidden="true">&larr;</span> Projects
+          </Link>
+          {industry && (
+            <>
+              <span aria-hidden="true" className="text-(--color-line-strong)">/</span>
+              <Link href={sectorHref} className="inline-flex min-h-11 items-center font-medium text-(--color-brand-blue) hover:underline">
+                {industry.name}
+              </Link>
+            </>
+          )}
+        </Container>
+      </nav>
       {project.heroImage?.src && heroIsFullBleedSafe ? (
         <section
           className="relative max-h-[80svh] min-h-[420px] w-full overflow-hidden bg-(--color-ink)"
@@ -115,6 +140,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             <p className="absolute right-3 bottom-2 z-10 text-[0.6875rem] text-white/60">{project.heroImage.credit}</p>
           )}
           <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
+            {kicker && (
+              <p className="mb-4 font-mono text-[0.75rem] uppercase tracking-[0.18em] text-white/85">{kicker}</p>
+            )}
             <h1 className="max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance text-(--color-paper)">
               {project.name}
             </h1>
@@ -123,6 +151,12 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       ) : (
         <section className="border-b border-(--color-line)">
           <Container className="pt-10 pb-14">
+            {kicker && (
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.18em] text-(--color-brand-blue)">{kicker}</p>
+            )}
+            <h1 className="mt-4 mb-10 max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance text-(--color-ink)">
+              {project.name}
+            </h1>
             {/* A sub-1200px photo stretched across this container's width
                 still upscales visibly on a wide desktop, so it doesn't get
                 a pass just because it's not the full-bleed banner above.
@@ -153,9 +187,6 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 priority
               />
             </div>
-            <h1 className="mt-8 max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance">
-              {project.name}
-            </h1>
           </Container>
         </section>
       )}
@@ -249,12 +280,45 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       {relatedProjects.length > 0 && (
         <Section>
           <SectionHeader eyebrow="More work" heading="Related projects." />
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {relatedProjects.slice(0, 6).map((p) => (
-              <ProjectCard key={p.slug} project={p} industryName={getIndustryBySlug(p.industrySlug)?.name} />
+              <li key={p.slug} className="relative aspect-[4/3]">
+                <ProjectTile
+                  project={p}
+                  industryName={getIndustryBySlug(p.industrySlug)?.name.split(/[,&]/)[0].trim()}
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+                  className="absolute inset-0"
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         </Section>
+      )}
+
+      {next && (
+        <nav aria-label={`More ${industry?.name ?? ""} projects`} className="border-t border-(--color-line)">
+          <Container className="grid grid-cols-2 divide-x divide-(--color-line)">
+            {[
+              prev && { p: prev, label: "Previous", align: "items-start text-left pr-4", arrow: "\u2190" },
+              { p: next, label: "Next", align: "col-start-2 items-end text-right pl-4", arrow: "\u2192" },
+            ]
+              .filter((x): x is NonNullable<typeof x> => Boolean(x))
+              .map(({ p, label, align, arrow }) => (
+              <Link
+                key={label}
+                href={`/projects/${p.slug}` as Route}
+                className={`group flex min-h-24 flex-col justify-center gap-1 py-6 ${align}`}
+              >
+                <span className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-(--color-steel)">
+                  {label === "Previous" ? `${arrow} ${label}` : `${label} ${arrow}`} in {industry?.name}
+                </span>
+                <span className="font-display text-[1.125rem] font-semibold leading-snug text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue) sm:text-[1.375rem]">
+                  {p.name}
+                </span>
+              </Link>
+            ))}
+          </Container>
+        </nav>
       )}
 
       <Section tone="raised" className="text-center">

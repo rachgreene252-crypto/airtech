@@ -35,7 +35,8 @@ import { cn } from "@/lib/cn";
 const SHORT: Record<string, string> = {
   hospitality: "Hospitality",
   healthcare: "Healthcare",
-  "corporate-commercial": "Commercial",
+  "corporate-commercial": "Corporate",
+  "commercial-buildings": "Commercial",
   "education-institutional": "Education",
   "telecom-data-centres": "Telecom",
   industrial: "Industrial",
