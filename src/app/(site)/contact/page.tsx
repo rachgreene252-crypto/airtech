@@ -4,6 +4,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { ButtonLink } from "@/components/ui/Button";
 import { siteSettings } from "@/content/site-settings";
+import { Offices } from "@/components/layout/Offices";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -27,8 +28,8 @@ const EMAILS = [
 // Minimal per brief §14 — office info, email, project-enquiry CTA. No phone
 // number (still unresolved between conflicting source documents, see
 // docs/AIRTECH_OPEN_DECISIONS.md #1) and no WhatsApp (unconfirmed, #7) —
-// neither is published until confirmed. No map — no address coordinates
-// have been supplied to plot one honestly.
+// neither is published until confirmed. Directions link to a map search
+// for the published address; no coordinates are claimed.
 export default function ContactPage() {
   return (
     <>
@@ -41,8 +42,10 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
           <div className="space-y-10">
             <div>
-              <h2 className="font-sans text-label font-medium text-(--color-steel)">Head office</h2>
-              <p className="mt-2 text-lg text-(--color-ink)">{siteSettings.headOffice}</p>
+              <h2 className="font-display text-2xl font-semibold">Offices</h2>
+              {/* Data-driven (src/content/offices.ts): the India office
+                  appears here once its details are confirmed and published. */}
+              <Offices tone="raised" className="mt-5" />
             </div>
 
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">

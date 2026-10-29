@@ -95,7 +95,7 @@ export default function CareersPage() {
           />
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-white/75">How to apply</p>
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-white/75">How to apply</p>
               <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] text-balance">Send us your CV.</h2>
               <p className="mt-4 max-w-lg text-body leading-relaxed text-white/85">
                 Email your CV and the discipline you&apos;d like to work in (HVAC, electrical, PHE,

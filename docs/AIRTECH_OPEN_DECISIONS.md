@@ -120,3 +120,32 @@ Source: `source-material/CLIENT_LIST_AND_MISSION_2026-10-01.md`.
     Health Sciences). "WFO" and "World Claim" are kept verbatim but look like typos (WFP?) — confirm.
 29. **Banks & Corporate split** — the client's single list is split across the site's
     banking-financial and corporate-commercial sectors (banks + insurers vs. the rest).
+
+## F. Redesign brief (2026-10-29)
+
+Applied from the client's "Premium redesign & refinement brief". Everything below is
+implemented as stated; these are the points that still need the client's confirmation.
+
+30. **Hyatt Centric photograph** — the project is now published as Hyatt Centric (works list +
+    profile deck both say so; the deck's "Hyatt Centric" image is the same building). The photo
+    itself still shows "HYATT PLACE" signage. Confirm the property was rebranded (or supply a
+    current photo) so the image and the name agree. Old URL `/projects/hyatt-place-kathmandu`
+    308-redirects.
+31. **Club NOVA category** — moved out of Corporate & Commercial to Auditoriums, Halls,
+    Theatres & Studios. Basis: the record's own type ("Entertainment venue") and its photos
+    (stage, dance floor, bar). No source document states a category. Confirm, or name the
+    right one.
+32. **India office** — `src/content/offices.ts` has an unpublished India record with every
+    detail blank. Needed before launch: city, street address, office email, phone (if any),
+    map link, one sourced line on what the office covers, and the go-ahead to announce. Set
+    `published: true` to show it on the contact page and the homepage close. Preview locally with
+    `NEXT_PUBLIC_SHOW_UNPUBLISHED_OFFICES=1`.
+33. **Withdrawn projects** — Aloft Kathmandu Thamel and Marwadi Parishad are marked
+    `do_not_publish` (records kept, off every page, URLs redirect). Aloft is also out of the
+    client register. Confirm whether Aloft should stay in the internal works list only.
+34. **Corporate Offices vs Commercial Buildings** — the brief lists them as two sectors; the data
+    has one (`corporate-commercial`). Not split, because several records (Golyan Tower, Skyline Mall,
+    CAAN, Parliament) would need a classification no source gives. Confirm a split and its members.
+35. **"Soaltee Crowne Plaza"** — the brief uses this name; every source calls the project
+    "The Soaltee" (Soaltee Hotel Limited reference letter). Kept as "The Soaltee" pending
+    confirmation.

@@ -160,7 +160,7 @@ export function ProjectGallery({ images, projectName }: { images: SanityImageRef
             }}
           >
             <div className="flex items-center justify-between px-4 py-3 text-white sm:px-6">
-              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-white/70">
+              <p className="font-mono text-[0.75rem] uppercase tracking-[0.22em] text-white/70">
                 {String(open + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
               </p>
               <button
@@ -223,7 +223,7 @@ export function ProjectGallery({ images, projectName }: { images: SanityImageRef
 
             <div className="px-4 py-4 text-center sm:px-6" onClick={(e) => e.stopPropagation()}>
               <p className="text-sm text-white/85">{current.alt}</p>
-              {current.credit && <p className="mt-1 text-[0.6875rem] text-white/50">{current.credit}</p>}
+              {current.credit && <p className="mt-1 text-[0.75rem] text-white/50">{current.credit}</p>}
               {count > 1 && (
                 <div className="mt-3 flex justify-center gap-1.5">
                   {images.map((img, i) => (

@@ -34,6 +34,11 @@ const nextConfig: NextConfig = {
       // Merged 2026-09-28: same resort was listed twice (client filename
       // "The Terraces Resort & Spa, Lalitpur").
       { source: "/projects/the-terraces-resort-spa", destination: "/projects/the-terrace-resort-lalitpur", permanent: true },
+      // 2026-10-29 client brief: Hyatt Place → Hyatt Centric; Aloft and
+      // Marwadi Parishad withdrawn from the portfolio.
+      { source: "/projects/hyatt-place-kathmandu", destination: "/projects/hyatt-centric-kathmandu", permanent: true },
+      { source: "/projects/aloft-kathmandu-thamel", destination: "/projects?industry=hospitality", permanent: false },
+      { source: "/projects/marwadi-parishad", destination: "/projects", permanent: false },
     ];
   },
 };

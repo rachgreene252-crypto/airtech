@@ -1,33 +1,54 @@
 import { CinematicHero } from "@/components/home/CinematicHero";
-import { ProofBar } from "@/components/home/ProofBar";
-import { WhyAirtech } from "@/components/home/WhyAirtech";
-import { projects, getProjectsByIndustry } from "@/content/projects";
-import { TrustedBy } from "@/components/home/TrustedBy";
 import { TheBuilding } from "@/components/home/TheBuilding";
+import { DeliveryJourney } from "@/components/home/DeliveryJourney";
+import { SectorWork, type SectorPreview } from "@/components/home/SectorWork";
 import { ProjectRadar } from "@/components/home/ProjectRadar";
-import { AirtechMethod } from "@/components/home/AirtechMethod";
+import { Credibility } from "@/components/home/Credibility";
+import { TrustedBy } from "@/components/home/TrustedBy";
 import { FinalCTA } from "@/components/home/FinalCTA";
+import { projects } from "@/content/projects";
+import { industries } from "@/content/industries";
+import { getClientsByIndustry } from "@/content/clients";
 
-// Homepage sequence (2026-10-07 client: "once the visitor understands what
-// the company does and how you do it, the experience and client trust
-// sections will have much more impact"): the hero says what Airtech is,
-// then 01 WHAT WE ENGINEER → 02 HOW WE DELIVER → 03 WHERE WE WORK (the three
-// share one building model, src/components/engineering), and only then the
-// proof — years, why Airtech, the organisations that rely on it — before
-// the enquiry CTA.
+// Lead photograph per sector for "03 · The work": Yak & Yeti leads
+// hospitality (client, 2026-10-05); elsewhere the first featured project
+// with a photograph, then any photographed project in the sector.
+const LEAD: Record<string, string> = { hospitality: "hotel-yak-and-yeti" };
+
+function sectorPreviews(): SectorPreview[] {
+  return industries.map((industry) => {
+    const inSector = projects.filter((p) => p.industrySlug === industry.slug && p.heroImage?.src);
+    const lead =
+      inSector.find((p) => p.slug === LEAD[industry.slug]) ?? inSector.find((p) => p.featured) ?? inSector[0];
+    return {
+      slug: industry.slug,
+      name: industry.name,
+      project: lead && {
+        slug: lead.slug,
+        name: lead.name,
+        place: lead.location?.split(",").pop()?.trim(),
+        image: { src: lead.heroImage!.src, alt: lead.heroImage!.alt },
+      },
+      clients: getClientsByIndustry(industry.slug).slice(0, 8).map((c) => c.name),
+    };
+  });
+}
+
+// Homepage sequence. The hero and 01 (what Airtech engineers) stay as the
+// client approved them; 2026-10-29 rebuilt everything after them as one
+// story with a different form per chapter: 02 how a project is delivered
+// (photo narrative), 03 the work by sector, 04 where (map), 05 why clients
+// return (team + named proof + logos), then the enquiry with the offices.
 export default function HomePage() {
   return (
     <>
       <CinematicHero />
       <TheBuilding />
-      <AirtechMethod />
+      <DeliveryJourney />
+      <SectorWork sectors={sectorPreviews()} />
       <ProjectRadar />
-      <ProofBar />
-      <WhyAirtech
-        projectCount={projects.length}
-        healthcareCount={getProjectsByIndustry("healthcare").length}
-      />
-      <TrustedBy />
+      <Credibility />
+      <TrustedBy compact />
       <FinalCTA />
     </>
   );

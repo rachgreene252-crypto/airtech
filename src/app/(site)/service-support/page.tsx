@@ -25,7 +25,7 @@ const coverage = [
 // published projects, not stock.
 const supportedPlant = [
   { src: "/images/projects/golyan-tower-5.jpg", alt: "Rooftop air-conditioning plant and ductwork at Golyan Tower", caption: "Rooftop plant · Golyan Tower", href: "/projects/golyan-tower" },
-  { src: "/images/projects/marwadi-parishad-3.jpg", alt: "Outdoor air-conditioning unit on the roof of Marwadi Parishad", caption: "Outdoor unit · Marwadi Parishad", href: "/projects/marwadi-parishad" },
+  { src: "/images/projects/mit-college-2.jpg", alt: "Outdoor air-conditioning units on the roof of MIT College", caption: "Outdoor units · MIT College", href: "/projects/mit-college" },
   { src: "/images/projects/mit-college-4.jpg", alt: "Ceiling cassette unit and cable tray at MIT College", caption: "Indoor units · MIT College", href: "/projects/mit-college" },
 ];
 
@@ -53,18 +53,18 @@ export default function ServiceSupportPage() {
             </li>
           ))}
         </ul>
-        <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+        <p className="mx-auto mt-10 max-w-3xl text-center font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
           Engineers trained at manufacturer centres · {trainingLocations.join(" · ")}
         </p>
 
-        <p className="mb-8 mt-16 text-center font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+        <p className="mb-8 mt-16 text-center font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           The plant we keep running
         </p>
         <PhotoStrip photos={supportedPlant} />
       </Section>
 
       <Section tone="raised" className="text-center">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           Existing Airtech customer?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance text-(--color-ink)">

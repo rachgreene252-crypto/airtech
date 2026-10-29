@@ -104,12 +104,31 @@ function Marquee({
   );
 }
 
-export function TrustedBy() {
+export function TrustedBy({ compact = false }: { compact?: boolean }) {
+  // `compact` (homepage, 2026-10-29): the marquee closes the credibility
+  // chapter directly above it, so it carries a one-line label, not a
+  // second headline.
+  if (compact) {
+    return (
+      <section aria-label="Organisations that rely on Airtech" className="border-b border-(--color-line) bg-white pb-16 sm:pb-20">
+        <Container>
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-steel)">
+            Banks, telecoms, pharmaceutical plants, embassies and schools that rely on Airtech
+          </p>
+        </Container>
+        <div className="mt-6 flex flex-col gap-4">
+          <Marquee items={ROW_A} />
+          <Marquee items={ROW_B} reverse />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-14 sm:py-16 lg:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
             Trusted by
           </p>
           <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] tracking-[-0.016em] text-(--color-ink) text-balance">

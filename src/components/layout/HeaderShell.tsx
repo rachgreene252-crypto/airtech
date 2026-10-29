@@ -28,8 +28,8 @@ export function HeaderShell({ transparent }: { transparent: boolean }) {
           <Image
             src="/images/brand/airtech-logo.png"
             alt={siteSettings.companyName}
-            width={640}
-            height={109}
+            width={188}
+            height={32}
             priority
             className="h-7 w-auto sm:h-8"
           />

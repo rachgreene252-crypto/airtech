@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { clientGroups, clientCount, type Client } from "@/content/clients";
+import { clientGroups, type Client } from "@/content/clients";
 import { cn } from "@/lib/cn";
 
 /**
@@ -10,8 +10,12 @@ import { cn } from "@/lib/cn";
  * sector lists (src/content/clients.ts), browsable by sector and
  * searchable across all of them. It sits under the project portfolio so a
  * sector with few or no published case studies (pharma, banks) still shows
- * its real depth of work. `initialSector` follows the page's `?industry=`
- * filter; the parent re-keys this component when that changes.
+ * its real depth of work.
+ *
+ * 2026-10-29 (client brief): the "212 organisations we've engineered for"
+ * headline and the per-sector counts are gone; the register is a
+ * structured directory, not a number. It follows the page's `?industry=`
+ * when the industry explorer's "full client register" link is used.
  */
 export function ClientRegister({ initialSector = "" }: { initialSector?: string }) {
   const reduceMotion = useReducedMotion();
@@ -20,6 +24,20 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
     : clientGroups[0].industrySlug;
   const [sector, setSector] = useState<string>(seed);
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    function sync() {
+      if (window.location.hash !== "#client-register") return;
+      const param = new URLSearchParams(window.location.search).get("industry");
+      if (param && clientGroups.some((g) => g.industrySlug === param)) {
+        setSector(param);
+        setQuery("");
+      }
+    }
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   const q = query.trim().toLowerCase();
   const group = clientGroups.find((g) => g.industrySlug === sector) ?? clientGroups[0];
@@ -39,29 +57,29 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
   const logos = results ? [] : group.clients.filter((c) => c.logo);
 
   return (
-    <section aria-labelledby="client-register-heading" className="border-t border-(--color-line) py-16 sm:py-20 lg:py-24">
+    <section id="client-register" aria-labelledby="client-register-heading" className="scroll-mt-20 border-t border-(--color-line) py-16 sm:py-20 lg:py-24">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:items-end lg:gap-16">
         <div>
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-            Client register
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
+            Client relationships
           </p>
           <h2
             id="client-register-heading"
             className="mt-4 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.016em] text-balance text-(--color-ink)"
           >
-            <span className="text-(--color-brand-blue)">{clientCount}</span> organisations we&rsquo;ve
-            engineered for.
+            Client register
           </h2>
         </div>
         <p className="max-w-xl text-body leading-relaxed text-(--color-steel)">
-          Hotels, hospitals, pharmaceutical plants, banks, embassies, factories and broadcast studios
-          across Nepal. Pick a sector, or search for a name.
+          The organisations Airtech has engineered for, as listed in the company&rsquo;s own client
+          records: hotels, hospitals, pharmaceutical plants, banks, embassies, factories and studios.
+          Pick a sector, or search for a name.
         </p>
       </div>
 
       <div className="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div
-          role="tablist"
+          role="group"
           aria-label="Client sectors"
           className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
         >
@@ -71,23 +89,19 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
               <button
                 key={g.industrySlug}
                 type="button"
-                role="tab"
-                aria-selected={active}
+                aria-pressed={active}
                 onClick={() => {
                   setSector(g.industrySlug);
                   setQuery("");
                 }}
                 className={cn(
-                  "inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors",
                   active
                     ? "border-(--color-brand-blue-vivid) bg-(--color-brand-blue-vivid) text-white"
                     : "border-(--color-line-strong) bg-(--color-paper) text-(--color-ink-soft) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
                 )}
               >
                 {g.label}
-                <span className={cn("font-mono text-[0.6875rem] tabular-nums", active ? "text-white/80" : "text-(--color-steel-soft)")}>
-                  {g.clients.length}
-                </span>
               </button>
             );
           })}
@@ -110,12 +124,12 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search clients"
-            className="w-full rounded-full border border-(--color-line-strong) bg-(--color-paper) py-2 pl-10 pr-4 text-sm text-(--color-ink) placeholder:text-(--color-steel-soft) focus:border-(--color-brand-blue) focus:outline-none"
+            className="h-11 w-full rounded-full border border-(--color-line-strong) bg-(--color-paper) pl-10 pr-4 text-sm text-(--color-ink) placeholder:text-(--color-steel-soft) focus:border-(--color-brand-blue) focus:outline-none"
           />
         </label>
       </div>
 
-      <div role="tabpanel" aria-live="polite" className="mt-10">
+      <div aria-live="polite" className="mt-10">
         {!results && group.scope && (
           <p className="mb-6 text-small text-(--color-steel)">
             Scope across {group.label.toLowerCase()}:{" "}
@@ -176,13 +190,13 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
                 }}
                 className="group flex items-baseline gap-4 border-b border-(--color-line) py-3.5"
               >
-                <span className="w-7 shrink-0 font-mono text-[0.6875rem] tabular-nums text-(--color-steel-soft) transition-colors group-hover:text-(--color-brand-blue)">
+                <span className="w-7 shrink-0 font-mono text-[0.75rem] tabular-nums text-(--color-steel-soft) transition-colors group-hover:text-(--color-brand-blue)">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-body font-medium leading-snug text-(--color-ink)">{c.name}</span>
                   {(c.city || c.sectorLabel) && (
-                    <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
+                    <span className="mt-0.5 block font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel-soft)">
                       {[c.city, c.sectorLabel].filter(Boolean).join(" · ")}
                     </span>
                   )}
@@ -190,7 +204,7 @@ export function ClientRegister({ initialSector = "" }: { initialSector?: string 
                 {c.scope && (
                   <span
                     className={cn(
-                      "shrink-0 self-center rounded-full px-2.5 py-0.5 font-mono text-[0.625rem] font-medium uppercase tracking-[0.1em]",
+                      "shrink-0 self-center rounded-full px-2.5 py-0.5 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em]",
                       c.scope === "HVAC"
                         ? "bg-(--color-brand-blue-tint) text-(--color-brand-blue)"
                         : "bg-(--color-brand-blue) text-white"

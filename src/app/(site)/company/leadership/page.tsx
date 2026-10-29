@@ -55,7 +55,7 @@ export default function LeadershipPage() {
                   />
                 </div>
                 <div>
-                  <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+                  <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                     {lead.role}
                   </p>
                   <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] tracking-[-0.02em] text-(--color-ink)">
@@ -91,7 +91,7 @@ export default function LeadershipPage() {
                       )}
                       <div>
                         <h3 className="font-display text-title font-semibold text-(--color-ink)">{person.name}</h3>
-                        <p className="mt-1 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-(--color-brand-blue)">
+                        <p className="mt-1 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-(--color-brand-blue)">
                           {person.role}
                         </p>
                       </div>
@@ -116,7 +116,7 @@ export default function LeadershipPage() {
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/55 to-(--color-blue-deep)/10" />
         <Container className="flex min-h-[28rem] flex-col justify-end py-14 sm:min-h-[34rem] sm:py-16">
           <Reveal>
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
               The wider team
             </p>
             <h2 className="mt-4 max-w-[22ch] font-display text-display-l font-semibold leading-[1.06] text-balance">

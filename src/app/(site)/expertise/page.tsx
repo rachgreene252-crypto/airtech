@@ -5,7 +5,6 @@ import Link from "next/link";
 import type { Route } from "next";
 import { services } from "@/content/services";
 import type { ServiceCategory } from "@/content/types";
-import { Reveal } from "@/components/ui/Reveal";
 import { SYSTEM_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
 
 
@@ -16,8 +15,7 @@ export const metadata: Metadata = {
 };
 
 const FACTS = [
-  { value: "06", label: "Engineering disciplines, coordinated as one" },
-  { value: "01", label: "One practice, not a chain of sub-contractors" },
+  { value: "06", label: "Engineering disciplines, coordinated as one practice" },
   { value: "2000", label: "Engineering buildings in Nepal since" },
 ];
 
@@ -86,7 +84,7 @@ function DisciplineIcon({ category }: { category: ServiceCategory }) {
 export default function ExpertiseOverviewPage() {
   return (
     <div>
-      <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
         Overview
       </p>
       <h2 className="mt-4 font-display text-display-m font-semibold leading-[1.1] tracking-[-0.016em] text-balance">
@@ -105,15 +103,16 @@ export default function ExpertiseOverviewPage() {
             alt="Ceiling cassettes, cable trays and lighting in a classroom at MIT College"
             fill
             sizes="(min-width: 1024px) 720px, 100vw"
+            priority
             className="object-cover object-center"
           />
         </div>
-        <figcaption className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel)">
+        <figcaption className="mt-3 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel)">
           Air-conditioning, cable trays and lighting · MIT College
         </figcaption>
       </figure>
 
-      <dl className="mt-10 grid grid-cols-1 border-t border-(--color-line) sm:grid-cols-3">
+      <dl className="mt-10 grid grid-cols-1 border-t border-(--color-line) sm:grid-cols-2">
         {FACTS.map((fact) => (
           <div key={fact.value} className="border-b border-(--color-line) py-6 sm:border-b-0 sm:border-r sm:pr-6 sm:last:border-r-0">
             <dt className="sr-only">{fact.label}</dt>
@@ -133,15 +132,14 @@ export default function ExpertiseOverviewPage() {
           const color = SYSTEM_COLOR[service.category as SystemSlug];
           return (
             <li key={service.slug}>
-              <Reveal delay={i * 0.05} className="h-full">
-                <Link
+              <Link
                   href={`/expertise/${service.slug}` as Route}
                   className="group relative flex h-full flex-col overflow-hidden rounded-[6px] border border-(--color-line) bg-(--color-paper) p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_44px_-30px_rgba(5,29,43,0.5)]"
                 >
                   <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 origin-left scale-x-[0.18] transition-transform duration-500 group-hover:scale-x-100" style={{ background: color }} />
                   <span className="flex items-center justify-between">
                     <DisciplineIcon category={service.category} />
-                    <span className="font-mono text-[0.6875rem] tracking-[0.18em] text-(--color-steel-soft)">
+                    <span className="font-mono text-[0.75rem] tracking-[0.18em] text-(--color-steel-soft)">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </span>
@@ -163,7 +161,6 @@ export default function ExpertiseOverviewPage() {
                     <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
                   </span>
                 </Link>
-              </Reveal>
             </li>
           );
         })}

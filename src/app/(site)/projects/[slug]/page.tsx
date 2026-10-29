@@ -112,7 +112,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
           />
           <div className="absolute inset-0 bg-gradient-to-t from-(--color-ink) via-(--color-ink)/30 to-(--color-ink)/5" />
           {project.heroImage.credit && (
-            <p className="absolute right-3 bottom-2 z-10 text-[0.625rem] text-white/60">{project.heroImage.credit}</p>
+            <p className="absolute right-3 bottom-2 z-10 text-[0.6875rem] text-white/60">{project.heroImage.credit}</p>
           )}
           <Container className="absolute inset-x-0 bottom-0 z-10 pb-10 sm:pb-14">
             <h1 className="max-w-4xl font-display text-display-xl font-semibold leading-[1.05] tracking-[-0.018em] text-balance text-(--color-paper)">
@@ -161,7 +161,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section border={false} className="pt-10 pb-12 sm:pb-14">
-        <p className="mb-6 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+        <p className="mb-6 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           Project overview
         </p>
         <MetadataGrid
@@ -186,7 +186,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         />
         {relatedServices.length > 0 && (
           <div className="mt-10 border-t border-(--color-line) pt-8">
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
               Systems Airtech delivered
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
@@ -215,7 +215,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               {String(i + 1).padStart(2, "0")}
             </span>
             <div>
-              <h2 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+              <h2 className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                 {section.label}
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-(--color-ink)">{section.body}</p>
@@ -258,7 +258,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
       )}
 
       <Section tone="raised" className="text-center">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
           Planning a similar project?
         </p>
         <h2 className="mt-5 font-display text-3xl sm:text-4xl font-semibold max-w-2xl mx-auto text-balance text-(--color-ink)">

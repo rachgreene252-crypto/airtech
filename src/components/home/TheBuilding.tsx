@@ -55,7 +55,7 @@ export function TheBuilding() {
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
             <div>
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                 01 · What we engineer
               </p>
               <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.06] text-balance text-(--color-ink)">
@@ -103,7 +103,7 @@ export function TheBuilding() {
                       className="group flex w-full items-center gap-4 py-4 pr-5 pl-6 text-left"
                     >
                       <span
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-[0.6875rem] tabular-nums transition-colors duration-300"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-[0.75rem] tabular-nums transition-colors duration-300"
                         style={
                           active
                             ? { background: color, color: "white" }
@@ -121,7 +121,7 @@ export function TheBuilding() {
                         {s.name}
                       </span>
                       {pinned && (
-                        <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em]" style={{ color }}>
+                        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em]" style={{ color }}>
                           Pinned
                         </span>
                       )}
@@ -236,7 +236,7 @@ export function TheBuilding() {
                     type="button"
                     onClick={() => select(slug)}
                     className={cn(
-                      "inline-flex items-center gap-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] transition-colors",
+                      "inline-flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] transition-colors",
                       focus === slug ? "text-(--color-ink)" : "text-(--color-steel-soft) hover:text-(--color-ink)"
                     )}
                   >
@@ -244,7 +244,7 @@ export function TheBuilding() {
                     {SYSTEM_SHORT[slug]}
                   </button>
                 ))}
-                <span className="ml-auto hidden font-mono text-[0.625rem] uppercase tracking-[0.16em] text-(--color-steel-soft) sm:inline">
+                <span className="ml-auto hidden font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft) sm:inline">
                   Typical building · not to scale
                 </span>
               </div>

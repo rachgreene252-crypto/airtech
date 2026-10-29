@@ -24,7 +24,7 @@ const industryPhoto: Partial<Record<IndustrySlug, { src: string; alt: string }>>
   },
   healthcare: { src: "/images/projects/nepal-mediciti.jpg", alt: "Nepal Mediciti hospital, Lalitpur" },
   "corporate-commercial": { src: "/images/projects/caan-office-building.jpg", alt: "CAAN Office Building, Kathmandu" },
-  industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi" },
+  industrial: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Hyundai KD Plant, Parasi" },
   "telecom-data-centres": { src: "/images/projects/ncell-corporate-office.jpg", alt: "Ncell Iconic Building, Kathmandu" },
 };
 
@@ -78,7 +78,7 @@ export default function IndustriesPage() {
                   )}
                 </div>
                 <span className="hidden shrink-0 items-center gap-2 self-center text-(--color-signal) sm:flex">
-                  <span className="font-mono text-[0.6875rem] uppercase tracking-[0.22em]">
+                  <span className="font-mono text-[0.75rem] uppercase tracking-[0.22em]">
                     View projects
                   </span>
                   <span

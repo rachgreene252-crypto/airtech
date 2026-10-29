@@ -20,6 +20,9 @@ export type HeroStat = { value: string; label: string };
  * on top. The paper sheet uses `mix-blend-mode: screen`, so anything drawn
  * in black on it becomes a window onto the photo.
  *
+ * 2026-10-29 refinement (concept kept, per brief): shorter runway (250vh),
+ * eased window/content phases under a softer scrub, correct <dl> order.
+ *
  * Phones and reduced-motion visitors get the finished state directly (the
  * motion-safe / md variants below), with no pinned scroll.
  */
@@ -30,22 +33,22 @@ export function CompanyHero({ stats, careersHref }: { stats: HeroStat[]; careers
     const q = gsap.utils.selector(ref);
     const tl = gsap.timeline({
       defaults: { ease: "none" },
-      scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom bottom", scrub: 0.6 },
+      scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom bottom", scrub: 0.8 },
     });
     tl.fromTo(q("[data-photo]"), { scale: 1.22 }, { scale: 1, duration: 1 }, 0)
       .to(q("[data-intro]"), { opacity: 0, y: -40, duration: 0.18 }, 0)
       .fromTo(q("[data-digits]"), { scale: 1 }, { scale: 1.9, duration: 0.5 }, 0)
-      .fromTo(q("[data-window]"), { scaleX: 0, scaleY: 0.06 }, { scaleX: 1, scaleY: 0.06, duration: 0.22 }, 0.06)
-      .to(q("[data-window]"), { scaleY: 1, duration: 0.26 }, 0.28)
+      .fromTo(q("[data-window]"), { scaleX: 0, scaleY: 0.06 }, { scaleX: 1, scaleY: 0.06, duration: 0.22, ease: "power2.inOut" }, 0.06)
+      .to(q("[data-window]"), { scaleY: 1, duration: 0.26, ease: "power2.inOut" }, 0.28)
       .to(q("[data-mask]"), { opacity: 0, duration: 0.08 }, 0.52)
       .fromTo(q("[data-shade]"), { opacity: 0 }, { opacity: 1, duration: 0.18 }, 0.5)
-      .fromTo(q("[data-content]"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.22 }, 0.62)
-      .fromTo(q("[data-stat]"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.14 }, 0.74)
+      .fromTo(q("[data-content]"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.62)
+      .fromTo(q("[data-stat]"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.14, ease: "power3.out" }, 0.74)
       .to({}, { duration: 0.12 });
   });
 
   return (
-    <section ref={ref} className="relative bg-(--color-blue-deep) md:motion-safe:h-[300vh]">
+    <section ref={ref} className="relative bg-(--color-blue-deep) md:motion-safe:h-[250vh]">
       <div className="relative flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden md:h-[calc(100svh-4.5rem)] md:min-h-[600px] md:motion-safe:sticky md:motion-safe:top-18">
         <div data-photo className="absolute inset-0 will-change-transform">
           <Image
@@ -83,10 +86,10 @@ export function CompanyHero({ stats, careersHref }: { stats: HeroStat[]; careers
             Airtech Industries · 2000 — 2025
           </p>
           <div className="flex flex-col items-center gap-3">
-            <p className="font-display text-2xl font-semibold tracking-[-0.01em] text-(--color-ink)">
+            <p className="font-display text-[1.75rem] font-semibold tracking-[-0.015em] text-(--color-ink)">
               years of <span className="text-(--color-brand-blue)">reliability</span>.
             </p>
-            <span className="flex flex-col items-center gap-2 font-mono text-[0.625rem] uppercase tracking-[0.3em] text-(--color-steel)">
+            <span className="flex flex-col items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-(--color-steel)">
               Scroll
               <span className="block h-10 w-px animate-pulse bg-(--color-brand-blue)" />
             </span>
@@ -114,13 +117,13 @@ export function CompanyHero({ stats, careersHref }: { stats: HeroStat[]; careers
               Careers at Airtech <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
-          <dl className="mt-10 grid grid-cols-3 gap-x-5 gap-y-6 border-t border-white/20 pt-7 lg:grid-cols-5">
+          <dl className="mt-10 grid grid-cols-2 gap-x-5 gap-y-6 border-t border-white/20 pt-7 sm:grid-cols-4">
             {stats.map((s) => (
-              <div key={s.label} data-stat>
+              <div key={s.label} data-stat className="flex flex-col-reverse justify-end">
+                <dt className="mt-2 font-mono text-[0.75rem] uppercase tracking-[0.16em] text-white/75">{s.label}</dt>
                 <dd className="font-display text-[1.75rem] leading-none font-semibold tracking-[-0.03em] text-white tabular-nums sm:text-[2.25rem] lg:text-[2.75rem]">
                   {s.value}
                 </dd>
-                <dt className="mt-2 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-white/60">{s.label}</dt>
               </div>
             ))}
           </dl>

@@ -34,7 +34,7 @@ export function PhotoStrip({ photos, className }: { photos: StripPhoto[]; classN
               />
             </span>
             <span className="mt-3 flex items-baseline justify-between gap-3">
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-(--color-steel) transition-colors group-hover:text-(--color-brand-blue)">
+              <span className="font-mono text-[0.75rem] uppercase tracking-[0.12em] text-(--color-steel) transition-colors group-hover:text-(--color-brand-blue)">
                 {photo.caption}
               </span>
               {photo.href && (

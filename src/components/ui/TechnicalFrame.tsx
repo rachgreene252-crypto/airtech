@@ -56,7 +56,7 @@ export function TechnicalFrame({
         </figcaption>
       )}
       {image?.credit && (
-        <p className="mt-1 text-[0.6875rem] text-(--color-steel-soft)">{image.credit}</p>
+        <p className="mt-1 text-[0.75rem] text-(--color-steel-soft)">{image.credit}</p>
       )}
     </figure>
   );

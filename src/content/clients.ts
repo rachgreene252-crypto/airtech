@@ -49,7 +49,7 @@ const groups: ClientGroup[] = [
       c("Hotel Barahi", "Kathmandu"),
       c("Hyatt Centric", "Kathmandu"),
       c("Hyatt Regency", "Kathmandu"),
-      c("Aloft Kathmandu Thamel", "Kathmandu"),
+      // Aloft Kathmandu Thamel withdrawn from the public register 2026-10-29 (client brief).
       c("Holiday Inn Express", "Kathmandu"),
       c("Tiger Palace Resort", "Bhairahawa"),
       c("Chandragiri Hills Resort", "Kathmandu"),
@@ -241,7 +241,7 @@ const groups: ClientGroup[] = [
       c("Jagdamba Steels", "Birgunj"),
       c("Jyoti Group", "Birgunj"),
       c("Kwality Food & Snack Industries", "Biratnagar"),
-      c("Laxmi Motor Corporation", "Parasi"),
+      c("Laxmi Hyundai Motor Corporation", "Parasi"),
       c("Nepal Wellhope Agri-Tech", "Chitwan"),
       c("Nina Hager Grocery", "Kathmandu"),
       c("Panchakanya Group", "Bhairahawa, Kathmandu"),

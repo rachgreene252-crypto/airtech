@@ -64,7 +64,7 @@ export default function HistoryPage() {
                     <p className="font-display text-[4.5rem] leading-[0.9] font-semibold tracking-[-0.04em] text-(--color-brand-blue) sm:text-[6rem] lg:text-[7.5rem]">
                       {m.year}
                     </p>
-                    <p className="mt-4 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-(--color-steel-soft)">
+                    <p className="mt-4 font-mono text-[0.75rem] uppercase tracking-[0.22em] text-(--color-steel-soft)">
                       Milestone {String(i + 1).padStart(2, "0")} / {String(milestones.length).padStart(2, "0")}
                     </p>
                   </Reveal>
@@ -94,7 +94,7 @@ export default function HistoryPage() {
         />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-(--color-blue-deep) via-(--color-blue-deep)/50 to-transparent" />
         <Container className="flex min-h-[30rem] flex-col justify-end py-14 sm:min-h-[36rem] sm:py-16">
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
             25 years
           </p>
           <h2 className="mt-4 max-w-[20ch] font-display text-display-l font-semibold leading-[1.06] text-balance">

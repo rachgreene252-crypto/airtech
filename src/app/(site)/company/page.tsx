@@ -11,8 +11,6 @@ import { ScrollWords } from "@/components/company/ScrollWords";
 import { ValuesShowcase, type Value } from "@/components/company/ValuesShowcase";
 import { AnniversaryParallax } from "@/components/company/AnniversaryParallax";
 import { services } from "@/content/services";
-import { projects } from "@/content/projects";
-import { clientCount } from "@/content/clients";
 import { siteSettings } from "@/content/site-settings";
 import { SYSTEM_COLOR, type SystemSlug } from "@/components/engineering/model";
 
@@ -40,7 +38,6 @@ const stats = [
   { value: "25+", label: "Years of engineering" },
   { value: "2013", label: "MEP division launched" },
   { value: `${services.length}`, label: "Engineering disciplines" },
-  { value: `${Math.floor(clientCount / 10) * 10}+`, label: "Clients across Nepal" },
 ];
 
 
@@ -83,7 +80,7 @@ export default function CompanyPage() {
       {/* 2 — Who we are: a statement that lights up as it scrolls. */}
       <section id="story" className="scroll-mt-24 py-24 sm:py-28 lg:py-36">
         <Container>
-          <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">Who we are</p>
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">Who we are</p>
           <ScrollWords
             className="mt-6 max-w-[30ch] font-display text-[2rem] leading-[1.12] font-semibold tracking-[-0.025em] text-(--color-ink) sm:text-[2.75rem] lg:text-[3.75rem]"
             parts={[
@@ -98,9 +95,8 @@ export default function CompanyPage() {
             <Reveal>
               <p className="max-w-lg text-body-l leading-relaxed text-(--color-steel)">
                 Airtech is a Nepal-based engineering and MEP company serving commercial, industrial,
-                healthcare, hospitality, pharmaceutical and institutional clients, with {projects.length}{" "}
-                projects in its portfolio and over {Math.floor(clientCount / 10) * 10} organisations in its
-                client register.
+                healthcare, hospitality, pharmaceutical and institutional clients, delivering every
+                system a building needs through one accountable engineering team.
               </p>
               <ul className="mt-8 flex flex-wrap gap-2" aria-label="Engineering disciplines">
                 {services.map((s) => (
@@ -127,7 +123,7 @@ export default function CompanyPage() {
                   </div>
                   <div className="relative flex-1 overflow-hidden rounded-[6px] bg-(--color-brand-blue) p-5 text-white">
                     <p className="font-display text-[2.75rem] leading-none font-bold tracking-[-0.04em]">25+</p>
-                    <p className="mt-2 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-white/75">Years of engineering in Nepal</p>
+                    <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-white/75">Years of engineering in Nepal</p>
                   </div>
                 </div>
               </div>
@@ -144,7 +140,7 @@ export default function CompanyPage() {
         />
         <div aria-hidden="true" className="absolute -top-32 -right-32 -z-10 h-[28rem] w-[28rem] rounded-full bg-(--color-brand-blue-soft)/40 blur-[110px]" />
         <Container>
-          <p className="flex items-center gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-white/75">
+          <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-white/75">
             <span className="tabular-nums">01</span>
             <span aria-hidden="true" className="h-px w-8 bg-white/60" />
             Our mission
@@ -179,12 +175,12 @@ export default function CompanyPage() {
                 </div>
                 <figcaption className="absolute -bottom-6 left-6 rounded-[4px] bg-(--color-paper) px-5 py-4 shadow-[0_20px_40px_-25px_rgba(5,29,43,0.5)] sm:left-8">
                   <p className="font-display text-title font-semibold text-(--color-ink)">Manoj Bhansali</p>
-                  <p className="mt-0.5 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-(--color-brand-blue)">Managing Director</p>
+                  <p className="mt-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-(--color-brand-blue)">Managing Director</p>
                 </figcaption>
               </figure>
             </Reveal>
             <div>
-              <p className="flex items-center gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
                 <span className="tabular-nums">02</span>
                 <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue)" />
                 Our vision
@@ -211,7 +207,7 @@ export default function CompanyPage() {
         <Container>
           <div className="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
             <div>
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">What we value</p>
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">What we value</p>
               <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] text-balance text-(--color-ink)">Our core values.</h2>
             </div>
             <p className="max-w-md text-body leading-relaxed text-(--color-steel) lg:justify-self-end">
@@ -230,7 +226,7 @@ export default function CompanyPage() {
       <section className="py-20 sm:py-24 lg:py-28">
         <Container>
           <Reveal>
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               More about Airtech
             </p>
             <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.06] text-balance text-(--color-ink)">
@@ -287,7 +283,7 @@ export default function CompanyPage() {
               <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-(--color-blue-deep) via-(--color-blue-deep)/85 to-(--color-blue-deep)/40" />
               <div className="grid grid-cols-1 gap-8 p-8 sm:p-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:p-14">
                 <div>
-                  <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
+                  <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">
                     Careers
                   </p>
                   <h2 className="mt-4 max-w-[22ch] font-display text-display-m font-semibold leading-[1.1] text-balance">

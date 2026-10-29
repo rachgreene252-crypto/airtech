@@ -76,7 +76,7 @@ function FullJourney() {
         {/* Desktop rail */}
         <div className="hidden lg:block">
           <div className="sticky top-28 self-start pb-12">
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               The lifecycle
             </p>
             <ol className="relative mt-6 pl-6">
@@ -176,7 +176,7 @@ function StepSection({
       <div className={`relative ${isFinale ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
         <div>
           <p
-            className={`flex items-baseline gap-3 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue) ${
+            className={`flex items-baseline gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue) ${
               isFinale ? "justify-center" : ""
             }`}
           >

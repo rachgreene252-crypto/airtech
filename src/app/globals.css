@@ -30,11 +30,12 @@
   --color-paper: #f7fafd;
   --color-paper-raised: #eef4fa;
   --color-steel: #586470;
-  --color-steel-soft: #7e8894;
+  --color-steel-soft: #626d79; /* darkened 2026-10-29 from #7e8894 so small labels clear 4.5:1 */
   --color-line: #e4e8ec;
   --color-line-strong: #cbd2d9;
 
-  /* Airtech blue — corrected again 2026-09-16 to #0098D1 ("this is the
+  /* Airtech blue — set to #008ED1 on 2026-10-29 (redesign brief names it
+     "AIRTECH Blue, #008ED1"). History: corrected 2026-09-16 to #0098D1 ("this is the
      midea blue colour... use this for all the buttons etc"), a client-
      supplied swatch matching the same brand's official Midea-blue
      reference, superseding the 2026-09-14 #008ED1 value. --color-brand-
@@ -50,8 +51,8 @@
      actual small text uses (links, small mono labels), -hover clears ~6:1
      for hover states, -soft/-tint are lighter tints for large fills and
      backgrounds. */
-  --color-brand-blue-vivid: #0098d1;
-  --color-brand-blue: #007cb7;
+  --color-brand-blue-vivid: #008ed1;
+  --color-brand-blue: #0074ab; /* 2026-10-29: was #007cb7 (4.4:1 on paper); now >=4.6:1 */
   --color-brand-blue-hover: #006898;
   --color-brand-blue-soft: #50bdf1;
   --color-brand-blue-tint: #ebf5f9;

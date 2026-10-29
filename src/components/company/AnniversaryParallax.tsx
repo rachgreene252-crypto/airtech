@@ -45,7 +45,7 @@ export function AnniversaryParallax() {
       <div className="mx-auto mt-6 w-full max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
           <div>
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">2000 — 2025</p>
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue-soft)">2000 — 2025</p>
             <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.04] text-balance">25 years of legacy, built together.</h2>
           </div>
           <p className="max-w-md text-body-l leading-relaxed text-white/75 lg:justify-self-end">

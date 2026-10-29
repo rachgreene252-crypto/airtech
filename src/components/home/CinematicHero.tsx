@@ -121,7 +121,7 @@ function HeroTextPanel() {
         <Reveal delay={0.48}>
           <div className="mt-14 flex items-center gap-3 text-(--color-steel-soft)">
             <span aria-hidden="true" className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-brand-blue) animate-energy-pulse sm:block" />
-            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-balance">
+            <span className="font-mono text-[0.75rem] uppercase tracking-[0.22em] text-balance">
               Keeping Nepal moving · Reliability matters · Est. 2000
             </span>
           </div>

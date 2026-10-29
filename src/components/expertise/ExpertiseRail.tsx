@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Route } from "next";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { services } from "@/content/services";
 import { cn } from "@/lib/cn";
 
@@ -12,8 +12,7 @@ import { cn } from "@/lib/cn";
  * content — the page header and this rail stay put.
  *
  * Desktop (lg+): a vertical list with a blue active marker.
- * Mobile: a single select — a horizontal row of 8 pills is too cramped to
- * tap reliably.
+ * Mobile: a horizontally scrolling strip of the same links.
  */
 const ITEMS = [
   { label: "Overview", href: "/expertise" as Route },
@@ -22,35 +21,52 @@ const ITEMS = [
 
 export function ExpertiseRail() {
   const pathname = usePathname();
-  const router = useRouter();
 
   return (
-    <nav aria-label="Engineering disciplines" className="lg:sticky lg:top-28">
-      {/* Mobile */}
+    <nav aria-label="Engineering disciplines" className="min-w-0 lg:sticky lg:top-28">
+      {/* Mobile: a scrollable strip of real links (2026-10-29). The old
+          <select> navigated on every change, so keyboard users browsing its
+          options were thrown to a new page on the first arrow press. */}
       <div className="lg:hidden">
-        <label
-          htmlFor="discipline-select"
-          className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)"
-        >
-          Discipline
-        </label>
-        <select
-          id="discipline-select"
-          value={pathname}
-          onChange={(e) => router.push(e.target.value as Route)}
-          className="select-field mt-2 w-full"
-        >
-          {ITEMS.map((item) => (
-            <option key={item.href} value={item.href}>
-              {item.label}
-            </option>
-          ))}
-        </select>
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-steel)">
+          Disciplines
+        </p>
+        <ul className="-mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-8 sm:px-8">
+          {ITEMS.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <li key={item.href} className="shrink-0">
+                <Link
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  ref={
+                    active
+                      ? (el) => {
+                          // Centre the current discipline in the strip
+                          // without scrolling the page itself.
+                          const strip = el?.closest("ul");
+                          if (el && strip) strip.scrollLeft = el.offsetLeft - (strip.clientWidth - el.clientWidth) / 2;
+                        }
+                      : undefined
+                  }
+                  className={cn(
+                    "inline-flex min-h-11 items-center whitespace-nowrap rounded-full border px-4 text-sm font-medium transition-colors",
+                    active
+                      ? "border-(--color-brand-blue-vivid) bg-(--color-brand-blue-vivid) text-white"
+                      : "border-(--color-line-strong) bg-(--color-paper) text-(--color-ink-soft) hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
       {/* Desktop */}
       <div className="hidden lg:block">
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
+        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
           Disciplines
         </p>
         <ul className="mt-4 flex flex-col">
@@ -62,14 +78,14 @@ export function ExpertiseRail() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-baseline gap-3 border-l-2 py-2.5 pl-4 text-[0.9375rem] transition-colors",
+                    "flex min-h-11 items-center gap-3 border-l-2 py-2.5 pl-4 text-[0.9375rem] transition-colors",
                     active
                       ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                       : "border-(--color-line) text-(--color-steel) hover:border-(--color-line-strong) hover:text-(--color-ink)"
                   )}
                 >
                   {i > 0 && (
-                    <span className="font-mono text-[0.6875rem] text-(--color-steel-soft)">
+                    <span className="font-mono text-[0.75rem] text-(--color-steel-soft)">
                       {String(i).padStart(2, "0")}
                     </span>
                   )}

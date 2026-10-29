@@ -18,7 +18,7 @@ import type { Project } from "./types";
  */
 // 2026-10-12: the client's works list names every hotel below as "HVAC and
 // MEP" and as completed work (source-material/CLIENT_WORKS_LIST_2026-10-12.md).
-export const projects: Project[] = [
+const allProjects: Project[] = [
   // 2026-10-05 client: Yak & Yeti leads the portfolio ("can be the first
   // photo"); its new heritage-wing photo (Drive, 2026-09-30) is the hero.
   {
@@ -65,7 +65,7 @@ export const projects: Project[] = [
       { src: "/images/landmarks/hotel-barahi-kathmandu-facade.jpg", alt: "Hotel Barahi Kathmandu, street facade", width: 2400, height: 1599 },
     ],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
-    relatedProjectSlugs: ["hyatt-place-kathmandu", "radisson-hotel-kathmandu"],
+    relatedProjectSlugs: ["hyatt-centric-kathmandu", "radisson-hotel-kathmandu"],
     featured: true,
     seo: {
       title: "Hotel Barahi Kathmandu",
@@ -74,17 +74,16 @@ export const projects: Project[] = [
     status: "source_only",
   },
   {
-    // Corrected 2026-09-24 — this entry's own heroImage photo has "HYATT
-    // PLACE" clearly signed on the building itself, not "Hyatt Centric";
-    // these are different Hyatt sub-brands (Place = select-service,
-    // Centric = boutique lifestyle), so this was a naming/labeling error,
-    // not a duplicate to merge. Renamed to match the actual photographed
-    // building rather than continuing to publish a mismatched name. See
-    // "hyatt-regency-kathmandu" below for the separate, genuinely different
-    // Hyatt property newly photographed.
-    slug: "hyatt-place-kathmandu",
-    name: "Hyatt Place",
-    client: "Hyatt Place",
+    // 2026-10-29 (client brief): published as Hyatt Centric. The client's
+    // works list (CLIENT_WORKS_LIST_2026-10-12.md) and the AIPL PROFILE deck
+    // both name Airtech's Hyatt project "Hyatt Centric", and the deck's
+    // "Hyatt Centric" photo (ASSETS → public/images/landmarks/hyatt-centric.jpg)
+    // is this same building. The 2026-09-24 rename to "Hyatt Place" followed
+    // the signage visible in the photo, which still reads HYATT PLACE — see
+    // docs/AIRTECH_OPEN_DECISIONS.md #30 (photo may pre-date the rebrand).
+    slug: "hyatt-centric-kathmandu",
+    name: "Hyatt Centric",
+    client: "Hyatt Centric",
     clientDisplayApproved: true,
     location: "Kathmandu",
     industrySlug: "hospitality",
@@ -93,14 +92,14 @@ export const projects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/hyatt-place-kathmandu.jpg", alt: "Hyatt Place, Kathmandu", width: 2400, height: 1601 },
+    heroImage: { src: "/images/projects/hyatt-centric-kathmandu.jpg", alt: "Hyatt Centric, Kathmandu, at dusk with the hills behind", width: 2400, height: 1601 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["dusit-princess", "tiger-palace-resort", "hotel-barahi-kathmandu", "hyatt-regency-kathmandu"],
     featured: true,
     seo: {
-      title: "Hyatt Place, Kathmandu",
-      description: "Hyatt Place, Kathmandu. Featured in Airtech's project portfolio.",
+      title: "Hyatt Centric, Kathmandu",
+      description: "Hyatt Centric, Kathmandu. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -124,7 +123,7 @@ export const projects: Project[] = [
     },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
-    relatedProjectSlugs: ["hyatt-place-kathmandu", "dusit-princess"],
+    relatedProjectSlugs: ["hyatt-centric-kathmandu", "dusit-princess"],
     featured: true,
     seo: {
       title: "Hyatt Regency Kathmandu",
@@ -158,7 +157,8 @@ export const projects: Project[] = [
       title: "Aloft Kathmandu Thamel",
       description: "Aloft Kathmandu Thamel. Featured in Airtech's project portfolio.",
     },
-    status: "source_only",
+    // Withdrawn from publication 2026-10-29 (client brief). Record kept.
+    status: "do_not_publish",
   },
   {
     // "Shinta Mani" branded properties are Bill Bensley's boutique lodge
@@ -290,7 +290,7 @@ export const projects: Project[] = [
     heroImage: { src: "/images/landmarks/tiger-palace-resort.jpg", alt: "Tiger Palace Resort, Bhairahawa", width: 2400, height: 1350 },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
-    relatedProjectSlugs: ["dusit-princess", "hyatt-place-kathmandu"],
+    relatedProjectSlugs: ["dusit-princess", "hyatt-centric-kathmandu"],
     featured: true,
     seo: {
       title: "Tiger Palace Resort",
@@ -336,7 +336,7 @@ export const projects: Project[] = [
     heroImage: { src: "/images/landmarks/dusit-princess.jpg", alt: "Dusit Princess, Kathmandu", width: 2400, height: 1088 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
-    relatedProjectSlugs: ["tiger-palace-resort", "hyatt-place-kathmandu"],
+    relatedProjectSlugs: ["tiger-palace-resort", "hyatt-centric-kathmandu"],
     featured: true,
     seo: {
       title: "Dusit Princess, Kathmandu",
@@ -780,7 +780,8 @@ export const projects: Project[] = [
       title: "Marwadi Parishad",
       description: "Marwadi Parishad, Kathmandu. Featured in Airtech's project portfolio.",
     },
-    status: "source_only",
+    // Withdrawn from publication 2026-10-29 (client brief). Record kept.
+    status: "do_not_publish",
   },
   {
     slug: "shanker-group-corporate-office",
@@ -836,8 +837,10 @@ export const projects: Project[] = [
   },
   {
     slug: "laxmi-motor-corporation",
-    name: "Laxmi Motors KD Plant",
-    client: "Laxmi Motor Corporation",
+    // 2026-10-29 (client brief): the client's name is Laxmi Hyundai Motor
+    // Corporation; slug kept so existing links keep working.
+    name: "Laxmi Hyundai KD Plant",
+    client: "Laxmi Hyundai Motor Corporation",
     clientDisplayApproved: true,
     location: "Parasi, Nepal",
     industrySlug: "industrial",
@@ -848,14 +851,14 @@ export const projects: Project[] = [
     serviceSlugsDelivered: ["hvac"],
     // AIPL PROFILE - 2026.pptx, slide 8 — "Laxmi Motors KD Plant, Parasi"; reconciled with the
     // existing "Laxmi Motor Corporation" client record per docs/AIRTECH_CONTENT_AUDIT.md §2d.
-    heroImage: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Motors KD Plant, Parasi", width: 2400, height: 1372 },
+    heroImage: { src: "/images/projects/laxmi-motors-kd-plant.jpg", alt: "Laxmi Hyundai KD Plant, Parasi", width: 2400, height: 1372 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
     featured: true,
     seo: {
-      title: "Laxmi Motor Corporation",
-      description: "Laxmi Motor Corporation, Parasi. Featured in Airtech's project portfolio.",
+      title: "Laxmi Hyundai KD Plant, Parasi",
+      description: "Laxmi Hyundai Motor Corporation's KD plant, Parasi. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },
@@ -1102,7 +1105,11 @@ export const projects: Project[] = [
     name: "Club NOVA",
     client: "Club NOVA",
     clientDisplayApproved: true,
-    industrySlug: "corporate-commercial",
+    // 2026-10-29: moved out of Corporate & Commercial (client brief). The
+    // record's own type (entertainment venue) and its photographs (stage,
+    // dance floor, bar) place it with auditoriums, halls & studios. To
+    // confirm: docs/AIRTECH_OPEN_DECISIONS.md #31.
+    industrySlug: "auditoriums-studios",
     projectType: "Entertainment venue",
     projectStatus: "provisional",
     airtechRole: "Featured in Airtech's project portfolio.",
@@ -1147,6 +1154,13 @@ export const projects: Project[] = [
     status: "source_only",
   },
 ];
+
+/**
+ * The published portfolio. Records marked `do_not_publish` stay in
+ * `allProjects` (nothing is silently deleted) but never reach a page,
+ * a filter, the sitemap or a static route.
+ */
+export const projects: Project[] = allProjects.filter((p) => p.status !== "do_not_publish");
 
 export function getProjects() {
   return projects;

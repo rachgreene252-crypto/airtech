@@ -121,7 +121,6 @@ export function ProjectRadar() {
     return industries.filter((i) => counts.has(i.slug)).map((i) => ({ slug: i.slug, count: counts.get(i.slug)! }));
   }, [data]);
 
-  const allCount = sectors.reduce((n, s) => n + s.count, 0);
   const total = (id: string) => {
     const e = filtered.get(id);
     return e ? e.projects.length + e.clients.length : 0;
@@ -148,8 +147,8 @@ export function ProjectRadar() {
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
             <div>
-              <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-                03 · Where we work
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+                04 · Where we work
               </p>
               <h2 className="mt-4 font-display text-display-l font-semibold leading-[1.06] text-balance text-(--color-ink)">
                 Across Nepal, <span className="text-(--color-brand-blue)">{PLACES.length} cities</span> and counting.
@@ -168,7 +167,7 @@ export function ProjectRadar() {
           aria-label="Filter the map by sector"
           className="-mx-5 mt-8 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
         >
-          {[{ slug: "", count: allCount }, ...sectors].map((s) => {
+          {[{ slug: "" }, ...sectors].map((s) => {
             const active = sector === s.slug;
             return (
               <button
@@ -177,16 +176,14 @@ export function ProjectRadar() {
                 onClick={() => changeSector(s.slug)}
                 aria-pressed={active}
                 className={cn(
-                  "inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+                  "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors",
                   active
                     ? "border-(--color-ink) bg-(--color-ink) text-white"
                     : "border-(--color-line-strong) bg-(--color-paper) text-(--color-ink-soft) hover:border-(--color-ink)"
                 )}
               >
+                {/* No counts beside sector names (client brief, 2026-10-29). */}
                 {s.slug ? SHORT[s.slug] ?? s.slug : "All sectors"}
-                <span className={cn("font-mono text-[0.6875rem] tabular-nums", active ? "text-white/70" : "text-(--color-steel-soft)")}>
-                  {s.count}
-                </span>
               </button>
             );
           })}
@@ -359,7 +356,7 @@ export function ProjectRadar() {
                 <span className="inline-flex items-center gap-2">
                   <span className="h-px w-4 bg-(--color-brand-blue-vivid)" /> Served from head office, Kathmandu
                 </span>
-                <span className="ml-auto font-mono text-[0.625rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
+                <span className="ml-auto font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-(--color-steel-soft)">
                   City-level positions
                 </span>
               </div>
@@ -424,7 +421,7 @@ function PanelHeader({ kicker, title, onBack, backLabel }: { kicker: string; tit
           <span aria-hidden="true">&larr;</span> {backLabel}
         </button>
       )}
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-(--color-steel-soft)">{kicker}</p>
+      <p className="font-mono text-[0.75rem] uppercase tracking-[0.18em] text-(--color-steel-soft)">{kicker}</p>
       <h3 className="mt-1 font-display text-title font-semibold leading-snug text-(--color-ink)">{title}</h3>
     </div>
   );
@@ -501,7 +498,7 @@ function PlacePanel({
       <div className="max-h-[30rem] overflow-y-auto">
         {items.projects.length > 0 && (
           <>
-            <p className="px-5 pt-4 pb-1 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-(--color-brand-blue)">
+            <p className="px-5 pt-4 pb-1 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-(--color-brand-blue)">
               Case studies · {items.projects.length}
             </p>
             <ul>
@@ -532,7 +529,7 @@ function PlacePanel({
         )}
         {items.clients.length > 0 && (
           <>
-            <p className="px-5 pt-4 pb-1 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-(--color-brand-blue)">
+            <p className="px-5 pt-4 pb-1 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-(--color-brand-blue)">
               Clients · {items.clients.length}
             </p>
             <ul className="pb-3">
@@ -578,19 +575,19 @@ function ProjectPanel({ project: p, placeName, onBack }: { project: Project; pla
         <h3 className="font-display text-title font-semibold leading-snug text-(--color-ink)">{p.name}</h3>
         <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <div>
-            <dt className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Location</dt>
+            <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Location</dt>
             <dd className="mt-0.5 text-(--color-ink)">{p.location}</dd>
           </div>
           <div>
-            <dt className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Sector</dt>
+            <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Sector</dt>
             <dd className="mt-0.5 text-(--color-ink)">{industry}</dd>
           </div>
           <div>
-            <dt className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Systems</dt>
+            <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Systems</dt>
             <dd className="mt-0.5 text-(--color-ink)">{systems.join(", ") || "—"}</dd>
           </div>
           <div>
-            <dt className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Status</dt>
+            <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft)">Status</dt>
             <dd className="mt-0.5 text-(--color-ink)">{STATUS[p.projectStatus]}</dd>
           </div>
         </dl>

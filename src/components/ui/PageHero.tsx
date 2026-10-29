@@ -35,7 +35,7 @@ export function PageHero({
         {eyebrow && (
           <div className="flex items-center gap-3">
             <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
               {eyebrow}
             </p>
             <span aria-hidden="true" className="h-px w-6 bg-(--color-brand-blue)" />

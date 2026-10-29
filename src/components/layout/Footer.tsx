@@ -35,8 +35,8 @@ export async function Footer() {
             <Image
               src="/images/brand/airtech-logo.png"
               alt={siteSettings.companyName}
-              width={640}
-              height={109}
+              width={164}
+              height={28}
               className="h-7 w-auto"
             />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-(--color-steel)">
