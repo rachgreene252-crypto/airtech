@@ -3,34 +3,13 @@ import Image from "@/components/ui/Image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { milestones } from "@/content/history";
 
 export const metadata: Metadata = {
   title: "History",
   description: "How Airtech grew from an HVAC specialist in 2000 into an integrated MEP engineering contractor.",
 };
 
-const milestones = [
-  {
-    year: "2000",
-    title: "Established",
-    body: "Airtech was established with a focus on Heating, Ventilation and Air Conditioning (HVAC) engineering solutions in Nepal.",
-  },
-  {
-    year: "2013",
-    title: "MEP division launched",
-    body: "Airtech expanded beyond HVAC, launching its MEP division to provide integrated mechanical, electrical, PHE and ELV solutions.",
-  },
-  {
-    year: "2025",
-    title: "25 years: Reliability Matters",
-    body: "Airtech marked 25 years in business with a company-wide anniversary celebration, reaffirming the reliability the brand was built on.",
-  },
-  {
-    year: "Today",
-    title: "Integrated engineering contractor",
-    body: "Airtech operates as a comprehensive engineering and MEP contractor, with capabilities spanning HVAC, electrical, PHE, fire protection, ELV, ventilation and water systems.",
-  },
-];
 
 const MILESTONE_PHOTOS: Record<string, { src: string; alt: string }> = {
   "2025": { src: "/images/team/anniversary-stage.jpg", alt: "Airtech's leadership on stage at the 25th-anniversary celebration" },

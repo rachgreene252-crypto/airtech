@@ -121,9 +121,10 @@ export function IndustryExplorer({
   const industry = industries.find((i) => i.slug === sector) ?? industries[0];
   const inSector = useMemo(() => {
     const list = projects.filter((p) => p.industrySlug === sector);
-    // Photographed work first, so the mosaic opens on images; projects
-    // already featured above the explorer go to the back of the queue.
-    const rank = (p: Project) => (hasTileImage(p) ? 0 : 2) + (pushBack.includes(p.slug) ? 1 : 0);
+    // Large photographs first (the lead tile is big), then smaller ones,
+    // then no photo; projects already featured above go behind their peers.
+    const rank = (p: Project) =>
+      (hasTileImage(p) ? ((p.heroImage?.width ?? 1600) >= 1200 ? 0 : 2) : 4) + (pushBack.includes(p.slug) ? 1 : 0);
     return [...list].sort((a, b) => rank(a) - rank(b));
   }, [projects, sector, pushBack]);
   const visible = expanded ? inSector : inSector.slice(0, INITIAL);

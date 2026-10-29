@@ -16,7 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/company/quality-certifications",
     "/company/careers",
     "/how-we-work",
-    "/engineering-library",
     "/contact",
     "/contact/project-enquiry",
   ].map((path) => ({
@@ -37,10 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  // Engineering Library document detail pages (/engineering-library/[slug])
-  // are unlinked "content coming soon" stubs until Airtech supplies the real
-  // decks — they resolve on demand but aren't indexable content yet, so they
-  // stay out of the sitemap. Add them back once the list links to them.
+  // The Engineering Library was removed 2026-10-29 (client); its URLs redirect.
 
   return [...staticRoutes, ...serviceRoutes, ...projectRoutes];
 }

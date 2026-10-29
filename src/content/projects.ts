@@ -408,6 +408,7 @@ const allProjects: Project[] = [
     airtechRole: "HVAC and MEP works.",
     servicesDelivered: ["HVAC", "MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    heroImage: { src: "/images/projects/hotel-hilton-naxal-render.jpg", alt: "Architectural rendering of the Hilton hotel tower, Naxal", width: 557, height: 550 },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
     relatedProjectSlugs: [],
@@ -956,6 +957,7 @@ const allProjects: Project[] = [
     airtechRole: "Full MEP: supply, delivery, installation, testing and commissioning.",
     servicesDelivered: ["MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    heroImage: { src: "/images/projects/nepal-cancer-hospital.jpg", alt: "Nepal Cancer Hospital & Research Center, main entrance", width: 678, height: 452 },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
     relatedProjectSlugs: ["grande-international-hospital"],
@@ -1106,11 +1108,9 @@ const allProjects: Project[] = [
     name: "Club NOVA",
     client: "Club NOVA",
     clientDisplayApproved: true,
-    // 2026-10-29: moved out of Corporate & Commercial (client brief). The
-    // record's own type (entertainment venue) and its photographs (stage,
-    // dance floor, bar) place it with auditoriums, halls & studios. To
-    // confirm: docs/AIRTECH_OPEN_DECISIONS.md #31.
-    industrySlug: "auditoriums-studios",
+    // 2026-10-29: moved out of Corporate & Commercial; the client then
+    // confirmed it belongs under Hospitality (decision #31, resolved).
+    industrySlug: "hospitality",
     projectType: "Entertainment venue",
     projectStatus: "provisional",
     airtechRole: "Featured in Airtech's project portfolio.",
@@ -1226,12 +1226,114 @@ const allProjects: Project[] = [
     status: "source_only",
   },
   {
-    // Supplied by the client in "Photos to add" (2026-10-29); not in any
-    // written source yet, so no scope or location is claimed. The photo is
-    // 275px wide: index thumbnail only (docs/AIRTECH_OPEN_DECISIONS.md #36).
+    // Supplied by the client in "Photos to add" (2026-10-29); location
+    // (Thamel) and scope (complete MEP) confirmed by the client the same
+    // day. The photo is 275px wide: index thumbnail only until a larger one
+    // arrives (docs/AIRTECH_OPEN_DECISIONS.md #36).
     slug: "ramada-hotel",
     name: "Ramada Hotel",
     client: "Ramada Hotel",
+    clientDisplayApproved: true,
+    location: "Thamel, Kathmandu",
+    industrySlug: "hospitality",
+    projectType: "Hotel",
+    projectStatus: "provisional",
+    airtechRole: "Complete MEP works.",
+    servicesDelivered: ["MEP"],
+    serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    heroImage: { src: "/images/projects/ramada-hotel.jpg", alt: "Ramada Hotel, red-brick tower facade", width: 275, height: 183 },
+    gallery: [],
+    relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
+    relatedProjectSlugs: [],
+    featured: false,
+    seo: {
+      title: "Ramada Hotel",
+      description: "Ramada Hotel. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
+    // Added 2026-10-29 from the client's Drive download (ASSETS/
+    // drive-download-20261029T074840Z-1-001.zip). Names as the client's
+    // lists give them; nothing beyond the list is claimed.
+    slug: "qfx-civil-mall",
+    name: "QFX Civil Mall",
+    client: "QFX Cinemas",
+    clientDisplayApproved: true,
+    industrySlug: "auditoriums-studios",
+    projectType: "Cinema",
+    projectStatus: "provisional",
+    airtechRole: "Featured in Airtech's project portfolio.",
+    servicesDelivered: [],
+    serviceSlugsDelivered: ["hvac"],
+    heroImage: { src: "/images/projects/qfx-civil-mall.jpg", alt: "The QFX cinema lobby at Civil Mall, ticket counter and concessions", width: 800, height: 450 },
+    gallery: [],
+    relatedServiceSlugs: ["hvac"],
+    relatedProjectSlugs: [],
+    featured: false,
+    seo: {
+      title: "QFX Civil Mall",
+      description: "QFX Civil Mall. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
+    // Works list: "Agro Thai Foods, Kathmandu" under Industries (HVAC).
+    // The client's photo is filed as "Thai Agro"; read as the same company
+    // (decision #37).
+    slug: "agro-thai-foods",
+    name: "Agro Thai Foods",
+    client: "Agro Thai Foods",
+    clientDisplayApproved: true,
+    location: "Kathmandu",
+    industrySlug: "industrial",
+    projectType: "Food processing plant",
+    projectStatus: "provisional",
+    airtechRole: "HVAC works.",
+    servicesDelivered: ["HVAC"],
+    serviceSlugsDelivered: ["hvac"],
+    heroImage: { src: "/images/projects/agro-thai-foods.jpg", alt: "Agro Thai Foods plant: process building, distillation columns and storage tanks", width: 1024, height: 683 },
+    gallery: [],
+    relatedServiceSlugs: ["hvac"],
+    relatedProjectSlugs: [],
+    featured: false,
+    seo: {
+      title: "Agro Thai Foods",
+      description: "Agro Thai Foods. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
+    // Named in the client's lists and in Electrical ("Huawei NT data
+    // centre"); the client supplied this photo on 2026-10-29, which lifts
+    // the earlier no-photo rule for Huawei. No scope beyond that is claimed.
+    slug: "huawei-technologies-nepal",
+    name: "Huawei Technologies Nepal",
+    client: "Huawei Technologies Nepal Pvt. Ltd.",
+    clientDisplayApproved: true,
+    industrySlug: "telecom-data-centres",
+    projectType: "Corporate office and data centre",
+    projectStatus: "provisional",
+    airtechRole: "Featured in Airtech's project portfolio.",
+    servicesDelivered: [],
+    serviceSlugsDelivered: ["electrical"],
+    heroImage: { src: "/images/projects/huawei-nepal.jpg", alt: "The Huawei Technologies Nepal building, glazed facade", width: 681, height: 391 },
+    gallery: [],
+    relatedServiceSlugs: ["electrical"],
+    relatedProjectSlugs: [],
+    featured: false,
+    seo: {
+      title: "Huawei Technologies Nepal",
+      description: "Huawei Technologies Nepal. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
+    // Client-supplied photo (2026-10-29); in no written source yet, so no
+    // scope or location. 399px wide: index thumbnail only (decision #37).
+    slug: "moxy-by-marriott",
+    name: "Moxy by Marriott",
+    client: "Moxy by Marriott",
     clientDisplayApproved: true,
     industrySlug: "hospitality",
     projectType: "Hotel",
@@ -1239,14 +1341,14 @@ const allProjects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/ramada-hotel.jpg", alt: "Ramada Hotel, red-brick tower facade", width: 275, height: 183 },
+    heroImage: { src: "/images/projects/moxy-by-marriott.jpg", alt: "The Moxy hotel tower lit at night", width: 399, height: 501 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: [],
     featured: false,
     seo: {
-      title: "Ramada Hotel",
-      description: "Ramada Hotel. Featured in Airtech's project portfolio.",
+      title: "Moxy by Marriott",
+      description: "Moxy by Marriott. Featured in Airtech's project portfolio.",
     },
     status: "source_only",
   },

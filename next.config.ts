@@ -29,8 +29,9 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   async redirects() {
     return [
-      { source: "/resources", destination: "/engineering-library", permanent: true },
-      { source: "/resources/:slug*", destination: "/engineering-library/:slug*", permanent: true },
+      // Engineering Library removed 2026-10-29 (client: "we will cut off").
+      { source: "/resources/:slug*", destination: "/expertise", permanent: false },
+      { source: "/engineering-library/:slug*", destination: "/expertise", permanent: false },
       // Merged 2026-09-28: same resort was listed twice (client filename
       // "The Terraces Resort & Spa, Lalitpur").
       { source: "/projects/the-terraces-resort-spa", destination: "/projects/the-terrace-resort-lalitpur", permanent: true },

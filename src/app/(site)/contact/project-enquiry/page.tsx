@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { Suspense } from "react";
+import { EnquiryForm, EnquiryFormFromUrl } from "@/components/forms/EnquiryForm";
 import { industries } from "@/content/industries";
 
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default function ProjectEnquiryPage() {
       />
       <Section>
         <div className="mx-auto max-w-2xl">
-          <EnquiryForm industries={industries} />
+          <Suspense fallback={<EnquiryForm industries={industries} />}>
+            <EnquiryFormFromUrl industries={industries} />
+          </Suspense>
         </div>
       </Section>
     </>

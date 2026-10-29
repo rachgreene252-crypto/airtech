@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { intentOptions, projectStageOptions, enquirySchema, type EnquiryInput } from "@/lib/enquiry";
 import { submitEnquiry } from "@/app/(site)/contact/actions";
 import { Button } from "@/components/ui/Button";
@@ -30,9 +31,19 @@ const emptyForm: EnquiryInput = {
   message: "",
 };
 
-export function EnquiryForm({ industries }: { industries: Industry[] }) {
+/**
+ * Reads `?need=` (e.g. `amc-service` from the Service & Support page) and
+ * pre-ticks that option. Needs a <Suspense> boundary; the page passes the
+ * plain form as the static fallback.
+ */
+export function EnquiryFormFromUrl({ industries }: { industries: Industry[] }) {
+  const need = useSearchParams().getAll("need").filter((v) => intentOptions.some((o) => o.value === v));
+  return <EnquiryForm industries={industries} initialIntent={need} />;
+}
+
+export function EnquiryForm({ industries, initialIntent = [] }: { industries: Industry[]; initialIntent?: string[] }) {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<EnquiryInput>(emptyForm);
+  const [form, setForm] = useState<EnquiryInput>({ ...emptyForm, intent: initialIntent });
   const [files, setFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});

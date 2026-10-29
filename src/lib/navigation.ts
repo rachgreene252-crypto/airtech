@@ -60,7 +60,6 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { label: "Projects", href: "/projects" },
       { label: "How We Work", href: "/how-we-work" },
       { label: "Service & AMC", href: "/service-support" },
-      { label: "Engineering Library", href: "/engineering-library" },
       { label: "Contact", href: "/contact" },
     ],
   },

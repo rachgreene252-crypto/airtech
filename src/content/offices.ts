@@ -6,13 +6,10 @@ import type { VerificationStatus } from "./types";
  * and the homepage "Offices" band, so a new office is a data change, not a
  * redesign.
  *
- * India (2026-10-29): Airtech has opened an office in India, but no address,
- * phone, email, city or launch date has been supplied yet, so every detail
- * field is left undefined rather than guessed. `published: false` keeps the
- * office off the public site until Airtech confirms the details and is ready
- * to announce it. To launch: fill in the fields, set `status:
- * "client_confirmed"` and `published: true`. Any field still undefined
- * simply doesn't render. See docs/AIRTECH_OPEN_DECISIONS.md #32.
+ * India (2026-10-29): Airtech M&E India LLP, Kolkata, published with the
+ * details the client supplied. A future office is one more record here;
+ * `published: false` keeps one off the site until it is ready. Fields left
+ * undefined simply don't render.
  */
 export interface Office {
   id: string;
@@ -46,12 +43,18 @@ export const offices: Office[] = [
     status: "client_confirmed",
   },
   {
+    // Supplied by the client 2026-10-29 (WhatsApp), with the go-ahead to
+    // publish.
     id: "india",
     country: "India",
-    label: "India office",
-    // city, address, email, phone, mapUrl, regionNote: awaiting Airtech.
-    published: false,
-    status: "needs_verification",
+    label: "Airtech M&E India LLP",
+    city: "Kolkata",
+    address: "Unit No. 306, Merlin Matrix, DN-10, Salt Lake City, Sector V, Kolkata 700091, West Bengal, India",
+    email: "info@airtech.com.in",
+    phone: "+91 33 46410853",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Merlin+Matrix+DN-10+Sector+V+Salt+Lake+Kolkata+700091",
+    published: true,
+    status: "client_confirmed",
   },
 ];
 

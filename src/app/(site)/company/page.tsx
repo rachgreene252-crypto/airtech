@@ -10,6 +10,8 @@ import { CompanyHero } from "@/components/company/CompanyHero";
 import { ScrollWords } from "@/components/company/ScrollWords";
 import { ValuesShowcase, type Value } from "@/components/company/ValuesShowcase";
 import { AnniversaryParallax } from "@/components/company/AnniversaryParallax";
+import { CapabilityGrowth } from "@/components/company/CapabilityGrowth";
+import { Offices } from "@/components/layout/Offices";
 import { services } from "@/content/services";
 import { siteSettings } from "@/content/site-settings";
 import { SYSTEM_COLOR, type SystemSlug } from "@/components/engineering/model";
@@ -21,6 +23,10 @@ export const metadata: Metadata = {
 };
 
 /*
+ * 2026-10-29: restructured as chapters: who we are, how Airtech grew
+ * (capability ledger), mission + vision as one spread, values, the people,
+ * where we are (Nepal + India), then more pages and careers.
+ *
  * /company, rebuilt again 2026-10-07 ("still very boring and simple"): the
  * page is now a scroll-driven story rather than a stack of static blocks —
  * a "25" that opens onto the whole team, statements that light up word by
@@ -114,93 +120,74 @@ export default function CompanyPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="grid grid-cols-5 gap-3 sm:gap-4">
-                <div className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-[3px]">
-                  <Image src="/images/team/team-strategy-meeting.jpg" alt="Airtech's leadership team in a strategy meeting" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
-                </div>
-                <div className="col-span-2 flex flex-col gap-3 sm:gap-4">
-                  <div className="relative aspect-square overflow-hidden rounded-[3px]">
-                    <Image src="/images/team/founder-at-work.jpg" alt="Manoj Bhansali, Managing Director, at his desk" fill sizes="(min-width: 1024px) 30vw, 60vw" className="object-cover object-center" />
-                  </div>
-                  <div className="relative flex flex-1 flex-col justify-end overflow-hidden rounded-[3px] border border-(--color-line-strong) bg-white p-5">
-                    <p className="font-display text-[2.75rem] leading-none font-bold tracking-[-0.04em] text-(--color-brand-blue-vivid)">25+</p>
-                    <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-[0.16em] text-(--color-steel)">Years of engineering in Nepal</p>
-                  </div>
-                </div>
+                <figure className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-[3px]">
+                  <Image src="/images/team/team-strategy-meeting.jpg" alt="Airtech's leadership team in a strategy meeting" fill sizes="(min-width: 1024px) 34vw, 60vw" className="object-cover object-center" />
+                </figure>
+                <figure className="relative col-span-2 mt-12 aspect-[3/4] overflow-hidden rounded-[3px]">
+                  <Image src="/images/team/team-showroom-meeting.jpg" alt="Airtech engineers in a project meeting" fill sizes="(min-width: 1024px) 22vw, 40vw" className="object-cover object-center" />
+                </figure>
               </div>
             </Reveal>
           </div>
         </Container>
       </section>
 
-      {/* 4 — Mission. 2026-10-29: was a flat blue band with a grid and a
-          glow; now an editorial statement on white, the label in its own
-          column, the words lighting up as they scroll. */}
-      <section className="border-t border-(--color-line) bg-white py-24 sm:py-28 lg:py-36">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-            <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue) lg:col-span-3 lg:items-start lg:pt-4">
-              <span className="tabular-nums">01</span>
-              <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue) lg:mt-2" />
-              Our mission
-            </p>
-            <ScrollWords
-              className="max-w-[30ch] font-display text-[1.875rem] leading-[1.15] font-semibold tracking-[-0.022em] text-(--color-ink) sm:text-[2.5rem] lg:col-span-9 lg:text-[3.25rem]"
-              parts={[
-                "Airtech delivers complete, engineered and customised technology solutions that exceed expectations, building a reputation for",
-                { text: "integrity, reliability, responsiveness", className: "text-(--color-brand-blue)" },
-                "and",
-                { text: "teamwork.", className: "text-(--color-brand-blue)" },
-              ]}
-            />
-          </div>
-        </Container>
-      </section>
+      {/* 3 — How Airtech grew: capability evolution ledger. */}
+      <CapabilityGrowth />
 
-      {/* 5 — Vision, alongside the Managing Director. */}
-      <section className="py-24 sm:py-28 lg:py-32">
+      {/* 4 — Why we exist: mission and vision as one spread (they were two
+          full-height sections saying similar things). Verbatim from
+          source-material/CLIENT_LIST_AND_MISSION_2026-10-01.md. */}
+      <section aria-labelledby="purpose-heading" className="border-t border-(--color-line) bg-(--color-paper-raised) py-20 sm:py-24 lg:py-28">
         <Container>
-          <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
-            <Reveal>
-              <figure className="relative">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[3px]">
+          <h2 id="purpose-heading" className="sr-only">Mission and vision</h2>
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-7">
+              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">
+                <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue)" />
+                Our mission
+              </p>
+              <ScrollWords
+                className="mt-6 font-display text-[1.75rem] leading-[1.18] font-semibold tracking-[-0.02em] text-(--color-ink) sm:text-[2.25rem] lg:text-[2.75rem]"
+                parts={[
+                  "Airtech delivers complete, engineered and customised technology solutions that exceed expectations, building a reputation for",
+                  { text: "integrity, reliability, responsiveness", className: "text-(--color-brand-blue)" },
+                  "and",
+                  { text: "teamwork.", className: "text-(--color-brand-blue)" },
+                ]}
+              />
+            </div>
+            <figure className="lg:col-span-5">
+              <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-end gap-5">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-[3px]">
                   <Image
                     src="/images/team/founder-manoj-bhansali.jpg"
                     alt="Manoj Bhansali, Managing Director of Airtech Industries"
                     fill
-                    sizes="(min-width: 1024px) 64vw, 190vw"
+                    sizes="(min-width: 1024px) 18vw, 45vw"
                     className="object-cover object-[62%_center]"
                   />
                 </div>
-                <figcaption className="absolute -bottom-6 left-6 rounded-[4px] bg-(--color-paper) px-5 py-4 shadow-[0_20px_40px_-25px_rgba(5,29,43,0.5)] sm:left-8">
-                  <p className="font-display text-title font-semibold text-(--color-ink)">Manoj Bhansali</p>
-                  <p className="mt-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-(--color-brand-blue)">Managing Director</p>
-                </figcaption>
-              </figure>
-            </Reveal>
-            <div>
-              <p className="flex items-center gap-3 font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-brand-blue)">
-                <span className="tabular-nums">02</span>
-                <span aria-hidden="true" className="h-px w-8 bg-(--color-brand-blue)" />
-                Our vision
-              </p>
-              <ScrollWords
-                as="blockquote"
-                className="mt-8 font-display text-[2rem] leading-[1.12] font-semibold tracking-[-0.025em] text-(--color-ink) sm:text-[2.75rem] lg:text-[3.5rem]"
-                parts={[
-                  "“To be our customers’",
-                  { text: "partner for life,", className: "text-(--color-brand-blue)" },
-                  "earning their loyalty by listening, anticipating and creating value.”",
-                ]}
-              />
-              <Link href="/company/leadership" className="mt-10 inline-flex items-center gap-1.5 text-sm font-medium text-(--color-brand-blue) hover:underline">
-                Meet the leadership <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
+                <div>
+                  <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">Our vision</p>
+                  <blockquote className="mt-4 font-display text-[1.375rem] leading-[1.25] font-semibold tracking-[-0.012em] text-(--color-ink)">
+                    &ldquo;To be our customers&rsquo; partner for life, earning their loyalty by listening, anticipating and creating value.&rdquo;
+                  </blockquote>
+                </div>
+              </div>
+              <figcaption className="mt-5 border-t border-(--color-line-strong) pt-4">
+                <span className="block font-display text-[1.125rem] font-semibold text-(--color-ink)">Manoj Bhansali</span>
+                <span className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-(--color-steel)">Managing Director</span>
+                <Link href="/company/leadership" className="ml-4 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-(--color-brand-blue) hover:underline">
+                  Leadership <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </figcaption>
+            </figure>
           </div>
         </Container>
       </section>
 
-      {/* 6 — Core values */}
+      {/* 5 — Core values (heading required by the client) */}
       <section className="border-t border-(--color-line) bg-band py-24 sm:py-28">
         <Container>
           <div className="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
@@ -217,8 +204,26 @@ export default function CompanyPage() {
         </Container>
       </section>
 
-      {/* 7 — The 25th anniversary */}
+      {/* 6 — The people, at 25 */}
       <AnniversaryParallax />
+
+      {/* 7 — Where we are: Nepal and India, from src/content/offices.ts. */}
+      <section aria-labelledby="offices-heading" className="border-t border-(--color-line) bg-(--color-paper-raised) py-20 sm:py-24">
+        <Container className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="lg:col-span-4">
+            <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--color-brand-blue)">Where we are</p>
+            <h2 id="offices-heading" className="mt-4 font-display text-display-l font-semibold leading-[1.06] tracking-[-0.018em] text-balance text-(--color-ink)">
+              Kathmandu, and now Kolkata.
+            </h2>
+            <p className="mt-5 text-body-l leading-relaxed text-(--color-steel)">
+              The head office in Kathmandu, and Airtech M&amp;E India LLP in Salt Lake City, Kolkata.
+            </p>
+          </div>
+          <div className="lg:col-span-8">
+            <Offices />
+          </div>
+        </Container>
+      </section>
 
       {/* 8 — More about Airtech + careers */}
       <section className="py-20 sm:py-24 lg:py-28">

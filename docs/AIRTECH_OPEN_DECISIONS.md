@@ -160,3 +160,18 @@ implemented as stated; these are the points that still need the client's confirm
     project unnamed) illustrates Testing & Commissioning in How We Deliver. **Ramada Hotel** is in
     no written source and its photo is 275px wide, so it appears only as an index thumbnail and on
     its own page; please supply a larger photo, its location and Airtech's scope.
+
+### Resolved by the client, 2026-10-29 (WhatsApp)
+- **#31 Club NOVA**: under Hospitality.
+- **#32 India office**: Airtech M&E India LLP, Unit No. 306, Merlin Matrix, DN-10, Salt Lake City,
+  Sector V, Kolkata 700091; +91 33 46410853; info@airtech.com.in. Published.
+- **#36 Ramada Hotel**: Thamel, Kathmandu; complete MEP. A larger photo is still to come.
+- **Engineering Library**: removed ("we will cut off"); its URLs redirect to /expertise.
+- **Chhaya Center**: the client is checking; its photo is held back until confirmed.
+
+37. **Second Drive batch (ASSETS/drive-download-20261029T074840Z-1-001.zip)** — added: Nepal Cancer
+    Hospital photo, Hilton (an architectural rendering, labelled as such), QFX Civil Mall, Agro Thai
+    Foods (photo filed as "Thai Agro"; read as the works list's "Agro Thai Foods, Kathmandu"),
+    Huawei Technologies Nepal (client-supplied photo, so the earlier no-photo rule no longer holds),
+    Moxy by Marriott (in no written source; 399px photo, index thumbnail only). Held back:
+    "QFX.jpeg" (a cinema hall, but which QFX is unclear) and Chhaya Center (pending).
