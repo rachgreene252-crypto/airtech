@@ -8,7 +8,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { ProjectTile } from "@/components/projects/ProjectTile";
 import { BuildingModel } from "@/components/engineering/BuildingModel";
-import { SYSTEM_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
+import { SYSTEM_COLOR, SYSTEM_TEXT_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
 import { services, getServiceBySlug } from "@/content/services";
 import { getIndustryBySlug } from "@/content/industries";
 import { getProjectsByService, hasTileImage } from "@/content/projects";
@@ -47,6 +47,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
 
   const sys = service.slug as SystemSlug;
   const color = SYSTEM_COLOR[sys];
+  const textColor = SYSTEM_TEXT_COLOR[sys];
   const photo = PHOTO[sys];
   const all = getProjectsByService(service.slug);
   const ordered = [
@@ -122,7 +123,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
         <Container>
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em]" style={{ color }}>
+              <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em]" style={{ color: textColor }}>
                 Scope
               </p>
               <h2 id="delivers-heading" className="mt-4 font-display text-display-m font-semibold leading-tight text-(--color-ink)">
@@ -132,7 +133,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
             <ol className="lg:col-span-8">
               {service.capabilities.map((c, i) => (
                 <li key={c} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-t border-(--color-line) py-5 last:border-b">
-                  <span className="font-mono text-[0.875rem] font-semibold tabular-nums" style={{ color }}>
+                  <span className="font-mono text-[0.875rem] font-semibold tabular-nums" style={{ color: textColor }}>
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="text-body-l leading-relaxed text-(--color-ink-soft)">{c}</span>
@@ -174,7 +175,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
       {/* Delivered projects */}
       <section id="delivered" aria-labelledby="delivered-heading" className="scroll-mt-24 py-16 sm:py-20">
         <Container>
-          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em]" style={{ color }}>
+          <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.2em]" style={{ color: textColor }}>
             On site
           </p>
           <h2 id="delivered-heading" className="mt-4 font-display text-display-m font-semibold leading-tight text-(--color-ink)">
@@ -227,7 +228,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/expertis
                     className="group relative flex min-h-20 flex-col justify-center gap-1 px-4 py-4"
                   >
                     <span aria-hidden="true" className="absolute inset-x-0 top-0 h-[3px] transition-transform duration-300" style={{ background: c, transform: on ? "scaleX(1)" : "scaleX(0.15)", transformOrigin: "left" }} />
-                    <span className="font-mono text-[0.75rem] font-semibold" style={{ color: c }}>
+                    <span className="font-mono text-[0.75rem] font-semibold" style={{ color: SYSTEM_TEXT_COLOR[s.slug as SystemSlug] }}>
                       {s.disciplineCode}
                     </span>
                     <span className={on ? "text-sm font-semibold text-(--color-ink)" : "text-sm font-medium text-(--color-steel) group-hover:text-(--color-ink)"}>

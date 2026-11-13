@@ -86,7 +86,7 @@ export default function ContactPage() {
             <h2 className="mt-12 font-display text-2xl font-semibold">Existing customer?</h2>
             <p className="mt-3 max-w-sm leading-relaxed text-(--color-steel)">
               For AMC and service requests, see{" "}
-              <Link href="/service-support" className="text-(--color-brand-blue) hover:underline">
+              <Link href="/service-support" className="text-(--color-brand-blue) underline decoration-(--color-brand-blue)/40 underline-offset-[3px] hover:decoration-current">
                 Service &amp; Support
               </Link>{" "}
               or select &ldquo;AMC / Service &amp; Support&rdquo; on the enquiry form.
@@ -95,11 +95,11 @@ export default function ContactPage() {
             <h2 className="mt-12 font-display text-2xl font-semibold">Want to work with us?</h2>
             <p className="mt-3 max-w-sm leading-relaxed text-(--color-steel)">
               Email your CV to{" "}
-              <a href={`mailto:${siteSettings.careersEmail}`} className="text-(--color-brand-blue) hover:underline">
+              <a href={`mailto:${siteSettings.careersEmail}`} className="text-(--color-brand-blue) underline decoration-(--color-brand-blue)/40 underline-offset-[3px] hover:decoration-current">
                 {siteSettings.careersEmail}
               </a>{" "}
               or read more on{" "}
-              <Link href="/company/careers" className="text-(--color-brand-blue) hover:underline">
+              <Link href="/company/careers" className="text-(--color-brand-blue) underline decoration-(--color-brand-blue)/40 underline-offset-[3px] hover:decoration-current">
                 Careers
               </Link>
               .

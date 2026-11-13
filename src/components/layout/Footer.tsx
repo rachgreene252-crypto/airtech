@@ -47,7 +47,7 @@ export async function Footer() {
               <br />
               <a
                 href={`mailto:${siteSettings.primaryEmail}`}
-                className="text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
+                className="mt-1 inline-flex min-h-11 items-center text-(--color-ink) transition-colors hover:text-(--color-brand-blue) lg:min-h-8"
               >
                 {siteSettings.primaryEmail}
               </a>
@@ -55,7 +55,7 @@ export async function Footer() {
               <span>Careers: </span>
               <a
                 href={`mailto:${siteSettings.careersEmail}`}
-                className="text-(--color-ink) transition-colors hover:text-(--color-brand-blue)"
+                className="inline-flex min-h-11 items-center text-(--color-ink) transition-colors hover:text-(--color-brand-blue) lg:min-h-8"
               >
                 {siteSettings.careersEmail}
               </a>

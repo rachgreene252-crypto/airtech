@@ -11,6 +11,9 @@ import type { Client } from "@/content/clients";
 import { ProjectTile } from "./ProjectTile";
 import { IndustrySelect, type IndustryOption } from "./IndustrySelect";
 import { hasTileImage } from "@/content/image-quality";
+import Image from "@/components/ui/Image";
+import Link from "next/link";
+import type { Route } from "next";
 
 const INITIAL = 6;
 
@@ -28,11 +31,16 @@ function tileShape(i: number, total: number) {
   if (total === 2) cls.push("lg:row-span-2");
   // The last tile fills whatever its row leaves free, so no row ends ragged.
   if (last && (total - 1) % 2 === 1) cls.push("sm:col-span-2 sm:aspect-[2/1]");
+  let lgSpan = "lg:col-span-1";
   if (last && total > 3) {
     const rem = (total - 3) % 3;
-    if (rem === 1) cls.push("lg:col-span-3");
-    if (rem === 2) cls.push("lg:col-span-2");
+    if (rem === 1) lgSpan = "lg:col-span-3";
+    if (rem === 2) lgSpan = "lg:col-span-2";
   }
+  // Always explicit, so the sm:col-span-2 above never leaks into the
+  // three-column desktop grid (it pushed a 2-tile sector's second tile
+  // under the lead and left the right column empty).
+  cls.push(lgSpan);
   return cls.join(" ");
 }
 
@@ -127,7 +135,11 @@ export function IndustryExplorer({
       (hasTileImage(p) ? ((p.heroImage?.width ?? 1600) >= 1200 ? 0 : 2) : 4) + (pushBack.includes(p.slug) ? 1 : 0);
     return [...list].sort((a, b) => rank(a) - rank(b));
   }, [projects, sector, pushBack]);
-  const visible = expanded ? inSector : inSector.slice(0, INITIAL);
+  // Only photographed projects go in the mosaic; the rest are listed
+  // underneath, so a sector never fills with "photography to follow" tiles.
+  const photographed = useMemo(() => inSector.filter(hasTileImage), [inSector]);
+  const listed = useMemo(() => inSector.filter((p) => !hasTileImage(p)), [inSector]);
+  const visible = expanded ? photographed : photographed.slice(0, INITIAL);
   const clients = clientsBySector[sector] ?? [];
 
   return (
@@ -198,6 +210,7 @@ export function IndustryExplorer({
 
                 {inSector.length > 0 ? (
                   <>
+                    {visible.length > 0 && (
                     <motion.ul layout={!reduce} className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:auto-rows-[15rem] xl:auto-rows-[17rem]">
                       {visible.map((project, i) => (
                         <motion.li
@@ -218,7 +231,8 @@ export function IndustryExplorer({
                         </motion.li>
                       ))}
                     </motion.ul>
-                    {inSector.length > INITIAL && (
+                    )}
+                    {photographed.length > INITIAL && (
                       <div className="mt-6 flex justify-center">
                         <button
                           type="button"
@@ -226,8 +240,38 @@ export function IndustryExplorer({
                           aria-expanded={expanded}
                           className="inline-flex min-h-11 items-center gap-2 rounded-full border border-(--color-line-strong) bg-(--color-paper) px-5 text-sm font-semibold text-(--color-ink) transition-colors hover:border-(--color-brand-blue) hover:text-(--color-brand-blue)"
                         >
-                          {expanded ? "Show fewer" : `Show all ${industry.name.toLowerCase()} projects`}
+                          {expanded ? "Show fewer" : `Show all ${photographed.length} photographed projects`}
                         </button>
+                      </div>
+                    )}
+                    {listed.length > 0 && (
+                      <div className="mt-8 border-t border-(--color-line-strong) pt-6">
+                        <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.16em] text-(--color-steel)">
+                          {visible.length > 0 ? `Also in ${industry.name}` : `Projects in ${industry.name}`}
+                        </p>
+                        <ul className="mt-3 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+                          {listed.map((p) => (
+                            <li key={p.slug} className="border-b border-(--color-line)">
+                              <Link
+                                href={`/projects/${p.slug}` as Route}
+                                className="group flex min-h-16 items-center gap-4 py-3"
+                              >
+                                {p.heroImage?.src ? (
+                                  <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-[2px] bg-(--color-line)">
+                                    <Image src={p.heroImage.src} alt="" fill sizes="56px" className="object-cover" />
+                                  </span>
+                                ) : (
+                                  <span aria-hidden="true" className="h-11 w-14 shrink-0 rounded-[2px] border border-dashed border-(--color-line-strong)" />
+                                )}
+                                <span className="min-w-0 flex-1">
+                                  <span className="block font-semibold leading-snug text-(--color-ink) group-hover:text-(--color-brand-blue)">{p.name}</span>
+                                  {p.location && <span className="mt-0.5 block text-small text-(--color-steel)">{p.location}</span>}
+                                </span>
+                                <span aria-hidden="true" className="text-(--color-steel) transition-transform group-hover:translate-x-0.5 group-hover:text-(--color-brand-blue)">&rarr;</span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     )}
                   </>

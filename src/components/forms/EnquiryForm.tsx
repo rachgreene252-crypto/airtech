@@ -134,7 +134,7 @@ export function EnquiryForm({ industries, initialIntent = [] }: { industries: In
           >
             <span
               className={cn(
-                "flex h-5 w-5 items-center justify-center border text-[10px]",
+                "flex h-6 w-6 items-center justify-center border text-[0.75rem]",
                 i === step
                   ? "border-(--color-brand-blue) text-(--color-brand-blue)"
                   : i < step

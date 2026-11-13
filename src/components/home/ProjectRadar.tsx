@@ -471,7 +471,7 @@ function Overview({
         <p className="mt-auto px-5 py-4 text-xs leading-relaxed text-(--color-steel)">
           Plus {unplaced} banks, corporates and telecoms whose site cities aren&apos;t listed. All of them
           are in the{" "}
-          <Link href={"/projects#client-register-heading" as Route} className="text-(--color-brand-blue) hover:underline">
+          <Link href={"/projects#client-register-heading" as Route} className="text-(--color-brand-blue) underline decoration-(--color-brand-blue)/40 underline-offset-[3px] hover:decoration-current">
             client register
           </Link>
           .

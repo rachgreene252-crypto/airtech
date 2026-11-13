@@ -175,3 +175,21 @@ implemented as stated; these are the points that still need the client's confirm
     Huawei Technologies Nepal (client-supplied photo, so the earlier no-photo rule no longer holds),
     Moxy by Marriott (in no written source; 399px photo, index thumbnail only). Held back:
     "QFX.jpeg" (a cinema hall, but which QFX is unclear) and Chhaya Center (pending).
+
+### Resolved 2026-10-30 (Drive, "Photos to add")
+- **#30 Hyatt Centric photo**: the client's new photo is signed HYATT CENTRIC and replaces the
+  HYATT PLACE shot. It is 597px wide, 2x-resampled; a larger original would be sharper.
+- **#36 Ramada photo**: the replacement (678x452) is used, so Ramada now appears as a full tile.
+
+### 2026-11-13 (Drive batch drive-download-20261113T054545Z-1-001)
+- 11 of 14 files are the photos already on the site (same dimensions); no change.
+- **Chhaya Center**: now in "Photos to add", so treated as cleared. Published under Commercial
+  Buildings, Thamel; no scope claimed. Its only image is an architectural rendering (736px, with
+  fireworks and spotlights), labelled as one and kept off large tiles. A real photograph would be
+  much stronger.
+- **"QFX.jpeg"** (a cinema hall with recliner seating, 672px): still held, because nothing says which QFX
+  hall it shows. If it is QFX Chhaya Center, say so and it can join that page.
+- **"Installation"**: the same fire pump room photo already used on the site.
+- Sitewide rule: project mosaics now show photographed projects only; the rest are listed as
+  text, and related projects prefer photographed ones. Framed project heroes no longer upscale
+  beyond their native width.

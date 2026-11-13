@@ -6,7 +6,7 @@ import type { Route } from "next";
 import Image from "@/components/ui/Image";
 import { Container } from "@/components/ui/Container";
 import { BuildingModel } from "@/components/engineering/BuildingModel";
-import { SYSTEM_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
+import { SYSTEM_COLOR, SYSTEM_TEXT_COLOR, SYSTEM_SHORT, type SystemSlug } from "@/components/engineering/model";
 import { cn } from "@/lib/cn";
 
 export interface AtlasDiscipline {
@@ -70,7 +70,7 @@ export function ExpertiseAtlas({ disciplines }: { disciplines: AtlasDiscipline[]
                       className="absolute inset-x-3 bottom-0 h-[3px] origin-left transition-transform duration-500 lg:inset-x-0 lg:right-4"
                       style={{ background: SYSTEM_COLOR[d.slug], transform: on ? "scaleX(1)" : "scaleX(0)" }}
                     />
-                    <span className="font-mono text-[0.75rem] font-semibold tracking-[0.08em]" style={{ color: SYSTEM_COLOR[d.slug] }}>
+                    <span className="font-mono text-[0.75rem] font-semibold tracking-[0.08em]" style={{ color: SYSTEM_TEXT_COLOR[d.slug] }}>
                       {d.code}
                     </span>
                     <span className={cn("whitespace-nowrap transition-colors", on ? "text-(--color-ink)" : "text-(--color-steel) group-hover:text-(--color-ink)")}>
@@ -179,7 +179,7 @@ export function ExpertiseAtlas({ disciplines }: { disciplines: AtlasDiscipline[]
             <div className="sticky top-40">
               <div className="overflow-hidden rounded-[3px] border border-(--color-line-strong) bg-white">
                 <div className="flex items-center justify-between border-b border-(--color-line) px-4 py-3 font-mono text-[0.75rem] uppercase tracking-[0.14em]">
-                  <span style={{ color: SYSTEM_COLOR[current.slug] }}>
+                  <span style={{ color: SYSTEM_TEXT_COLOR[current.slug] }}>
                     {current.code} · {SYSTEM_SHORT[current.slug]}
                   </span>
                   <span className="text-(--color-steel)">Typical building, not to scale</span>

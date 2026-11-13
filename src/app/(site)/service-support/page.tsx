@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { StickyEnquiryBar } from "@/components/ui/StickyEnquiryBar";
 import { Offices } from "@/components/layout/Offices";
-import { SYSTEM_COLOR } from "@/components/engineering/model";
+import { SYSTEM_COLOR, SYSTEM_TEXT_COLOR } from "@/components/engineering/model";
 import { siteSettings } from "@/content/site-settings";
 
 export const metadata: Metadata = {
@@ -179,7 +179,7 @@ export default function ServiceSupportPage() {
                     <Link href={s.href as Route} className="group flex min-h-16 items-center gap-4 py-3">
                       <span aria-hidden="true" className="h-8 w-1 shrink-0 rounded-full" style={{ background: SYSTEM_COLOR[s.slug] }} />
                       <span className="flex-1 text-body-l font-medium text-(--color-ink) transition-colors group-hover:text-(--color-brand-blue)">{s.name}</span>
-                      <span className="font-mono text-[0.75rem] font-semibold tracking-[0.1em]" style={{ color: SYSTEM_COLOR[s.slug] }}>
+                      <span className="font-mono text-[0.75rem] font-semibold tracking-[0.1em]" style={{ color: SYSTEM_TEXT_COLOR[s.slug] }}>
                         {s.discipline}
                       </span>
                     </Link>

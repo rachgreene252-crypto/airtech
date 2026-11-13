@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { BuildingModel, SYSTEM_SHORT } from "@/components/engineering/BuildingModel";
-import { SYSTEM_COLOR, SYSTEM_ORDER, type SystemSlug } from "@/components/engineering/model";
+import { SYSTEM_COLOR, SYSTEM_TEXT_COLOR, SYSTEM_ORDER, type SystemSlug } from "@/components/engineering/model";
 import { getServiceBySlug } from "@/content/services";
 import { cn } from "@/lib/cn";
 
@@ -85,6 +85,7 @@ export function TheBuilding() {
                 const active = focus === slug;
                 const pinned = selected === slug;
                 const color = SYSTEM_COLOR[slug];
+                const textColor = SYSTEM_TEXT_COLOR[slug];
                 return (
                   <li key={slug} className="relative border-b border-(--color-line) last:border-b-0">
                     <span
@@ -106,8 +107,8 @@ export function TheBuilding() {
                         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-[0.75rem] tabular-nums transition-colors duration-300"
                         style={
                           active
-                            ? { background: color, color: "white" }
-                            : { background: `color-mix(in srgb, ${color} 12%, white)`, color }
+                            ? { background: textColor, color: "white" }
+                            : { background: `color-mix(in srgb, ${color} 12%, white)`, color: textColor }
                         }
                       >
                         {String(i + 1).padStart(2, "0")}
@@ -121,7 +122,7 @@ export function TheBuilding() {
                         {s.name}
                       </span>
                       {pinned && (
-                        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em]" style={{ color }}>
+                        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em]" style={{ color: textColor }}>
                           Pinned
                         </span>
                       )}
@@ -149,8 +150,8 @@ export function TheBuilding() {
                             </ul>
                             <Link
                               href={`/expertise/${s.slug}` as Route}
-                              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
-                              style={{ color: `color-mix(in srgb, ${color} 75%, black)` }}
+                              className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold hover:underline"
+                              style={{ color: textColor }}
                             >
                               Explore {SYSTEM_SHORT[slug]} <span aria-hidden="true">&rarr;</span>
                             </Link>
@@ -229,14 +230,14 @@ export function TheBuilding() {
               </div>
 
               {/* Legend doubles as a second way to pick a system. */}
-              <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-(--color-line) px-5 py-3">
+              <div className="mt-auto flex flex-wrap items-center gap-x-4 border-t border-(--color-line) px-5 py-1">
                 {SYSTEM_ORDER.map((slug) => (
                   <button
                     key={slug}
                     type="button"
                     onClick={() => select(slug)}
                     className={cn(
-                      "inline-flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] transition-colors",
+                      "inline-flex min-h-11 items-center gap-1.5 font-mono text-[0.75rem] uppercase tracking-[0.14em] transition-colors",
                       focus === slug ? "text-(--color-ink)" : "text-(--color-steel-soft) hover:text-(--color-ink)"
                     )}
                   >
@@ -244,7 +245,7 @@ export function TheBuilding() {
                     {SYSTEM_SHORT[slug]}
                   </button>
                 ))}
-                <span className="ml-auto hidden font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-(--color-steel-soft) sm:inline">
+                <span className="ml-auto hidden font-mono text-[0.75rem] uppercase tracking-[0.16em] text-(--color-steel-soft) sm:inline">
                   Typical building · not to scale
                 </span>
               </div>

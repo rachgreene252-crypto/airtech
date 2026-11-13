@@ -43,7 +43,7 @@ export function ValuesShowcase({ values }: { values: Value[] }) {
                 <span
                   className={cn(
                     "relative w-8 shrink-0 pl-1 font-mono text-[0.75rem] tracking-[0.14em] transition-colors duration-300 sm:pl-3",
-                    on ? "text-white/80" : "text-(--color-brand-blue)"
+                    on ? "text-white" : "text-(--color-brand-blue)"
                   )}
                 >
                   {String(i + 1).padStart(2, "0")}

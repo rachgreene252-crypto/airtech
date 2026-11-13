@@ -111,7 +111,7 @@ function HeroTextPanel() {
             </ButtonLink>
             <Link
               href="/projects"
-              className="text-sm font-medium text-(--color-ink-soft) underline-offset-4 hover:text-(--color-brand-blue) hover:underline transition-colors"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-(--color-ink-soft) underline-offset-4 hover:text-(--color-brand-blue) hover:underline transition-colors"
             >
               Explore our work →
             </Link>

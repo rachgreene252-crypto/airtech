@@ -189,7 +189,7 @@ export function DeliveryJourney({
                   data-stage={i}
                   className="scroll-mt-28 border-t border-(--color-line) py-10 first:border-t-0 lg:flex lg:min-h-[64svh] lg:flex-col lg:justify-center lg:border-t-0 lg:py-0"
                 >
-                  <div className={cn("transition-opacity duration-500 lg:opacity-40", on && "lg:opacity-100")}>
+                  <div className={cn("transition-opacity duration-500 lg:opacity-55", on && "lg:opacity-100")}>
                     <figure className="relative mb-6 aspect-[4/3] overflow-hidden rounded-[3px] lg:hidden">
                       <Image src={s.photo.src} alt={s.photo.alt} fill sizes="(min-width: 640px) 90vw, 100vw" className="object-cover" />
                       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-3 pt-10 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-white/90">

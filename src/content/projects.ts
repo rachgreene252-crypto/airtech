@@ -1,5 +1,6 @@
 import type { Project } from "./types";
 export { hasTileImage } from "./image-quality";
+import { hasTileImage } from "./image-quality";
 
 /**
  * Source: Master Source of Truth §9 (Initial project database) for the five
@@ -75,13 +76,10 @@ const allProjects: Project[] = [
     status: "source_only",
   },
   {
-    // 2026-10-29 (client brief): published as Hyatt Centric. The client's
-    // works list (CLIENT_WORKS_LIST_2026-10-12.md) and the AIPL PROFILE deck
-    // both name Airtech's Hyatt project "Hyatt Centric", and the deck's
-    // "Hyatt Centric" photo (ASSETS → public/images/landmarks/hyatt-centric.jpg)
-    // is this same building. The 2026-09-24 rename to "Hyatt Place" followed
-    // the signage visible in the photo, which still reads HYATT PLACE — see
-    // docs/AIRTECH_OPEN_DECISIONS.md #30 (photo may pre-date the rebrand).
+    // 2026-10-29 (client brief): published as Hyatt Centric, as the works
+    // list and AIPL PROFILE deck name it. 2026-10-30: the client supplied a
+    // current photo signed HYATT CENTRIC, replacing the older HYATT PLACE
+    // shot (597px original, 2x resampled; decision #30, resolved).
     slug: "hyatt-centric-kathmandu",
     name: "Hyatt Centric",
     client: "Hyatt Centric",
@@ -93,7 +91,7 @@ const allProjects: Project[] = [
     airtechRole: "Featured in Airtech's project portfolio.",
     servicesDelivered: [],
     serviceSlugsDelivered: ["hvac"],
-    heroImage: { src: "/images/projects/hyatt-centric-kathmandu.jpg", alt: "Hyatt Centric, Kathmandu, at dusk with the hills behind", width: 2400, height: 1601 },
+    heroImage: { src: "/images/projects/hyatt-centric-sunset.jpg", alt: "Hyatt Centric, Kathmandu, at sunset with the hills behind", width: 1194, height: 670 },
     gallery: [],
     relatedServiceSlugs: ["hvac"],
     relatedProjectSlugs: ["dusit-princess", "tiger-palace-resort", "hotel-barahi-kathmandu", "hyatt-regency-kathmandu"],
@@ -408,7 +406,7 @@ const allProjects: Project[] = [
     airtechRole: "HVAC and MEP works.",
     servicesDelivered: ["HVAC", "MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
-    heroImage: { src: "/images/projects/hotel-hilton-naxal-render.jpg", alt: "Architectural rendering of the Hilton hotel tower, Naxal", width: 557, height: 550 },
+    heroImage: { src: "/images/projects/hotel-hilton-naxal-render.jpg", alt: "Architectural rendering of the Hilton hotel tower, Naxal", width: 557, height: 550, caption: "Architectural rendering" },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
     relatedProjectSlugs: [],
@@ -1203,6 +1201,33 @@ const allProjects: Project[] = [
     status: "source_only",
   },
   {
+    // 2026-11-13: the client added Chhaya Center to the Drive "Photos to
+    // add" folder, resolving the 2026-10-29 "client is checking" hold. The
+    // only image is an architectural rendering (736px), so it is labelled as
+    // one and kept off large tiles (image-quality.ts). No scope is claimed.
+    slug: "chhaya-center",
+    name: "Chhaya Center",
+    client: "Chhaya Center",
+    clientDisplayApproved: true,
+    location: "Thamel, Kathmandu",
+    industrySlug: "commercial-buildings",
+    projectType: "Mixed-use commercial building",
+    projectStatus: "provisional",
+    airtechRole: "Featured in Airtech's project portfolio.",
+    servicesDelivered: [],
+    serviceSlugsDelivered: ["hvac"],
+    heroImage: { src: "/images/projects/chhaya-center-render.jpg", alt: "Architectural rendering of Chhaya Center, Thamel, lit at night", width: 736, height: 417, caption: "Architectural rendering" },
+    gallery: [],
+    relatedServiceSlugs: ["hvac"],
+    relatedProjectSlugs: [],
+    featured: false,
+    seo: {
+      title: "Chhaya Center, Thamel",
+      description: "Chhaya Center, Thamel, Kathmandu. Featured in Airtech's project portfolio.",
+    },
+    status: "source_only",
+  },
+  {
     slug: "jagdamba-steels",
     name: "Jagdamba Steels",
     client: "Jagdamba Steels Pvt. Ltd.",
@@ -1226,10 +1251,8 @@ const allProjects: Project[] = [
     status: "source_only",
   },
   {
-    // Supplied by the client in "Photos to add" (2026-10-29); location
-    // (Thamel) and scope (complete MEP) confirmed by the client the same
-    // day. The photo is 275px wide: index thumbnail only until a larger one
-    // arrives (docs/AIRTECH_OPEN_DECISIONS.md #36).
+    // Supplied by the client in "Photos to add"; location (Thamel), scope
+    // (complete MEP) and the larger photo confirmed 2026-10-29.
     slug: "ramada-hotel",
     name: "Ramada Hotel",
     client: "Ramada Hotel",
@@ -1241,7 +1264,7 @@ const allProjects: Project[] = [
     airtechRole: "Complete MEP works.",
     servicesDelivered: ["MEP"],
     serviceSlugsDelivered: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
-    heroImage: { src: "/images/projects/ramada-hotel.jpg", alt: "Ramada Hotel, red-brick tower facade", width: 275, height: 183 },
+    heroImage: { src: "/images/projects/ramada-hotel-dusk.jpg", alt: "Ramada Hotel, Thamel, lit at dusk", width: 678, height: 452 },
     gallery: [],
     relatedServiceSlugs: ["hvac", "electrical", "plumbing-public-health", "fire-protection"],
     relatedProjectSlugs: [],
@@ -1386,8 +1409,10 @@ export function getRelatedProjects(project: Project, limit = 3) {
     .map((slug) => getProjectBySlug(slug))
     .filter((p): p is Project => Boolean(p));
   if (related.length >= limit) return related.slice(0, limit);
-  const sameIndustry = projects.filter(
-    (p) => p.slug !== project.slug && p.industrySlug === project.industrySlug && !related.includes(p)
-  );
+  // Photographed projects first: a row of "photography to follow"
+  // placeholders reads as missing content, so they only fill a gap.
+  const sameIndustry = projects
+    .filter((p) => p.slug !== project.slug && p.industrySlug === project.industrySlug && !related.includes(p))
+    .sort((x, y) => Number(hasTileImage(y)) - Number(hasTileImage(x)));
   return [...related, ...sameIndustry].slice(0, limit);
 }

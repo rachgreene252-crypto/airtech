@@ -319,6 +319,20 @@ export const SYSTEM_COLOR: Record<SystemSlug, string> = {
   "bms-systems-integration": "#2FA85A",
 };
 
+/**
+ * The same six hues darkened just enough to clear 4.5:1 as small text on the
+ * site's light surfaces (paper, raised, tints). SYSTEM_COLOR stays the fill /
+ * line / large-numeral colour; use this one whenever the colour is the text.
+ */
+export const SYSTEM_TEXT_COLOR: Record<SystemSlug, string> = {
+  hvac: "#0074A6",
+  electrical: "#956407",
+  "plumbing-public-health": "#0B7A78",
+  "fire-protection": "#C53D33",
+  "elv-security": "#7658CD",
+  "bms-systems-integration": "#237C43",
+};
+
 export const SYSTEM_SHORT: Record<SystemSlug, string> = {
   hvac: "HVAC",
   electrical: "Electrical",

@@ -66,7 +66,7 @@ export function CapabilityGrowth() {
                             <li
                               key={s}
                               aria-hidden="true"
-                              className="flex h-12 items-end rounded-[2px] border p-1.5 font-mono text-[0.625rem] font-semibold uppercase leading-none lg:h-14"
+                              className="flex h-12 items-end rounded-[2px] border p-1.5 font-mono text-[0.6875rem] font-semibold uppercase leading-none lg:h-14 lg:text-[0.75rem]"
                               style={
                                 on
                                   ? { background: SYSTEM_COLOR[s], borderColor: SYSTEM_COLOR[s], color: "white" }

@@ -99,7 +99,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   // Framed hero: natural aspect (no crop). Portrait photos are width-capped
   // so they don't run several screens tall.
   const frameMaxWidth = heroW
-    ? Math.min(Math.round(heroW * 1.2), heroRatio && heroRatio < 1 ? 620 : Infinity)
+    ? Math.min(heroW, heroRatio && heroRatio < 1 ? 620 : Infinity)
     : undefined;
 
   return (
@@ -162,7 +162,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 a pass just because it's not the full-bleed banner above.
                 No image prop here at all falls through to TechnicalFrame's
                 honest placeholder. */}
-            {/* Cap the frame at ~1.2x the photo's native width so a small
+            {/* Cap the frame at the photo's native width (2026-11-13: was 1.2x) so a small
                 source (e.g. 468px) isn't stretched across the full 1200px+
                 container. */}
             {/* Width is capped both by resolution (frameMaxWidth) and so the

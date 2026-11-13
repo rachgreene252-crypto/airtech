@@ -41,17 +41,19 @@ export function MetadataGrid({ items }: { items: MetadataItem[] }) {
   return (
     <dl className="grid grid-cols-1 gap-4 border-t border-(--color-line-strong) pt-8 sm:grid-cols-2 lg:grid-cols-3">
       {visible.map((item) => (
+        // dl > div > (dt, dd) only: the icon sits inside the dt, positioned
+        // into the tile's left gutter, so the list stays valid markup.
         <div
           key={item.label}
-          className="flex items-start gap-4 border border-(--color-line) bg-(--color-paper) p-5"
+          className="relative min-w-0 border border-(--color-line) bg-(--color-paper) py-5 pr-5 pl-[4.25rem]"
         >
-          <FieldIcon label={item.label} />
-          <div className="min-w-0">
-            <dt className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
-              {item.label}
-            </dt>
-            <dd className="mt-1.5 text-body-l leading-snug text-(--color-ink)">{item.value}</dd>
-          </div>
+          <dt className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.22em] text-(--color-steel-soft)">
+            <span aria-hidden="true" className="absolute top-5 left-5">
+              <FieldIcon label={item.label} />
+            </span>
+            {item.label}
+          </dt>
+          <dd className="mt-1.5 text-body-l leading-snug text-(--color-ink)">{item.value}</dd>
         </div>
       ))}
     </dl>
